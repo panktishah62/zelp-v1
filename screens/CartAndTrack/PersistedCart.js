@@ -1,0 +1,284 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+    ActivityIndicator,
+    Alert,
+    Platform,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
+import { colors } from '../../styles/colors';
+import { dimensions, fonts } from '../../styles';
+import HeaderWithTitle from '../../components/Header/HeaderWithTitle';
+import { useDispatch, useSelector } from 'react-redux';
+import AddressCard from '../../components/Cards/PersistedCart.js/AddressCard';
+import { Button_ } from '../../components/Buttons/Button';
+import WalletMoney from '../../components/Cards/PersistedCart.js/WalletMoney';
+import FoodItemsCard from '../../components/Cards/PersistedCart.js/FoodItemsCard';
+import PaymentsCard from '../../components/Cards/PersistedCart.js/PaymentsCard';
+import BillDetails from '../../components/Cards/PersistedCart.js/BillDetails';
+import { paymentInitiated } from '../../redux/actions/payments';
+import { createCart } from '../../redux/actions/cartActions';
+import {
+    getCoordinatesFromGoogleMapUrl,
+    isPointInPolygon,
+    isTimeInIntervals,
+    showDialogBox,
+} from '../../utils';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import CouponCardForCart from '../../components/Cards/Coupons.js/CouponCardForCart';
+import { useIsFocused } from '@react-navigation/native';
+
+const CartScreen = ({ navigation }) => {
+    const insets = useSafeAreaInsets();
+    const dispatch = useDispatch();
+    const isFocused = useIsFocused();
+    const cart = useSelector(state => state.cartActions);
+    const [myCart, setMyCart] = useState(cart);
+    const [cartLoading, setCartLoading] = useState(false);
+    const [closedRestaurants, setClosedRestaurants] = useState([]);
+    const currentOrder = useSelector(state => state.currentOrder.currentOrder);
+    useEffect(() => {
+        navigation.setOptions({
+            header: () => (
+                <HeaderWithTitle
+                    navigation={navigation}
+                    title={'Place Order'}
+                />
+            ),
+        });
+    }, [navigation]);
+
+    useEffect(() => {
+        if ((!cart || !cart.restaurants) && isFocused) {
+            navigation.goBack();
+        }
+        setMyCart(cart);
+        setClosedRestaurants([]);
+        for (restaurantId in cart.restaurants) {
+            const isRestaurantOpen = isTimeInIntervals(
+                cart.restaurants[restaurantId].restaurant.timings,
+            );
+            if (!isRestaurantOpen) {
+                setClosedRestaurants(item => [
+                    ...item,
+                    cart.restaurants[restaurantId].restaurant.name,
+                ]);
+            }
+        }
+    }, [cart]);
+
+    useEffect(() => {
+        setCartLoading(true);
+        const timeoutId = setTimeout(() => {
+            if (cart) {
+                setMyCart(cart);
+                setCartLoading(false);
+            }
+        }, 200);
+        return () => clearTimeout(timeoutId);
+    }, [cart.foodItemsCount]);
+
+    const handlePlaceOrderClick = () => {
+        if (cartLoading || !myCart.restaurants) {
+            return;
+        }
+        if (!myCart.address) {
+            showDialogBox(
+                'Address Error',
+                'Address not found',
+                'danger',
+                'OK',
+                true,
+            );
+            return;
+        }
+        if (myCart.address) {
+            const location = getCoordinatesFromGoogleMapUrl(
+                myCart.address.geoLocation,
+            );
+            if (!location.latitude || !location.longitude) {
+                showDialogBox(
+                    'Location not found!',
+                    'Can not track location for selected address, please select other address',
+                    'warning',
+                    'Ok',
+                    true,
+                );
+                return;
+            }
+            const isServableArea = isPointInPolygon([
+                location.latitude,
+                location.longitude,
+            ]);
+            if (!isServableArea) {
+                showDialogBox(
+                    'Select Other Address',
+                    'Area of selected address is not Serviceable, please select other address',
+                    'warning',
+                    'Ok',
+                    true,
+                );
+                return;
+            }
+        }
+        if (closedRestaurants.length) {
+            showDialogBox(
+                'Please select from other Restaurants',
+                `${closedRestaurants.toString()} are closed!`,
+                'warning',
+                'Ok',
+                true,
+            );
+            return;
+        }
+        if (currentOrder && currentOrder.cart) {
+            showDialogBox(
+                'Order in Progress',
+                'Your Order is already in progress, please place a new order after this order delivers',
+                'warning',
+                'OK',
+                true,
+            );
+            return;
+        }
+        // dispatch(createCart(myCart, navigation));
+        navigation.navigate('Payments');
+        // dispatch(placeOrder(myCart, navigation));
+        // setCartLoading(true);
+    };
+
+    return (
+        <View>
+            {cartLoading ? (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={colors.ORANGE} />
+                </View>
+            ) : (
+                <View>
+                    <View style={{ height: dimensions.fullHeight }}>
+                        <View style={styles.addressContainer}>
+                            <AddressCard
+                                address={myCart.address}
+                                navigation={navigation}
+                            />
+                        </View>
+                        <ScrollView
+                            contentContainerStyle={styles.scrollContainer}
+                            showsVerticalScrollIndicator={false}>
+                            <View style={styles.container}>
+                                <View>
+                                    {cart && (
+                                        <WalletMoney
+                                            isActive={myCart.isWalletMoneyUsed}
+                                            setIsLoading={setCartLoading}
+                                            moneyInWallet={myCart.walletMoney}
+                                            config={myCart.config}
+                                        />
+                                    )}
+                                </View>
+                                <View style={styles.foodItemsContainer}>
+                                    {myCart && myCart.restaurants && (
+                                        <FoodItemsCard
+                                            restaurants={myCart.restaurants}
+                                            navigation={navigation}
+                                        />
+                                    )}
+                                </View>
+                                <View>
+                                    <CouponCardForCart
+                                        navigation={navigation}
+                                        coupon={myCart.coupon}
+                                    />
+                                </View>
+                                {/* <View>
+                                    <PaymentsCard />
+                                </View> */}
+                                {myCart && myCart.billingDetails && (
+                                    <View
+                                        style={styles.billingDetailsContainer}>
+                                        <BillDetails
+                                            billingDetails={
+                                                myCart.billingDetails
+                                            }
+                                            config={myCart.config}
+                                        />
+                                    </View>
+                                )}
+                            </View>
+                        </ScrollView>
+                    </View>
+                    <View
+                        style={[
+                            styles.buttonContainer,
+                            {
+                                ...Platform.select({
+                                    ios: {
+                                        height: 120,
+                                        bottom: insets.bottom + insets.top,
+                                        paddingBottom:
+                                            insets.bottom + insets.top,
+                                        paddingTop: 20,
+                                    },
+                                    android: {
+                                        bottom: 0,
+                                        height: 130,
+                                        paddingBottom: 50,
+                                    },
+                                }),
+                            },
+                        ]}>
+                        <Button_
+                            text={'Proceed To Payment'}
+                            onClick={handlePlaceOrderClick}
+                        />
+                    </View>
+                </View>
+            )}
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: colors.WHITE,
+    },
+    addressContainer: {
+        backgroundColor: colors.WHITE,
+    },
+    scrollContainer: {
+        backgroundColor: colors.WHITE,
+        paddingBottom: 200,
+        // minHeight: dimensions.fullHeight,
+    },
+    foodItemsContainer: {},
+    billingDetailsContainer: {},
+    buttonContainer: {
+        // height: dimensions.fullHeight * 0.12,
+        position: 'absolute',
+        width: dimensions.fullWidth,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.WHITE,
+
+        ...Platform.select({
+            ios: {
+                shadowColor: colors.BLACK,
+                shadowOffset: { width: 0, height: 6 },
+                shadowOpacity: 0.09,
+                shadowRadius: 10,
+            },
+            android: {
+                elevation: 5,
+            },
+        }),
+    },
+    loadingContainer: {
+        height: dimensions.fullHeight,
+        backgroundColor: colors.WHITE,
+    },
+});
+
+export default CartScreen;

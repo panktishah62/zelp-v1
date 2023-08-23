@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Froker</string>
+    <string name="facebook_app_id">794737062232642</string>
+    <string name="fb_login_protocol_scheme">fb794737062232642</string>
+    <string name="facebook_client_token">356eb28ae39aea93cc89c94fc8f9d5aa</string>
+    <string name="default_notification_channel_id">notifications</string>
+    <string name="asset_statements" translatable="false">[{ \"include\": \"https://froker-portal.de/.well-known/assetlinks.json\" }]</string>
+</resources>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "117653251056",
+    "project_id": "froker-265f9",
+    "storage_bucket": "froker-265f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117653251056:android:24cf04abe3dd3fb732b335",
+        "android_client_info": {
+          "package_name": "com.froker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117653251056-vqvfqdbc9gtbead1ag8bh7ivjfbn5qvs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.froker",
+            "certificate_hash": "6f692816b08f1716fdbffe1ed8b717d86c6f9ecb"
+          }
+        },
+        {
+          "client_id": "117653251056-5elelskt0g6pn6hob4f2486sasnuakht.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA40qfAWZtjCQcb70XPbEHtTWwsmevSqJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117653251056-5elelskt0g6pn6hob4f2486sasnuakht.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

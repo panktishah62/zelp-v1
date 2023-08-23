@@ -1,0 +1,224 @@
+import React, { useEffect, useState } from 'react';
+import {
+    StyleSheet,
+    View,
+    Image,
+    Text,
+    TouchableWithoutFeedback,
+} from 'react-native';
+import { dimensions, fonts, Styles } from '../../styles';
+import Heart from '../../assets/icons/Heart.svg';
+import Star from '../../assets/icons/Star.svg';
+import LocationIcon from '../../assets/icons/Vector.svg';
+import { colors } from '../../styles/colors';
+import {
+    GreyColorMatrix,
+    isTimeInIntervals,
+    showDialogBox,
+    sliceText,
+} from '../../utils';
+import { ColorMatrix } from 'react-native-color-matrix-image-filters';
+
+const IMAGE_URI = '../../assets/images/restaurant.png';
+
+const RestaurantCard = props => {
+    const {
+        image,
+        title,
+        distance,
+        rating,
+        rating_count,
+        priceForOne,
+        timeTaken,
+        cuisines,
+        restaurant,
+        navigation,
+    } = props;
+    const [isRestaurantOpen, setIsRestaurantOpen] = useState(false);
+
+    useEffect(() => {
+        if (restaurant.timings) {
+            setIsRestaurantOpen(isTimeInIntervals(restaurant.timings));
+        }
+    }, []);
+
+    return (
+        <TouchableWithoutFeedback
+            onPress={() => {
+                if (isRestaurantOpen) {
+                    navigation.navigate('RestaurantWithMenu', {
+                        restaurant: restaurant,
+                        distance,
+                        time: timeTaken,
+                    });
+                } else {
+                    showDialogBox(
+                        'Restaurant Closed',
+                        'Please come back later',
+                        'warning',
+                        'OK',
+                        true,
+                    );
+                }
+            }}>
+            <View style={styles.container}>
+                <View style={styles.imageContainer}>
+                    {image && isRestaurantOpen && (
+                        <Image source={{ uri: image }} style={styles.image} />
+                    )}
+                    {image && !isRestaurantOpen && (
+                        <ColorMatrix matrix={GreyColorMatrix}>
+                            <Image
+                                source={{ uri: image }}
+                                style={styles.image}
+                            />
+                        </ColorMatrix>
+                    )}
+                    <View style={styles.innerContainer}>
+                        <View
+                            style={[
+                                styles.topContainer,
+                                Styles.row_space_between,
+                            ]}>
+                            <View
+                                style={[
+                                    styles.ratingContainer,
+                                    Styles.row_flex_start,
+                                ]}>
+                                <Star />
+                                <Text
+                                    style={[
+                                        fonts.NUNITO_600_6,
+                                        Styles.default_text_color,
+                                    ]}>
+                                    {' '}
+                                    {rating}{' '}
+                                </Text>
+                                <Text
+                                    style={[
+                                        fonts.NUNITO_600_6,
+                                        Styles.default_text_color,
+                                    ]}>
+                                    {' '}
+                                    ({rating_count}){' '}
+                                </Text>
+                            </View>
+                            {/* <Heart /> */}
+                        </View>
+                    </View>
+                </View>
+                <View style={styles.bottomContainer}>
+                    <View>
+                        <Text style={styles.title} numberOfLines={1}>
+                            {title}
+                        </Text>
+                        <Text
+                            style={[
+                                fonts.NUNITO_700_8,
+                                { color: colors.GREY_MEDIUM },
+                            ]}>
+                            ₹ {priceForOne} for one
+                        </Text>
+                    </View>
+                    {isRestaurantOpen && (
+                        <View style={styles.distanceContainer}>
+                            {distance && (
+                                <View style={Styles.row}>
+                                    <LocationIcon />
+                                    <Text
+                                        style={[
+                                            fonts.NUNITO_700_10,
+                                            { color: colors.ORANGE },
+                                        ]}>
+                                        {' '}
+                                        {distance}
+                                    </Text>
+                                </View>
+                            )}
+                            {timeTaken && (
+                                <Text
+                                    style={[
+                                        fonts.NUNITO_700_10,
+                                        { color: colors.ORANGE },
+                                    ]}>
+                                    {timeTaken}
+                                </Text>
+                            )}
+                        </View>
+                    )}
+                    {!isRestaurantOpen && (
+                        <View>
+                            <Text
+                                style={[
+                                    fonts.NUNITO_800_12,
+                                    { color: colors.GREY_MEDIUM },
+                                ]}>
+                                CLOSED
+                            </Text>
+                        </View>
+                    )}
+                </View>
+            </View>
+        </TouchableWithoutFeedback>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        width: dimensions.fullWidth * 0.45,
+        margin: dimensions.fullWidth * 0.02,
+        borderRadius: 4,
+        height: 114,
+    },
+    imageContainer: {
+        width: dimensions.fullWidth * 0.45,
+        height: 76,
+    },
+    image: {
+        minHeight: 118,
+        width: dimensions.fullWidth * 0.45,
+        borderTopLeftRadius: 4,
+        borderTopRightRadius: 4,
+    },
+    innerContainer: {
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    topContainer: {
+        width: dimensions.fullWidth * 0.45,
+        padding: 5,
+    },
+    ratingContainer: {
+        backgroundColor: colors.WHITE,
+        borderRadius: 2,
+        padding: 2,
+    },
+    cuisines: {
+        maxWidth: dimensions.fullWidth * 0.45 * 0.4,
+        ...Styles.row,
+    },
+    cuisinesText: {
+        color: colors.GREY_DARK,
+        ...fonts.NUNITO_500_6,
+    },
+    titleContainer: {},
+    title: {
+        maxWidth: dimensions.fullWidth * 0.45 * 0.5,
+        ...fonts.NUNITO_700_12,
+        color: colors.BLACK,
+    },
+    bottomContainer: {
+        paddingVertical: 10,
+        paddingHorizontal: 5,
+        ...Styles.row_space_between,
+        backgroundColor: colors.ORANGE_GRADIENT_LIGHT,
+        borderBottomLeftRadius: 4,
+        borderBottomRightRadius: 4,
+    },
+    distanceContainer: {
+        alignItems: 'flex-end',
+    },
+});
+
+export default RestaurantCard;
