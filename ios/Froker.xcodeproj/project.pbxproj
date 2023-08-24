@@ -8,13 +8,61 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* FrokerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* FrokerTests.m */; };
-		095C122B9E40BD00E0008B28 /* libPods-Froker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 536A18979A0848D0F1CAE98D /* libPods-Froker.a */; };
+		03CED09699344350815630A1 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 73B71EFE671C42FCA23679C0 /* Poppins-ExtraLight.ttf */; };
+		0DF7A42568EA482EA3BBFB96 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2B79B74EB2B64A6693020E8A /* OFL.txt */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		7B60C8CABB2524B270D3B3E1 /* libPods-Froker-FrokerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C17B487FEC6DBCEA3BF4299F /* libPods-Froker-FrokerTests.a */; };
+		15E94E17E0F44810A56FEF98 /* Poppins-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 645DF79B431D49219694C3BD /* Poppins-LightItalic.ttf */; };
+		1BBD09AA3F8C40F49C17E0F1 /* Nunito-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C190D1C236B74AF7BC8336D1 /* Nunito-LightItalic.ttf */; };
+		21AE910903664C1297DECE0E /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE657FDE58ED4A7AAEF83436 /* Poppins-Medium.ttf */; };
+		22706FDB10B84679908C1240 /* Nunito-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44D18391AF7B44B2BA6A8B02 /* Nunito-MediumItalic.ttf */; };
+		25E95EDE0A144399BDBECA66 /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44328FF093D8471A855F6ACD /* Inter-Thin.ttf */; };
+		2BE3C2D571954FE6B6F8D2E5 /* Nunito-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46E581A1C075416D942A6FE6 /* Nunito-VariableFont_wght.ttf */; };
+		303339E9EFD44F6BA4C29019 /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE5E35EBD81F412D81D77A79 /* Nunito-Black.ttf */; };
+		31899CF3DE91431AB58FDEF0 /* Poppins-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98DAEEA95C2B40BDA96DF6DD /* Poppins-ExtraLightItalic.ttf */; };
+		33366C1B1A3743DC8992EF0A /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64A0F33FF27B44E693D4B0DE /* Nunito-SemiBoldItalic.ttf */; };
+		37E0C230418840228FBB313C /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AE6F2EF50504636BEBC9C7C /* Poppins-Thin.ttf */; };
+		3CB305BC232246A4BD66838F /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 91E9809062C04E539076A212 /* Nunito-Bold.ttf */; };
+		3E8F21E6E60D4B8CB454C388 /* Inter-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE6CF5AAA9A94188BB12C6E8 /* Inter-ExtraLight.ttf */; };
+		3FE13DDB9F704FF798B788FD /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4B7C9DEBE5B41A3BA7B9ADB /* Poppins-SemiBold.ttf */; };
+		40293DB0E84245A6A67AC252 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89BF31166B9243E9A4C2AB68 /* Nunito-SemiBold.ttf */; };
+		50AC8BC1415A42DA9F577AD7 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 877F83292305496D910D427A /* Inter-SemiBold.ttf */; };
+		53F0851C3C394B78BC091E71 /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FCDF242C814F43F7901A159B /* Poppins-ExtraBold.ttf */; };
+		5B922B024D424950A107638F /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7FB59277BFF84E57965406EF /* Poppins-Bold.ttf */; };
+		60F8A3A8663540AF88FB4EA2 /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F060133E34D443EB483FA7E /* Poppins-BlackItalic.ttf */; };
+		618ADCEB16C84929AC57C4E8 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3CDA0F4C96DD4DDF8BC84099 /* Poppins-Regular.ttf */; };
+		61D1D309D1114BDBA3BEC984 /* Nunito-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D9A69E9C02C4FF7B1E68319 /* Nunito-ExtraLight.ttf */; };
+		654B348801AD4D55BCA1E05C /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 42982D99AB7E47AD9C8B253E /* Nunito-ExtraBoldItalic.ttf */; };
+		65D200F04CB341C191710C33 /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FF4FF27CF7F44BEA9689C11 /* Inter-Light.ttf */; };
+		679E74087EC646C0BD40B4BA /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 757FB46536BC40BE9B5874D6 /* README.txt */; };
+		710D93EF861B4862BDE6FAE1 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FD0DBBC7079E4A2DB7E5A07A /* Nunito-Light.ttf */; };
+		71BA3055BF860702C69E1B0F /* libPods-Froker-FrokerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 657BA6AAEEA69EA28534CC0B /* libPods-Froker-FrokerTests.a */; };
+		74F824D61EB54AD0B1768B41 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E935B7AC6524EFF87214EBC /* Inter-Medium.ttf */; };
+		75F88F3EAB7B46228BEFC2C1 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7FD467D926ED4A898F41A188 /* Nunito-Regular.ttf */; };
+		7BE5EC39F8D7404BB29E9DC4 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FABD318882664E588CC76223 /* Inter-Regular.ttf */; };
+		7DDA429709CD4F0292262EBD /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4CBECE099A954E1782676568 /* Poppins-MediumItalic.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8929085E9F624765852592CF /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA8D66AA68D04602BC5FD548 /* Poppins-BoldItalic.ttf */; };
+		8A11C1CFC27840C885729208 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C65F0CD0592C4B9688F92340 /* Nunito-BlackItalic.ttf */; };
+		94F593E3B95E42A2988F5C05 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC9417077C1A4C4387A9B467 /* Poppins-Italic.ttf */; };
+		9BF7ED4807DC48629F80E46E /* Nunito-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C381326C15794FEB83E5D22B /* Nunito-Medium.ttf */; };
+		9F6945A8ACA248D7B8136EE1 /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CE7E12FD14446BDBB86ECD0 /* Poppins-Black.ttf */; };
+		A328952594F14773B9FE8B88 /* Inter-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 053315A6CCDD4E359DC3B6A9 /* Inter-Black.ttf */; };
+		A49C56300AD5445CA10A4F19 /* Nunito-Italic-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49B8D71D0EEF4972AE1704AA /* Nunito-Italic-VariableFont_wght.ttf */; };
+		A926250E5AF3428EAC96F00A /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A5BD651982F4C249765A7E8 /* Nunito-BoldItalic.ttf */; };
+		B60A8BD3F46E4CE1BDF6F545 /* Nunito-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F4B3123152E646B6854FD348 /* Nunito-Italic.ttf */; };
+		BAAD88F89FC24454A4754970 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3003D1521E174F409080440A /* Inter-Bold.ttf */; };
+		BAF58F96758F421DB969DAB4 /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC17670A87F4266828E0D91 /* Poppins-ThinItalic.ttf */; };
+		C8568A2F3F284A55921DF4D1 /* Nunito-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C07ECE5F93CC4C11A8E79322 /* Nunito-ExtraLightItalic.ttf */; };
+		D07AD0588AA34E56B5C09243 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A39F8469EB24A6DA1C6A8CE /* Poppins-Light.ttf */; };
 		D3A496B42A9618C2005AF39E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D3A496B32A9618C2005AF39E /* GoogleService-Info.plist */; };
+		DEFB509AEF514F21A83641D3 /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6F291BDB62C4EC189FE7FDB /* Poppins-SemiBoldItalic.ttf */; };
+		EEA9797D8FF0423EBE317F91 /* Inter-VariableFont_slnt,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B3A9C2FBBC24750857B8CE1 /* Inter-VariableFont_slnt,wght.ttf */; };
+		F735257E41284D5891CE0C4F /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DCF47DA4D584C0AAA5260D3 /* Poppins-ExtraBoldItalic.ttf */; };
+		F87C167A53F14BDD8AEE7A19 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDC6DB5DF6134DFE865AE734 /* Inter-ExtraBold.ttf */; };
+		FBB208FD681E6621834D2CF6 /* libPods-Froker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0C03A9619B80A8FB6939698 /* libPods-Froker.a */; };
+		FE69A551DADB464BA97A20A1 /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D60B2C35A8AE4D05B092A05D /* Nunito-ExtraBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,22 +79,70 @@
 		00E356EE1AD99517003FC87E /* FrokerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FrokerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* FrokerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FrokerTests.m; sourceTree = "<group>"; };
+		053315A6CCDD4E359DC3B6A9 /* Inter-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Black.ttf"; path = "../assets/fonts/Inter/static/Inter-Black.ttf"; sourceTree = "<group>"; };
+		132E56E205B43693FC0C681E /* Pods-Froker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Froker.release.xcconfig"; path = "Target Support Files/Pods-Froker/Pods-Froker.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Froker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Froker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Froker/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = Froker/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Froker/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Froker/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Froker/main.m; sourceTree = "<group>"; };
-		257849F30B4959E8D1980ED5 /* Pods-Froker-FrokerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Froker-FrokerTests.debug.xcconfig"; path = "Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		34AEE2292F8412CDAC2214FD /* Pods-Froker-FrokerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Froker-FrokerTests.release.xcconfig"; path = "Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests.release.xcconfig"; sourceTree = "<group>"; };
-		536A18979A0848D0F1CAE98D /* libPods-Froker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Froker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AE6F2EF50504636BEBC9C7C /* Poppins-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Thin.ttf"; path = "../assets/fonts/Poppins/Poppins-Thin.ttf"; sourceTree = "<group>"; };
+		1D9A69E9C02C4FF7B1E68319 /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLight.ttf"; path = "../assets/fonts/Nunito/static/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
+		1DCF47DA4D584C0AAA5260D3 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBoldItalic.ttf"; path = "../assets/fonts/Poppins/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		2B79B74EB2B64A6693020E8A /* OFL.txt */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = OFL.txt; path = ../assets/fonts/Inter/OFL.txt; sourceTree = "<group>"; };
+		2CE7E12FD14446BDBB86ECD0 /* Poppins-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Black.ttf"; path = "../assets/fonts/Poppins/Poppins-Black.ttf"; sourceTree = "<group>"; };
+		2E935B7AC6524EFF87214EBC /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../assets/fonts/Inter/static/Inter-Medium.ttf"; sourceTree = "<group>"; };
+		3003D1521E174F409080440A /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter/static/Inter-Bold.ttf"; sourceTree = "<group>"; };
+		3CDA0F4C96DD4DDF8BC84099 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins/Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		42982D99AB7E47AD9C8B253E /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBoldItalic.ttf"; path = "../assets/fonts/Nunito/static/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		44328FF093D8471A855F6ACD /* Inter-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Thin.ttf"; path = "../assets/fonts/Inter/static/Inter-Thin.ttf"; sourceTree = "<group>"; };
+		44D18391AF7B44B2BA6A8B02 /* Nunito-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-MediumItalic.ttf"; path = "../assets/fonts/Nunito/static/Nunito-MediumItalic.ttf"; sourceTree = "<group>"; };
+		46E581A1C075416D942A6FE6 /* Nunito-VariableFont_wght.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-VariableFont_wght.ttf"; path = "../assets/fonts/Nunito/Nunito-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		49B8D71D0EEF4972AE1704AA /* Nunito-Italic-VariableFont_wght.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Italic-VariableFont_wght.ttf"; path = "../assets/fonts/Nunito/Nunito-Italic-VariableFont_wght.ttf"; sourceTree = "<group>"; };
+		4CBECE099A954E1782676568 /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-MediumItalic.ttf"; path = "../assets/fonts/Poppins/Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
+		5FF4FF27CF7F44BEA9689C11 /* Inter-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Light.ttf"; path = "../assets/fonts/Inter/static/Inter-Light.ttf"; sourceTree = "<group>"; };
+		645DF79B431D49219694C3BD /* Poppins-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-LightItalic.ttf"; path = "../assets/fonts/Poppins/Poppins-LightItalic.ttf"; sourceTree = "<group>"; };
+		64A0F33FF27B44E693D4B0DE /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBoldItalic.ttf"; path = "../assets/fonts/Nunito/static/Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		657BA6AAEEA69EA28534CC0B /* libPods-Froker-FrokerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Froker-FrokerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A5BD651982F4C249765A7E8 /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BoldItalic.ttf"; path = "../assets/fonts/Nunito/static/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
+		6AC17670A87F4266828E0D91 /* Poppins-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ThinItalic.ttf"; path = "../assets/fonts/Poppins/Poppins-ThinItalic.ttf"; sourceTree = "<group>"; };
+		6F060133E34D443EB483FA7E /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-BlackItalic.ttf"; path = "../assets/fonts/Poppins/Poppins-BlackItalic.ttf"; sourceTree = "<group>"; };
+		73B71EFE671C42FCA23679C0 /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLight.ttf"; path = "../assets/fonts/Poppins/Poppins-ExtraLight.ttf"; sourceTree = "<group>"; };
+		757FB46536BC40BE9B5874D6 /* README.txt */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = README.txt; path = ../assets/fonts/Inter/README.txt; sourceTree = "<group>"; };
+		7604BB58C146B313D5C28847 /* Pods-Froker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Froker.debug.xcconfig"; path = "Target Support Files/Pods-Froker/Pods-Froker.debug.xcconfig"; sourceTree = "<group>"; };
+		7718609FFB231A3A5289FB81 /* Pods-Froker-FrokerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Froker-FrokerTests.debug.xcconfig"; path = "Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7FB59277BFF84E57965406EF /* Poppins-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Bold.ttf"; path = "../assets/fonts/Poppins/Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		7FD467D926ED4A898F41A188 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Regular.ttf"; path = "../assets/fonts/Nunito/static/Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Froker/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		C17B487FEC6DBCEA3BF4299F /* libPods-Froker-FrokerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Froker-FrokerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		84FDEB2016C7340E2A836D64 /* Pods-Froker-FrokerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Froker-FrokerTests.release.xcconfig"; path = "Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests.release.xcconfig"; sourceTree = "<group>"; };
+		877F83292305496D910D427A /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-SemiBold.ttf"; path = "../assets/fonts/Inter/static/Inter-SemiBold.ttf"; sourceTree = "<group>"; };
+		89BF31166B9243E9A4C2AB68 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBold.ttf"; path = "../assets/fonts/Nunito/static/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
+		8A39F8469EB24A6DA1C6A8CE /* Poppins-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Light.ttf"; path = "../assets/fonts/Poppins/Poppins-Light.ttf"; sourceTree = "<group>"; };
+		8B3A9C2FBBC24750857B8CE1 /* Inter-VariableFont_slnt,wght.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-VariableFont_slnt,wght.ttf"; path = "../assets/fonts/Inter/Inter-VariableFont_slnt,wght.ttf"; sourceTree = "<group>"; };
+		91E9809062C04E539076A212 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../assets/fonts/Nunito/static/Nunito-Bold.ttf"; sourceTree = "<group>"; };
+		98DAEEA95C2B40BDA96DF6DD /* Poppins-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLightItalic.ttf"; path = "../assets/fonts/Poppins/Poppins-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		AA8D66AA68D04602BC5FD548 /* Poppins-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-BoldItalic.ttf"; path = "../assets/fonts/Poppins/Poppins-BoldItalic.ttf"; sourceTree = "<group>"; };
+		B6F291BDB62C4EC189FE7FDB /* Poppins-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBoldItalic.ttf"; path = "../assets/fonts/Poppins/Poppins-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		BC9417077C1A4C4387A9B467 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Italic.ttf"; path = "../assets/fonts/Poppins/Poppins-Italic.ttf"; sourceTree = "<group>"; };
+		C07ECE5F93CC4C11A8E79322 /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.ttf"; path = "../assets/fonts/Nunito/static/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		C0C03A9619B80A8FB6939698 /* libPods-Froker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Froker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C190D1C236B74AF7BC8336D1 /* Nunito-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-LightItalic.ttf"; path = "../assets/fonts/Nunito/static/Nunito-LightItalic.ttf"; sourceTree = "<group>"; };
+		C381326C15794FEB83E5D22B /* Nunito-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Medium.ttf"; path = "../assets/fonts/Nunito/static/Nunito-Medium.ttf"; sourceTree = "<group>"; };
+		C65F0CD0592C4B9688F92340 /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BlackItalic.ttf"; path = "../assets/fonts/Nunito/static/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; };
+		CE657FDE58ED4A7AAEF83436 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Medium.ttf"; path = "../assets/fonts/Poppins/Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		D3A496B32A9618C2005AF39E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D3A496B52A96236E005AF39E /* Froker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Froker.entitlements; path = Froker/Froker.entitlements; sourceTree = "<group>"; };
-		D932928B1DFBE287094E3606 /* Pods-Froker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Froker.release.xcconfig"; path = "Target Support Files/Pods-Froker/Pods-Froker.release.xcconfig"; sourceTree = "<group>"; };
+		D4B7C9DEBE5B41A3BA7B9ADB /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../assets/fonts/Poppins/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		D60B2C35A8AE4D05B092A05D /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.ttf"; path = "../assets/fonts/Nunito/static/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
+		DDC6DB5DF6134DFE865AE734 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-ExtraBold.ttf"; path = "../assets/fonts/Inter/static/Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
+		DE5E35EBD81F412D81D77A79 /* Nunito-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Black.ttf"; path = "../assets/fonts/Nunito/static/Nunito-Black.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		FD9E57E4256320C72D25F606 /* Pods-Froker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Froker.debug.xcconfig"; path = "Target Support Files/Pods-Froker/Pods-Froker.debug.xcconfig"; sourceTree = "<group>"; };
+		EE6CF5AAA9A94188BB12C6E8 /* Inter-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-ExtraLight.ttf"; path = "../assets/fonts/Inter/static/Inter-ExtraLight.ttf"; sourceTree = "<group>"; };
+		F4B3123152E646B6854FD348 /* Nunito-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Italic.ttf"; path = "../assets/fonts/Nunito/static/Nunito-Italic.ttf"; sourceTree = "<group>"; };
+		FABD318882664E588CC76223 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../assets/fonts/Inter/static/Inter-Regular.ttf"; sourceTree = "<group>"; };
+		FCDF242C814F43F7901A159B /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBold.ttf"; path = "../assets/fonts/Poppins/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
+		FD0DBBC7079E4A2DB7E5A07A /* Nunito-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.ttf"; path = "../assets/fonts/Nunito/static/Nunito-Light.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +150,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B60C8CABB2524B270D3B3E1 /* libPods-Froker-FrokerTests.a in Frameworks */,
+				71BA3055BF860702C69E1B0F /* libPods-Froker-FrokerTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				095C122B9E40BD00E0008B28 /* libPods-Froker.a in Frameworks */,
+				FBB208FD681E6621834D2CF6 /* libPods-Froker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +182,62 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0C65AC56E37A4C5DB7B8B671 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8B3A9C2FBBC24750857B8CE1 /* Inter-VariableFont_slnt,wght.ttf */,
+				053315A6CCDD4E359DC3B6A9 /* Inter-Black.ttf */,
+				3003D1521E174F409080440A /* Inter-Bold.ttf */,
+				DDC6DB5DF6134DFE865AE734 /* Inter-ExtraBold.ttf */,
+				EE6CF5AAA9A94188BB12C6E8 /* Inter-ExtraLight.ttf */,
+				5FF4FF27CF7F44BEA9689C11 /* Inter-Light.ttf */,
+				2E935B7AC6524EFF87214EBC /* Inter-Medium.ttf */,
+				FABD318882664E588CC76223 /* Inter-Regular.ttf */,
+				877F83292305496D910D427A /* Inter-SemiBold.ttf */,
+				44328FF093D8471A855F6ACD /* Inter-Thin.ttf */,
+				49B8D71D0EEF4972AE1704AA /* Nunito-Italic-VariableFont_wght.ttf */,
+				46E581A1C075416D942A6FE6 /* Nunito-VariableFont_wght.ttf */,
+				DE5E35EBD81F412D81D77A79 /* Nunito-Black.ttf */,
+				C65F0CD0592C4B9688F92340 /* Nunito-BlackItalic.ttf */,
+				91E9809062C04E539076A212 /* Nunito-Bold.ttf */,
+				6A5BD651982F4C249765A7E8 /* Nunito-BoldItalic.ttf */,
+				D60B2C35A8AE4D05B092A05D /* Nunito-ExtraBold.ttf */,
+				42982D99AB7E47AD9C8B253E /* Nunito-ExtraBoldItalic.ttf */,
+				1D9A69E9C02C4FF7B1E68319 /* Nunito-ExtraLight.ttf */,
+				C07ECE5F93CC4C11A8E79322 /* Nunito-ExtraLightItalic.ttf */,
+				F4B3123152E646B6854FD348 /* Nunito-Italic.ttf */,
+				FD0DBBC7079E4A2DB7E5A07A /* Nunito-Light.ttf */,
+				C190D1C236B74AF7BC8336D1 /* Nunito-LightItalic.ttf */,
+				C381326C15794FEB83E5D22B /* Nunito-Medium.ttf */,
+				44D18391AF7B44B2BA6A8B02 /* Nunito-MediumItalic.ttf */,
+				7FD467D926ED4A898F41A188 /* Nunito-Regular.ttf */,
+				89BF31166B9243E9A4C2AB68 /* Nunito-SemiBold.ttf */,
+				64A0F33FF27B44E693D4B0DE /* Nunito-SemiBoldItalic.ttf */,
+				2CE7E12FD14446BDBB86ECD0 /* Poppins-Black.ttf */,
+				6F060133E34D443EB483FA7E /* Poppins-BlackItalic.ttf */,
+				7FB59277BFF84E57965406EF /* Poppins-Bold.ttf */,
+				AA8D66AA68D04602BC5FD548 /* Poppins-BoldItalic.ttf */,
+				FCDF242C814F43F7901A159B /* Poppins-ExtraBold.ttf */,
+				1DCF47DA4D584C0AAA5260D3 /* Poppins-ExtraBoldItalic.ttf */,
+				73B71EFE671C42FCA23679C0 /* Poppins-ExtraLight.ttf */,
+				98DAEEA95C2B40BDA96DF6DD /* Poppins-ExtraLightItalic.ttf */,
+				BC9417077C1A4C4387A9B467 /* Poppins-Italic.ttf */,
+				8A39F8469EB24A6DA1C6A8CE /* Poppins-Light.ttf */,
+				645DF79B431D49219694C3BD /* Poppins-LightItalic.ttf */,
+				CE657FDE58ED4A7AAEF83436 /* Poppins-Medium.ttf */,
+				4CBECE099A954E1782676568 /* Poppins-MediumItalic.ttf */,
+				3CDA0F4C96DD4DDF8BC84099 /* Poppins-Regular.ttf */,
+				D4B7C9DEBE5B41A3BA7B9ADB /* Poppins-SemiBold.ttf */,
+				B6F291BDB62C4EC189FE7FDB /* Poppins-SemiBoldItalic.ttf */,
+				1AE6F2EF50504636BEBC9C7C /* Poppins-Thin.ttf */,
+				6AC17670A87F4266828E0D91 /* Poppins-ThinItalic.ttf */,
+				2B79B74EB2B64A6693020E8A /* OFL.txt */,
+				757FB46536BC40BE9B5874D6 /* README.txt */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* Froker */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,8 +256,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				536A18979A0848D0F1CAE98D /* libPods-Froker.a */,
-				C17B487FEC6DBCEA3BF4299F /* libPods-Froker-FrokerTests.a */,
+				C0C03A9619B80A8FB6939698 /* libPods-Froker.a */,
+				657BA6AAEEA69EA28534CC0B /* libPods-Froker-FrokerTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -127,6 +279,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				0C65AC56E37A4C5DB7B8B671 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -145,10 +298,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FD9E57E4256320C72D25F606 /* Pods-Froker.debug.xcconfig */,
-				D932928B1DFBE287094E3606 /* Pods-Froker.release.xcconfig */,
-				257849F30B4959E8D1980ED5 /* Pods-Froker-FrokerTests.debug.xcconfig */,
-				34AEE2292F8412CDAC2214FD /* Pods-Froker-FrokerTests.release.xcconfig */,
+				7604BB58C146B313D5C28847 /* Pods-Froker.debug.xcconfig */,
+				132E56E205B43693FC0C681E /* Pods-Froker.release.xcconfig */,
+				7718609FFB231A3A5289FB81 /* Pods-Froker-FrokerTests.debug.xcconfig */,
+				84FDEB2016C7340E2A836D64 /* Pods-Froker-FrokerTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -160,12 +313,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "FrokerTests" */;
 			buildPhases = (
-				6B43928BADD56757C8845048 /* [CP] Check Pods Manifest.lock */,
+				F8AA5749D30CB4B88BFBD0B9 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				0A60A02A7FE53F875F575457 /* [CP] Embed Pods Frameworks */,
-				7055D009B781349F4D0CC5DA /* [CP] Copy Pods Resources */,
+				6453569C493960DA6AB9156E /* [CP] Embed Pods Frameworks */,
+				CC7A872D7B2D0C21FD4118A1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -181,16 +334,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Froker" */;
 			buildPhases = (
-				294CEDB91A2656032575EFAD /* [CP] Check Pods Manifest.lock */,
+				56FD53200F3E4F4F19AE1EB5 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				78FD2517CFEC0DDF322E4412 /* [CP] Embed Pods Frameworks */,
-				86B286F4FE999E736039CA5A /* [CP] Copy Pods Resources */,
-				E421691EB7DC5DEF67368FA4 /* [CP-User] [RNFB] Core Configuration */,
-				B16AC117D0CA6A555C309994 /* [CP-User] [RNFB] Crashlytics Configuration */,
+				B7CA0A87EDF396EA1CC258A8 /* [CP] Embed Pods Frameworks */,
+				6E5F4057FBA313C7C8652490 /* [CP] Copy Pods Resources */,
+				17286DB120FBC02631F9A53C /* [CP-User] [RNFB] Core Configuration */,
+				A5BD8407755512134617A05B /* [CP-User] [RNFB] Crashlytics Configuration */,
 			);
 			buildRules = (
 			);
@@ -252,6 +405,54 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				D3A496B42A9618C2005AF39E /* GoogleService-Info.plist in Resources */,
+				EEA9797D8FF0423EBE317F91 /* Inter-VariableFont_slnt,wght.ttf in Resources */,
+				A328952594F14773B9FE8B88 /* Inter-Black.ttf in Resources */,
+				BAAD88F89FC24454A4754970 /* Inter-Bold.ttf in Resources */,
+				F87C167A53F14BDD8AEE7A19 /* Inter-ExtraBold.ttf in Resources */,
+				3E8F21E6E60D4B8CB454C388 /* Inter-ExtraLight.ttf in Resources */,
+				65D200F04CB341C191710C33 /* Inter-Light.ttf in Resources */,
+				74F824D61EB54AD0B1768B41 /* Inter-Medium.ttf in Resources */,
+				7BE5EC39F8D7404BB29E9DC4 /* Inter-Regular.ttf in Resources */,
+				50AC8BC1415A42DA9F577AD7 /* Inter-SemiBold.ttf in Resources */,
+				25E95EDE0A144399BDBECA66 /* Inter-Thin.ttf in Resources */,
+				A49C56300AD5445CA10A4F19 /* Nunito-Italic-VariableFont_wght.ttf in Resources */,
+				2BE3C2D571954FE6B6F8D2E5 /* Nunito-VariableFont_wght.ttf in Resources */,
+				303339E9EFD44F6BA4C29019 /* Nunito-Black.ttf in Resources */,
+				8A11C1CFC27840C885729208 /* Nunito-BlackItalic.ttf in Resources */,
+				3CB305BC232246A4BD66838F /* Nunito-Bold.ttf in Resources */,
+				A926250E5AF3428EAC96F00A /* Nunito-BoldItalic.ttf in Resources */,
+				FE69A551DADB464BA97A20A1 /* Nunito-ExtraBold.ttf in Resources */,
+				654B348801AD4D55BCA1E05C /* Nunito-ExtraBoldItalic.ttf in Resources */,
+				61D1D309D1114BDBA3BEC984 /* Nunito-ExtraLight.ttf in Resources */,
+				C8568A2F3F284A55921DF4D1 /* Nunito-ExtraLightItalic.ttf in Resources */,
+				B60A8BD3F46E4CE1BDF6F545 /* Nunito-Italic.ttf in Resources */,
+				710D93EF861B4862BDE6FAE1 /* Nunito-Light.ttf in Resources */,
+				1BBD09AA3F8C40F49C17E0F1 /* Nunito-LightItalic.ttf in Resources */,
+				9BF7ED4807DC48629F80E46E /* Nunito-Medium.ttf in Resources */,
+				22706FDB10B84679908C1240 /* Nunito-MediumItalic.ttf in Resources */,
+				75F88F3EAB7B46228BEFC2C1 /* Nunito-Regular.ttf in Resources */,
+				40293DB0E84245A6A67AC252 /* Nunito-SemiBold.ttf in Resources */,
+				33366C1B1A3743DC8992EF0A /* Nunito-SemiBoldItalic.ttf in Resources */,
+				9F6945A8ACA248D7B8136EE1 /* Poppins-Black.ttf in Resources */,
+				60F8A3A8663540AF88FB4EA2 /* Poppins-BlackItalic.ttf in Resources */,
+				5B922B024D424950A107638F /* Poppins-Bold.ttf in Resources */,
+				8929085E9F624765852592CF /* Poppins-BoldItalic.ttf in Resources */,
+				53F0851C3C394B78BC091E71 /* Poppins-ExtraBold.ttf in Resources */,
+				F735257E41284D5891CE0C4F /* Poppins-ExtraBoldItalic.ttf in Resources */,
+				03CED09699344350815630A1 /* Poppins-ExtraLight.ttf in Resources */,
+				31899CF3DE91431AB58FDEF0 /* Poppins-ExtraLightItalic.ttf in Resources */,
+				94F593E3B95E42A2988F5C05 /* Poppins-Italic.ttf in Resources */,
+				D07AD0588AA34E56B5C09243 /* Poppins-Light.ttf in Resources */,
+				15E94E17E0F44810A56FEF98 /* Poppins-LightItalic.ttf in Resources */,
+				21AE910903664C1297DECE0E /* Poppins-Medium.ttf in Resources */,
+				7DDA429709CD4F0292262EBD /* Poppins-MediumItalic.ttf in Resources */,
+				618ADCEB16C84929AC57C4E8 /* Poppins-Regular.ttf in Resources */,
+				3FE13DDB9F704FF798B788FD /* Poppins-SemiBold.ttf in Resources */,
+				DEFB509AEF514F21A83641D3 /* Poppins-SemiBoldItalic.ttf in Resources */,
+				37E0C230418840228FBB313C /* Poppins-Thin.ttf in Resources */,
+				BAF58F96758F421DB969DAB4 /* Poppins-ThinItalic.ttf in Resources */,
+				0DF7A42568EA482EA3BBFB96 /* OFL.txt in Resources */,
+				679E74087EC646C0BD40B4BA /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,24 +475,20 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		0A60A02A7FE53F875F575457 /* [CP] Embed Pods Frameworks */ = {
+		17286DB120FBC02631F9A53C /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
+			name = "[CP-User] [RNFB] Core Configuration";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"info:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"info:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -Ku -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"info: -> RNFB build script started\"\necho \"info: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"info:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | /usr/bin/head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"info:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  _RN_ROOT_EXISTS=$(ruby -Ku -e \"require 'rubygems';require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\" || echo '')\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    if ! python3 --version >/dev/null 2>&1; then echo \"python3 not found, firebase.json file processing error.\" && exit 1; fi\n    _JSON_OUTPUT_BASE64=$(python3 -c 'import json,sys,base64;print(base64.b64encode(bytes(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"', '\"'rb'\"').read())['${_JSON_ROOT}']), '\"'utf-8'\"')).decode())' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.app_data_collection_default_enabled\n  _APP_DATA_COLLECTION_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_data_collection_default_enabled\")\n  if [[ $_APP_DATA_COLLECTION_ENABLED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseDataCollectionDefaultEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_DATA_COLLECTION_ENABLED\")\")\n  fi\n\n  # config.analytics_auto_collection_enabled\n  _ANALYTICS_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_auto_collection_enabled\")\n  if [[ $_ANALYTICS_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_COLLECTION\")\")\n  fi\n\n  # config.analytics_collection_deactivated\n  _ANALYTICS_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_collection_deactivated\")\n  if [[ $_ANALYTICS_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_DEACTIVATED\")\")\n  fi\n\n  # config.analytics_idfv_collection_enabled\n  _ANALYTICS_IDFV_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_idfv_collection_enabled\")\n  if [[ $_ANALYTICS_IDFV_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_IDFV_COLLECTION\")\")\n  fi\n\n  # config.analytics_default_allow_ad_personalization_signals\n  _ANALYTICS_PERSONALIZATION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_personalization_signals\")\n  if [[ $_ANALYTICS_PERSONALIZATION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_PERSONALIZATION\")\")\n  fi\n\n  # config.analytics_registration_with_ad_network_enabled\n  _ANALYTICS_REGISTRATION_WITH_AD_NETWORK=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"google_analytics_registration_with_ad_network_enabled\")\n  if [[ $_ANALYTICS_REGISTRATION_WITH_AD_NETWORK ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_REGISTRATION_WITH_AD_NETWORK_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_REGISTRATION_WITH_AD_NETWORK\")\")\n  fi\n\n  # config.google_analytics_automatic_screen_reporting_enabled\n  _ANALYTICS_AUTO_SCREEN_REPORTING=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"google_analytics_automatic_screen_reporting_enabled\")\n  if [[ $_ANALYTICS_AUTO_SCREEN_REPORTING ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAutomaticScreenReportingEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_SCREEN_REPORTING\")\")\n  fi\n\n  # config.perf_auto_collection_enabled\n  _PERF_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_auto_collection_enabled\")\n  if [[ $_PERF_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_enabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_AUTO_COLLECTION\")\")\n  fi\n\n  # config.perf_collection_deactivated\n  _PERF_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_collection_deactivated\")\n  if [[ $_PERF_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_deactivated\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_DEACTIVATED\")\")\n  fi\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.in_app_messaging_auto_colllection_enabled\n  _FIAM_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"in_app_messaging_auto_collection_enabled\")\n  if [[ $_FIAM_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseInAppMessagingAutomaticDataCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_FIAM_AUTO_INIT\")\")\n  fi\n\n  # config.app_check_token_auto_refresh\n  _APP_CHECK_TOKEN_AUTO_REFRESH=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_check_token_auto_refresh\")\n  if [[ $_APP_CHECK_TOKEN_AUTO_REFRESH ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAppCheckTokenAutoRefreshEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_CHECK_TOKEN_AUTO_REFRESH\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes useful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"info: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally\n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"info: <- RNFB build script finished\"\n";
 		};
-		294CEDB91A2656032575EFAD /* [CP] Check Pods Manifest.lock */ = {
+		56FD53200F3E4F4F19AE1EB5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -313,7 +510,89 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6B43928BADD56757C8845048 /* [CP] Check Pods Manifest.lock */ = {
+		6453569C493960DA6AB9156E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6E5F4057FBA313C7C8652490 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Froker/Pods-Froker-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Froker/Pods-Froker-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Froker/Pods-Froker-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A5BD8407755512134617A05B /* [CP-User] [RNFB] Crashlytics Configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "[CP-User] [RNFB] Crashlytics Configuration";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\nif [[ ${PODS_ROOT} ]]; then\n  echo \"info: Exec FirebaseCrashlytics Run from Pods\"\n  \"${PODS_ROOT}/FirebaseCrashlytics/run\"\nelse\n  echo \"info: Exec FirebaseCrashlytics Run from framework\"\n  \"${PROJECT_DIR}/FirebaseCrashlytics.framework/run\"\nfi\n";
+		};
+		B7CA0A87EDF396EA1CC258A8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Froker/Pods-Froker-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Froker/Pods-Froker-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Froker/Pods-Froker-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CC7A872D7B2D0C21FD4118A1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F8AA5749D30CB4B88BFBD0B9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -334,84 +613,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
-		};
-		7055D009B781349F4D0CC5DA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		78FD2517CFEC0DDF322E4412 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Froker/Pods-Froker-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Froker/Pods-Froker-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Froker/Pods-Froker-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		86B286F4FE999E736039CA5A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Froker/Pods-Froker-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Froker/Pods-Froker-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Froker/Pods-Froker-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B16AC117D0CA6A555C309994 /* [CP-User] [RNFB] Crashlytics Configuration */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = "[CP-User] [RNFB] Crashlytics Configuration";
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\nif [[ ${PODS_ROOT} ]]; then\n  echo \"info: Exec FirebaseCrashlytics Run from Pods\"\n  \"${PODS_ROOT}/FirebaseCrashlytics/run\"\nelse\n  echo \"info: Exec FirebaseCrashlytics Run from framework\"\n  \"${PROJECT_DIR}/FirebaseCrashlytics.framework/run\"\nfi\n";
-		};
-		E421691EB7DC5DEF67368FA4 /* [CP-User] [RNFB] Core Configuration */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = "[CP-User] [RNFB] Core Configuration";
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"info:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"info:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -Ku -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"info: -> RNFB build script started\"\necho \"info: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"info:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | /usr/bin/head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"info:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  _RN_ROOT_EXISTS=$(ruby -Ku -e \"require 'rubygems';require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\" || echo '')\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    if ! python3 --version >/dev/null 2>&1; then echo \"python3 not found, firebase.json file processing error.\" && exit 1; fi\n    _JSON_OUTPUT_BASE64=$(python3 -c 'import json,sys,base64;print(base64.b64encode(bytes(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"', '\"'rb'\"').read())['${_JSON_ROOT}']), '\"'utf-8'\"')).decode())' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.app_data_collection_default_enabled\n  _APP_DATA_COLLECTION_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_data_collection_default_enabled\")\n  if [[ $_APP_DATA_COLLECTION_ENABLED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseDataCollectionDefaultEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_DATA_COLLECTION_ENABLED\")\")\n  fi\n\n  # config.analytics_auto_collection_enabled\n  _ANALYTICS_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_auto_collection_enabled\")\n  if [[ $_ANALYTICS_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_COLLECTION\")\")\n  fi\n\n  # config.analytics_collection_deactivated\n  _ANALYTICS_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_collection_deactivated\")\n  if [[ $_ANALYTICS_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FIREBASE_ANALYTICS_COLLECTION_DEACTIVATED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_DEACTIVATED\")\")\n  fi\n\n  # config.analytics_idfv_collection_enabled\n  _ANALYTICS_IDFV_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_idfv_collection_enabled\")\n  if [[ $_ANALYTICS_IDFV_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_IDFV_COLLECTION_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_IDFV_COLLECTION\")\")\n  fi\n\n  # config.analytics_default_allow_ad_personalization_signals\n  _ANALYTICS_PERSONALIZATION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"analytics_default_allow_ad_personalization_signals\")\n  if [[ $_ANALYTICS_PERSONALIZATION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_PERSONALIZATION\")\")\n  fi\n\n  # config.analytics_registration_with_ad_network_enabled\n  _ANALYTICS_REGISTRATION_WITH_AD_NETWORK=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"google_analytics_registration_with_ad_network_enabled\")\n  if [[ $_ANALYTICS_REGISTRATION_WITH_AD_NETWORK ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GOOGLE_ANALYTICS_REGISTRATION_WITH_AD_NETWORK_ENABLED\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_REGISTRATION_WITH_AD_NETWORK\")\")\n  fi\n\n  # config.google_analytics_automatic_screen_reporting_enabled\n  _ANALYTICS_AUTO_SCREEN_REPORTING=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"google_analytics_automatic_screen_reporting_enabled\")\n  if [[ $_ANALYTICS_AUTO_SCREEN_REPORTING ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAutomaticScreenReportingEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_ANALYTICS_AUTO_SCREEN_REPORTING\")\")\n  fi\n\n  # config.perf_auto_collection_enabled\n  _PERF_AUTO_COLLECTION=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_auto_collection_enabled\")\n  if [[ $_PERF_AUTO_COLLECTION ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_enabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_AUTO_COLLECTION\")\")\n  fi\n\n  # config.perf_collection_deactivated\n  _PERF_DEACTIVATED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"perf_collection_deactivated\")\n  if [[ $_PERF_DEACTIVATED ]]; then\n    _PLIST_ENTRY_KEYS+=(\"firebase_performance_collection_deactivated\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_PERF_DEACTIVATED\")\")\n  fi\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.in_app_messaging_auto_colllection_enabled\n  _FIAM_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"in_app_messaging_auto_collection_enabled\")\n  if [[ $_FIAM_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseInAppMessagingAutomaticDataCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_FIAM_AUTO_INIT\")\")\n  fi\n\n  # config.app_check_token_auto_refresh\n  _APP_CHECK_TOKEN_AUTO_REFRESH=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"app_check_token_auto_refresh\")\n  if [[ $_APP_CHECK_TOKEN_AUTO_REFRESH ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseAppCheckTokenAutoRefreshEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_APP_CHECK_TOKEN_AUTO_REFRESH\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes useful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"info: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally\n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"info: <- RNFB build script finished\"\n";
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -465,7 +666,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 257849F30B4959E8D1980ED5 /* Pods-Froker-FrokerTests.debug.xcconfig */;
+			baseConfigurationReference = 7718609FFB231A3A5289FB81 /* Pods-Froker-FrokerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -492,7 +693,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 34AEE2292F8412CDAC2214FD /* Pods-Froker-FrokerTests.release.xcconfig */;
+			baseConfigurationReference = 84FDEB2016C7340E2A836D64 /* Pods-Froker-FrokerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -516,7 +717,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FD9E57E4256320C72D25F606 /* Pods-Froker.debug.xcconfig */;
+			baseConfigurationReference = 7604BB58C146B313D5C28847 /* Pods-Froker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -545,7 +746,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D932928B1DFBE287094E3606 /* Pods-Froker.release.xcconfig */;
+			baseConfigurationReference = 132E56E205B43693FC0C681E /* Pods-Froker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

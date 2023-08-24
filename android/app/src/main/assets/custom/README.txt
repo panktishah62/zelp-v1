@@ -8,20 +8,20 @@ Inter is a variable font with these axes:
   wght
 
 This means all the styles are contained in a single file:
-  Inter/Inter-VariableFont_slnt,wght.ttf
+  Inter-VariableFont_slnt,wght.ttf
 
 If your app fully supports variable fonts, you can now pick intermediate styles
 that aren’t available as static fonts. Not all apps support variable fonts, and
 in those cases you can use the static font files for Inter:
-  Inter/static/Inter-Thin.ttf
-  Inter/static/Inter-ExtraLight.ttf
-  Inter/static/Inter-Light.ttf
-  Inter/static/Inter-Regular.ttf
-  Inter/static/Inter-Medium.ttf
-  Inter/static/Inter-SemiBold.ttf
-  Inter/static/Inter-Bold.ttf
-  Inter/static/Inter-ExtraBold.ttf
-  Inter/static/Inter-Black.ttf
+  static/Inter-Thin.ttf
+  static/Inter-ExtraLight.ttf
+  static/Inter-Light.ttf
+  static/Inter-Regular.ttf
+  static/Inter-Medium.ttf
+  static/Inter-SemiBold.ttf
+  static/Inter-Bold.ttf
+  static/Inter-ExtraBold.ttf
+  static/Inter-Black.ttf
 
 Get started
 -----------
