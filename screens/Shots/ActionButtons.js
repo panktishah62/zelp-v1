@@ -13,30 +13,37 @@ import { colors } from '../../styles/colors';
 import FeaturedItem from '../../components/FeaturedItems/FeaturedItem';
 import { likeShorts, unlikeShots } from '../../redux/services/short';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { hideDialogBox, showDialogBox } from '../../utils';
+import { DialogTypes } from '../../utils';
 import { buildLinkForShots } from '../../redux/linking/CreateLinks';
 import Share from 'react-native-share';
+import { hideDialog, showDialog } from '../../redux/actions/dialog';
+import { useDispatch } from 'react-redux';
 
 const ActionButtons = props => {
     const { item, navigation } = props;
+    const dispatch = useDispatch();
     const [showItems, setShowItems] = useState(false);
     const [isLiked, setIsLiked] = useState(item.isLiked);
     const [token, setToken] = useState(null);
 
     const onPressLogin = () => {
-        hideDialogBox();
         navigation.navigate('LogIn');
     };
 
     const onPressHeart = async () => {
         if (token === null) {
-            showDialogBox(
-                'Please LogIn',
-                'You are not Logged In!',
-                'warning',
-                'Login',
-                true,
-                onPressLogin,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please LogIn',
+                    subTitleText: 'You are not Logged In!',
+                    buttonText1: 'LOGIN',
+                    buttonFunction1: () => {
+                        onPressLogin();
+                        dispatch(hideDialog());
+                    },
+                    type: DialogTypes.WARNING,
+                }),
             );
             return;
         }
@@ -72,7 +79,15 @@ const ActionButtons = props => {
                 setToken(_token);
             }
         } catch (error) {
-            showDialogBox('', error.message, 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Something Went Wrong!',
+                    subTitleText: error?.message,
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.ERROR,
+                }),
+            );
         }
     };
 

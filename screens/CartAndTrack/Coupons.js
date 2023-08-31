@@ -31,8 +31,8 @@ const CouponsScreen = props => {
         const isActive = cart.coupon ? false : item.isApplicableCoupons;
         return (
             <CouponCard
-                coupon={item.coupon}
-                isActive={item.isApplicableCoupons}
+                coupon={item?.coupon}
+                isActive={item?.isApplicableCoupons}
                 navigation={navigation}
             />
         );
@@ -41,7 +41,7 @@ const CouponsScreen = props => {
     const getValidCoupons = async () => {
         setIsLoading(true);
         const response = await getValidCouponsForUser({ cart: cart });
-        if (response && response.data && response.data.updatedCoupons) {
+        if (response && response?.data && response.data?.updatedCoupons) {
             setCoupons(response.data.updatedCoupons);
             setIsLoading(false);
         }
@@ -54,7 +54,7 @@ const CouponsScreen = props => {
                 couponCode: text,
                 cart: cart,
             });
-            if (response && response.data && response.data.updatedCoupons) {
+            if (response && response?.data && response.data?.updatedCoupons) {
                 setCoupons(response.data.updatedCoupons);
                 setIsLoading(false);
                 return;

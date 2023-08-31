@@ -1,12 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
-import { BASE_URL } from '../redux/constants';
 // import notifee, { AndroidStyle, EventType } from '@notifee/react-native';
 import { routes } from '../redux/constants/routes';
 import { Topics } from '../redux/constants/subscriptionTopics';
 import PushNotification, { Importance } from 'react-native-push-notification';
 import { colors } from '../styles/colors';
 import { Alert, PermissionsAndroid, Platform } from 'react-native';
+import { updateUserToken_ } from '../redux/services/userService';
 
 export const configureNotifications = navigateToScreen => {
     // Must be outside of any component LifeCycle (such as `componentDidMount`).
@@ -77,26 +77,13 @@ export const createChannel = () => {
 };
 
 export const updateUserToken = async fcmToken => {
-    // let fcmToken = await AsyncStorage.getItem('fcmtoken');
-    const API_URL = `${BASE_URL}/users/updateUserToken`;
     try {
-        AsyncStorage.getItem('token')
-            .then(authToken => {
+        await AsyncStorage.getItem('token')
+            .then(async authToken => {
                 if (authToken && fcmToken) {
-                    return fetch(API_URL, {
-                        method: 'POST',
-                        headers: {
-                            Accept: 'application/json',
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${authToken}`,
-                        },
-                        body: JSON.stringify({ token: fcmToken }),
-                    }).then(response => {
-                        if (!response.status == '200') {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    });
+                    return await updateUserToken_({ token: fcmToken }).then(
+                        response => response?.data,
+                    );
                 }
             })
             .catch(error => {
@@ -132,7 +119,6 @@ export async function GetFCMToken() {
 
     if (!fcmToken && token) {
         try {
-            // fcmToken = await messaging().getToken();
             fcmToken = await generateNewToken();
             if (fcmToken) {
                 await AsyncStorage.setItem('fcmtoken', fcmToken);
@@ -156,10 +142,6 @@ export const NotificationListner = (
     navigation,
 ) => {
     messaging().onNotificationOpenedApp(remoteMessage => {
-        // console.log(
-        //     'Notification caused app to open from background state:',
-        //     remoteMessage,
-        // );
         if (
             navigation &&
             remoteMessage?.data?.click_action &&
@@ -177,10 +159,6 @@ export const NotificationListner = (
         .getInitialNotification()
         .then(remoteMessage => {
             if (remoteMessage) {
-                // console.log(
-                //     'Notification caused app to open from quit state:',
-                //     remoteMessage,
-                // );
                 if (
                     navigation &&
                     remoteMessage?.data?.click_action &&

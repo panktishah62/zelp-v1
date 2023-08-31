@@ -14,12 +14,14 @@ import Heart from '../../../assets/icons/Heart.svg';
 import Star from '../../../assets/icons/Star.svg';
 import LocationIcon from '../../../assets/icons/Vector.svg';
 import {
+    DialogTypes,
     GreyColorMatrix,
     isTimeInIntervals,
-    showDialogBox,
     sliceText,
 } from '../../../utils';
 import { ColorMatrix } from 'react-native-color-matrix-image-filters';
+import { showDialog } from '../../../redux/actions/dialog';
+import { useDispatch } from 'react-redux';
 
 const Cuisines = ({ cuisines }) => {
     return (
@@ -36,6 +38,7 @@ const Cuisines = ({ cuisines }) => {
 const OfferCard = ({ restaurant, distance, time, navigation }) => {
     const [cuisines, setCuisines] = useState([]);
     const [isRestaurantOpen, setIsRestaurantOpen] = useState(false);
+    const dispatch = useDispatch();
     useEffect(() => {
         const newCategory = [];
         if (restaurant && restaurant.category) {
@@ -59,12 +62,14 @@ const OfferCard = ({ restaurant, distance, time, navigation }) => {
                         time: time,
                     });
                 } else {
-                    showDialogBox(
-                        'Restaurant Closed',
-                        'Please come back after some time',
-                        'warning',
-                        'OK',
-                        true,
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            titleText: 'Restaurant Closed',
+                            subTitleText: 'Please come back after some time',
+                            buttonText1: 'CLOSE',
+                            type: DialogTypes.WARNING,
+                        }),
                     );
                 }
             }}>

@@ -12,15 +12,12 @@ import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
 import NotFound from '../../assets/icons/NotFound.svg';
 import { useNavigation } from '@react-navigation/native';
-import {
-    BASE_URL,
-    NETWORK_ERROR,
-    UNEXPECTED_ERROR,
-} from '../../redux/constants';
+import { UNEXPECTED_ERROR } from '../../redux/constants';
 import { ErrorHandler } from '../../components/ErrorHandler/ErrorHandler';
 import { isTimeInIntervals } from '../../utils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { dynamicSize } from '../../utils/responsive';
+import { searchRestaurants_ } from '../../redux/services/restaurantService';
 
 const SearchAllRestaurants = props => {
     const { searchRestaurants, searchFoodItems, location } = props;
@@ -32,37 +29,29 @@ const SearchAllRestaurants = props => {
     const SearchRestaurants = async text_ => {
         try {
             // perform search for food items with the given query
-            const results = await fetch(
-                `${BASE_URL}/restaurants/searchRestaurant/${text_}/${location.latitude}/${location.longitude}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                },
+            await searchRestaurants_(
+                text_,
+                location?.latitude,
+                location?.longitude,
             )
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(NETWORK_ERROR);
-                    }
-                    return response.json();
-                })
+                .then(response => response?.data)
                 .then(data => {
                     if (data.status === 'success') {
                         setIsLoading(false);
-                        const restaurants = data.restaurants.sort(function (
+                        const restaurants = data?.restaurants?.sort(function (
                             a,
                             b,
                         ) {
-                            return !isTimeInIntervals(a.restaurant._id.timings);
+                            return !isTimeInIntervals(
+                                a?.restaurant?._id?.timings,
+                            );
                         });
                         setUpdatedSearchedRestaurants(restaurants);
                         setIsLoading(false);
-                    } else if (data.status === 'fail') {
+                    } else {
                         setIsLoading(false);
                         throw new Error(
-                            data.message ? data.message : UNEXPECTED_ERROR,
+                            data.message ? data?.message : UNEXPECTED_ERROR,
                         );
                     }
                 })
@@ -78,7 +67,7 @@ const SearchAllRestaurants = props => {
     };
 
     useEffect(() => {
-        if (searchRestaurants === undefined || searchRestaurants.length == 0) {
+        if (searchRestaurants === undefined || searchRestaurants?.length == 0) {
             setIsLoading(true);
             SearchRestaurants();
         }
@@ -102,27 +91,27 @@ const SearchAllRestaurants = props => {
                             </Text>
                         )}
                         {searchRestaurants &&
-                            searchRestaurants.length > 0 &&
+                            searchRestaurants?.length > 0 &&
                             searchRestaurants.map((restaurant, index) => {
                                 return (
                                     <RestaurantCardInfo
-                                        restaurant={restaurant.restaurant}
-                                        distance={restaurant.distance}
-                                        time={restaurant.time}
+                                        restaurant={restaurant?.restaurant}
+                                        distance={restaurant?.distance}
+                                        time={restaurant?.time}
                                         key={index}
                                         navigation={navigation}
                                     />
                                 );
                             })}
                         {updatedSearchedRestaurants &&
-                            updatedSearchedRestaurants.length > 0 &&
+                            updatedSearchedRestaurants?.length > 0 &&
                             updatedSearchedRestaurants.map(
                                 (restaurant, index) => {
                                     return (
                                         <RestaurantCardInfo
-                                            restaurant={restaurant.restaurant}
-                                            distance={restaurant.distance}
-                                            time={restaurant.time}
+                                            restaurant={restaurant?.restaurant}
+                                            distance={restaurant?.distance}
+                                            time={restaurant?.time}
                                             key={index}
                                             navigation={navigation}
                                         />
@@ -131,19 +120,19 @@ const SearchAllRestaurants = props => {
                             )}
                     </View>
                     <View>
-                        {searchFoodItems && searchFoodItems.length > 0 && (
+                        {searchFoodItems && searchFoodItems?.length > 0 && (
                             <Text style={styles.selectedItem}>
                                 Suggested Restaurants for searched FoodItem
                             </Text>
                         )}
                         {searchFoodItems &&
-                            searchFoodItems.length > 0 &&
+                            searchFoodItems?.length > 0 &&
                             searchFoodItems.map((restaurant, index) => {
                                 return (
                                     <RestaurantCardInfo
-                                        restaurant={restaurant.restaurant._id}
-                                        distance={restaurant.distance}
-                                        time={restaurant.time}
+                                        restaurant={restaurant?.restaurant._id}
+                                        distance={restaurant?.distance}
+                                        time={restaurant?.time}
                                         key={index}
                                         navigation={navigation}
                                     />

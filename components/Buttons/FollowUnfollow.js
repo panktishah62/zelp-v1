@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { colors } from '../../styles/colors';
 import { fonts } from '../../styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { hideDialogBox, showDialogBox } from '../../utils';
+import { DialogTypes } from '../../utils';
 import { follow, unfollowFroker } from '../../redux/services/short';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -11,6 +11,7 @@ import {
     setFollowedFrokers,
 } from '../../redux/actions/froker';
 import { dynamicSize } from '../../utils/responsive';
+import { hideDialog, showDialog } from '../../redux/actions/dialog';
 
 const FollowUnfollowButton = props => {
     const { profile, currentState, onClick, navigation } = props;
@@ -41,7 +42,7 @@ const FollowUnfollowButton = props => {
     }, [followedFrokers]);
 
     const onPressLogin = () => {
-        hideDialogBox();
+        dispatch(hideDialog());
         navigation.navigate('LogIn');
     };
 
@@ -55,13 +56,18 @@ const FollowUnfollowButton = props => {
     );
     const onPressFollow = async () => {
         if (token === null) {
-            showDialogBox(
-                'Please LogIn',
-                'You are not Logged In!',
-                'warning',
-                'Login',
-                true,
-                onPressLogin,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please LogIn',
+                    subTitleText: 'You are not Logged In!',
+                    buttonText1: 'LOGIN',
+                    buttonFunction1: () => {
+                        onPressLogin();
+                        dispatch(hideDialog());
+                    },
+                    type: DialogTypes.WARNING,
+                }),
             );
             return;
         }
@@ -88,7 +94,15 @@ const FollowUnfollowButton = props => {
                 setToken(_token);
             }
         } catch (error) {
-            showDialogBox('', error.message, 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Something Went Wrong!',
+                    subTitleText: error?.message,
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.ERROR,
+                }),
+            );
         }
     };
 

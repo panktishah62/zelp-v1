@@ -8,7 +8,7 @@ import { getRandomInt } from '../../utils';
 
 const OrderPlaced = ({ navigation }) => {
     const navigationTimer = 4000;
-    const currentOrder = useSelector(state => state.currentOrder.currentOrder);
+    const currentOrder = useSelector(state => state.currentOrder?.currentOrder);
     const dispatch = useDispatch();
     useEffect(() => {
         navigation.setOptions({

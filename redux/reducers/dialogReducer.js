@@ -1,3 +1,4 @@
+import { DialogTypes } from '../../utils';
 import { HIDE_DIALOG, SHOW_DIALOG } from '../constants';
 
 const initialState = {
@@ -8,6 +9,7 @@ const initialState = {
     buttonText2: '',
     buttonFunction1: '',
     buttonFunction2: '',
+    type: DialogTypes.DEFAULT,
 };
 
 const dialogReducer = (state = initialState, action) => {

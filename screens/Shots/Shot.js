@@ -16,7 +16,6 @@ import {
 import Video from 'react-native-video';
 import muxReactNativeVideo from '@mux/mux-data-react-native-video';
 import { memoize } from '../../utils/VideoCacheUtil';
-import { BASE_URL, TAB_BAR_HEIGHT } from '../../redux/constants';
 import { dimensions } from '../../styles';
 import ProfileContainer from './profileContainer';
 import MuteIcon from '../../assets/icons/mute.svg';

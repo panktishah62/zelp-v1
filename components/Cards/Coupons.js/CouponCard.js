@@ -16,7 +16,7 @@ import { redeemCoupon } from '../../../redux/actions/cartActions';
 const CouponCard = props => {
     const { coupon, isActive = false, navigation } = props;
     const dispatch = useDispatch();
-    const code = coupon.code;
+    const code = coupon.name;
     const typeOfDiscount = coupon.discount.type;
     const type = typeOfDiscount == 'fixed' ? '/-' : '%';
     const typeOf = typeOfDiscount == 'fixed' ? 'FLAT OFF' : 'DISCOUNT';

@@ -1,5 +1,4 @@
 import {
-    BASE_URL,
     GET_CART_CONFIG,
     GET_CONFIG,
     GET_CONFIG_ERROR,

@@ -48,12 +48,12 @@ const OrderDetail = ({ route, navigation }) => {
                     foodItems={foodItems}
                     placedAt={placedAt}
                     paymentData={{
-                        status: paymentData.status.toLowerCase(),
-                        deliveryFee: paymentData.deliveryPartnerFees,
-                        deliveryTip: paymentData.deliveryTip,
-                        taxes: paymentData.taxes,
-                        commission: paymentData.commission,
-                        totalAmount: paymentData.totalAmount,
+                        status: paymentData?.status.toLowerCase(),
+                        deliveryFee: paymentData?.deliveryPartnerFees,
+                        deliveryTip: paymentData?.deliveryTip,
+                        taxes: paymentData?.taxes,
+                        commission: paymentData?.commission,
+                        totalAmount: paymentData?.totalAmount,
                     }}
                 />
 
@@ -76,7 +76,7 @@ const OrderDetail = ({ route, navigation }) => {
                         <HorizontalTextComponent
                             leftText={'Item Total'}
                             leftTextStyle={styles.leftTextStyle}
-                            rightText={`₹ ${paymentData.totalAmount}`}
+                            rightText={`₹ ${paymentData?.totalAmount}`}
                             rightTextStyle={styles.rightTextStyle}
                             pt={15}
                             pb={5}
@@ -84,7 +84,7 @@ const OrderDetail = ({ route, navigation }) => {
                         <HorizontalTextComponent
                             leftText={'Delivery Fee'}
                             leftTextStyle={styles.leftTextStyle}
-                            rightText={`₹ ${paymentData.deliveryFee}`}
+                            rightText={`₹ ${paymentData?.deliveryFee}`}
                             rightTextStyle={styles.rightTextStyle}
                             pb={10}
                         />
@@ -92,7 +92,7 @@ const OrderDetail = ({ route, navigation }) => {
                         <HorizontalTextComponent
                             leftText={'Delivery Tip'}
                             leftTextStyle={styles.leftTextStyle}
-                            rightText={`₹ ${paymentData.deliveryTip}`}
+                            rightText={`₹ ${paymentData?.deliveryTip}`}
                             rightTextStyle={styles.rightTextStyle}
                             pt={17}
                             pb={5}
@@ -100,7 +100,7 @@ const OrderDetail = ({ route, navigation }) => {
                         <HorizontalTextComponent
                             leftText={'Govt Taxes & Other Charges'}
                             leftTextStyle={styles.leftTextStyle}
-                            rightText={`₹ ${paymentData.taxes}`}
+                            rightText={`₹ ${paymentData?.taxes}`}
                             rightTextStyle={styles.rightTextStyle}
                             pb={10}
                         />
@@ -113,7 +113,7 @@ const OrderDetail = ({ route, navigation }) => {
                                     color: '#00000065',
                                 },
                             ]}
-                            rightText={`₹ ${paymentData.totalAmount}`}
+                            rightText={`₹ ${paymentData?.totalAmount}`}
                             rightTextStyle={[
                                 fonts.NUNITO_800_14,
                                 {
@@ -131,7 +131,7 @@ const OrderDetail = ({ route, navigation }) => {
                                     color: colors.ORANGE,
                                 },
                             ]}
-                            rightText={`₹ ${paymentData.commission}`}
+                            rightText={`₹ ${paymentData?.commission}`}
                             rightTextStyle={[
                                 fonts.NUNITO_700_14,
                                 {
@@ -152,14 +152,14 @@ const OrderDetail = ({ route, navigation }) => {
                         Order Details
                     </Text>
                     <View style={[styles.orderContainer, styles.shadowStyle]}>
-                        {orderDetails.map((detail, index) => {
+                        {orderDetails?.map((detail, index) => {
                             return (
                                 <View key={index}>
                                     <Text style={styles.sectionHeading}>
-                                        {detail.name}
+                                        {detail?.name}
                                     </Text>
                                     <Text style={styles.sectionData}>
-                                        {detail.content}
+                                        {detail?.content}
                                     </Text>
                                 </View>
                             );

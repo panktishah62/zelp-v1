@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { GRANTED, showDialogBox } from '../utils';
 import BottomTabNavigation from './BottomTabNavigation';
 import HeaderWithLocation from '../components/Header/HeaderWithLocation';
 import AppTourScreen from '../screens/AppTour/AppTourScreen';
@@ -102,7 +101,14 @@ const MainStack = () => {
             <Stack.Screen
                 name="Address"
                 component={Addresses}
-                // options={{ headerShown: false }}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitle
+                            navigation={navigation}
+                            title={'Addresses'}
+                        />
+                    ),
+                })}
             />
             <Stack.Screen
                 name="AddressEditing"

@@ -9,11 +9,11 @@ import {
 import RestaurantCardLarge from '../../components/Restaurant/RestaurantCardLarge';
 import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
-import { BASE_URL, NETWORK_ERROR } from '../../redux/constants';
 import HeaderWithTitle from '../../components/Header/HeaderWithTitle';
 import { useSelector } from 'react-redux';
 import { isPointInPolygon, isTimeInIntervals } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
+import { getAllCategorisedRestaurants } from '../../redux/services/restaurantService';
 
 const CategorisedRestaurant = ({ route, navigation }) => {
     const { category } = route.params;
@@ -24,22 +24,20 @@ const CategorisedRestaurant = ({ route, navigation }) => {
     const [longitude, setLongitude] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const getAllRestaurants = (lat, long) => {
-        fetch(
-            `${BASE_URL}/restaurants/searchFoodItemByRestaurantsWithDistanceTiming/${category}/${lat}/${long}`,
-        )
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(NETWORK_ERROR);
-                }
-                return response.json();
-            })
+    const getAllRestaurants = async (lat, long) => {
+        await getAllCategorisedRestaurants(category, lat, long)
+            .then(response => response?.data)
             .then(data => {
-                const restaurants = data.restaurants.sort(function (a, b) {
-                    return !isTimeInIntervals(a.restaurant._id.timings);
-                });
-                setRestaurantData(restaurants);
-                setIsLoading(false);
+                if (data) {
+                    const restaurants = data?.restaurants?.sort(function (
+                        a,
+                        b,
+                    ) {
+                        return !isTimeInIntervals(a.restaurant._id.timings);
+                    });
+                    setRestaurantData(restaurants);
+                    setIsLoading(false);
+                }
             })
             .catch(error => {
                 throw new Error(error);
@@ -55,7 +53,7 @@ const CategorisedRestaurant = ({ route, navigation }) => {
     }, []);
 
     useEffect(() => {
-        if (location && location.latitude && location.longitude) {
+        if (location && location?.latitude && location?.longitude) {
             setIsLoading(true);
             setLatitude(location.latitude);
             setLongitude(location.longitude);
@@ -71,13 +69,13 @@ const CategorisedRestaurant = ({ route, navigation }) => {
             {isServableArea && !isLoading && (
                 <ScrollView>
                     {restaurantData &&
-                        restaurantData.length > 0 &&
+                        restaurantData?.length > 0 &&
                         restaurantData.map((restaurant, index) => {
                             return (
                                 <RestaurantCardLarge
-                                    restaurant={restaurant.restaurant._id}
-                                    distance={restaurant.distance}
-                                    time={restaurant.time}
+                                    restaurant={restaurant?.restaurant._id}
+                                    distance={restaurant?.distance}
+                                    time={restaurant?.time}
                                     navigation={navigation}
                                     key={index}
                                 />
@@ -85,7 +83,7 @@ const CategorisedRestaurant = ({ route, navigation }) => {
                         })}
                 </ScrollView>
             )}
-            {!isServableArea && (
+            {(!isServableArea || restaurantData.length === 0) && !isLoading && (
                 <View style={styles.commingSoon}>
                     <ComingSoon />
                     <Text style={styles.commingSoonText}>

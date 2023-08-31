@@ -11,15 +11,9 @@ import {
 import RestaurantCardLarge from '../../components/Restaurant/RestaurantCardLarge';
 import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
-import { BASE_URL, NETWORK_ERROR } from '../../redux/constants';
 import { LiveTrackingContainer } from '../../components/TrackOrder/LiveTrackingContainer';
 import { useSelector } from 'react-redux';
-import {
-    GRANTED,
-    isPointInPolygon,
-    isTimeInIntervals,
-    showDialogBox,
-} from '../../utils';
+import { GRANTED, isPointInPolygon, isTimeInIntervals } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
 import LocationPermission from '../../components/Buttons/LocationPermission';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -133,7 +127,7 @@ const RestaurantsScreen = props => {
                 key={index}
                 onLayout={event => {
                     let updatedValue = {};
-                    updatedValue[item.restaurant._id] = index;
+                    updatedValue[item?.restaurant?._id] = index;
                     setRestaurantIdToIndex(idsToIndex => ({
                         ...idsToIndex,
                         ...updatedValue,
@@ -141,9 +135,9 @@ const RestaurantsScreen = props => {
                 }}
                 style={{ height: ITEM_HEIGHT }}>
                 <RestaurantCardLarge
-                    restaurant={item.restaurant}
-                    distance={item.distance}
-                    time={item.time}
+                    restaurant={item?.restaurant}
+                    distance={item?.distance}
+                    time={item?.time}
                     navigation={navigation}
                 />
             </View>
@@ -188,7 +182,8 @@ const RestaurantsScreen = props => {
 
             {locationPermission === GRANTED &&
                 !isLoading &&
-                !isServableArea && (
+                (!isServableArea ||
+                    (page === 1 && restaurantData.length === 0)) && (
                     <View
                         style={[
                             styles.commingSoon,

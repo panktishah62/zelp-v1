@@ -1,8 +1,10 @@
 // request
 import axios from 'axios';
-import { BASE_URL } from '../redux/constants/index';
+import { BASE_URL, SHOW_DIALOG } from '../redux/constants/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { showDialogBox } from '.';
+import { DialogTypes } from '.';
+import { useDispatch } from 'react-redux';
+import { store } from '../redux/store';
 const axiosRequest = axios.create({
     baseURL: BASE_URL,
 });
@@ -35,29 +37,38 @@ axiosRequest.interceptors.response.use(
         if (error.response.status === 401) {
             alert('please login to continue');
         } else if (error.response.status === 404) {
-            showDialogBox(
-                'Something went wrong!',
-                error?.response?.data?.message,
-                'danger',
-                'OK',
-                true,
-            );
+            store.dispatch({
+                type: SHOW_DIALOG,
+                payload: {
+                    isVisible: true,
+                    titleText: 'Something went wrong!',
+                    subTitleText: error?.response?.data?.message,
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.ERROR,
+                },
+            });
         } else if (error.response.status === 400) {
-            showDialogBox(
-                'Something went wrong!',
-                error?.response?.data?.message,
-                'danger',
-                'OK',
-                true,
-            );
+            store.dispatch({
+                type: SHOW_DIALOG,
+                payload: {
+                    isVisible: true,
+                    titleText: 'Something went wrong!',
+                    subTitleText: error?.response?.data?.message,
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.ERROR,
+                },
+            });
         } else if (error.response.status === 500) {
-            showDialogBox(
-                'Something went wrong!',
-                error?.response?.data?.message,
-                'danger',
-                'OK',
-                true,
-            );
+            store.dispatch({
+                type: SHOW_DIALOG,
+                payload: {
+                    isVisible: true,
+                    titleText: 'Something went wrong!',
+                    subTitleText: error?.response?.data?.message,
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.ERROR,
+                },
+            });
         } else {
             return Promise.reject(error);
         }

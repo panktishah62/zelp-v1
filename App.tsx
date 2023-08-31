@@ -21,7 +21,6 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Root, Toast } from 'react-native-popup-confirm-toast';
-import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -132,39 +131,37 @@ function App(): JSX.Element {
   return (
     <Provider store={store}>
       <Root>
-      <AlertNotificationRoot theme="light">
-      <QueryClientProvider client={queryClient}>
-      <PersistGate loading={null} persistor={persistor}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-      <StatusBar hidden />
-      <NavigationContainer linking={linking}>
-      <ErrorHandler>
-      <SafeAreaProvider>
-      <SafeAreaView
-        style={{
-            flex: 1,
-            backgroundColor:
-                colors.WHITE,
-        }}
-        edges={['bottom']}>
-          <ForegroundHandler/>
-          {isStableVersion ? (
-              <PaperProvider
-                  theme={theme}>
-                  <RootStack />
-              </PaperProvider>
-          ) : (
-              <AppUpdateScreen />
-          )}
-          <Toast config={toastConfig} />
-      </SafeAreaView>
-      </SafeAreaProvider>
-      </ErrorHandler>
-      </NavigationContainer>
-      </GestureHandlerRootView>
-      </PersistGate>
-      </QueryClientProvider>
-    </AlertNotificationRoot>
+            <QueryClientProvider client={queryClient}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <GestureHandlerRootView style={{ flex: 1 }}>
+                        <StatusBar hidden />
+                        <NavigationContainer linking={linking}>
+                            <ErrorHandler>
+                                <SafeAreaProvider>
+                                    <SafeAreaView
+                                        style={{
+                                            flex: 1,
+                                            backgroundColor:
+                                                colors.WHITE,
+                                        }}
+                                        edges={['bottom']}>
+                                        <ForegroundHandler/>
+                                        {isStableVersion ? (
+                                            <PaperProvider
+                                                theme={theme}>
+                                                <RootStack />
+                                            </PaperProvider>
+                                        ) : (
+                                            <AppUpdateScreen />
+                                        )}
+                                        <Toast config={toastConfig} />
+                                    </SafeAreaView>
+                                </SafeAreaProvider>
+                            </ErrorHandler>
+                        </NavigationContainer>
+                    </GestureHandlerRootView>
+                </PersistGate>
+            </QueryClientProvider>
     </Root>
     </Provider>
   );

@@ -9,11 +9,8 @@ import {
     Image,
     SafeAreaView,
 } from 'react-native';
-import { BASE_URL } from '../../redux/constants';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors } from '../../styles/colors';
 import OrderCard from '../../components/Cards/Orders/OrderCard';
-import { showDialogBox } from '../../utils';
 import { getAllOrders } from '../../redux/services/orderService';
 
 const OrdersList = ({ navigation }) => {
@@ -59,7 +56,7 @@ const OrdersList = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.safeAreaContainer}>
-            {!isLoading && orders.length > 0 && (
+            {!isLoading && orders?.length > 0 && (
                 <>
                     <FlatList
                         data={orders}
@@ -80,7 +77,7 @@ const OrdersList = ({ navigation }) => {
                     )}
                 </>
             )}
-            {!isLoading && orders.length == 0 && (
+            {!isLoading && orders?.length == 0 && (
                 <View style={styles.textContainer}>
                     <Image
                         source={require('../../assets/images/no_orders.png')}

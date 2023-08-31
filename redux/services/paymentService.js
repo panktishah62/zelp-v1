@@ -14,3 +14,7 @@ export const checkPaymentStatus = merchantTransactionId => {
         `${ApiPath.checkPaymentStatus}/${merchantTransactionId}`,
     );
 };
+
+export const getPaymentDetailsForUser = orderId => {
+    return axiosRequest.get(`${ApiPath.getPaymentDetails}/${orderId}`);
+};

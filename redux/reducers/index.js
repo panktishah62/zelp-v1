@@ -4,10 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import authReducer from './authReducer';
 import addressReducer from './addressReducer';
 import userReducer from './userReducer';
-import ordersReducer from './ordersReducer';
 import currentOrderReducer from './currentOrderReducer';
-import searchReducer from './searchReducer';
-import paymentsReducer from './paymentsReducer';
 import permissionsReducer from './permissionsReducer';
 import cartActionsReducer from './cartActionsReducer';
 import serverReducer from './serverReducer';
@@ -21,10 +18,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     address: addressReducer,
     user: userReducer,
-    orders: ordersReducer,
     currentOrder: currentOrderReducer,
-    search: searchReducer,
-    payments: paymentsReducer,
     permissions: permissionsReducer,
     cartActions: cartActionsReducer,
     serverReducer: serverReducer,

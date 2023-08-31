@@ -12,12 +12,14 @@ import Star from '../../assets/icons/Star.svg';
 import LocationIcon from '../../assets/icons/Vector.svg';
 import { colors } from '../../styles/colors';
 import {
+    DialogTypes,
     GreyColorMatrix,
     isTimeInIntervals,
-    showDialogBox,
     sliceText,
 } from '../../utils';
 import { ColorMatrix } from 'react-native-color-matrix-image-filters';
+import { showDialog } from '../../redux/actions/dialog';
+import { useDispatch } from 'react-redux';
 
 const IMAGE_URI = '../../assets/images/restaurant.png';
 
@@ -34,6 +36,7 @@ const RestaurantCard = props => {
         restaurant,
         navigation,
     } = props;
+    const dispatch = useDispatch();
     const [isRestaurantOpen, setIsRestaurantOpen] = useState(false);
 
     useEffect(() => {
@@ -52,12 +55,14 @@ const RestaurantCard = props => {
                         time: timeTaken,
                     });
                 } else {
-                    showDialogBox(
-                        'Restaurant Closed',
-                        'Please come back later',
-                        'warning',
-                        'OK',
-                        true,
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            titleText: 'Restaurant Closed',
+                            subTitleText: 'Please come back later',
+                            buttonText1: 'CLOSE',
+                            type: DialogTypes.WARNING,
+                        }),
                     );
                 }
             }}>

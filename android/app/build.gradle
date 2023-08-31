@@ -91,10 +91,16 @@ android {
         applicationId "com.froker"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "0.2.3"
     }
     signingConfigs {
+        release {
+            storeFile file('froker_key.keystore')
+            storePassword 'amogh@froker'
+            keyAlias 'froker_key_alias'
+            keyPassword 'amogh@froker'
+        }
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'

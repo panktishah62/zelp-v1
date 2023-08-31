@@ -8,6 +8,7 @@ import { colors } from '../../styles/colors';
 import {
     GreyColorMatrix,
     isPointInPolygon,
+    isPointInRadius,
     isTimeInIntervals,
     sliceText,
 } from '../../utils';
@@ -65,7 +66,22 @@ const FeaturedItem = props => {
                 location.longitude,
             ]);
             setIsServableArea(isServableArea_);
+            if (isServableArea_) {
+                setIsServableArea(
+                    isPointInRadius(
+                        location.latitude,
+                        location.longitude,
+                        item?.foodItem?.restaurant?.address?.latitude,
+                        item?.foodItem?.restaurant?.address?.longitude,
+                        item?.foodItem?.restaurant?.serviceableRadius,
+                    ),
+                );
+            }
         }
+        // console.log(
+        //     'item?.foodItem?.restaurant?.serviceableRadius',
+        //     item?.foodItem?.restaurant?.serviceableRadius,
+        // );
     }, [location]);
 
     return (

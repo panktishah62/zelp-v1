@@ -18,8 +18,9 @@ import { Button_ } from '../../components/Buttons/Button';
 import { useDispatch } from 'react-redux';
 import TextInput_ from '../../components/Inputs/TextInput';
 import { signup } from '../../redux/actions/auth';
-import { phoneRegex, emailRegex, showDialogBox } from '../../utils';
+import { phoneRegex, emailRegex, DialogTypes } from '../../utils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { showDialog } from '../../redux/actions/dialog';
 
 const SignUpScreen = ({ navigation }) => {
     const insets = useSafeAreaInsets();
@@ -63,38 +64,54 @@ const SignUpScreen = ({ navigation }) => {
 
     const onSubmit = () => {
         if (!name) {
-            showDialogBox('Please enter Name', '', 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter Name',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
         } else if (!phonenumber) {
-            showDialogBox(
-                'Please enter Phone Number',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter Phone Number',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (phonenumber.length !== 10) {
-            showDialogBox(
-                'Phone Number not equal to 10 digits',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Phone Number not equal to 10 digits',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (!phoneRegex.test(phonenumber)) {
-            showDialogBox(
-                'Please enter a Valid Phone Number',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter a Valid Phone Number',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (email && emailRegex.test(email) === false) {
-            showDialogBox(
-                'Please enter a Valid Email Address',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter a Valid Email Address',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else {
             {

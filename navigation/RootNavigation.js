@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { AppState, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { GRANTED, showDialogBox } from '../utils';
+import { DialogTypes, GRANTED } from '../utils';
 import { getUserProfile } from '../redux/actions/user';
 import { getDefaultAddress } from '../redux/actions/address';
 import { checkPermission } from '../redux/actions/permissions';
@@ -13,6 +13,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainStack from './MainStack';
 import AppTourScreen from '../screens/AppTour/AppTourScreen';
 import DefaultDialog from '../components/DialogBox/DefaultDialog';
+import { showDialog } from '../redux/actions/dialog';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,7 +37,15 @@ const RootStack = () => {
                 setInitialRouteName('AppTour');
             }
         } catch (error) {
-            showDialogBox('', error.message, 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Something Went Wrong!',
+                    subTitleText: error?.message,
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.ERROR,
+                }),
+            );
         }
     };
 
@@ -48,21 +57,38 @@ const RootStack = () => {
     useEffect(() => {
         if (locationPermission === GRANTED && isLocationOn) {
             dispatch(getDefaultAddress(null, navigation));
+        } else {
+            if (!isLocationOn) {
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Please Turn On Your Location!',
+                        subTitleText:
+                            'Open the app again after turning on location',
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.WARNING,
+                    }),
+                );
+            }
         }
+    }, [locationPermission, isLocationOn]);
+    useEffect(() => {
         const appFocusSubscription = AppState.addEventListener(
             'change',
             state => {
                 if (state === 'active') {
-                    dispatch(checkPermission());
                     if (locationPermission === GRANTED && isLocationOn) {
                         dispatch(getDefaultAddress(null, navigation));
                     } else if (!isLocationOn) {
-                        showDialogBox(
-                            'Please Turn On Your Location!',
-                            'Open the app again after turning on location',
-                            'warning',
-                            'OK',
-                            true,
+                        dispatch(
+                            showDialog({
+                                isVisible: true,
+                                titleText: 'Please Turn On Your Location!',
+                                subTitleText:
+                                    'Open the app again after turning on location',
+                                buttonText1: 'CLOSE',
+                                type: DialogTypes.WARNING,
+                            }),
                         );
                     }
                 }
@@ -72,17 +98,20 @@ const RootStack = () => {
         return () => {
             appFocusSubscription.remove();
         };
-    }, [locationPermission, isLocationOn]);
+    }, [locationPermission]);
 
     useEffect(() => {
         const removeNetInfoSubscription = NetInfo.addEventListener(state => {
             if (!state.isConnected) {
-                showDialogBox(
-                    'Network Issue!',
-                    'Please turn on your internet and open the app again!',
-                    'warning',
-                    'OK',
-                    true,
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Network Issue!',
+                        subTitleText:
+                            'Please turn on your internet and open the app again!',
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.WARNING,
+                    }),
                 );
             }
             dispatch(isInternetAvailable(state.isConnected));

@@ -35,8 +35,13 @@ const ReferralCard = props => {
             onPress={() => setShowReferralCode(true)}
             disabled={showReferralCode}>
             {!showReferralCode && referralDetails?.referralCode && (
-                <View style={styles.container1}>
-                    <BackgroundDoodle />
+                <View>
+                    <View style={styles.container1}>
+                        <BackgroundDoodle
+                            height={dimensions.fullWidth - 100}
+                            width={dimensions.fullWidth - 100}
+                        />
+                    </View>
                     <Text style={styles.lightText}>
                         Tap To Reveal Referral Code
                     </Text>

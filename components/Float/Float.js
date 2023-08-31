@@ -18,12 +18,7 @@ import Explore from '../../screens/Home/Explore';
 import { TAB_BAR_HEIGHT } from '../../redux/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default function Float({
-    navigation,
-    locationPermission,
-    latitude,
-    longitude,
-}) {
+export default function Float({}) {
     const MIN = 0;
     const MAX = 10000;
     const insets = useSafeAreaInsets();

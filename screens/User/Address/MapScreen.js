@@ -11,7 +11,7 @@ import {
 import MapView, { Marker } from 'react-native-maps';
 import { colors } from '../../../styles/colors';
 import { Styles, dimensions, fonts } from '../../../styles';
-import { showDialogBox } from '../../../utils';
+import { DialogTypes } from '../../../utils';
 import LocateIcon from '../../../assets/icons/LocateIcon.svg';
 import MapPinIcon from '../../../assets/icons/MapPin.svg';
 import Geolocation from '@react-native-community/geolocation';
@@ -20,8 +20,11 @@ import { Linking, PermissionsAndroid } from 'react-native';
 import * as Permissions from 'react-native-permissions';
 import { GOOGLE_MAPS_APIKEY } from '../../../redux/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { hideDialog, showDialog } from '../../../redux/actions/dialog';
+import { useDispatch } from 'react-redux';
 
 const MapScreen = ({ route, navigation }) => {
+    const dispatch = useDispatch();
     const { addressUrl, setAddressUrl } = route.params;
     const [currentLocation, setCurrentLocation] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null);
@@ -42,15 +45,19 @@ const MapScreen = ({ route, navigation }) => {
                 PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
             );
             if (granted != PermissionsAndroid.RESULTS.GRANTED) {
-                showDialogBox(
-                    'Permission Denied',
-                    'Permission to access location was denied',
-                    'danger',
-                    'Grant Permission',
-                    true,
-                    () => {
-                        Linking.openSettings();
-                    },
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Permission Denied',
+                        subTitleText:
+                            'Permission to access location was denied',
+                        buttonText1: 'Grant Permission',
+                        buttonFunction1: () => {
+                            Linking.openSettings();
+                            dispatch(hideDialog());
+                        },
+                        type: DialogTypes.WARNING,
+                    }),
                 );
                 return;
             }
@@ -94,7 +101,15 @@ const MapScreen = ({ route, navigation }) => {
                 const data = await response.json();
                 setSearchQuery(data.results[0].formatted_address);
             } catch (error) {
-                showDialogBox('', error.message, 'warning', 'OK', true);
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Something Went Wrong',
+                        subTitleText: error?.message,
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.WARNING,
+                    }),
+                );
             }
         });
     };
@@ -115,7 +130,15 @@ const MapScreen = ({ route, navigation }) => {
             const data = await response.json();
             setSearchQuery(data.results[0].formatted_address);
         } catch (error) {
-            showDialogBox('', error.message, 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Something Went Wrong',
+                    subTitleText: error?.message,
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
         }
     };
 
@@ -159,7 +182,15 @@ const MapScreen = ({ route, navigation }) => {
                 const data = await response.json();
                 setLocations(data.predictions);
             } catch (error) {
-                showDialogBox('', error.message, 'warning', 'OK', true);
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Something Went Wrong',
+                        subTitleText: error?.message,
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.WARNING,
+                    }),
+                );
             }
         } else {
             setLocations([]);
@@ -191,7 +222,15 @@ const MapScreen = ({ route, navigation }) => {
                 longitudeDelta: 0.0421,
             });
         } catch (error) {
-            showDialogBox('', error.message, 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Something Went Wrong!',
+                    subTitleText: error?.message,
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
         }
     };
 
@@ -246,6 +285,7 @@ const MapScreen = ({ route, navigation }) => {
                                 placeholder="Search location"
                                 onChangeText={handleSearch}
                                 value={searchQuery}
+                                autoFocus={false}
                             />
                             <TouchableOpacity
                                 onPress={() => {

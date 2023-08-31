@@ -2,11 +2,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { BASE_URL, NETWORK_ERROR } from '../../redux/constants';
 import { colors } from '../../styles/colors';
 import OrderCardComponent from '../Cards/Orders/OrderCardComponent';
 import OrderDetailsCard from '../Cards/Orders/OrderDetailsCard';
 import BillDetails from '../Cards/Orders/BillDetails';
+import { getPaymentDetailsForUser } from '../../redux/services/paymentService';
+import { getOrderDetails } from '../../redux/services/orderService';
 // import { ErrorHandler } from '../ErrorHandler/ErrorHandler';
 
 const ShowOrderDetails = props => {
@@ -20,42 +21,25 @@ const ShowOrderDetails = props => {
     const [isLoadingOrder, setIsLoadingOrder] = useState(false);
     const [isLoadingPayment, setIsLoadingPayment] = useState(false);
 
-    const getPaymentDetails = orderId => {
-        fetch(`${BASE_URL}/payments/getPaymentDetails/${orderId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(NETWORK_ERROR);
-                }
-                return response.json();
-            })
+    const getPaymentDetails = async orderId => {
+        await getPaymentDetailsForUser(orderId)
+            .then(response => response?.data)
             .then(data => {
-                setPayment(data.payment);
-                setIsLoadingPayment(false);
+                if (data) {
+                    setPayment(data.payment);
+                    setIsLoadingPayment(false);
+                }
             })
             .catch(error => {
                 throw new Error(error);
             });
     };
 
-    const getOrderDetails = orderId => {
-        const API_URL = `${BASE_URL}/orders/getOrderDetails/${orderId}`;
-
-        AsyncStorage.getItem('token').then(authToken => {
+    const getOrderDetails_ = async orderId => {
+        await AsyncStorage.getItem('token').then(async authToken => {
             if (authToken) {
-                return fetch(API_URL, {
-                    method: 'GET',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(NETWORK_ERROR);
-                        }
-                        return response.json();
-                    })
+                return await getOrderDetails({ orderId })
+                    .then(response => response?.data)
                     .then(data => {
                         if (data && data.order) {
                             setOrder(data.order);
@@ -70,16 +54,10 @@ const ShowOrderDetails = props => {
     };
 
     useEffect(() => {
-        // if (currentOrder && currentOrder._id) {
-        //     setIsLoadingOrder(true);
-        //     setIsLoadingPayment(true);
-        //     getOrderDetails(currentOrder._id);
-        //     getPaymentDetails(currentOrder._id);
-        // }
         if (orderId) {
             setIsLoadingOrder(true);
             setIsLoadingPayment(true);
-            getOrderDetails(orderId);
+            getOrderDetails_(orderId);
             getPaymentDetails(orderId);
         }
     }, [orderId]);

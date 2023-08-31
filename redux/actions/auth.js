@@ -1,12 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { hideDialogBox, showDialogBox } from '../../utils';
+import { DialogTypes } from '../../utils';
 import * as types from '../constants/index';
 import { persistor } from '../store/index';
 import { getDefaultAddress, resetAddress } from './address';
 import { resetCurrentOrder } from './currentOrder';
-import { resetOrders } from './orders';
-import { resetPayments } from './payments';
-import { resetSearch } from './search';
 import { resetUser } from './user';
 import { getUserWallet, resetCartActions } from './cartActions';
 import { resetFollowedFroker } from './froker';
@@ -14,8 +11,14 @@ import {
     generateNewToken,
     requestUserPermission,
 } from '../../utils/pushnotification_helper';
-import { deleteUserAccount, signUpUser } from '../services/authService';
-import { showDialog } from './dialog';
+import {
+    deleteUserAccount,
+    resendOTP,
+    signInUser,
+    signUpUser,
+    verifyOtp,
+} from '../services/authService';
+import { hideDialog, showDialog } from './dialog';
 
 // Action creator to log out the user
 export const logoutUser = () => {
@@ -29,9 +32,6 @@ export const logoutUser = () => {
         dispatch(logout());
         dispatch(resetAddress());
         dispatch(resetCurrentOrder());
-        dispatch(resetOrders());
-        dispatch(resetPayments());
-        dispatch(resetSearch());
         dispatch(resetUser());
         dispatch(resetCartActions());
         dispatch(logout());
@@ -54,9 +54,6 @@ export const deleteAccount = () => {
                     dispatch(logout());
                     dispatch(resetAddress());
                     dispatch(resetCurrentOrder());
-                    dispatch(resetOrders());
-                    dispatch(resetPayments());
-                    dispatch(resetSearch());
                     dispatch(resetUser());
                     dispatch(resetCartActions());
                     dispatch(logout());
@@ -67,12 +64,15 @@ export const deleteAccount = () => {
                 }
             });
         } catch (error) {
-            showDialogBox(
-                'Something Went Wrong!',
-                'Your Account is not deleted, please login and try to delete the account again!',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Something Went Wrong!',
+                    subTitleText:
+                        'Your Account is not deleted, please login and try to delete the account again!',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.ERROR,
+                }),
             );
         }
     };
@@ -115,27 +115,9 @@ export const verifyOTP = (
     setIsLoading,
     onPressShare,
 ) => {
-    return dispatch => {
-        fetch(`${types.BASE_URL}/users/verify/${mobNo}/${otp}`, {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(response => {
-                if (response.status == '401') {
-                    showDialogBox(
-                        'Phone Number Error',
-                        'Server Error, please try again',
-                        'warning',
-                        'OK',
-                        true,
-                    );
-                    dispatch(loginFailure('Server Error, please try again'));
-                }
-                return response.json();
-            })
+    return async dispatch => {
+        await verifyOtp({ mobNo, otp })
+            .then(response => response?.data)
             .then(async data => {
                 if (data.status === 'success' && data.token) {
                     await AsyncStorage.setItem('token', data.token);
@@ -161,6 +143,7 @@ export const verifyOTP = (
                                 buttonText2: 'SHARE',
                                 buttonFunction2: () =>
                                     onPressShare(data?.shareTemplate?.text),
+                                type: DialogTypes.DEFAULT,
                             }),
                         );
                     }
@@ -168,16 +151,18 @@ export const verifyOTP = (
                     setIsLoading(false);
                     // navigation.navigate('BottomTabNavigation');
                 } else {
-                    showDialogBox(
-                        'OTP Error',
-                        data.message,
-                        'warning',
-                        'Resend OTP',
-                        true,
-                        () => {
-                            dispatch(reSendOTP(mobNo));
-                            hideDialogBox();
-                        },
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            titleText: 'OTP Error',
+                            subTitleText: data?.message,
+                            buttonText1: 'Resend OTP',
+                            buttonFunction1: async () => {
+                                await resendOTP({ mobNo });
+                                dispatch(hideDialog());
+                            },
+                            type: DialogTypes.WARNING,
+                        }),
                     );
                     // dispatch(loginFailure(data.message));
                     setIsLoading(false);
@@ -186,80 +171,26 @@ export const verifyOTP = (
             .catch(error => {
                 setIsLoading(false);
                 // If the request fails, dispatch loginFailure with the error message
-                dispatch(loginFailure(error.message));
-            });
-    };
-};
-
-// Action creator to log in the user
-export const reSendOTP = number => {
-    return dispatch => {
-        fetch(`${types.BASE_URL}/users/verify`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                mobNo: number,
-            }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status == 'fail') {
-                    return data.message;
-                } else {
-                    // dispatch(loginSuccess(data.user));
-                }
-            })
-            .catch(error => {
-                // If the request fails, dispatch loginFailure with the error message
-                dispatch(loginFailure(error.message));
+                dispatch(loginFailure(error?.message));
             });
     };
 };
 
 // Action creator to log in the user
 export const login = (number, setIsOTPSent, setIsLoading) => {
-    return dispatch => {
-        fetch(`${types.BASE_URL}/users/signin`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                mobNo: number,
-            }),
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Server error!');
-                }
-                return response.json();
-            })
+    return async dispatch => {
+        await signInUser({ mobNo: number })
+            .then(response => response?.data)
             .then(data => {
-                if (data.status == 'fail') {
-                    showDialogBox(
-                        'Signin Error',
-                        data.message,
-                        'warning',
-                        'OK',
-                        true,
-                    );
-                    setIsLoading(false);
-                } else {
+                if (data) {
                     dispatch({ type: types.LOGIN_REQUEST });
                     if (setIsOTPSent) {
                         setIsOTPSent(true);
                     }
+                }
+                if (setIsLoading) {
                     setIsLoading(false);
                 }
-            })
-            .catch(error => {
-                setIsLoading(false);
-                // If the request fails, dispatch loginFailure with the error message
-                dispatch(loginFailure(error.message));
             });
     };
 };
@@ -280,18 +211,17 @@ export const signup = (
             email: email,
             referralCode: referralCode,
         })
-            .then(response => response.data)
+            .then(response => response?.data)
             .then(data => {
-                dispatch({ type: types.LOGIN_REQUEST });
-                if (setIsOTPSent) {
-                    setIsOTPSent(true);
+                if (data) {
+                    dispatch({ type: types.LOGIN_REQUEST });
+                    if (setIsOTPSent) {
+                        setIsOTPSent(true);
+                    }
                 }
-                setIsLoading(false);
-            })
-            .catch(error => {
-                setIsLoading(false);
-                // If the request fails, dispatch loginFailure with the error message
-                dispatch(loginFailure(error.message));
+                if (setIsLoading) {
+                    setIsLoading(false);
+                }
             });
     };
 };

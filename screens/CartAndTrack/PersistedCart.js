@@ -19,17 +19,16 @@ import WalletMoney from '../../components/Cards/PersistedCart.js/WalletMoney';
 import FoodItemsCard from '../../components/Cards/PersistedCart.js/FoodItemsCard';
 import PaymentsCard from '../../components/Cards/PersistedCart.js/PaymentsCard';
 import BillDetails from '../../components/Cards/PersistedCart.js/BillDetails';
-import { paymentInitiated } from '../../redux/actions/payments';
-import { createCart } from '../../redux/actions/cartActions';
 import {
+    DialogTypes,
     getCoordinatesFromGoogleMapUrl,
     isPointInPolygon,
     isTimeInIntervals,
-    showDialogBox,
 } from '../../utils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CouponCardForCart from '../../components/Cards/Coupons.js/CouponCardForCart';
 import { useIsFocused } from '@react-navigation/native';
+import { showDialog } from '../../redux/actions/dialog';
 
 const CartScreen = ({ navigation }) => {
     const insets = useSafeAreaInsets();
@@ -86,12 +85,14 @@ const CartScreen = ({ navigation }) => {
             return;
         }
         if (!myCart.address) {
-            showDialogBox(
-                'Address Error',
-                'Address not found',
-                'danger',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Address not found',
+                    subTitleText: 'Please Enter Your Address To Place Order',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
             return;
         }
@@ -100,12 +101,15 @@ const CartScreen = ({ navigation }) => {
                 myCart.address.geoLocation,
             );
             if (!location.latitude || !location.longitude) {
-                showDialogBox(
-                    'Location not found!',
-                    'Can not track location for selected address, please select other address',
-                    'warning',
-                    'Ok',
-                    true,
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Location not found!',
+                        subTitleText:
+                            'Can not track location for selected address, please select other address',
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.WARNING,
+                    }),
                 );
                 return;
             }
@@ -114,40 +118,45 @@ const CartScreen = ({ navigation }) => {
                 location.longitude,
             ]);
             if (!isServableArea) {
-                showDialogBox(
-                    'Select Other Address',
-                    'Area of selected address is not Serviceable, please select other address',
-                    'warning',
-                    'Ok',
-                    true,
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Select Other Address',
+                        subTitleText:
+                            'Area of selected address is not Serviceable, please select other address',
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.WARNING,
+                    }),
                 );
                 return;
             }
         }
         if (closedRestaurants.length) {
-            showDialogBox(
-                'Please select from other Restaurants',
-                `${closedRestaurants.toString()} are closed!`,
-                'warning',
-                'Ok',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please select from other Restaurants',
+                    subTitleText: `${closedRestaurants.toString()} are closed!`,
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
             return;
         }
         if (currentOrder && currentOrder.cart) {
-            showDialogBox(
-                'Order in Progress',
-                'Your Order is already in progress, please place a new order after this order delivers',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Order in Progress',
+                    subTitleText:
+                        'Your Order is already in progress, please place a new order after this order delivers',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
             return;
         }
-        // dispatch(createCart(myCart, navigation));
         navigation.navigate('Payments');
-        // dispatch(placeOrder(myCart, navigation));
-        // setCartLoading(true);
     };
 
     return (

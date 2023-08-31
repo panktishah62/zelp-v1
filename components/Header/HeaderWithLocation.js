@@ -43,17 +43,19 @@ const HeaderWithLocation = props => {
     const locationPermission = useSelector(
         state => state.permissions.locationPermission,
     );
-    const location = useSelector(state => state.address.Location);
     const [isLoading, setIsLoading] = useState(false);
-    const [addressArea, setAddressArea] = useState('');
-    const [permission, setPermission] = useState(DENIED);
     const [showRetry, setShowRetry] = useState(false);
-    const [headerHeight, setHeaderHeight] = useState(0);
 
     useEffect(() => {
         setIsLoading(true);
         dispatch(checkPermission());
-        // checkLocationPermission(setPermission);
+        if (locationPermission === GRANTED) {
+            setIsLoading(true);
+            dispatch(getDefaultAddress(setIsLoading));
+        }
+    }, [navigation]);
+
+    useEffect(() => {
         if (locationPermission === GRANTED) {
             setIsLoading(true);
             dispatch(getDefaultAddress(setIsLoading));
@@ -63,7 +65,6 @@ const HeaderWithLocation = props => {
     useEffect(() => {
         setIsLoading(true);
         if (area) {
-            setAddressArea(area);
             setIsLoading(false);
         } else {
             setShowRetry(false);

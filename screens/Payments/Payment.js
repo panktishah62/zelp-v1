@@ -36,15 +36,15 @@ import {
     createOrderAndInitiatePayment,
 } from '../../redux/services/orderService';
 import {
+    DialogTypes,
     applicablePaymentMethodsForRestaurants,
     generateUUID,
     getRandomInt,
-    showDialogBox,
 } from '../../utils';
 import { getUserProfile } from '../../redux/actions/user';
-import { BASE_URL } from '../../redux/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import remoteConfig from '@react-native-firebase/remote-config';
+import { showDialog } from '../../redux/actions/dialog';
 
 const PaymentsScreen = props => {
     const { navigation, route } = props;
@@ -218,12 +218,15 @@ const PaymentsScreen = props => {
                 method,
             );
             if (!isPaymentApplicable) {
-                showDialogBox(
-                    'Try different payment method!',
-                    'This payment method is not applicable on selected Restaurant',
-                    'warning',
-                    'OK',
-                    true,
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Try different payment method!',
+                        subTitleText:
+                            'This payment method is not applicable on selected Restaurant',
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.WARNING,
+                    }),
                 );
                 return;
             }
@@ -234,20 +237,26 @@ const PaymentsScreen = props => {
                 method,
             )
         ) {
-            showDialogBox(
-                'Try different payment method!',
-                'Applied Coupon is not applicable on this payment method.',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Try different payment method!',
+                    subTitleText:
+                        'Applied Coupon is not applicable on this payment method.',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (method === 'COD' && cart?.isWalletMoneyUsed) {
-            showDialogBox(
-                'Cash on delivery not applicable!',
-                'Cash on delivery is not applicable on orders with wallet money applied. Please try Pay using wallet/card.',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Cash on delivery not applicable!',
+                    subTitleText:
+                        'Cash on delivery is not applicable on orders with wallet money applied. Please try Pay using wallet/card.',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else {
             setPaymentMethod(method);

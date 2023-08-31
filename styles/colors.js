@@ -33,6 +33,7 @@ export const colors = {
 
 export const theme = {
     ...DefaultTheme,
+    ...DefaultTheme.colors,
     colors: {
         ...DefaultTheme.colors,
         primary: colors.ORANGE,

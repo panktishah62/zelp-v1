@@ -69,7 +69,7 @@ const BillDetails = props => {
                             <View style={styles.amount}>
                                 <Rupee />
                                 <Text style={styles.priceText}>
-                                    {billingDetails.taxes}
+                                    {billingDetails?.taxes}
                                 </Text>
                             </View>
                         </View>

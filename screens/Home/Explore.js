@@ -17,20 +17,20 @@ import CategoryCard from '../../components/Cards/CategoryCard';
 import FrokerCard from '../../components/Cards/FrokerCard';
 import RestaurantCard from '../../components/Restaurant/RestaurantCardSmall';
 import FoodItemSlider from '../../components/Sliders/FoodItemSlider';
-import { BASE_URL, NETWORK_ERROR, TAB_BAR_HEIGHT } from '../../redux/constants';
+import { TAB_BAR_HEIGHT } from '../../redux/constants';
 import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
-import {
-    isPointInPolygon,
-    isTimeInIntervals,
-    showDialogBox,
-} from '../../utils';
+import { isPointInPolygon, isTimeInIntervals } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
 import Carousel, { Pagination } from 'react-native-new-snap-carousel';
 import RestaurantCardLarge from '../../components/Restaurant/RestaurantCardLarge';
 import OfferCard from '../../components/Cards/Offers/OfferCard';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
+import {
+    getOffersRestaurants,
+    getTopRated,
+} from '../../redux/services/restaurantService';
 
 const Explore = props => {
     const { location, navigation } = props;
@@ -46,29 +46,32 @@ const Explore = props => {
     const [index, setIndex] = React.useState(0);
 
     const getAllRestaurants = async (lat, long) => {
-        fetch(`${BASE_URL}/restaurants/getTopRatedRestaurants/${lat}/${long}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(NETWORK_ERROR);
-                }
-                return response.json();
-            })
+        await getTopRated(lat, long)
+            .then(response => response?.data)
             .then(data => {
-                if (
-                    data.restaurants.length &&
-                    data.restaurants.length % 2 != 0
-                ) {
-                    const restaurants = data.restaurants.sort(function (a, b) {
-                        return !isTimeInIntervals(a.restaurant.timings);
-                    });
-                    setRestaurants(
-                        data.restaurants.slice(0, restaurants.length - 1),
-                    );
-                } else {
-                    const restaurants = data.restaurants.sort(function (a, b) {
-                        return !isTimeInIntervals(a.restaurant.timings);
-                    });
-                    setRestaurants(restaurants);
+                if (data) {
+                    if (
+                        data?.restaurants?.length &&
+                        data?.restaurants?.length % 2 != 0
+                    ) {
+                        const restaurants = data.restaurants.sort(function (
+                            a,
+                            b,
+                        ) {
+                            return !isTimeInIntervals(a.restaurant.timings);
+                        });
+                        setRestaurants(
+                            data.restaurants.slice(0, restaurants.length - 1),
+                        );
+                    } else {
+                        const restaurants = data?.restaurants?.sort(function (
+                            a,
+                            b,
+                        ) {
+                            return !isTimeInIntervals(a.restaurant.timings);
+                        });
+                        setRestaurants(restaurants);
+                    }
                 }
                 setIsLoading(false); // set loading to false after fetch
             })
@@ -78,29 +81,26 @@ const Explore = props => {
     };
 
     const getAllOffers = async (lat, long) => {
-        fetch(`${BASE_URL}/restaurants/getOffersRestaurants/${lat}/${long}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(NETWORK_ERROR);
-                }
-                return response.json();
-            })
+        await getOffersRestaurants(lat, long)
+            .then(response => response?.data)
             .then(data => {
-                const restaurants = data.restaurants.sort(function (a, b) {
-                    return !isTimeInIntervals(a.restaurant.timings);
-                });
-                setOffers(restaurants);
-                setIsLoading(false); // set loading to false after fetch
+                if (data) {
+                    const restaurants = data?.restaurants.sort(function (a, b) {
+                        return !isTimeInIntervals(a?.restaurant?.timings);
+                    });
+                    setOffers(restaurants);
+                    setIsLoading(false); // set loading to false after fetch
+                }
             })
             .catch(error => {
                 throw new Error(error);
             });
     };
 
-    getRefreshedRestaurants = () => {
+    const getRefreshedRestaurants = () => {
         setIsLoading(true); // set loading to true before fetch
         setIsServableArea(false);
-        if (location.latitude && location.longitude) {
+        if (location?.latitude && location?.longitude) {
             const isServableArea_ = isPointInPolygon([
                 location.latitude,
                 location.longitude,
@@ -116,8 +116,10 @@ const Explore = props => {
     };
 
     useEffect(() => {
-        getRefreshedRestaurants();
-    }, [location]);
+        if (location?.latitude && location?.longitude) {
+            getRefreshedRestaurants();
+        }
+    }, [location?.latitude]);
 
     const Restaurants = ({ item, distance, time }) => {
         return (
@@ -305,7 +307,7 @@ const Explore = props => {
                     <ActivityIndicator size="large" color={colors.ORANGE} />
                 )}
             </View>
-            {!isLoading && !isServableArea && (
+            {!isLoading && (!isServableArea || restaurants.length === 0) && (
                 <View
                     style={[
                         styles.commingSoon,

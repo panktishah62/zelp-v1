@@ -45,8 +45,8 @@ const TrackOrderScreen = ({ route, navigation }) => {
         setIsLoading(true);
         if (
             currentOrder &&
-            currentOrder.currentOrder &&
-            currentOrder.currentOrder.orderStatus
+            currentOrder?.currentOrder &&
+            currentOrder?.currentOrder?.orderStatus
         ) {
             setIsLoading(false);
         }
@@ -85,7 +85,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
                             timeToDeliver={
                                 timeToDeliver
                                     ? timeToDeliver
-                                    : currentOrder.timeToDeliver
+                                    : currentOrder?.timeToDeliver
                             }
                         />
                     </View>

@@ -12,12 +12,15 @@ import MenuListing from '../../components/SubscriptionModel/MenuListing';
 import SubscriptionModel from '../../components/SubscriptionModel/SubscriptionModel';
 import IconButton from '../../components/Buttons/IconButton';
 import { colors } from '../../styles/colors';
-import { showDialogBox } from '../../utils';
+import { DialogTypes } from '../../utils';
 import { dynamicSize } from '../../utils/responsive';
 import { dimensions, fonts } from '../../styles';
+import { showDialog } from '../../redux/actions/dialog';
+import { useDispatch } from 'react-redux';
 
 const SubscriptionPage = props => {
     const { navigation } = props;
+    const dispatch = useDispatch();
     const [subscriptionPlans, setSubscriptionPlans] = useState();
     const [flexiPayPlan, setFlexiPayPlan] = useState();
     const [timings, setTimings] = useState();
@@ -43,12 +46,15 @@ const SubscriptionPage = props => {
             Linking.openURL(whatsappLink)
                 .then(data => {})
                 .catch(() => {
-                    showDialogBox(
-                        'Cannot Open WhatsApp',
-                        'WhatsApp is not installed on your device',
-                        'warning',
-                        'Ok',
-                        true,
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            titleText: 'Cannot Open WhatsApp',
+                            subTitleText:
+                                'WhatsApp is not installed on your device',
+                            buttonText1: 'CLOSE',
+                            type: DialogTypes.ERROR,
+                        }),
                     );
                 });
         }

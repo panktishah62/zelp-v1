@@ -16,7 +16,6 @@ import {
     GET_LOCATION_FAILURE,
     GET_LOCATION_REQUEST,
     GET_LOCATION_SUCCESS,
-    BASE_URL,
     DELETE_ADDRESS,
     GOOGLE_MAPS_APIKEY,
     RESET_ADDRESS,
@@ -24,37 +23,29 @@ import {
     RESET_ADDRESS_ERROR,
 } from '../constants';
 import { Alert } from 'react-native';
-import { getCoordinatesFromGoogleMapUrl } from '../../utils';
+import { DialogTypes, getCoordinatesFromGoogleMapUrl } from '../../utils';
 import { changeCartAddress } from './cartActions';
 import { hideDialog, showDialog } from './dialog';
+import {
+    addUserAddress,
+    deleteUserAddress,
+    editUserAddress,
+    getAllUserAddress,
+    getDefaultUserAddress,
+    setDefaultAddress,
+} from '../services/addressService';
 
-export const addAddress = (address, navigation) => {
+export const addAddress = (address, navigation, fun) => {
     return async dispatch => {
-        const API_URL = `${BASE_URL}/address/userAddress`;
-
-        AsyncStorage.getItem('token')
-            .then(authToken => {
-                return fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                    body: JSON.stringify(address),
-                });
-            })
-            .then(response => {
-                if (!response.status == '200') {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+        await addUserAddress(address)
+            .then(response => response?.data)
             .then(data => {
-                dispatch({ type: ADD_ADDRESS, payload: data.addresses });
-                dispatch(getAllAddress());
-                dispatch(getDefaultAddress());
-                navigation.goBack();
+                if (data) {
+                    dispatch({ type: ADD_ADDRESS, payload: data.addresses });
+                    dispatch(getAllAddress(fun));
+                    dispatch(getDefaultAddress());
+                    navigation.goBack();
+                }
             })
             .catch(error => {
                 dispatch({ type: FETCH_DATA_FAILURE_ADDRESS, payload: error });
@@ -62,32 +53,17 @@ export const addAddress = (address, navigation) => {
     };
 };
 
-export const editAddress = (address, addressId, navigation) => {
+export const editAddress = (address, addressId, navigation, fun) => {
     return async dispatch => {
-        const API_URL = `${BASE_URL}/address/userAddress/${addressId}`;
-
-        AsyncStorage.getItem('token')
-            .then(authToken => {
-                return fetch(API_URL, {
-                    method: 'PUT',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                    body: JSON.stringify(address),
-                });
-            })
-            .then(response => {
-                if (!response.status == '200') {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+        await editUserAddress(address, addressId)
+            .then(response => response?.data)
             .then(data => {
-                dispatch({ type: EDIT_ADDRESS, payload: data.addresses });
-                dispatch(getAllAddress());
-                navigation.goBack();
+                if (data) {
+                    dispatch({ type: EDIT_ADDRESS, payload: data.addresses });
+                    dispatch(getAllAddress(fun));
+                    dispatch(getDefaultAddress());
+                    navigation.goBack();
+                }
             })
             .catch(error => {
                 dispatch({ type: FETCH_DATA_FAILURE_ADDRESS, payload: error });
@@ -95,29 +71,20 @@ export const editAddress = (address, addressId, navigation) => {
     };
 };
 
-export const getAllAddress = () => {
+export const getAllAddress = fun => {
     return async dispatch => {
-        const API_URL = `${BASE_URL}/address/userAddresses`;
-
-        AsyncStorage.getItem('token')
-            .then(authToken => {
-                return fetch(API_URL, {
-                    method: 'GET',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                });
-            })
-            .then(response => {
-                if (!response.status == '200') {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+        await getAllUserAddress()
+            .then(response => response?.data)
             .then(data => {
-                dispatch({ type: GET_ALL_ADDRESS, payload: data.addresses });
+                if (data) {
+                    dispatch({
+                        type: GET_ALL_ADDRESS,
+                        payload: data.addresses,
+                    });
+                    if (fun) {
+                        fun();
+                    }
+                }
             })
             .catch(error => {
                 dispatch({ type: FETCH_DATA_FAILURE_ADDRESS, payload: error });
@@ -125,78 +92,30 @@ export const getAllAddress = () => {
     };
 };
 
-export const setDefaultAddressTo = addressId => {
+export const setDefaultAddressTo = (addressId, fun) => {
     return async dispatch => {
-        const API_URL = `${BASE_URL}/address/userAddress/setDefault/${addressId}`;
-
-        AsyncStorage.getItem('token')
-            .then(authToken => {
-                return fetch(API_URL, {
-                    method: 'PUT',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                });
-            })
-            .then(response => {
-                if (!response.status == '200') {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+        await setDefaultAddress(addressId)
+            .then(response => response?.data)
             .then(data => {
-                let location = getCoordinatesFromGoogleMapUrl(
-                    data.defaultAddress.geoLocation,
-                );
-                dispatch({
-                    type: SET_DEFAULT_ADDRESS,
-                    payload: {
-                        location: location,
-                        addresses: data.addresses,
-                        defaultAddress: data.defaultAddress,
-                        googleMapsLink: data.defaultAddress.geoLocation,
-                        area: data.defaultAddress.address,
-                    },
-                });
-                dispatch(changeCartAddress(data.defaultAddress));
-            })
-            .catch(error => {
-                dispatch({ type: FETCH_DATA_FAILURE_ADDRESS, payload: error });
-            });
-    };
-};
-
-export const unsetDefaultAddress = addressId => {
-    return async dispatch => {
-        const API_URL = `${BASE_URL}/address/userAddress/unsetDefaultAddress/${addressId}`;
-
-        AsyncStorage.getItem('token')
-            .then(authToken => {
-                return fetch(API_URL, {
-                    method: 'PUT',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                });
-            })
-            .then(response => {
-                if (!response.status == '200') {
-                    throw new Error('Network response was not ok');
+                if (data) {
+                    let location = getCoordinatesFromGoogleMapUrl(
+                        data.defaultAddress.geoLocation,
+                    );
+                    dispatch({
+                        type: SET_DEFAULT_ADDRESS,
+                        payload: {
+                            location: location,
+                            addresses: data?.addresses,
+                            defaultAddress: data?.defaultAddress,
+                            googleMapsLink: data?.defaultAddress?.geoLocation,
+                            area: data?.defaultAddress?.address,
+                        },
+                    });
+                    dispatch(changeCartAddress(data?.defaultAddress));
+                    if (fun) {
+                        fun();
+                    }
                 }
-                return response.json();
-            })
-            .then(data => {
-                dispatch({
-                    type: UNSET_DEFAULT_ADDRESS,
-                    payload: {
-                        addresses: data.addresses,
-                    },
-                });
-                getUserLocation();
             })
             .catch(error => {
                 dispatch({ type: FETCH_DATA_FAILURE_ADDRESS, payload: error });
@@ -227,6 +146,7 @@ export const getDefaultAddress = (setIsLoading, navigation) => {
                                     dispatch(hideDialog());
                                     navigation.navigate('Address');
                                 },
+                                type: DialogTypes.DEFAULT,
                             }),
                         );
                     }
@@ -235,9 +155,7 @@ export const getDefaultAddress = (setIsLoading, navigation) => {
         };
 
         try {
-            const API_URL = `${BASE_URL}/address/defaultUserAddress`;
-
-            AsyncStorage.getItem('token').then(authToken => {
+            await AsyncStorage.getItem('token').then(async authToken => {
                 if (!authToken) {
                     dispatch({
                         type: GET_DEFAULT_ADDRESS,
@@ -252,24 +170,13 @@ export const getDefaultAddress = (setIsLoading, navigation) => {
                     });
                     dispatch(getUserLocation(setIsLoading));
                 } else {
-                    return fetch(API_URL, {
-                        method: 'GET',
-                        headers: {
-                            Accept: 'application/json',
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${authToken}`,
-                        },
-                    })
-                        .then(response => {
-                            if (!response.status == '200') {
-                                Alert.alert('Server Error, please try again!');
-                            }
-                            return response.json();
-                        })
+                    return await getDefaultUserAddress()
+                        .then(response => response?.data)
                         .then(data => {
                             if (
-                                data.defaultAddress &&
-                                data.defaultAddress.geoLocation
+                                data &&
+                                data?.defaultAddress &&
+                                data?.defaultAddress?.geoLocation
                             ) {
                                 const location = getCoordinatesFromGoogleMapUrl(
                                     data.defaultAddress.geoLocation,
@@ -323,28 +230,13 @@ export const getDefaultAddress = (setIsLoading, navigation) => {
 
 export const deleteAddress = addressId => {
     return async dispatch => {
-        const API_URL = `${BASE_URL}/address/userAddress/${addressId}`;
-
-        AsyncStorage.getItem('token')
-            .then(authToken => {
-                return fetch(API_URL, {
-                    method: 'DELETE',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                });
-            })
-            .then(response => {
-                if (!response.status == '200') {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+        await deleteUserAddress(addressId)
+            .then(response => response?.data)
             .then(data => {
-                dispatch({ type: EDIT_ADDRESS, payload: data.addresses });
-                dispatch(getDefaultAddress());
+                if (data) {
+                    dispatch({ type: EDIT_ADDRESS, payload: data.addresses });
+                    dispatch(getDefaultAddress());
+                }
             })
             .catch(error => {
                 dispatch({ type: FETCH_DATA_FAILURE_ADDRESS, payload: error });
@@ -399,7 +291,7 @@ export const getUserLocation = setIsLoading => {
 
                 // Use Geocoding API to get location information
                 const response = await fetch(
-                    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${GOOGLE_MAPS_APIKEY}`,
+                    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.coords?.latitude},${location?.coords?.longitude}&key=${GOOGLE_MAPS_APIKEY}`,
                 );
                 const data = await response.json();
 
@@ -435,7 +327,7 @@ export const getUserLocation = setIsLoading => {
             );
             dispatch({
                 type: FETCH_DATA_FAILURE_ADDRESS,
-                payload: error.message,
+                payload: error?.message,
             });
         }
     };

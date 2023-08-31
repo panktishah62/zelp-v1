@@ -20,9 +20,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import { editUserProfile } from '../../redux/actions/user';
-import { emailRegex, showDialogBox } from '../../utils';
+import { DialogTypes, emailRegex } from '../../utils';
 import CaretDownIcon from '../../assets/icons/CaretDown.svg';
 import CalenderIcon from '../../assets/icons/Calender.svg';
+import { showDialog } from '../../redux/actions/dialog';
 
 const genders = ['Male', 'Female', 'Others'];
 
@@ -71,25 +72,45 @@ const ProfileEditingScreen = ({ navigation, route }) => {
             gender: userDetails?.gender,
         };
         if (!userDetails.email) {
-            showDialogBox('Please enter Email', '', 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter Email',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
         } else if (!emailRegex.test(userData.email)) {
-            showDialogBox(
-                'Please enter a Valid Email',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter a Valid Email',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (!userDetails.dob) {
-            showDialogBox(
-                'Please enter Date of Birth',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter Date of Birth',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (!userDetails.gender) {
-            showDialogBox('Please enter Gender', '', 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter Gender',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
         } else {
             dispatch(editUserProfile(dataToPost, navigation));
         }

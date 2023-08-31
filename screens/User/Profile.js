@@ -146,7 +146,6 @@ const ProfileMenuItem = ({
                     return;
                 }
                 if (name === 'Addresses') {
-                    dispatch(getAllAddress());
                     navigation.navigate(navigateTo);
                     return;
                 }
@@ -280,13 +279,13 @@ const ProfileScreen = ({ navigation }) => {
                                                 {user.wallet} ₹
                                             </Text>
                                         )}
-                                        {user && user?.referral?.code && (
+                                        {user && user?.referral?.name && (
                                             <Text
                                                 style={
                                                     styles.userWalletMoneyText
                                                 }>
                                                 Referral Code:{' '}
-                                                {user?.referral?.code}
+                                                {user?.referral?.name}
                                             </Text>
                                         )}
                                     </View>

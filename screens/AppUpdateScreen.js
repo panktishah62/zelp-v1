@@ -13,11 +13,14 @@ import Lottie from 'lottie-react-native';
 import { dimensions, fonts } from '../styles';
 import { Button_ } from '../components/Buttons/Button';
 import { colors } from '../styles/colors';
-import { showDialogBox } from '../utils';
+import { DialogTypes } from '../utils';
 import { dynamicSize } from '../utils/responsive';
 import remoteConfig from '@react-native-firebase/remote-config';
+import { showDialog } from '../redux/actions/dialog';
+import { useDispatch } from 'react-redux';
 
 const AppUpdateScreen = () => {
+    const dispatch = useDispatch();
     const animationProgress = useRef(new Animated.Value(0));
     const appLink =
         Platform.OS === 'android'
@@ -38,12 +41,14 @@ const AppUpdateScreen = () => {
             Linking.openURL(appLink)
                 .then(data => {})
                 .catch(() => {
-                    showDialogBox(
-                        'Something Went Wrong',
-                        'Please Try Again!',
-                        'warning',
-                        'Ok',
-                        true,
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            titleText: 'Something Went Wrong',
+                            subTitleText: 'Please Try Again!',
+                            buttonText1: 'CLOSE',
+                            type: DialogTypes.ERROR,
+                        }),
                     );
                 });
         }

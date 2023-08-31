@@ -13,11 +13,6 @@ import { useSelector } from 'react-redux';
 import { dimensions, fonts, Styles } from '../../styles';
 import NotFound from '../../assets/icons/NotFound.svg';
 import { useNavigation } from '@react-navigation/native';
-import {
-    BASE_URL,
-    NETWORK_ERROR,
-    UNEXPECTED_ERROR,
-} from '../../redux/constants';
 import { isTimeInIntervals } from '../../utils';
 import { ErrorHandler } from '../../components/ErrorHandler/ErrorHandler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -45,13 +40,13 @@ const SearchAllDishes = props => {
                             </Text>
                         )}
                         {searchFoodItems &&
-                            searchFoodItems.length > 0 &&
+                            searchFoodItems?.length > 0 &&
                             searchFoodItems.map((restaurant, index) => {
                                 return (
                                     <RestaurantWithFoodItems
-                                        restaurant={restaurant.restaurant}
-                                        distance={restaurant.distance}
-                                        time={restaurant.time}
+                                        restaurant={restaurant?.restaurant}
+                                        distance={restaurant?.distance}
+                                        time={restaurant?.time}
                                         key={index}
                                         navigation={navigation}
                                     />

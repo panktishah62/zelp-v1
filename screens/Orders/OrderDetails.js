@@ -8,28 +8,39 @@ import {
 } from 'react-native';
 import OrderCardComponent from '../../components/Cards/Orders/OrderCardComponent';
 import OrderDetailsCard from '../../components/Cards/Orders/OrderDetailsCard';
-import { BASE_URL } from '../../redux/constants';
-import { dimensions } from '../../styles';
 import { colors } from '../../styles/colors';
-import { showDialogBox } from '../../utils';
+import { DialogTypes } from '../../utils';
 import BillDetails from '../../components/Cards/Orders/BillDetails';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { showDialog } from '../../redux/actions/dialog';
+import { getPaymentDetailsForUser } from '../../redux/services/paymentService';
 
 const OrderDetailsScreen = ({ route, navigation }) => {
+    const dispatch = useDispatch();
     const [payment, setPayment] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const cart = useSelector(state => state.cartActions);
 
     const { order, config } = route.params;
-    const getPaymentDetails = () => {
-        fetch(`${BASE_URL}/payments/getPaymentDetails/${order._id}`)
-            .then(response => response.json())
+    const getPaymentDetails = async () => {
+        await getPaymentDetailsForUser(order?._id)
+            .then(response => response?.data)
             .then(data => {
-                setPayment(data.payment);
-                setIsLoading(false);
+                if (data) {
+                    setPayment(data.payment);
+                    setIsLoading(false);
+                }
             })
             .catch(error =>
-                showDialogBox('', error.message, 'warning', 'OK', true),
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Something Went Wrong!',
+                        subTitleText: error?.message,
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.WARNING,
+                    }),
+                ),
             );
     };
 

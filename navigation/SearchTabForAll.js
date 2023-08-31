@@ -4,7 +4,6 @@ import { StyleSheet, Text } from 'react-native';
 import { dimensions, fonts } from '../styles';
 import { colors } from '../styles/colors';
 import { useDispatch } from 'react-redux';
-import { emptySearch } from '../redux/actions/search';
 import { sliceText } from '../utils';
 import SearchAllDishes from '../screens/Search/SearchAllDishes';
 import SearchAllRestaurants from '../screens/Search/SearchAllRestaurants';
@@ -14,10 +13,6 @@ const Tab = createMaterialTopTabNavigator();
 const SearchTabForAll = props => {
     const dispatch = useDispatch();
     const { searchFoodItems, searchRestaurants, location } = props;
-
-    const onBack = () => {
-        dispatch(emptySearch());
-    };
 
     return (
         <Tab.Navigator

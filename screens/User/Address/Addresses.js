@@ -13,9 +13,11 @@ import AddressCard from './AddressCard';
 import HeaderWithTitle from '../../../components/Header/HeaderWithTitle';
 import { useDispatch, useSelector } from 'react-redux';
 import EmptyAddresses from '../../../assets/icons/emptyAddresses.svg';
-import { hideDialogBox, showDialogBox } from '../../../utils';
+import { DialogTypes } from '../../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button_ } from '../../../components/Buttons/Button';
+import { getAllAddress } from '../../../redux/actions/address';
+import { hideDialog, showDialog } from '../../../redux/actions/dialog';
 
 const getFullAddress = (address, locality, pinCode, city, state) => {
     return `${address}, ${locality}, ${city} ${pinCode}, ${state}`;
@@ -25,39 +27,7 @@ const Addresses = ({ navigation }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const _addresses = useSelector(state => state.address.addresses);
     const _defaultAddress = useSelector(state => state.address.defaultAddress);
-    const [addresses, setAddresses] = useState([]);
-    const [selectedItem, setSelectedItem] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        setIsLoading(true);
-        const timeoutId = setTimeout(() => {
-            setAddresses(_addresses);
-            if (_defaultAddress && _defaultAddress._id) {
-                setSelectedItem(_defaultAddress._id);
-            } else {
-                setSelectedItem(null);
-            }
-            setIsLoading(false);
-        }, 500);
-
-        return () => clearTimeout(timeoutId);
-    }, [_addresses, _defaultAddress]);
-
-    useEffect(() => {
-        navigation.setOptions({
-            header: () => (
-                <HeaderWithTitle navigation={navigation} title={'Addresses'} />
-            ),
-        });
-
-        setAddresses(_addresses);
-        if (_defaultAddress && _defaultAddress._id) {
-            setSelectedItem(_defaultAddress._id);
-        } else {
-            setSelectedItem(null);
-        }
-    }, [navigation]);
 
     const isLoggedIn = async () => {
         try {
@@ -68,12 +38,19 @@ const Addresses = ({ navigation }) => {
                 setIsAuthenticated(false);
             }
         } catch (error) {
-            showDialogBox('', error.message, 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Something Went Wrong',
+                    subTitleText: error?.message,
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.ERROR,
+                }),
+            );
         }
     };
 
     onPressLogin = () => {
-        hideDialogBox();
         navigation.navigate('LogIn');
     };
 
@@ -81,9 +58,14 @@ const Addresses = ({ navigation }) => {
         isLoggedIn();
     }, []);
 
+    useEffect(() => {
+        setIsLoading(true);
+        dispatch(getAllAddress(() => setIsLoading(false)));
+    }, []);
+
     return (
         <View style={styles.container}>
-            {addresses && addresses.length && !isLoading ? (
+            {_addresses && _addresses.length > 0 && !isLoading && (
                 <ScrollView
                     contentContainerStyle={[
                         styles.shadowStyle,
@@ -98,9 +80,9 @@ const Addresses = ({ navigation }) => {
                         Select Address
                     </Text>
                     <View style={styles.AddressCard}>
-                        {addresses &&
-                            addresses.length > 0 &&
-                            addresses.map((address, index) => {
+                        {_addresses &&
+                            _addresses.length > 0 &&
+                            _addresses.map((address, index) => {
                                 return (
                                     <AddressCard
                                         key={index}
@@ -120,8 +102,6 @@ const Addresses = ({ navigation }) => {
                                         city={address.city}
                                         state={address.state}
                                         phoneNo={address.mobNo}
-                                        selectedItem={selectedItem}
-                                        setSelectedItem={setSelectedItem}
                                         geoLocation={
                                             address.geoLocation
                                                 ? address.geoLocation
@@ -133,24 +113,24 @@ const Addresses = ({ navigation }) => {
                                                 : ''
                                         }
                                         navigation={navigation}
+                                        setIsLoading={setIsLoading}
                                     />
                                 );
                             })}
                     </View>
                 </ScrollView>
-            ) : (
-                !isLoading && (
-                    <View style={styles.emptyImageContainer}>
-                        <EmptyAddresses />
-                        <Text
-                            style={[
-                                fonts.NUNITO_500_14,
-                                Styles.default_text_color,
-                            ]}>
-                            Add Addresses to see them here!
-                        </Text>
-                    </View>
-                )
+            )}
+            {(!_addresses || _addresses.length == 0) && !isLoading && (
+                <View style={styles.emptyImageContainer}>
+                    <EmptyAddresses />
+                    <Text
+                        style={[
+                            fonts.NUNITO_500_14,
+                            Styles.default_text_color,
+                        ]}>
+                        Add Addresses to see them here!
+                    </Text>
+                </View>
             )}
             {isLoading && (
                 <View style={[Styles.center, { flex: 1 }]}>
@@ -168,13 +148,18 @@ const Addresses = ({ navigation }) => {
                                     action: 'ADD',
                                 });
                             } else {
-                                showDialogBox(
-                                    'Please LogIn',
-                                    'You are not Logged In!',
-                                    'warning',
-                                    'Login',
-                                    true,
-                                    onPressLogin,
+                                dispatch(
+                                    showDialog({
+                                        isVisible: true,
+                                        titleText: 'Please LogIn',
+                                        subTitleText: 'You are not Logged In!',
+                                        buttonText1: 'LOGIN',
+                                        buttonFunction1: () => {
+                                            onPressLogin();
+                                            dispatch(hideDialog());
+                                        },
+                                        type: DialogTypes.WARNING,
+                                    }),
                                 );
                             }
                         }}

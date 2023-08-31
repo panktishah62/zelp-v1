@@ -31,11 +31,10 @@ const AddressCard = ({
     city,
     state,
     phoneNo,
-    selectedItem,
-    setSelectedItem,
     geoLocation,
     geoLocationSearch,
     navigation,
+    setIsLoading,
 }) => {
     const dispatch = useDispatch();
     const _defaultAddress = useSelector(state => state.address.defaultAddress);
@@ -50,14 +49,19 @@ const AddressCard = ({
         iconType = 'others';
     }
 
+    const afterSelectDefault = () => {
+        setIsLoading(false);
+        navigation.goBack();
+    };
+
     const iconName = iconNames[iconType];
 
     return (
         <TouchableOpacity
             style={[styles.cardContainer, styles.boxShadow, styles.elevation]}
             onPress={() => {
-                dispatch(setDefaultAddressTo(id));
-                navigation.goBack();
+                setIsLoading(true);
+                dispatch(setDefaultAddressTo(id, afterSelectDefault));
             }}>
             <View style={[Styles.row_space_between, styles.savedAddressCard]}>
                 <View style={[Styles.row]}>
@@ -124,8 +128,11 @@ const AddressCard = ({
                     <Text
                         style={styles.buttonStyle}
                         onPress={() => {
+                            setIsLoading(true);
                             dispatch(deleteAddress(id));
-                            dispatch(getDefaultAddress());
+                            dispatch(
+                                getDefaultAddress(() => setIsLoading(false)),
+                            );
                         }}>
                         DELETE
                     </Text>

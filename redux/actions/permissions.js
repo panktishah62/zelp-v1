@@ -33,6 +33,10 @@ export const checkPermission = () => {
                         },
                         error => {
                             dispatch({
+                                type: CHECK_LOCATION_PERMISSION,
+                                payload: NEVER_ASK_AGAIN,
+                            });
+                            dispatch({
                                 type: IS_LOCATION_ON,
                                 payload: false,
                             });
@@ -79,6 +83,10 @@ export const checkPermission = () => {
                         });
                     },
                     error => {
+                        dispatch({
+                            type: CHECK_LOCATION_PERMISSION,
+                            payload: NEVER_ASK_AGAIN,
+                        });
                         dispatch({
                             type: IS_LOCATION_ON,
                             payload: false,

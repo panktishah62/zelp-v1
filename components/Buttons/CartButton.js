@@ -6,17 +6,19 @@ import {
     TouchableWithoutFeedback,
     View,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ShoppingCartIcon from '../../assets/icons/ShoppingCart.svg';
 import ShoppingCartWhiteIcon from '../../assets/icons/ShoppingCartWhite.svg';
 import { fonts } from '../../styles';
 import { colors } from '../../styles/colors';
-import { showDialogBox } from '../../utils';
+import { DialogTypes } from '../../utils';
+import { showDialog } from '../../redux/actions/dialog';
 
 const CartButton = props => {
     const foodItemsCount = useSelector(
         state => state.cartActions.foodItemsCount,
     );
+    const dispatch = useDispatch();
     const [itemCountInCart, setItemCountInCart] = useState(0);
     const { navigation, color } = props;
 
@@ -30,12 +32,14 @@ const CartButton = props => {
                 if (foodItemsCount) {
                     navigation.navigate('Cart');
                 } else {
-                    showDialogBox(
-                        'Cart is Empty',
-                        'Please add some Items!',
-                        'warning',
-                        'Ok',
-                        true,
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            titleText: 'Cart is Empty',
+                            subTitleText: 'Please add some Items!',
+                            buttonText1: 'CLOSE',
+                            type: DialogTypes.WARNING,
+                        }),
                     );
                 }
             }}>

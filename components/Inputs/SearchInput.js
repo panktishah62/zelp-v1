@@ -29,7 +29,9 @@ const SearchInput = props => {
     return (
         <TouchableWithoutFeedback
             onPress={() => {
-                navigation.navigate('SearchStack');
+                if (navigation) {
+                    navigation.navigate('SearchStack');
+                }
             }}>
             <View style={[styles.container, { width: width }]}>
                 <View style={[styles.innerContainer, { width: width }]}>
@@ -38,8 +40,12 @@ const SearchInput = props => {
                         style={styles.textContainerStyle}
                         placeholder={placeholder}
                         onChangeText={_text => {
-                            setText(_text);
-                            onFocus();
+                            if (setText) {
+                                setText(_text);
+                            }
+                            if (onFocus) {
+                                onFocus();
+                            }
                         }}
                         placeholderTextColor={colors.GREY_MEDIUM}
                         keyboardType={keyboardType}
@@ -48,19 +54,22 @@ const SearchInput = props => {
                         onSubmitEditing={() => {
                             if (search) {
                                 search(text, params);
-                            } else {
+                            } else if (navigation) {
                                 navigation.navigate('SearchStack');
                             }
                         }}
-                        onPressIn={() =>
-                            !enableInput && navigation.navigate('SearchStack')
-                        }
+                        onPressIn={() => {
+                            if (navigation) {
+                                !enableInput &&
+                                    navigation.navigate('SearchStack');
+                            }
+                        }}
                     />
                     <TouchableOpacity
                         onPress={() => {
                             if (search) {
                                 search(text, params);
-                            } else {
+                            } else if (navigation) {
                                 navigation.navigate('SearchStack');
                             }
                         }}>

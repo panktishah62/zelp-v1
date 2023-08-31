@@ -49,12 +49,7 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <View style={[styles.container]}>
-            <Float
-                navigation={navigation}
-                locationPermission={locationPermission}
-                latitude={latitude}
-                longitude={longitude}
-            />
+            <Float />
             <ScrollView
                 style={[
                     styles.scrollView,

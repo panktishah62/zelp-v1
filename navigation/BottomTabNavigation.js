@@ -13,11 +13,10 @@ import HomeScreen from '../screens/Home/Home';
 import RestaurantsScreen from '../screens/Restaurants/Restaurants';
 import PostScreen from '../screens/Posts/Posts';
 import FoodAffairScreen from '../screens/FoodAffair/FoodAffair';
-import ShotsScreen from '../screens/Shots/Shots';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getCurrentOrder } from '../redux/actions/currentOrder';
-import { showDialogBox } from '../utils';
+import { DialogTypes } from '../utils';
 import { ErrorHandler } from '../components/ErrorHandler/ErrorHandler';
 import HeaderWithLocation from '../components/Header/HeaderWithLocation';
 import HeaderWithCart from '../components/Header/HeaderWithCart';
@@ -33,6 +32,7 @@ import {
     configureNotifications,
 } from '../utils/pushnotification_helper';
 import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
+import { showDialog } from '../redux/actions/dialog';
 
 const Tab = createBottomTabNavigator();
 
@@ -72,7 +72,15 @@ const BottomTabNavigation = ({ navigation }) => {
                 }
             });
         } catch (error) {
-            showDialogBox('', error.message, 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Something went wrong!',
+                    subTitleText: error?.message,
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.ERROR,
+                }),
+            );
         }
     };
     useEffect(() => {
@@ -138,7 +146,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             header: () => (
                                 <HeaderWithLocation navigation={navigation} />
                             ),
-                            unmountOnBlur: true,
+                            // unmountOnBlur: true,
                         }}
                         name="Home"
                         component={HomeScreen}

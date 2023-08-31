@@ -4,7 +4,7 @@ import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { hideDialogBox, showDialogBox } from '../../utils';
+import { DialogTypes } from '../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PlusOrange from '../../assets/icons/PlusOrange.svg';
 import PlusWhite from '../../assets/icons/PlusWhite.svg';
@@ -14,6 +14,7 @@ import {
     addItemToCart,
     removeItemFromCart,
 } from '../../redux/actions/cartActions';
+import { hideDialog, showDialog } from '../../redux/actions/dialog';
 
 const AddButton = props => {
     const dispatch = useDispatch();
@@ -31,27 +32,36 @@ const AddButton = props => {
     const [token, setToken] = useState(null);
 
     onPressLogin = () => {
-        hideDialogBox();
+        dispatch(hideDialog());
         navigation.navigate('LogIn');
     };
 
     const setCart = action => {
         if (currentOrder && currentOrder.cart) {
-            showDialogBox(
-                'Order in Progress',
-                'Your Current Order is in Progress, cannot add item to cart',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Order in Progress',
+                    subTitleText:
+                        'Your Current Order is in Progress, cannot add item to cart',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (token === null) {
-            showDialogBox(
-                'Please LogIn',
-                'You are not Logged In!',
-                'warning',
-                'Login',
-                true,
-                onPressLogin,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please LogIn',
+                    subTitleText: 'You are not Logged In!',
+                    buttonText1: 'CLOSE',
+                    buttonText2: 'LOGIN',
+                    buttonFunction2: () => {
+                        onPressLogin();
+                        dispatch(hideDialog());
+                    },
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else {
             switch (action) {
@@ -62,12 +72,15 @@ const AddButton = props => {
                         Object.keys(cart.restaurants).length === 3
                     ) {
                         if (!(restaurant._id in cart.restaurants)) {
-                            showDialogBox(
-                                'Your Cart is Full',
-                                'You can order from at max three restaurants at once, please remove items from any one restaurant to add this item.',
-                                'warning',
-                                'OK',
-                                false,
+                            dispatch(
+                                showDialog({
+                                    isVisible: true,
+                                    titleText: 'Your Cart is Full',
+                                    subTitleText:
+                                        'You can order from at max three restaurants at once, please remove items from any one restaurant to add this item.',
+                                    buttonText1: 'CLOSE',
+                                    type: DialogTypes.WARNING,
+                                }),
                             );
                             return;
                         }
@@ -92,7 +105,15 @@ const AddButton = props => {
                 setToken(_token);
             }
         } catch (error) {
-            showDialogBox('', error.message, 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Something Went Wrong!',
+                    subTitleText: error?.message,
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.ERROR,
+                }),
+            );
         }
     };
 

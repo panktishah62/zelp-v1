@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+    ActivityIndicator,
     Alert,
     Keyboard,
     Platform,
@@ -18,12 +19,14 @@ import AddressChip from './../../../components/Buttons/AddressChip';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch, useSelector } from 'react-redux';
 import { addAddress, editAddress } from '../../../redux/actions/address';
-import { phoneRegex, showDialogBox } from '../../../utils';
+import { DialogTypes, phoneRegex } from '../../../utils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { showDialog } from '../../../redux/actions/dialog';
 
 const AddressEditing = ({ navigation, route }) => {
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
+    const [isLoading, setIsLoading] = useState(false);
     const [keyboardHeight, setKeyboardHeight] = useState(0);
     const previousAddressData = route.params;
     const action = previousAddressData.action;
@@ -86,77 +89,115 @@ const AddressEditing = ({ navigation, route }) => {
         };
 
         if (!addressDetails.line1) {
-            showDialogBox('Please enter Address', '', 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter Address',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
         } else if (!addressDetails.phoneNumber) {
-            showDialogBox(
-                'Please enter Phone Number',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter Phone Number',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (!addressDetails.type) {
-            showDialogBox(
-                'Please enter Address Type',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter Address Type',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (!addressDetails.zipCode) {
-            showDialogBox('Please enter Zip Code', '', 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter Zip Code',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
         } else if (addressDetails.zipCode.length !== 6) {
-            showDialogBox(
-                'Zip Code not equal to 6 digits',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Zip Code not equal to 6 digits',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (addressDetails.phoneNumber.length !== 10) {
-            showDialogBox(
-                'Phone Number not equal to 10 digits',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText:
+                        'Enter Phone Number with valid length of digits!',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (!phoneRegex.test(addressDetails.phoneNumber)) {
-            showDialogBox(
-                'Not a valid Phone Number',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Not a valid Phone Number',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (!addressUrl) {
-            showDialogBox(
-                'Please enter Address Url',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter Address Url',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (!geoLocationSearch) {
-            showDialogBox(
-                'Please enter GeoLocation Search',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter GeoLocation Search',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (addressDetails.type === 'Others' && !otherName) {
-            showDialogBox(
-                'Please enter type of address',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter type of address',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else {
+            setIsLoading(true);
             switch (action) {
                 case 'ADD':
-                    dispatch(addAddress(dataToPost, navigation));
+                    dispatch(
+                        addAddress(dataToPost, navigation, () =>
+                            setIsLoading(false),
+                        ),
+                    );
                     break;
                 case 'EDIT':
                     dispatch(
@@ -164,10 +205,12 @@ const AddressEditing = ({ navigation, route }) => {
                             dataToPost,
                             previousAddressData.id,
                             navigation,
+                            () => setIsLoading(false),
                         ),
                     );
                     break;
                 default:
+                    setIsLoading(false);
                     break;
             }
             // navigation.goBack();
@@ -215,154 +258,167 @@ const AddressEditing = ({ navigation, route }) => {
 
     return (
         <View style={styles.mainContainer}>
-            <KeyboardAwareScrollView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                contentContainerStyle={{ height: dimensions.fullHeight }}
-                showsVerticalScrollIndicator={false}>
-                {/* <HeaderWithTitle navigation={navigation} title={'Address'} /> */}
-                {/* Address Editing Form */}
-                <View style={styles.formContainerInner}>
-                    <View style={styles.infoTextContainer}>
-                        <Text style={styles.infoTextStyle}>
-                            Help the delivery agent to deliver faster with
-                            detailed address
-                        </Text>
-                    </View>
-                    <SelectLocationBtn
-                        navigation={navigation}
-                        addressUrl={addressUrl}
-                        setAddressUrl={url => setAddressUrl(url)}
-                        geoLocationSearch={geoLocationSearch}
-                        setGeoLocationSearch={setGeoLocationSearch}
-                        navigateTo={'SelectLocation'}
-                    />
-                    <TextInput_
-                        text={addressDetails.line1}
-                        setText={value =>
-                            setAddressDetails({
-                                ...addressDetails,
-                                line1: value,
-                            })
-                        }
-                        focused={focus === 1}
-                        setFocus={() => setFocus(1)}
-                        setBlur={() => setBlur()}
-                        placeholder={'Address Line 1 ( Street, Area)*'}
-                    />
-                    <TextInput_
-                        text={addressDetails.line2}
-                        setText={value =>
-                            setAddressDetails({
-                                ...addressDetails,
-                                line2: value,
-                            })
-                        }
-                        focused={focus === 2}
-                        setFocus={() => setFocus(2)}
-                        setBlur={() => setBlur()}
-                        placeholder={'Address Line 2 (House No, Building)'}
-                    />
-                    <TextInput_
-                        text={addressDetails.zipCode}
-                        setText={value =>
-                            setAddressDetails({
-                                ...addressDetails,
-                                zipCode: value,
-                            })
-                        }
-                        focused={focus === 3}
-                        setFocus={() => setFocus(3)}
-                        setBlur={() => setBlur()}
-                        keyboardType={'numeric'}
-                        placeholder={'Zip/Postal Code*'}
-                        maxLength={6}
-                    />
+            {!isLoading && (
+                <KeyboardAwareScrollView
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    contentContainerStyle={{ height: dimensions.fullHeight }}
+                    showsVerticalScrollIndicator={false}>
+                    {/* <HeaderWithTitle navigation={navigation} title={'Address'} /> */}
+                    {/* Address Editing Form */}
+                    <View style={styles.formContainerInner}>
+                        <View style={styles.infoTextContainer}>
+                            <Text style={styles.infoTextStyle}>
+                                Help the delivery agent to deliver faster with
+                                detailed address
+                            </Text>
+                        </View>
+                        <SelectLocationBtn
+                            navigation={navigation}
+                            addressUrl={addressUrl}
+                            setAddressUrl={url => setAddressUrl(url)}
+                            geoLocationSearch={geoLocationSearch}
+                            setGeoLocationSearch={setGeoLocationSearch}
+                            navigateTo={'SelectLocation'}
+                        />
+                        <TextInput_
+                            text={addressDetails.line1}
+                            setText={value =>
+                                setAddressDetails({
+                                    ...addressDetails,
+                                    line1: value,
+                                })
+                            }
+                            focused={focus === 1}
+                            setFocus={() => setFocus(1)}
+                            setBlur={() => setBlur()}
+                            placeholder={'Address Line 1 ( Street, Area)*'}
+                        />
+                        <TextInput_
+                            text={addressDetails.line2}
+                            setText={value =>
+                                setAddressDetails({
+                                    ...addressDetails,
+                                    line2: value,
+                                })
+                            }
+                            focused={focus === 2}
+                            setFocus={() => setFocus(2)}
+                            setBlur={() => setBlur()}
+                            placeholder={'Address Line 2 (House No, Building)'}
+                        />
+                        <TextInput_
+                            text={addressDetails.zipCode}
+                            setText={value =>
+                                setAddressDetails({
+                                    ...addressDetails,
+                                    zipCode: value,
+                                })
+                            }
+                            focused={focus === 3}
+                            setFocus={() => setFocus(3)}
+                            setBlur={() => setBlur()}
+                            keyboardType={'numeric'}
+                            placeholder={'Zip/Postal Code*'}
+                            maxLength={6}
+                        />
 
-                    <TextInput_
-                        text={addressDetails.phoneNumber}
-                        setText={value =>
-                            setAddressDetails({
-                                ...addressDetails,
-                                phoneNumber: value,
-                            })
-                        }
-                        focused={focus === 4}
-                        setFocus={() => setFocus(4)}
-                        setBlur={() => setBlur()}
-                        keyboardType={'numeric'}
-                        placeholder={'Phone Number*'}
-                        maxLength={10}
-                    />
+                        <TextInput_
+                            text={addressDetails.phoneNumber}
+                            setText={value =>
+                                setAddressDetails({
+                                    ...addressDetails,
+                                    phoneNumber: value,
+                                })
+                            }
+                            focused={focus === 4}
+                            setFocus={() => setFocus(4)}
+                            setBlur={() => setBlur()}
+                            keyboardType={'numeric'}
+                            placeholder={'Phone Number*'}
+                            maxLength={10}
+                        />
 
-                    {/* Address Type Container */}
-                    <View style={styles.textAreaContainerStyle}>
-                        <Text style={styles.textAreaLabelStyle}>Save As</Text>
-                        <View style={styles.addressTypeContainer}>
-                            {addressType.map((address, index) => {
-                                if (
-                                    address.name === 'Others' &&
-                                    selectedAddress === 'Others'
-                                ) {
-                                    return (
-                                        <View style={[Styles.row]} key={index}>
+                        {/* Address Type Container */}
+                        <View style={styles.textAreaContainerStyle}>
+                            <Text style={styles.textAreaLabelStyle}>
+                                Save As
+                            </Text>
+                            <View style={styles.addressTypeContainer}>
+                                {addressType.map((address, index) => {
+                                    if (
+                                        address.name === 'Others' &&
+                                        selectedAddress === 'Others'
+                                    ) {
+                                        return (
+                                            <View
+                                                style={[Styles.row]}
+                                                key={index}>
+                                                <AddressChip
+                                                    key={index}
+                                                    addressType={address.name}
+                                                    selected={address.selected}
+                                                    setSelected={setSelected}
+                                                />
+                                                <TextInput
+                                                    style={[
+                                                        {
+                                                            borderColor:
+                                                                focus === 6
+                                                                    ? colors.ORANGE
+                                                                    : colors.GREY_BORDER,
+                                                        },
+                                                        styles.addressNameStyle,
+                                                    ]}
+                                                    value={otherName}
+                                                    onChangeText={value => {
+                                                        setAddressName(value);
+                                                        setOtherName(value);
+                                                    }}
+                                                    placeholder="Name of the Address"
+                                                    onFocus={() => {
+                                                        setFocus(6);
+                                                    }}
+                                                    onBlur={() => {
+                                                        setBlur(false);
+                                                    }}
+                                                />
+                                            </View>
+                                        );
+                                    } else {
+                                        return (
                                             <AddressChip
                                                 key={index}
                                                 addressType={address.name}
                                                 selected={address.selected}
                                                 setSelected={setSelected}
                                             />
-                                            <TextInput
-                                                style={[
-                                                    {
-                                                        borderColor:
-                                                            focus === 6
-                                                                ? colors.ORANGE
-                                                                : colors.GREY_BORDER,
-                                                    },
-                                                    styles.addressNameStyle,
-                                                ]}
-                                                value={otherName}
-                                                onChangeText={value => {
-                                                    setAddressName(value);
-                                                    setOtherName(value);
-                                                }}
-                                                placeholder="Name of the Address"
-                                                onFocus={() => {
-                                                    setFocus(6);
-                                                }}
-                                                onBlur={() => {
-                                                    setBlur(false);
-                                                }}
-                                            />
-                                        </View>
-                                    );
-                                } else {
-                                    return (
-                                        <AddressChip
-                                            key={index}
-                                            addressType={address.name}
-                                            selected={address.selected}
-                                            setSelected={setSelected}
-                                        />
-                                    );
-                                }
-                            })}
+                                        );
+                                    }
+                                })}
+                            </View>
                         </View>
                     </View>
+                </KeyboardAwareScrollView>
+            )}
+            {!isLoading && (
+                <View
+                    style={[
+                        styles.btnPosStyle,
+                        { bottom: Platform.OS === 'ios' ? keyboardHeight : 0 },
+                    ]}>
+                    <View style={Styles.center}>
+                        <Button_
+                            text={'Save Address'}
+                            onClick={e => handleSubmit(e)}
+                        />
+                    </View>
                 </View>
-            </KeyboardAwareScrollView>
-            <View
-                style={[
-                    styles.btnPosStyle,
-                    { bottom: Platform.OS === 'ios' ? keyboardHeight : 0 },
-                ]}>
-                <View style={Styles.center}>
-                    <Button_
-                        text={'Save Address'}
-                        onClick={e => handleSubmit(e)}
-                    />
+            )}
+            {isLoading && (
+                <View style={[Styles.center, { flex: 1 }]}>
+                    <ActivityIndicator size={32} color={colors.ORANGE} />
                 </View>
-            </View>
+            )}
         </View>
     );
 };

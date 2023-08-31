@@ -1,7 +1,7 @@
-import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import { PermissionsAndroid } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import uuid from 'react-native-uuid';
+import { isPointWithinRadius } from 'geolib';
 
 export const emailRegex =
     /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -107,47 +107,20 @@ export function isTimeInRange(time, interval) {
 
 export function isTimeInIntervals(timeIntervals) {
     const currentTime = new Date();
-    const isInInterval = timeIntervals.some(interval =>
-        isTimeInRange(currentTime, interval),
-    );
-    return isInInterval;
+    if (timeIntervals) {
+        const isInInterval = timeIntervals.some(interval =>
+            isTimeInRange(currentTime, interval),
+        );
+        return isInInterval;
+    } else {
+        return false;
+    }
 }
 
 export const GreyColorMatrix = [
     0.33, 0.33, 0.33, 0, 0, 0.33, 0.33, 0.33, 0, 0, 0.33, 0.33, 0.33, 0, 0, 0,
     0, 0, 1, 0,
 ];
-
-export const hideDialogBox = () => {
-    return Dialog.hide();
-};
-
-export const showDialogBox = (
-    title,
-    message,
-    type,
-    buttonText,
-    closeOnOverlay,
-    onPressButton,
-) => {
-    type = type.toLowerCase();
-    let dialogType = '';
-    if (type === 'warning') {
-        dialogType = ALERT_TYPE.WARNING;
-    } else if (type === 'success') {
-        dialogType = ALERT_TYPE.SUCCESS;
-    } else if (type === 'danger') {
-        dialogType = ALERT_TYPE.DANGER;
-    }
-    return Dialog.show({
-        type: dialogType,
-        title: title || 'Something went wrong!!',
-        textBody: message,
-        button: buttonText,
-        closeOnOverlayTap: closeOnOverlay,
-        onPressButton: onPressButton ? onPressButton : hideDialogBox,
-    });
-};
 
 export const GRANTED = 'granted';
 export const NEVER_ASK_AGAIN = 'never_ask_again';
@@ -223,3 +196,35 @@ export function rangeToArray(range) {
 
     return Array.from({ length: end - start + 1 }, (_, index) => start + index);
 }
+
+export function isPointInRadius(
+    latitudeUser,
+    longitudeUser,
+    restaurantLatitude,
+    restaurantLongitude,
+    serviceableRadius,
+) {
+    try {
+        const isInRadius = isPointWithinRadius(
+            {
+                latitude: Number(latitudeUser),
+                longitude: Number(longitudeUser),
+            },
+            {
+                latitude: Number(restaurantLatitude),
+                longitude: Number(restaurantLongitude),
+            },
+            serviceableRadius * 1000,
+        );
+        return isInRadius;
+    } catch (error) {
+        return false;
+    }
+}
+
+export const DialogTypes = {
+    DEFAULT: 'DEFAULT',
+    SUCCESS: 'SUCCESS',
+    WARNING: 'WARNING',
+    ERROR: 'ERROR',
+};

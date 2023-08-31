@@ -14,12 +14,13 @@ import { colors } from '../../styles/colors';
 import DishesWithCategoryHeading from '../../components/Restaurant/DishWithCategory';
 import RestaurantCardInfo from '../../components/Restaurant/RestaurantCardInfo';
 import { useDispatch, useSelector } from 'react-redux';
-import { BASE_URL } from '../../redux/constants';
 import { LiveTrackingContainer } from '../../components/TrackOrder/LiveTrackingContainer';
 import { useIsFocused } from '@react-navigation/native';
-import { showDialogBox } from '../../utils';
+import { DialogTypes } from '../../utils';
 import MenuButton from '../../components/Buttons/MenuButton';
 import Menu from '../../components/Restaurant/Menu';
+import { showDialog } from '../../redux/actions/dialog';
+import { getAllFoodItems } from '../../redux/services/foodItemsService';
 
 const RestaurantWithMenu = ({ route, navigation }) => {
     const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const RestaurantWithMenu = ({ route, navigation }) => {
     const scrollViewRef = useRef();
 
     const handleButtonPress = index => {
-        scrollViewRef.current.scrollTo({
+        scrollViewRef?.current?.scrollTo({
             y: index,
             animated: true,
         });
@@ -50,19 +51,19 @@ const RestaurantWithMenu = ({ route, navigation }) => {
         setMenuData([]);
     };
 
-    const getFoodItems = () => {
-        fetch(`${BASE_URL}/foodItems/getFoodItems/${restaurant._id}`)
-            .then(response => response.json())
+    const getFoodItems = async () => {
+        await getAllFoodItems(restaurant?._id)
+            .then(response => response?.data)
             .then(data => {
                 const categories = new Set();
                 const foodItemsWithCategory = [];
-                if (data && data.foodItems) {
-                    data.foodItems.forEach(dishes => {
+                if (data && data?.foodItems) {
+                    data?.foodItems?.forEach(dishes => {
                         const items = [];
-                        dishes.category.forEach(dishDetail => {
+                        dishes?.category.forEach(dishDetail => {
                             if (
-                                dishDetail.category &&
-                                dishDetail.category.name
+                                dishDetail?.category &&
+                                dishDetail?.category.name
                             ) {
                                 categories.add(dishDetail.category.name);
                                 items.push(dishDetail);
@@ -76,7 +77,15 @@ const RestaurantWithMenu = ({ route, navigation }) => {
                 setIsLoading(false);
             })
             .catch(error =>
-                showDialogBox('', error.message, 'warning', 'OK', true),
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Something Went Wrong!',
+                        subTitleText: error?.message,
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.ERROR,
+                    }),
+                ),
             );
     };
 
@@ -129,7 +138,7 @@ const RestaurantWithMenu = ({ route, navigation }) => {
                     <View style={styles.menuContainer}>
                         {categoryItems.map((categoryItem, index) => {
                             const dishItems = vegOnly
-                                ? categoryItem.filter(dish => {
+                                ? categoryItem?.filter(dish => {
                                       return dish.isVeg;
                                   })
                                 : categoryItem;
@@ -148,7 +157,7 @@ const RestaurantWithMenu = ({ route, navigation }) => {
                                     }}>
                                     <DishesWithCategoryHeading
                                         categoryHeading={categories[index]}
-                                        categoryCount={dishItems.length}
+                                        categoryCount={dishItems?.length}
                                         dishData={dishItems}
                                         restaurant={restaurant}
                                     />

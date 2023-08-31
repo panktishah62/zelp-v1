@@ -14,10 +14,12 @@ import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
 import { Button_ } from '../../components/Buttons/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { reSendOTP, verifyOTP } from '../../redux/actions/auth';
-import { showDialogBox } from './../../utils/index';
+import { verifyOTP } from '../../redux/actions/auth';
+import { DialogTypes } from './../../utils/index';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Share from 'react-native-share';
+import { showDialog } from '../../redux/actions/dialog';
+import { resendOTP } from '../../redux/services/authService';
 
 const ReverseTimer = ({ number, startTime = 60 }) => {
     const dispatch = useDispatch();
@@ -43,8 +45,8 @@ const ReverseTimer = ({ number, startTime = 60 }) => {
         return () => clearInterval(interval);
     }, [seconds, minutes]);
 
-    const restartTimer = () => {
-        dispatch(reSendOTP(number));
+    const restartTimer = async () => {
+        await resendOTP({ mobNo: number });
         setSeconds(60);
         setMinutes(0);
         setTimerEnded(false);
@@ -110,14 +112,24 @@ const OTPVerificationScreen = ({ route, navigation }) => {
 
     const onSubmit = () => {
         if (!number) {
-            showDialogBox('Please enter OTP', '', 'warning', 'OK', true);
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please enter OTP',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
         } else if (number.length !== 4) {
-            showDialogBox(
-                'OTP not equal to 4 digits',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'OTP not equal to 4 digits',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else {
             handleLogin();

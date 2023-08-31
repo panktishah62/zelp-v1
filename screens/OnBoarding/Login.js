@@ -19,8 +19,9 @@ import { Button_ } from '../../components/Buttons/Button';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/actions/auth';
 import TextInput_ from './../../components/Inputs/TextInput';
-import { phoneRegex, showDialogBox } from '../../utils';
+import { DialogTypes, phoneRegex } from '../../utils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { showDialog } from '../../redux/actions/dialog';
 
 const LoginScreen = ({ navigation }) => {
     const insets = useSafeAreaInsets();
@@ -51,28 +52,35 @@ const LoginScreen = ({ navigation }) => {
 
     const onSubmit = () => {
         if (!phonenumber) {
-            showDialogBox(
-                'Phone Number cannot be blank',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Phone Number cannot be blank',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (phonenumber.length !== 10) {
-            showDialogBox(
-                'Phone Number not equal to 10',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText:
+                        'Enter Phone Number with valid length of digits!',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (!phoneRegex.test(phonenumber)) {
-            showDialogBox(
-                'Not a valid Phone Number',
-                '',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Not a valid Phone Number',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else {
             handleLogin();
@@ -225,7 +233,8 @@ const LoginScreen = ({ navigation }) => {
                                     </Text>
                                     <TouchableOpacity
                                         onPress={() => {
-                                            navigation.goBack();
+                                            // navigation.goBack();
+                                            navigation.navigate('SignUp');
                                         }}>
                                         <Text
                                             style={[

@@ -38,6 +38,7 @@ const ShotClassScreen = props => {
     const [appStateVisible, setAppStateVisible] = useState(
         appState.current === 'active',
     );
+    const location = useSelector(state => state.address.location);
     const dispatch = useDispatch();
     const [activeVideoIndex, setActiveVideoIndex] = useState(0);
     const [videosData, setVideoData] = useState([]);
@@ -168,7 +169,7 @@ const ShotClassScreen = props => {
     };
     useEffect(() => {
         isLoggedIn();
-    }, [isAuthenticated]);
+    }, [isAuthenticated, location?.latitude]);
 
     const onViewRef = useRef(({ viewableItems }) => {
         viewableItems.forEach(item => {

@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     ADD_ITEM_TO_CART,
     APPLY_WALLET_MONEY,
-    BASE_URL,
     CALCULATE_TOTAL,
     CART_ACTIONS_ERROR,
     CHANGE_CART_ADDRESS,
@@ -15,8 +14,10 @@ import {
     RESET_CART_ACTIONS,
     RESET_CART_ERROR,
 } from '../constants';
-import { paymentInitiated } from './payments';
 import { ADD_TO_CART_FOR_REORDER } from '../constants';
+import { DialogTypes } from '../../utils';
+import { showDialog } from './dialog';
+import { getOrderDetails } from '../services/orderService';
 
 export const addItemToCart = (foodItem, restaurant) => {
     return dispatch => {
@@ -86,86 +87,36 @@ export const changeCartAddress = address => {
     };
 };
 
-export const createCart = (cart, navigation) => {
+export const addToCartForReorder = (orderId, fun) => {
     return async dispatch => {
-        const API_URL = `${BASE_URL}/orders/placeOrderByCart`;
-
-        AsyncStorage.getItem('token')
-            .then(authToken => {
-                return fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                    body: JSON.stringify({
-                        cart,
-                    }),
-                });
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(response.error);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.cart) {
-                    dispatch(
-                        paymentInitiated(
-                            data.cart._id,
-                            cart.address._id,
-                            navigation,
-                        ),
-                    );
-                    dispatch(resetCartActions());
-                }
-            })
-            .catch(error => {
-                dispatch({
-                    type: CART_ACTIONS_ERROR,
-                    payload: error,
-                });
-            });
-    };
-};
-
-export const addToCartForReorder = orderId => {
-    return async dispatch => {
-        const API_URL = `${BASE_URL}/orders/getOrderDetails/${orderId}`;
-
         try {
             const token = await AsyncStorage.getItem('token');
             if (!token) {
-                showDialogBox(
-                    'Not logged in',
-                    'You are not logged in, Please log in',
-                    'danger',
-                    'OK',
-                    true,
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Not logged in',
+                        subTitleText: 'You are not logged in, Please log in',
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.WARNING,
+                    }),
                 );
             } else {
-                const response = await fetch(API_URL, {
-                    method: 'GET',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                if (!response.ok) {
-                    throw Error(NETWORK_ERROR);
-                }
-                const data = await response.json();
-                if (data.order && data.order._id) {
-                    dispatch({
-                        type: ADD_TO_CART_FOR_REORDER,
-                        payload: data.order,
+                await getOrderDetails({ orderId })
+                    .then(response => response?.data)
+                    .then(data => {
+                        if (data && data.order && data.order._id) {
+                            dispatch({
+                                type: ADD_TO_CART_FOR_REORDER,
+                                payload: data.order,
+                            });
+                            if (fun) {
+                                fun();
+                            }
+                        } else {
+                            throw Error('Server Error!');
+                        }
                     });
-                } else {
-                    throw Error('Server Error!');
-                }
             }
         } catch (error) {
             dispatch({

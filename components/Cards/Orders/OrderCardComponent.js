@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Alert, Platform } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Alert,
+    Platform,
+    ActivityIndicator,
+} from 'react-native';
 import VegIcon from '../../../assets/icons/VegIcon.svg';
 import NonVegIcon from '../../../assets/icons/nonveg.svg';
-import { showDialogBox, sliceText } from '../../../utils';
+import { DialogTypes, sliceText } from '../../../utils';
 import { dimensions, fonts, Styles } from '../../../styles';
 import { colors } from '../../../styles/colors';
 import Rupee from '../../../assets/icons/rupee.svg';
 import { format, parseISO } from 'date-fns';
 import { PrimarySmallButton } from '../../Buttons/PrimarySmallButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import {
     addToCartForReorder,
     resetCartActions,
 } from '../../../redux/actions/cartActions';
-import { hideDialogBox } from '../../../utils';
+import { hideDialog, showDialog } from '../../../redux/actions/dialog';
 
 const FoodItemField = props => {
     let { foodItem, navigation } = props;
@@ -52,6 +58,7 @@ const OrderCardComponent = props => {
     const dispatch = useDispatch();
     const myCart = useSelector(state => state.cartActions);
     const currentOrder = useSelector(state => state.currentOrder.currentOrder);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [statusColor, setStatusColor] = useState(
         order.orderStatus
@@ -63,93 +70,127 @@ const OrderCardComponent = props => {
 
     const reorderCart = () => {
         if (myCart && myCart.restaurants) {
-            Dialog.show({
-                type: ALERT_TYPE.WARNING,
-                title: 'Your Cart is not empty',
-                textBody: 'Empty your cart to reorder?',
-                button: 'Empty Cart',
-                closeOnOverlayTap: true,
-                onPressButton: () => {
-                    dispatch(resetCartActions());
-                    dispatch(addToCartForReorder(order._id));
-                    hideDialogBox();
-                    navigation.navigate('Cart');
-                },
-            });
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Your Cart is not empty',
+                    subTitleText: 'Empty your cart to reorder?',
+                    buttonText1: 'Empty Cart',
+                    buttonFunction1: () => {
+                        setIsLoading(true);
+                        dispatch(resetCartActions());
+                        dispatch(
+                            addToCartForReorder(order._id, () => {
+                                navigation.navigate('Cart');
+                                setIsLoading(false);
+                            }),
+                        );
+                        dispatch(hideDialog());
+                    },
+                    type: DialogTypes.WARNING,
+                }),
+            );
         } else if (currentOrder && currentOrder._id) {
-            showDialogBox(
-                'Order in progress',
-                'Your Current Order is in Progress, cannot add item to cart',
-                'warning',
-                'OK',
-                true,
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Order in progress',
+                    subTitleText:
+                        'Your Current Order is in Progress, cannot add item to cart',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
         } else if (order && order.cart && order.cart._id) {
-            dispatch(addToCartForReorder(order._id));
-            navigation.navigate('Cart');
+            setIsLoading(true);
+            dispatch(
+                addToCartForReorder(order._id, () => {
+                    navigation.navigate('Cart');
+                    setIsLoading(false);
+                }),
+            );
         }
     };
     return (
-        <View style={styles.mainContainer}>
-            <View style={styles.foodItemContainer}>
-                {order.cart &&
-                    order.cart.foodItems &&
-                    order.cart.foodItems.map((foodItem, index) => {
-                        return (
-                            <View key={index}>
-                                <FoodItemField
-                                    foodItem={foodItem}
-                                    navigation={navigation}
-                                />
-                            </View>
-                        );
-                    })}
-            </View>
-            <View style={[styles.container, styles.dateContainer]}>
-                {order.createdAt && (
-                    <Text style={Styles.default_text_color}>
-                        {getFormattedDate(order.createdAt)}
-                    </Text>
-                )}
-                {order.cart && order.cart._id && (
-                    <View style={Styles.row_flex_start}>
-                        <Rupee />
-                        <Text style={Styles.default_text_color}>
-                            {' '}
-                            {order.cart.totalAmount}
-                        </Text>
+        <>
+            {!isLoading && (
+                <View style={styles.mainContainer}>
+                    <View style={styles.foodItemContainer}>
+                        {order.cart &&
+                            order.cart.foodItems &&
+                            order.cart.foodItems.map((foodItem, index) => {
+                                return (
+                                    <View key={index}>
+                                        <FoodItemField
+                                            foodItem={foodItem}
+                                            navigation={navigation}
+                                        />
+                                    </View>
+                                );
+                            })}
                     </View>
-                )}
-            </View>
-            <View
-                style={[Styles.row_space_between, styles.totalAmountContainer]}>
-                {order.orderStatus && (
-                    <Text style={[{ color: statusColor }, styles.statusText]}>
-                        {order.orderStatus}
-                    </Text>
-                )}
-                <View style={Styles.row}>
-                    {canReOrder && (
-                        <PrimarySmallButton
-                            text={'Reorder'}
-                            onClick={() => {
-                                reorderCart();
-                            }}
-                        />
-                    )}
-                    {canReOrder && !isOrderDetail && (
-                        <PrimarySmallButton
-                            text={'View Info'}
-                            onClick={() => {
-                                navigation.navigate('OrderDetailsScreen', {
-                                    order: order,
-                                });
-                            }}
-                        />
-                    )}
+                    <View style={[styles.container, styles.dateContainer]}>
+                        {order.createdAt && (
+                            <Text style={Styles.default_text_color}>
+                                {getFormattedDate(order.createdAt)}
+                            </Text>
+                        )}
+                        {order.cart && order.cart._id && (
+                            <View style={Styles.row_flex_start}>
+                                <Rupee />
+                                <Text style={Styles.default_text_color}>
+                                    {' '}
+                                    {order.cart.totalAmount}
+                                </Text>
+                            </View>
+                        )}
+                    </View>
+                    <View
+                        style={[
+                            Styles.row_space_between,
+                            styles.totalAmountContainer,
+                        ]}>
+                        {order.orderStatus && (
+                            <Text
+                                style={[
+                                    { color: statusColor },
+                                    styles.statusText,
+                                ]}>
+                                {order.orderStatus}
+                            </Text>
+                        )}
+                        <View style={Styles.row}>
+                            {canReOrder && (
+                                <PrimarySmallButton
+                                    text={'Reorder'}
+                                    onClick={() => {
+                                        reorderCart();
+                                    }}
+                                />
+                            )}
+                            {canReOrder && !isOrderDetail && (
+                                <PrimarySmallButton
+                                    text={'View Info'}
+                                    onClick={() => {
+                                        navigation.navigate(
+                                            'OrderDetailsScreen',
+                                            {
+                                                order: order,
+                                            },
+                                        );
+                                    }}
+                                />
+                            )}
+                        </View>
+                    </View>
                 </View>
-            </View>
-        </View>
+            )}
+            {isLoading && (
+                <View style={styles.activityIndicator}>
+                    <ActivityIndicator color={colors.ORANGE} size={32} />
+                </View>
+            )}
+        </>
     );
 };
 
@@ -221,6 +262,13 @@ const styles = StyleSheet.create({
     },
     statusText: {
         ...fonts.NUNITO_800_12,
+    },
+    activityIndicator: {
+        height: dimensions.fullHeight,
+        width: dimensions.fullWidth,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.WHITE,
     },
 });
 export default OrderCardComponent;

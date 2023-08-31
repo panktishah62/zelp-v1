@@ -18,7 +18,8 @@ import {
     removeWalletMoney,
 } from '../../../redux/actions/cartActions';
 import { canApplyWallet } from '../../../redux/services/cartService';
-import { showDialogBox } from '../../../utils';
+import { DialogTypes } from '../../../utils';
+import { showDialog } from '../../../redux/actions/dialog';
 
 const WalletMoney = props => {
     const { setIsLoading, moneyInWallet, config } = props;
@@ -34,20 +35,26 @@ const WalletMoney = props => {
             setIsActive(false);
         } else {
             if (cart?.coupon && cart?.coupon?._id) {
-                showDialogBox(
-                    'Cannot apply wallet!',
-                    'Wallet Cannot be applied along with coupon. Remove coupon to apply wallet',
-                    'warning',
-                    'OK',
-                    true,
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Cannot apply wallet!',
+                        subTitleText:
+                            'Wallet Cannot be applied along with coupon. Remove coupon to apply wallet',
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.WARNING,
+                    }),
                 );
             } else if (remainingMoneyInWallet < config.maxWalletMoneyToUse) {
-                showDialogBox(
-                    `Wallet dosen't have enough amount!`,
-                    'Earn Wallet money by watching shots and referring the app to your friends and family!',
-                    'warning',
-                    'OK',
-                    true,
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: `Wallet dosen't have enough amount!`,
+                        subTitleText:
+                            'Earn Wallet money by watching shots and referring the app to your friends and family!',
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.WARNING,
+                    }),
                 );
             } else {
                 setIsLoading(true);

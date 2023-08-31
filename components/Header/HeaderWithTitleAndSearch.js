@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import BackButton from '../../assets/icons/chevron-left.svg';
-import { resetSearch } from '../../redux/actions/search';
 import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
 import SearchInput from '../Inputs/SearchInput';
@@ -18,6 +17,7 @@ const HeaderWithTitleAndSearch = props => {
         title,
         onBack,
         search,
+        onFocus,
     } = props;
 
     const dispatch = useDispatch();
@@ -31,10 +31,6 @@ const HeaderWithTitleAndSearch = props => {
             setLongitude(location.longitude);
         }
     }, [location]);
-
-    const onFocus = () => {
-        dispatch(resetSearch());
-    };
 
     const insets = useSafeAreaInsets();
 
@@ -62,7 +58,10 @@ const HeaderWithTitleAndSearch = props => {
                 <SearchInput
                     text={text}
                     setText={setText}
-                    params={{ latitude, longitude }}
+                    params={{
+                        latitude: location?.latitude,
+                        longitude: location?.longitude,
+                    }}
                     placeholder="Search Food, Restaurants"
                     keyboardType={'default'}
                     width={dimensions.fullWidth * 0.9}

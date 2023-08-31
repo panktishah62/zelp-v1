@@ -10,17 +10,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ErrorHandler } from '../../components/ErrorHandler/ErrorHandler';
 import HeaderWithTitleAndSearch from '../../components/Header/HeaderWithTitleAndSearch';
 import SearchTabForAll from '../../navigation/SearchTabForAll';
-import {
-    BASE_URL,
-    NETWORK_ERROR,
-    UNEXPECTED_ERROR,
-} from '../../redux/constants';
+import { UNEXPECTED_ERROR } from '../../redux/constants';
 import { GRANTED, isPointInPolygon, isTimeInIntervals } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
 import LocationPermission from '../../components/Buttons/LocationPermission';
-import { emptySearch } from '../../redux/actions/search';
 import { colors } from '../../styles/colors';
 import { dimensions, fonts, Styles } from '../../styles';
+import {
+    searchFoodItemByRestaurants,
+    searchRestaurants_,
+} from '../../redux/services/restaurantService';
 
 const SearchDishesAndRestaurants = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -38,25 +37,15 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
     const [searchedRestaurants, setSearchedRestaurants] = useState([]);
     const locationCoordinates = useSelector(state => state.address.location);
 
-    const SearchFoodItems = async text_ => {
+    const SearchFoodItems = async (text_, location) => {
         try {
             // perform search for food items with the given query
-            const results = await fetch(
-                `${BASE_URL}/restaurants/searchFoodItemByRestaurantsWithDistanceTiming/${text_}/${location.latitude}/${location.longitude}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                },
+            await searchFoodItemByRestaurants(
+                text_,
+                location?.latitude,
+                location?.longitude,
             )
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(NETWORK_ERROR);
-                    }
-                    return response.json();
-                })
+                .then(response => response?.data)
                 .then(data => {
                     if (data.status === 'success') {
                         setIsLoadingFoodItems(false);
@@ -67,7 +56,7 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
                             return !isTimeInIntervals(a.restaurant._id.timings);
                         });
                         setSearchedFoodItems(restaurants);
-                    } else if (data.status === 'fail') {
+                    } else {
                         setIsLoadingFoodItems(false);
                         throw new Error(
                             data.message ? data.message : UNEXPECTED_ERROR,
@@ -84,27 +73,16 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
             throw new Error(error);
         }
     };
-    const SearchRestaurants = async text_ => {
+    const SearchRestaurants = async (text_, location) => {
         try {
-            // perform search for food items with the given query
-            const results = await fetch(
-                `${BASE_URL}/restaurants/searchRestaurant/${text_}/${location.latitude}/${location.longitude}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                },
+            await searchRestaurants_(
+                text_,
+                location?.latitude,
+                location?.longitude,
             )
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(NETWORK_ERROR);
-                    }
-                    return response.json();
-                })
+                .then(response => response?.data)
                 .then(data => {
-                    if (data.status === 'success') {
+                    if (data && data.status === 'success') {
                         setIsLoadingRestaurants(false);
                         const restaurants = data.restaurants.sort(function (
                             a,
@@ -113,7 +91,7 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
                             return !isTimeInIntervals(a.restaurant._id.timings);
                         });
                         setSearchedRestaurants(restaurants);
-                    } else if (data.status === 'fail') {
+                    } else {
                         setIsLoadingRestaurants(false);
                         throw new Error(
                             data.message ? data.message : UNEXPECTED_ERROR,
@@ -137,8 +115,8 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
         if (locationPermission === GRANTED && isServableArea) {
             setIsLoadingFoodItems(true);
             setIsLoadingRestaurants(true);
-            SearchFoodItems(text_);
-            SearchRestaurants(text_);
+            SearchFoodItems(text_, location);
+            SearchRestaurants(text_, location);
         } else if (!isServableArea) {
             setIsLoadingFoodItems(false);
             setIsLoadingRestaurants(false);
