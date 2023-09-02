@@ -15,8 +15,13 @@ const HelpAndSupportScreen = ({ navigation }) => {
                 <InfoCard
                     text={serverData?.config?.contactNo}
                     image={<Phone />}
+                    type={'CONTACT_NUM'}
                 />
-                <InfoCard text={serverData?.config?.emailId} image={<Mail />} />
+                <InfoCard
+                    text={serverData?.config?.emailId}
+                    image={<Mail />}
+                    type={'EMAILID'}
+                />
             </View>
         </SafeAreaView>
     );

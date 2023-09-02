@@ -1,14 +1,34 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image, Platform } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    Text,
+    Image,
+    Platform,
+    TouchableOpacity,
+    Linking,
+} from 'react-native';
 import { dimensions, fonts, Styles } from '../../styles/index';
 import { colors } from '../../styles/colors';
 const InfoCard = props => {
     const image = props.image;
+    const type = props.type;
+    const handlePress = () => {
+        try {
+            if (type === 'CONTACT_NUM') {
+                Linking.openURL(`tel:${props.text}`);
+            } else if (type === 'EMAILID') {
+                Linking.openURL(`mailto:${props.text}`);
+            }
+        } catch (error) {}
+    };
     return (
-        <View style={[styles.card, styles.boxShadow, styles.elevation]}>
+        <TouchableOpacity
+            onPress={handlePress}
+            style={[styles.card, styles.boxShadow, styles.elevation]}>
             <View style={styles.icon}>{image}</View>
             <Text style={styles.text}>{props.text}</Text>
-        </View>
+        </TouchableOpacity>
     );
 };
 const styles = StyleSheet.create({

@@ -157,7 +157,7 @@ const RestaurantCardLarge = ({ restaurant, distance, time, navigation }) => {
               </Text>
             )} */}
                     </View>
-                    {isRestaurantOpen && (
+                    {/* {isRestaurantOpen && (
                         <View>
                             {distance && (
                                 <View style={Styles.row}>
@@ -183,7 +183,7 @@ const RestaurantCardLarge = ({ restaurant, distance, time, navigation }) => {
                                 </Text>
                             )}
                         </View>
-                    )}
+                    )} */}
                     {!isRestaurantOpen && (
                         <View>
                             <Text

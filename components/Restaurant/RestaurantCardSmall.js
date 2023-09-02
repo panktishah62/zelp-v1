@@ -125,7 +125,7 @@ const RestaurantCard = props => {
                             ₹ {priceForOne} for one
                         </Text>
                     </View>
-                    {isRestaurantOpen && (
+                    {/* {isRestaurantOpen && (
                         <View style={styles.distanceContainer}>
                             {distance && (
                                 <View style={Styles.row}>
@@ -150,7 +150,7 @@ const RestaurantCard = props => {
                                 </Text>
                             )}
                         </View>
-                    )}
+                    )} */}
                     {!isRestaurantOpen && (
                         <View>
                             <Text

@@ -127,7 +127,7 @@ const RestaurantCardInfo = ({ restaurant, distance, time, navigation }) => {
                     </View>
                     {isRestaurantOpen && (
                         <View>
-                            {distance && (
+                            {/* {distance && (
                                 <View style={Styles.row}>
                                     <LocationIcon />
                                     <Text
@@ -148,7 +148,7 @@ const RestaurantCardInfo = ({ restaurant, distance, time, navigation }) => {
                                     ]}>
                                     {time}
                                 </Text>
-                            )}
+                            )} */}
                         </View>
                     )}
                     {!isRestaurantOpen && (

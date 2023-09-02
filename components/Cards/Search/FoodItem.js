@@ -70,7 +70,7 @@ const FoodItems = props => {
                         </Text>
                     </View>
                 )}
-                <View style={styles.distanceTime}>
+                {/* <View style={styles.distanceTime}>
                     {distance && isRestaurantOpen && (
                         <View style={Styles.row_flex_start}>
                             <LocationIcon />
@@ -94,7 +94,7 @@ const FoodItems = props => {
                             {time}
                         </Text>
                     )}
-                </View>
+                </View> */}
                 {foodItem.rating && (
                     <View style={styles.ratingContainer}>
                         <Star />
