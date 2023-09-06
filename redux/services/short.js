@@ -3,14 +3,16 @@ import ApiPath from '../constants/ApiPath';
 export const getShort = data => {
     if (data && data.page && data.limit && data.shotId) {
         return axiosRequest.get(
-            `${ApiPath.shorts}?page=${data.page}&limit=${data.limit}&shotId=${data.shotId}`,
+            `${ApiPath.shorts}?page=${data.page}&limit=${data.limit}&shotId=${data.shotId}&visitedShots=${data.visitedShots}`,
         );
     } else if (data && data.page && data.limit) {
         return axiosRequest.get(
-            `${ApiPath.shorts}?page=${data.page}&limit=${data.limit}`,
+            `${ApiPath.shorts}?page=${data.page}&limit=${data.limit}&visitedShots=${data.visitedShots}`,
         );
     } else if (data && data.shotId) {
-        return axiosRequest.get(`${ApiPath.shorts}?shotId=${data.shotId}`);
+        return axiosRequest.get(
+            `${ApiPath.shorts}?shotId=${data.shotId}&visitedShots=${data.visitedShots}`,
+        );
     }
     return axiosRequest.get(`${ApiPath.shorts}`);
 };

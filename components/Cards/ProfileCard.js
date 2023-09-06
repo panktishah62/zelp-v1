@@ -7,7 +7,7 @@ import { sliceText } from '../../utils';
 import { dynamicSize } from '../../utils/responsive';
 
 const ProfileCard = props => {
-    const { profile, isFollowing, navigation } = props;
+    const { profile, isFollowing, followers, navigation } = props;
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
@@ -28,6 +28,7 @@ const ProfileCard = props => {
                 <FollowUnfollowButton
                     profile={profile}
                     currentState={isFollowing}
+                    followers={followers}
                     navigation={navigation}
                 />
             </View>

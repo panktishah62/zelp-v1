@@ -14,6 +14,7 @@ const ProfileContainer = props => {
             <ProfileCard
                 profile={item.shot.frokerProfile}
                 isFollowing={item.isFollowing}
+                followers={item.followers ? item.followers : 0}
                 navigation={navigation}
             />
             <ScrollableText text={item.shot.caption} />

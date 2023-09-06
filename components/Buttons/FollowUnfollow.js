@@ -14,9 +14,10 @@ import { dynamicSize } from '../../utils/responsive';
 import { hideDialog, showDialog } from '../../redux/actions/dialog';
 
 const FollowUnfollowButton = props => {
-    const { profile, currentState, onClick, navigation } = props;
+    const { profile, currentState, followers, onClick, navigation } = props;
     const [isFollowing, setIsFollowing] = useState(currentState);
     const [token, setToken] = useState(null);
+    const [currentFollowers, setCurrentFollowers] = useState(followers);
 
     const dispatch = useDispatch();
     const followedFrokers = useSelector(state => state.followedFroker);
@@ -76,10 +77,14 @@ const FollowUnfollowButton = props => {
         };
         const frokerId = profile?._id;
         if (isFollowing) {
+            if (currentFollowers > 0) {
+                setCurrentFollowers(currentFollowers - 1);
+            }
             setStyles(styles.active);
             dispatch(removeFollowedFrokers(frokerId));
             await unfollowFroker(data);
         } else {
+            setCurrentFollowers(currentFollowers + 1);
             setStyles(styles.inactive);
             dispatch(setFollowedFrokers(frokerId));
             await follow(data);
@@ -114,7 +119,9 @@ const FollowUnfollowButton = props => {
         <TouchableOpacity
             style={[styles.container, variableStyles]}
             onPress={onPressFollow}>
-            <Text style={styles.text}>{text[Number(isFollowing)]}</Text>
+            <Text style={styles.text}>
+                {text[Number(isFollowing)]} ({currentFollowers})
+            </Text>
         </TouchableOpacity>
     );
 };

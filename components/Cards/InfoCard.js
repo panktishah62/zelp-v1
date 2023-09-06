@@ -10,15 +10,41 @@ import {
 } from 'react-native';
 import { dimensions, fonts, Styles } from '../../styles/index';
 import { colors } from '../../styles/colors';
+import { useDispatch } from 'react-redux';
+import { showDialog } from '../../redux/actions/dialog';
+import { DialogTypes } from '../../utils';
 const InfoCard = props => {
     const image = props.image;
     const type = props.type;
+
+    const dispatch = useDispatch();
     const handlePress = () => {
         try {
             if (type === 'CONTACT_NUM') {
-                Linking.openURL(`tel:${props.text}`);
+                Linking.openURL(`tel:${props.text}`).catch(error => {
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            titleText: 'Cannot Open Phone, please try again!',
+                            subTitleText: '',
+                            buttonText1: 'CLOSE',
+                            type: DialogTypes.WARNING,
+                        }),
+                    );
+                });
             } else if (type === 'EMAILID') {
-                Linking.openURL(`mailto:${props.text}`);
+                Linking.openURL(`mailto:${props.text}`).catch(error => {
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            titleText:
+                                'Cannot Open Mail Box, please try again!',
+                            subTitleText: '',
+                            buttonText1: 'CLOSE',
+                            type: DialogTypes.WARNING,
+                        }),
+                    );
+                });
             }
         } catch (error) {}
     };

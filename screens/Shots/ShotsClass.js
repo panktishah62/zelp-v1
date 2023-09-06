@@ -48,6 +48,7 @@ const ShotClassScreen = props => {
     const [isFocused, setIsFocused] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [refreshingLogin, setRefreshingLogin] = useState(false);
+    const [visitedShots, setVisitedShots] = useState([]);
 
     const windowDimensions = Dimensions.get('window');
     const windowHeight = windowDimensions.height;
@@ -71,11 +72,13 @@ const ShotClassScreen = props => {
                     page: currentPage,
                     limit: currentLimit,
                     shotId: shotId,
+                    visitedShots: visitedShots,
                 });
             } else {
                 data = await getShort({
                     page: currentPage,
                     limit: currentLimit,
+                    visitedShots: visitedShots,
                 });
             }
             setRefreshing(false);
@@ -91,10 +94,17 @@ const ShotClassScreen = props => {
             return hasNextPage;
         },
         onSuccess: fetchedData => {
-            setVideoData(fetchedData.pages.map(page => page.data.shots).flat());
-            setRefreshing(false);
-            setRefreshingLogin(false);
-            setCurrentPage(currentPage + 1);
+            if (fetchedData?.pages) {
+                const shots = fetchedData.pages
+                    .map(page => page?.data?.shots)
+                    .flat();
+                setVideoData(shots);
+                const shotsIds = shots.map(shot => shot?.shot?._id);
+                setVisitedShots(shotsIds);
+                setRefreshing(false);
+                setRefreshingLogin(false);
+                setCurrentPage(currentPage + 1);
+            }
         },
     });
 
@@ -243,13 +253,15 @@ const ShotClassScreen = props => {
                     }}
                     renderItem={({ item, index }) => {
                         return (
-                            <VideoItem
-                                data={item}
-                                isActive={activeVideoIndex === index}
-                                navigation={navigation}
-                                isFocused={isFocused}
-                                appStateVisible={appStateVisible}
-                            />
+                            item?.shot?.fileLocation && (
+                                <VideoItem
+                                    data={item}
+                                    isActive={activeVideoIndex === index}
+                                    navigation={navigation}
+                                    isFocused={isFocused}
+                                    appStateVisible={appStateVisible}
+                                />
+                            )
                         );
                     }}
                     // onScroll={e => {

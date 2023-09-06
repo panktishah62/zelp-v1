@@ -25,6 +25,7 @@ const ActionButtons = props => {
     const [showItems, setShowItems] = useState(false);
     const [isLiked, setIsLiked] = useState(item.isLiked);
     const [token, setToken] = useState(null);
+    const [likes, setLikes] = useState(item?.likes ? item?.likes : 0);
 
     const onPressLogin = () => {
         navigation.navigate('LogIn');
@@ -46,6 +47,11 @@ const ActionButtons = props => {
                 }),
             );
             return;
+        }
+        if (isLiked) {
+            setLikes(likes - 1);
+        } else {
+            setLikes(likes + 1);
         }
         setIsLiked(!isLiked);
         let data = {
@@ -103,7 +109,8 @@ const ActionButtons = props => {
                         activeOpacity={0.9}
                         onPress={() => {
                             onPressHeart();
-                        }}>
+                        }}
+                        style={styles.iconButton}>
                         <Image
                             source={
                                 isLiked === true
@@ -112,16 +119,19 @@ const ActionButtons = props => {
                             }
                             style={styles.likeButton}
                         />
+                        <Text style={styles.subTitleText}>{likes}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.9}
                         onPress={() => {
                             onPressShare();
-                        }}>
+                        }}
+                        style={styles.iconButton}>
                         <Image
                             source={require('../../assets/send.png')}
                             style={styles.shareButton}
                         />
+                        <Text style={styles.subTitleText}></Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.rightContainer}>
@@ -187,6 +197,14 @@ const styles = StyleSheet.create({
     },
     featuredItemsText: {
         color: colors.WHITE,
+    },
+    iconButton: {
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    subTitleText: {
+        color: colors.WHITE,
+        marginTop: 2,
     },
 });
 
