@@ -55,7 +55,9 @@ const SubscriptionModel = props => {
                     />
                 )}
                 {item?.type && (
-                    <Text style={styles.titleText}>{item?.type}</Text>
+                    <Text style={[styles.titleText, styles.flexiTitle]}>
+                        {item?.type}
+                    </Text>
                 )}
                 {item?.payableAmount && (
                     <Text style={styles.subtitleText}>
@@ -173,6 +175,15 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         alignItems: 'center',
+    },
+    flexiTitle: {
+        ...Platform.select({
+            ios: {
+                ...fonts.NUNITO_600_16,
+                fontWeight: '800',
+                fontSize: 18,
+            },
+        }),
     },
 });
 export default SubscriptionModel;

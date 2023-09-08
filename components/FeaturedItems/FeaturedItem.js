@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Platform, StyleSheet, Text, View } from 'react-native';
+import {
+    Image,
+    Platform,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 import VegIcon from '../../assets/icons/VegIcon.svg';
 import NonVegIcon from '../../assets/icons/nonveg.svg';
 import StarIcon from '../../assets/icons/Star.svg';
@@ -85,7 +92,15 @@ const FeaturedItem = props => {
     }, [location]);
 
     return (
-        <View style={styles.container}>
+        <TouchableOpacity
+            style={styles.container}
+            onPress={() => {
+                if (isRestaurantOpen && isServableArea) {
+                    navigation.navigate('RestaurantWithMenu', {
+                        restaurant: item?.foodItem?.restaurant,
+                    });
+                }
+            }}>
             <View style={styles.upperContainer}>
                 <View style={styles.leftContainer}>
                     {isRestaurantOpen && isServableArea ? (
@@ -153,7 +168,7 @@ const FeaturedItem = props => {
                     />
                 )}
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 

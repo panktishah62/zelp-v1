@@ -151,7 +151,13 @@ const ActionButtons = props => {
                 <ScrollView horizontal={true}>
                     {item?.shot?.foodReferences?.length > 0 &&
                         item?.shot?.foodReferences.map((data, key) => {
-                            return <FeaturedItem key={key} item={data} />;
+                            return (
+                                <FeaturedItem
+                                    key={key}
+                                    item={data}
+                                    navigation={navigation}
+                                />
+                            );
                         })}
                 </ScrollView>
             )}

@@ -119,7 +119,7 @@ export const verifyOTP = (
         await verifyOtp({ mobNo, otp })
             .then(response => response?.data)
             .then(async data => {
-                if (data.status === 'success' && data.token) {
+                if (data?.status === 'success' && data?.token) {
                     await AsyncStorage.setItem('token', data.token);
                     dispatch(loginSuccess(data));
                     requestUserPermission();
