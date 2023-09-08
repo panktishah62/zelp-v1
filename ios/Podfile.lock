@@ -1428,7 +1428,7 @@ PODS:
     - React-Core
   - RNGestureHandler (2.12.1):
     - React-Core
-  - RNPermissions (3.8.4):
+  - RNPermissions (3.9.0):
     - React-Core
   - RNScreens (3.24.0):
     - React-Core
@@ -1828,7 +1828,7 @@ SPEC CHECKSUMS:
   RNFBRemoteConfig: 2ecd5950c328ba414d26d38d23b6f6ed9d0c8bc2
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: c0d04458598fcb26052494ae23dda8f8f5162b13
-  RNPermissions: b2204d43803c9bd72ac202e7ba54182e9b0f35e1
+  RNPermissions: 5f1f7391135d978c2a1ff7a2072fafcf5cc59a45
   RNScreens: b21dc57dfa2b710c30ec600786a3fc223b1b92e7
   RNShare: da6d90b6dc332f51f86498041d6e34211f96b630
   RNSVG: 6d07f8f8f246c85e3e16e0bcfc0d047db0c48496
@@ -1838,6 +1838,6 @@ SPEC CHECKSUMS:
   Yoga: 3efc43e0d48686ce2e8c60f99d4e6bd349aff981
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: fcb778f4761f8be690a02ba44274b3c5677e15a2
+PODFILE CHECKSUM: 794a33b522991b677ba8995f02116024cc45f44b
 
 COCOAPODS: 1.12.1
