@@ -85,12 +85,12 @@ const SubscriptionPage = props => {
             </View>
             <View style={styles.buttonContainer}>
                 <View style={styles.whatsappContainer}>
-                    <Text style={styles.headerText}>
-                        Head Forward To Our Whatsapp Bot.
+                    <Text style={styles.titleText}>
+                        🎉 Coming Soon, Stay Tuned! 🎉
                     </Text>
-                    <Text style={styles.headerText}>Get Started Now!</Text>
+                    {/* <Text style={styles.headerText}>Get Started Now!</Text> */}
                 </View>
-                <IconButton text="Join On Whatsapp" onClick={openLink} />
+                {/* <IconButton text="Join On Whatsapp" onClick={openLink} /> */}
             </View>
         </ScrollView>
     ) : (
@@ -115,6 +115,11 @@ const styles = StyleSheet.create({
     },
     whatsappContainer: {
         marginBottom: dynamicSize(10),
+    },
+    titleText: {
+        marginBottom: dynamicSize(10),
+        ...fonts.NUNITO_500_24,
+        color: colors.GREY_DARK,
     },
 });
 export default SubscriptionPage;
