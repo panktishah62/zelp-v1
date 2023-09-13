@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
+    Image,
     Linking,
     ScrollView,
     StyleSheet,
@@ -17,6 +18,7 @@ import { dynamicSize } from '../../utils/responsive';
 import { dimensions, fonts } from '../../styles';
 import { showDialog } from '../../redux/actions/dialog';
 import { useDispatch } from 'react-redux';
+import FastImage from 'react-native-fast-image';
 
 const SubscriptionPage = props => {
     const { navigation } = props;
@@ -85,9 +87,18 @@ const SubscriptionPage = props => {
             </View>
             <View style={styles.buttonContainer}>
                 <View style={styles.whatsappContainer}>
+                    <Image
+                        source={require('../../assets/icons/party.png')}
+                        style={styles.imageIcon}
+                    />
                     <Text style={styles.titleText}>
-                        🎉 Coming Soon, Stay Tuned! 🎉
+                        {' '}
+                        Coming Soon, Stay Tuned!{' '}
                     </Text>
+                    <Image
+                        source={require('../../assets/icons/party.png')}
+                        style={styles.imageIcon}
+                    />
                     {/* <Text style={styles.headerText}>Get Started Now!</Text> */}
                 </View>
                 {/* <IconButton text="Join On Whatsapp" onClick={openLink} /> */}
@@ -115,11 +126,18 @@ const styles = StyleSheet.create({
     },
     whatsappContainer: {
         marginBottom: dynamicSize(10),
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     titleText: {
-        marginBottom: dynamicSize(10),
+        // marginBottom: dynamicSize(10),
         ...fonts.NUNITO_500_24,
         color: colors.GREY_DARK,
+    },
+    imageIcon: {
+        height: dynamicSize(30),
+        width: dynamicSize(30),
     },
 });
 export default SubscriptionPage;
