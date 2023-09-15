@@ -1,90 +1,115 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { View,Text,Image, StyleSheet } from "react-native";
 import Carousel from 'react-native-new-snap-carousel';
 import { dimensions,Styles } from "../../../styles";
 import { colors } from "../../../styles/colors";
 import LinearGradient from "react-native-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
+import { getSubscriptionPlanDetails } from "../../../redux/services/subscriptionService";
 
-const data = [
-    {
-        id: '1',
-        caroselImage:require('../../../assets/images/Subscription/food_item_1.png'),
-        iconImage:require('../../../assets/images/Subscription/coin_1.png'),
-        iconText:'Basic',
-        simpleText:'Starts From',
-        buttonText:'₹89/Meal',
-        lastText:'₹99/Meal',
-    },
-    {
-        id: '2',
-        caroselImage:require('../../../assets/images/Subscription/food_item_2.png'),
-        iconImage:require('../../../assets/images/Subscription/diamond_1.png'),
-        iconText:'Standard',
-        simpleText:'Starts From',
-        buttonText:'₹119/Meal',
-        lastText:'₹175/Meal',
-    },
-    {
-        id: '3',
-        caroselImage:require('../../../assets/images/Subscription/food_item_1.png'),
-        iconImage:require('../../../assets/images/Subscription/coin_1.png'),
-        iconText:'Basic',
-        simpleText:'Starts From',
-        buttonText:'₹89/Meal',
-        lastText:'₹99/Meal',
-    },
-    {
-        id: '4',
-        caroselImage:require('../../../assets/images/Subscription/food_item_2.png'),
-        iconImage:require('../../../assets/images/Subscription/diamond_1.png'),
-        iconText:'Standard',
-        simpleText:'Starts From',
-        buttonText:'₹119/Meal',
-        lastText:'₹175/Meal',
-    },
-   
-  ];
 
-  const renderItem = () => {
-    return data.map((item) => (
-        <LinearGradient
-        colors={['rgba(255, 255, 255, 0.80)', 'rgba(255, 255, 255, 0.25)']}
-        style={styles.gradient}
-      >
-      <View style={[styles.conatiner,styles.shadow]} key={item.id} >
-        
-        <View style={styles.imageContainer}>
-            <Image style={styles.imageStyle} source={item.caroselImage} />
-        </View>
-        <View style={styles.iconTextContainer}>
-        <Text style={styles.iconTextText}>{item.iconText}</Text>
-        <Image source={item.iconImage} />
-        </View>
-        <View style={styles.simpleTextConatiner}>
-            <Text style={styles.simpleTextText}>{item.simpleText}</Text>
-        </View>
-        <View style={styles.buttonWrapperContainer}>
-        <View style={styles.buttonContainer}>
-            <Text style={styles.buttonText}>{item.buttonText}</Text>
-        </View>
-        </View>
-        <View style={styles.lastTextContainer}>
-        <Text style={styles.lastTextText}>{item.lastText}</Text>
-        </View>
-        
-      </View>
-      </LinearGradient>
-    )
-    );
-  };
 
 const CaroselComponent=props=>{
+
+    const [responseDataArr,setResponseDataArr]=useState([]);
+
+    useEffect(()=>{
+        fetchData();
+    },[setResponseDataArr])
+
+
+    const fetchData=async()=>{
+        const response=await getSubscriptionPlanDetails();
+       
+        setResponseDataArr(response?.data?.data);
+    }
+
+//static data for testing
+    // const data = [
+    //     {
+    //         id: '1',
+    //         caroselImage:require('../../../assets/images/Subscription/food_item_1.png'),
+    //         iconImage:require('../../../assets/images/Subscription/coin_1.png'),
+    //         iconText:'Basic',
+    //         simpleText:'Starts From',
+    //         buttonText:'₹89/Meal',
+    //         lastText:'₹99/Meal',
+    //     },
+    //     {
+    //         id: '2',
+    //         caroselImage:require('../../../assets/images/Subscription/food_item_2.png'),
+    //         iconImage:require('../../../assets/images/Subscription/diamond_1.png'),
+    //         iconText:'Standard',
+    //         simpleText:'Starts From',
+    //         buttonText:'₹119/Meal',
+    //         lastText:'₹175/Meal',
+    //     },
+    //     {
+    //         id: '3',
+    //         caroselImage:require('../../../assets/images/Subscription/food_item_1.png'),
+    //         iconImage:require('../../../assets/images/Subscription/coin_1.png'),
+    //         iconText:'Basic',
+    //         simpleText:'Starts From',
+    //         buttonText:'₹89/Meal',
+    //         lastText:'₹99/Meal',
+    //     },
+    //     {
+    //         id: '4',
+    //         caroselImage:require('../../../assets/images/Subscription/food_item_2.png'),
+    //         iconImage:require('../../../assets/images/Subscription/diamond_1.png'),
+    //         iconText:'Standard',
+    //         simpleText:'Starts From',
+    //         buttonText:'₹119/Meal',
+    //         lastText:'₹175/Meal',
+    //     },
+       
+    //   ];
+    
+      const renderItem = () => {
+    
+        return responseDataArr.map((item,index) => (
+            <LinearGradient
+            colors={['rgba(255, 255, 255, 0.80)', 'rgba(255, 255, 255, 0.25)']}
+            style={styles.gradient}
+            key={index}
+          >
+          <View style={[styles.conatiner,styles.shadow]} key={index} >
+            
+            <View style={styles.imageContainer}>
+          { (item.image) &&  <Image style={styles.imageStyle} source={
+                {uri: item.image}
+            } />}
+            {!(item.image)&&<Image style={styles.imageStyle} source={require('../../../assets/images/Subscription/food_item_1.png')} />}
+            </View>
+            <View style={styles.iconTextContainer}>
+            <Text style={styles.iconTextText}>{item.name}</Text>
+            <Image source={item.iconImage} />
+            </View>
+            <View style={styles.simpleTextConatiner}>
+                <Text style={styles.simpleTextText}>Starts From</Text>
+            </View>
+            <View style={styles.buttonWrapperContainer}>
+            <View style={styles.buttonContainer}>
+                <Text style={styles.buttonText}>₹119/Meal</Text>
+            </View>
+            </View>
+            <View style={styles.lastTextContainer}>
+            <Text style={styles.lastTextText}>₹175/Meal</Text>
+            </View>
+            
+          </View>
+          </LinearGradient>
+        )
+        );
+      };
+
+
+
  return(
     <View style={styles.conatiner} >
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+       {responseDataArr.length!==0 && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             {renderItem()}
-            </ScrollView>
+            </ScrollView>}
 
     </View>
  )

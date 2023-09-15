@@ -1,8 +1,9 @@
 
-import React,{ useState } from "react";
+import React,{ useState,useEffect } from "react";
 import { StyleSheet,View,Image,Text,ScrollView } from "react-native";
 import TextSurroundedByLine from "./TextSurroundedByLine";
 import { dimensions } from "../../../styles";
+import { getPartnerRestaurants } from "../../../redux/services/subscriptionService";
 
 
 
@@ -43,16 +44,29 @@ const PartnersComponent = props => {
        
         // Add more items as needed
       ];
+    
+    const [partnerRestaurants,setPartnerRestaurantsArr]=useState([]);
 
+    useEffect(()=>{
+        fetchData();
+    }
+    ,[setPartnerRestaurantsArr])
+
+    const fetchData=async()=>{
+        const response=await getPartnerRestaurants();
+        setPartnerRestaurantsArr(response?.data?.data);
+    }
 
     const renderItems = () => {
         
     
-        return data.map((item) => (
+        return partnerRestaurants.map((item) => (
           <View key={item.id} style={styles.item}>
             <View style={styles.imageText}>
-                <Image style={styles.imageTextImage}  source={item.imageSource}/>
-                <Text style={styles.imageTextText}>{item.text}</Text>
+                <Image style={styles.imageTextImage}  source={{
+                    uri: item.restaurantImage,
+                }}/>
+                <Text style={styles.imageTextText}>{item.restaurantName}</Text>
             </View>
           </View>
         ));
@@ -60,9 +74,9 @@ const PartnersComponent = props => {
     
 
     return(
-        <View>
+        <View style={{marginHorizontal:4}}>
         <TextSurroundedByLine text="Partner Restaurants"/>
-        <ScrollView horizontal >
+        <ScrollView horizontal showsVerticalScrollIndicator={false}>
         {renderItems()}
       </ScrollView>
         </View>
@@ -79,7 +93,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 10,
-    
+        marginTop: 10,
     },
     
     imageText:{
@@ -93,6 +107,7 @@ const styles = StyleSheet.create({
         width: 97.203,
         height: 81.855,
     flexShrink: 0,
+    borderRadius: 97.203,
     },
     imageTextText:{
         color: '#3D3D3D',

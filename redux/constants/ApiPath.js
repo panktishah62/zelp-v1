@@ -65,4 +65,10 @@ export default {
 
     //get Referral Details
     getUserReferralCodeDetails: 'referral/getUserReferralCodeDetails',
+
+    //Subscription
+    getSubscriptionPlanDetails:'subscriptionPlan/showSubscriptionPlans',
+    getBannerImages:'subscriptionPlan/getBannerImages',
+    getPartnerRestaurants:'subscriptionPlan/getPartnerRestaurants',
+
 };

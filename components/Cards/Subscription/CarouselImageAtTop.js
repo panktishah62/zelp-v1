@@ -1,59 +1,79 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { View,Text,Image, StyleSheet } from "react-native";
 import Carousel from 'react-native-new-snap-carousel';
 import { dimensions,Styles } from "../../../styles";
 import { colors } from "../../../styles/colors";
 import LinearGradient from "react-native-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
+import { getBannerImages } from "../../../redux/services/subscriptionService";
 
-const data = [
-    {
-        id: '1',
-        caroselImage:require('../../../assets/images/Subscription/carousel_1.png'),
-    },
-    {
-        id: '2',
-        caroselImage:require('../../../assets/images/Subscription/carousel_1.png'),
+//static data
+// const data = [
+//     {
+//         id: '1',
+//         caroselImage:require('../../../assets/images/Subscription/carousel_1.png'),
+//     },
+//     {
+//         id: '2',
+//         caroselImage:require('../../../assets/images/Subscription/carousel_1.png'),
         
-    },
-    {
-        id: '3',
-        caroselImage:require('../../../assets/images/Subscription/carousel_1.png'),
+//     },
+//     {
+//         id: '3',
+//         caroselImage:require('../../../assets/images/Subscription/carousel_1.png'),
 
-    },
-    {
-        id: '4',
-        caroselImage:require('../../../assets/images/Subscription/carousel_1.png'),
-    },
+//     },
+//     {
+//         id: '4',
+//         caroselImage:require('../../../assets/images/Subscription/carousel_1.png'),
+//     },
    
-  ];
+//   ];
 
-  const renderItem = () => {
-    return data.map((item) => (
-        <LinearGradient
-        key={item.id}
-        colors={['rgba(255, 255, 255, 0.80)', 'rgba(255, 255, 255, 0.25)']}
-        style={styles.gradient}
-      >
-      <View style={[styles.conatiner,styles.shadow]} key={item.id} >
-        
-        <View style={styles.imageContainer}>
-            <Image style={styles.imageStyle} source={item.caroselImage} />
-        </View>
-        
-        
-      </View>
-      </LinearGradient>
-    )
-    );
-  };
 
 const CarouselImageAtTop=props=>{
+    const [bannerImagesArr,setBannerImagesArr]=useState([]);
+
+    useEffect(()=>{
+        fetchData();
+    }
+    ,[setBannerImagesArr])
+
+    const fetchData=async()=>{
+        const response=await getBannerImages();
+       
+        setBannerImagesArr(response?.data?.data);
+    }
+
+
+    const renderItem = () => {
+        return bannerImagesArr.map((item,index) => (
+          <LinearGradient
+            key={index}
+            colors={['rgba(255, 255, 255, 0.80)', 'rgba(255, 255, 255, 0.25)']}
+            style={styles.gradient}
+          >
+          <View style={[styles.conatiner,styles.shadow]} key={index} >
+            
+            <View style={styles.imageContainer}>
+                <Image style={styles.imageStyle} source={{
+                    uri: item.image,
+                }} />
+            </View>
+            
+            
+          </View>
+          </LinearGradient>
+        )
+        );
+      };
+    
+
  return(
     <View style={styles.conatiner} >
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+       { bannerImagesArr.length!==0 && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             {renderItem()}
-            </ScrollView>
+            </ScrollView>}
 
     </View>
  )
