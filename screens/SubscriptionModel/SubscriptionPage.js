@@ -19,6 +19,7 @@ import { dimensions, fonts } from '../../styles';
 import { showDialog } from '../../redux/actions/dialog';
 import { useDispatch } from 'react-redux';
 import FastImage from 'react-native-fast-image';
+
 const SubscriptionPage = props => {
     const { navigation } = props;
     const dispatch = useDispatch();
