@@ -255,7 +255,7 @@ const ShotClassScreen = props => {
                         showDialog({
                             isVisible: true,
                             titleText: 'Your wallet is full!',
-                            subTitleText: `Max ${data.maxWalletApplicable}Rs can be added to wallet. Please use money from your wallet to earn more!`,
+                            subTitleText: `Max ${data.maxWalletApplicable}Rs can be added to wallet. Please use money from your wallet before earning more!`,
                             buttonText1: 'CLOSE',
                             type: DialogTypes.WARNING,
                         }),
