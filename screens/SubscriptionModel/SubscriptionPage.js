@@ -29,7 +29,6 @@ const SubscriptionPage = props => {
     const [menu, setMenu] = useState();
     const [whatsappLink, setWhatsappLink] = useState();
     const [isLoading, setIsLoading] = useState(false);
-
     const fetchData = async () => {
         setIsLoading(true);
         const response = await getSubscriptionModelData();
@@ -42,7 +41,6 @@ const SubscriptionPage = props => {
         }
         setIsLoading(false);
     };
-
     const openLink = () => {
         if (whatsappLink) {
             Linking.openURL(whatsappLink)
@@ -61,11 +59,9 @@ const SubscriptionPage = props => {
                 });
         }
     };
-
     useEffect(() => {
         fetchData();
     }, []);
-
     return !isLoading ? (
         <ScrollView
             showsVerticalScrollIndicator={false}
@@ -108,7 +104,6 @@ const SubscriptionPage = props => {
         <ActivityIndicator color={colors.ORANGE} size={32} />
     );
 };
-
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.WHITE,
