@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
+    Image,
     Linking,
     ScrollView,
     StyleSheet,
@@ -17,7 +18,7 @@ import { dynamicSize } from '../../utils/responsive';
 import { dimensions, fonts } from '../../styles';
 import { showDialog } from '../../redux/actions/dialog';
 import { useDispatch } from 'react-redux';
-
+import FastImage from 'react-native-fast-image';
 const SubscriptionPage = props => {
     const { navigation } = props;
     const dispatch = useDispatch();
@@ -27,7 +28,6 @@ const SubscriptionPage = props => {
     const [menu, setMenu] = useState();
     const [whatsappLink, setWhatsappLink] = useState();
     const [isLoading, setIsLoading] = useState(false);
-
     const fetchData = async () => {
         setIsLoading(true);
         const response = await getSubscriptionModelData();
@@ -40,7 +40,6 @@ const SubscriptionPage = props => {
         }
         setIsLoading(false);
     };
-
     const openLink = () => {
         if (whatsappLink) {
             Linking.openURL(whatsappLink)
@@ -59,11 +58,9 @@ const SubscriptionPage = props => {
                 });
         }
     };
-
     useEffect(() => {
         fetchData();
     }, []);
-
     return !isLoading ? (
         <ScrollView
             showsVerticalScrollIndicator={false}
@@ -85,19 +82,27 @@ const SubscriptionPage = props => {
             </View>
             <View style={styles.buttonContainer}>
                 <View style={styles.whatsappContainer}>
-                    <Text style={styles.headerText}>
-                        Head Forward To Our Whatsapp Bot.
+                    <Image
+                        source={require('../../assets/icons/party.png')}
+                        style={styles.imageIcon}
+                    />
+                    <Text style={styles.titleText}>
+                        {' '}
+                        Coming Soon, Stay Tuned!{' '}
                     </Text>
-                    <Text style={styles.headerText}>Get Started Now!</Text>
+                    <Image
+                        source={require('../../assets/icons/party.png')}
+                        style={styles.imageIcon}
+                    />
+                    {/* <Text style={styles.headerText}>Get Started Now!</Text> */}
                 </View>
-                <IconButton text="Join On Whatsapp" onClick={openLink} />
+                {/* <IconButton text="Join On Whatsapp" onClick={openLink} /> */}
             </View>
         </ScrollView>
     ) : (
         <ActivityIndicator color={colors.ORANGE} size={32} />
     );
 };
-
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.WHITE,
@@ -115,6 +120,18 @@ const styles = StyleSheet.create({
     },
     whatsappContainer: {
         marginBottom: dynamicSize(10),
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    titleText: {
+        // marginBottom: dynamicSize(10),
+        ...fonts.NUNITO_500_24,
+        color: colors.GREY_DARK,
+    },
+    imageIcon: {
+        height: dynamicSize(30),
+        width: dynamicSize(30),
     },
 });
 export default SubscriptionPage;
