@@ -28,6 +28,10 @@ import dynamicLinks from '@react-native-firebase/dynamic-links';
 import { handleShotsLinkInShots } from '../../redux/linking/HandleLinks';
 import { dynamicSize } from '../../utils/responsive';
 import { getUserProfile } from '../../redux/actions/user';
+import { showDialog } from '../../redux/actions/dialog';
+import remoteConfig from '@react-native-firebase/remote-config';
+import { getUserWallet } from '../../redux/services/userService';
+import { DialogTypes } from '../../utils';
 
 const ShotClassScreen = props => {
     const { route, navigation } = props;
@@ -54,6 +58,9 @@ const ShotClassScreen = props => {
     const windowHeight = windowDimensions.height;
     const insets = useSafeAreaInsets();
     const screenHeight = windowHeight - insets.bottom;
+    const popupOnNthVideo = remoteConfig()
+        .getValue('popupOnNthVideo')
+        .asNumber();
 
     const {
         isLoading,
@@ -238,6 +245,33 @@ const ShotClassScreen = props => {
                 }
             });
     }, []);
+
+    const fetchUserWallet = async () => {
+        await getUserWallet()
+            .then(response => response?.data)
+            .then(data => {
+                if (!data?.shouldIncreaseWallet) {
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            titleText: 'Your wallet is full!',
+                            subTitleText: `Max ${data.maxWalletApplicable}Rs can be added to wallet. Please use money from your wallet before earning more!`,
+                            buttonText1: 'CLOSE',
+                            type: DialogTypes.WARNING,
+                        }),
+                    );
+                }
+            });
+    };
+
+    useEffect(() => {
+        if (
+            videosData?.length >= 0 &&
+            videosData?.length % popupOnNthVideo == 0
+        ) {
+            fetchUserWallet();
+        }
+    }, [videosData]);
 
     return (
         <View>

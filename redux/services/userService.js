@@ -13,3 +13,7 @@ export const getUserProfile_ = () => {
 export const updateUserToken_ = data => {
     return axiosRequest.post(`${ApiPath.updateUserToken}`, data);
 };
+
+export const getUserWallet = () => {
+    return axiosRequest.get(`${ApiPath.getUserWallet}`);
+};

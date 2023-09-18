@@ -17,6 +17,7 @@ export default {
     editUserProfile: 'users/updateProfile',
     getUserProfile: 'users/userProfile',
     updateUserToken: 'users/updateUserToken',
+    getUserWallet: 'users/getUserWallet',
 
     //Shots
     shorts: 'froker/shots/getAllShots',
