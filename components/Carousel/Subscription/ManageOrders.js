@@ -30,7 +30,7 @@ const ManageOrders = props => {
                         <Image style={styles.increaseDimension} source={item.imageSource}/>
                    {  !(index+1===length) &&   <View style={styles.line}></View>}
                     </View>
-                    <View style={styles.textContainer}><Text>Meal{index+1}</Text></View>
+                    <View style={styles.textContainer}><Text style={styles.mealText}>Meal {index+1}</Text></View>
                 </View>
         )
         )
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         alignItems:'flex-start',
      
         width:dimensions.fullWidth/4-26,
-        padding:8,
+       
        
     },
     innerContainer:{
@@ -110,6 +110,15 @@ const styles = StyleSheet.create({
         letterSpacing: 0.25,
         textTransform: 'capitalize',
        
+    },
+    mealText:{
+        color: '#3D3D3D',
+        fontFamily: 'Poppins',
+        fontSize: 14,
+        fontStyle: 'normal',
+        fontWeight: '500',
+        letterSpacing: 0.25,
+        textTransform: 'capitalize',
     },
     manageOrderTextSection:{
         position:'absolute',

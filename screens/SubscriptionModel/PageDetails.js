@@ -9,6 +9,10 @@ import BestMealHeadingWithStars from "../../components/Cards/Subscription/BestMe
 import BenifitComponent from "../../components/Cards/Subscription/BenifitComponent";
 import BenifitHeadingComp from "../../components/Cards/Subscription/BenifitHeadingComp";
 import AddOnMealModal from "../../components/Modal/Subscription/AddOnMealModal";
+import SubscriptionPlanImage from "../../components/Block/Subscription/SubscriptionPlanImage";
+import DetailsHeading from "../../components/Heading/Subscription/DetailsHeading";
+import DescriptionOffer from "../../components/Cards/Subscription/DescriptionOffer";
+import LineCircleSurroundedHeading from "../../components/Heading/Subscription/LineCircleSurroundedHeading";
 
 const carouSelBannerImageData=[
         {
@@ -56,7 +60,10 @@ const PageDetails=props=>{
     return(
         <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-       
+        <SubscriptionPlanImage/>
+        <DetailsHeading/>
+        <DescriptionOffer/>
+        <LineCircleSurroundedHeading/>
             <CarouselImageAtTop isStatic={true} bannerImagesArr={carouSelBannerImageData}/>
             <BenifitHeadingComp/>
             <BenifitComponent data={benifitComponentData}/>

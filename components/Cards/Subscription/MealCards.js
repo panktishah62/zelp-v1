@@ -43,12 +43,7 @@ const MealCards=props=>{
     const renderItem=()=>{
         return data.map((item,index)=>(
             <View key={index} style={styles.wrapperContainer}>
-            <LinearGradient
-       colors={['rgba(255, 255, 255, 0.80)', 'rgba(255, 255, 255, 0.80)']}
-       start={{ x: 0, y: 0 }}
-       end={{ x: 1, y: 0 }}
-       style={styles.gradient}
-     >
+           
       
            <View style={styles.itemConainer}>
            <View style={styles.leftContainer}>
@@ -78,7 +73,6 @@ const MealCards=props=>{
                </View>
                </View>
                
-     </LinearGradient>
      </View>
         ))
     }
@@ -105,7 +99,7 @@ const styles=StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',
-       
+      
        
     },
     wrapperContainer:{
@@ -114,8 +108,13 @@ const styles=StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         marginHorizontal:10,
-        marginVertical:8,
-        borderRadius:10,
+      
+        marginVertical:10,
+      backgroundColor: '#FFFFFF',
+      borderRadius:14,
+      elevation: 5,
+        
+    
     },
     
     itemConainer:{
@@ -124,8 +123,6 @@ const styles=StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         gap:10,
-       
-      
         margin:8,
     },
     leftContainer:{

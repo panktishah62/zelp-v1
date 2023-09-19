@@ -87,7 +87,7 @@ const SubscriptionPage = props => {
     //     </View>
     //     </ScrollView>
     <View>
-    <SubscriptionHomePage/>
+    <PageDetails/>
 </View>
    
     )

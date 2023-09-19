@@ -4,6 +4,7 @@ import PlanDetailsHeading from "../../components/Heading/Subscription/PlanDetail
 import PromoCodesAndOffers from "../../components/Cards/Subscription/PromoCodesAndOffers";
 import PreferedPayment from "../../components/Cards/Subscription/PreferedPayment";
 import OrderSummary from "../../components/Cards/Subscription/OrderSummary";
+import BlockImage from "../../components/Block/Subscription/BlockImage";
 
 
 const SubscriptionPayment=props=>{
@@ -11,6 +12,7 @@ const SubscriptionPayment=props=>{
     <View style={styles.container}>
       <ScrollView>
         <PlanDetailsHeading/>
+        <BlockImage/>
         <PromoCodesAndOffers promoCode="Meal30" offer="30%"/>
         <PreferedPayment/>
         <OrderSummary/>

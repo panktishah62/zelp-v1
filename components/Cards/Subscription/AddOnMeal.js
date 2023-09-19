@@ -2,16 +2,12 @@ import React from "react";
 import LinearGradient from 'react-native-linear-gradient';
 import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
 import { colors } from "../../styles/colors";
+import { dimensions } from "../../../styles";
 
 
 const AddOnMeals=props=>{
     return(
-        <LinearGradient
-        colors={['rgba(255, 255, 255, 0.80)', 'rgba(255, 255, 255, 0.25)']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={styles.gradient}
-      >
+       <View style={styles.wrapeer}>
         <View style={styles.container}>
             
     
@@ -25,25 +21,26 @@ const AddOnMeals=props=>{
         
  
         </View>
-        </LinearGradient>
+        </View>
     )
 }
 
 const styles=StyleSheet.create({
+  wrapeer:{
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center",
+
+  },
     container: {
         display:"flex",
         flexDirection:"row",
         justifyContent:"space-around",
         alignItems:"center",
-        overflow: 'hidden', // Clip the shadow if it overflows
-    shadowColor: 'rgba(0, 0, 0, 0.25)',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 10,
+     backgroundColor: '#FFF',
+      width:dimensions.fullWidth-60,
     elevation: 3,
+    borderRadius: 10,
         height: 76.25,
     },
     textSection:{

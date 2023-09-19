@@ -77,17 +77,7 @@ const buttonStyles=StyleSheet.create({
         height:87,
         marginTop:20,
         backgroundColor: '#EBECF0', // Background color
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgba(0, 0, 0, 0.10)',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 1,
-        shadowRadius: 40,
-      },
-      android: {
-        elevation: 16,
-      },
-    }),
+        elevation:10,
     },
     orangeButton:{
         display:'flex',
