@@ -1,34 +1,17 @@
 import React from 'react'
 import { View,Text,StyleSheet,Image } from 'react-native'
 
-const objects=[
-    {
-        image:require('../../../assets/images/Subscription/salad_2.png'),
-        text:"Choose your Preferred Meal",
-    },
-    {
-        image:require('../../../assets/images/Subscription/balanced-diet_1.png'),
-        text:"Wide Variety of options",
-    },
-    {
-        image:require('../../../assets/images/Subscription/delivery_1.png'),
-        text:"Delivery at your Door Step",
-    },
-    {
-        image:require('../../../assets/images/Subscription/salary_1.png'),
-        text:"No Additional costs",
-    },
-]
+
 
 const BenifitComponent = props => { 
 
     
-    
+        const {data}=props
 
 
     return(
         <View style={styles.container}>
-            { objects.map((item,index)=>(
+            {data && data.map((item,index)=>(
             <View style={styles.innerContainer} key={index}>
             <Image style={styles.innerImage} source={item.image} />
             <Text style={styles.innerText}>{item.text}</Text>

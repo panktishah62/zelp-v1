@@ -32,22 +32,11 @@ import { getBannerImages } from "../../../redux/services/subscriptionService";
 
 
 const CarouselImageAtTop=props=>{
-    const [bannerImagesArr,setBannerImagesArr]=useState([]);
-
-    useEffect(()=>{
-        fetchData();
-    }
-    ,[setBannerImagesArr])
-
-    const fetchData=async()=>{
-        const response=await getBannerImages();
-       
-        setBannerImagesArr(response?.data?.data);
-    }
+   const {bannerImagesArr,isStatic}=props
 
 
     const renderItem = () => {
-        return bannerImagesArr.map((item,index) => (
+        return bannerImagesArr?.map((item,index) => (
           <LinearGradient
             key={index}
             colors={['rgba(255, 255, 255, 0.80)', 'rgba(255, 255, 255, 0.25)']}
@@ -56,9 +45,12 @@ const CarouselImageAtTop=props=>{
           <View style={[styles.conatiner,styles.shadow]} key={index} >
             
             <View style={styles.imageContainer}>
-                <Image style={styles.imageStyle} source={{
+               { !isStatic && <Image style={styles.imageStyle} source={{
                     uri: item.image,
-                }} />
+                }} />}
+                {
+                    isStatic && <Image style={styles.imageStyle} source={item.caroselImage} />
+                }
             </View>
             
             
@@ -71,7 +63,7 @@ const CarouselImageAtTop=props=>{
 
  return(
     <View style={styles.conatiner} >
-       { bannerImagesArr.length!==0 && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+       {  bannerImagesArr?.length!==0 && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             {renderItem()}
             </ScrollView>}
 

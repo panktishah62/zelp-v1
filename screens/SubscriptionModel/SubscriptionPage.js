@@ -29,7 +29,30 @@ import MealComponent from '../../components/Cards/Subscription/MealComponent';
 import StarHeadingComponent from '../../components/Cards/Subscription/StarHeadinComponent';
 import BenifitHeadingComp from '../../components/Cards/Subscription/BenifitHeadingComp';
 import CarouselImageAtTop from '../../components/Cards/Subscription/CarouselImageAtTop';
+import PageDetails from './PageDetails';
+import { getBannerImages } from '../../redux/services/subscriptionService';
+import SubscriptionPayment from './SubscriptionPayment';
+import PaymentSuccessfull from './PaymentSuccessfull';
+import SubscriptionHomePage from './SubscriptionHomePage';
 
+const benifitComponentData=[
+    {
+        image:require('../../assets/images/Subscription/salad_3.png'),
+        text:"Choose your Preferred Meal",
+    },
+    {
+        image:require('../../assets/images/Subscription/clock.png'),
+        text:"Wide Variety of options",
+    },
+    {
+        image:require('../../assets/images/Subscription/plate.png'),
+        text:"Delivery at your Door Step",
+    },
+    {
+        image:require('../../assets/images/Subscription/delivery_2.png'),
+        text:"No Additional costs",
+    },
+]
 
 
 
@@ -37,27 +60,42 @@ import CarouselImageAtTop from '../../components/Cards/Subscription/CarouselImag
 const SubscriptionPage = props => {
 
     
-  
+    const [bannerImagesArr,setBannerImagesArr]=useState([]);
+
+    useEffect(()=>{
+        fetchBannerImages();
+    }
+    ,[setBannerImagesArr])
+
+    const fetchBannerImages=async()=>{
+        const response=await getBannerImages();
+       
+        setBannerImagesArr(response?.data?.data);
+    }
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.container}>
-      <CarouselImageAtTop/>
-        <StarHeadingComponent/>
-        <CaroselComponent/>
-        <ParagraphComp/>
-        <BenifitHeadingComp/>
-        <BenifitComponent/>
-        <PartnersComponent />
-        <MealComponent  />
-        </View>
-        </ScrollView>
+    //     <ScrollView showsVerticalScrollIndicator={false}>
+    //     <View style={styles.container}>
+    //   <CarouselImageAtTop bannerImagesArr={bannerImagesArr}/>
+    //     <StarHeadingComponent/>
+        // <CaroselComponent/>
+    //     <ParagraphComp/>
+    //     <BenifitHeadingComp/>
+    //     <BenifitComponent data={benifitComponentData}/>
+    //     <PartnersComponent />
+    //     <MealComponent  />
+    //     </View>
+    //     </ScrollView>
+    <View>
+    <SubscriptionHomePage/>
+</View>
+   
     )
   ;
 };
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.WHITE,
+        // backgroundColor: colors.WHITE,
     },
     // buttonContainer: {
     //     backgroundColor: colors.WHITE,
