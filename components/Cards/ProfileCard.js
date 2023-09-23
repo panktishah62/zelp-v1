@@ -13,7 +13,11 @@ const ProfileCard = props => {
             <View style={styles.leftContainer}>
                 <Image
                     style={styles.image}
-                    source={require('../../assets/Avtar.png')}
+                    source={
+                        profile?.profilePic
+                            ? { uri: profile?.profilePic }
+                            : require('../../assets/Avtar.png')
+                    }
                 />
                 <View style={styles.textContainer}>
                     <Text style={styles.title}>

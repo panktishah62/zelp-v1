@@ -3,18 +3,20 @@ import ApiPath from '../constants/ApiPath';
 export const getShort = data => {
     if (data && data.page && data.limit && data.shotId) {
         return axiosRequest.get(
-            `${ApiPath.shorts}?page=${data.page}&limit=${data.limit}&shotId=${data.shotId}&visitedShots=${data.visitedShots}`,
+            `${ApiPath.shorts}?page=${data.page}&limit=${data.limit}&shotId=${data.shotId}&latitude=${data.latitude}&longitude=${data.longitude}`,
         );
     } else if (data && data.page && data.limit) {
         return axiosRequest.get(
-            `${ApiPath.shorts}?page=${data.page}&limit=${data.limit}&visitedShots=${data.visitedShots}`,
+            `${ApiPath.shorts}?page=${data.page}&limit=${data.limit}&latitude=${data.latitude}&longitude=${data.longitude}`,
         );
     } else if (data && data.shotId) {
         return axiosRequest.get(
-            `${ApiPath.shorts}?shotId=${data.shotId}&visitedShots=${data.visitedShots}`,
+            `${ApiPath.shorts}?shotId=${data.shotId}&latitude=${data.latitude}&longitude=${data.longitude}`,
         );
     }
-    return axiosRequest.get(`${ApiPath.shorts}`);
+    return axiosRequest.get(
+        `${ApiPath.shorts}?&latitude=${data.latitude}&longitude=${data.longitude}`,
+    );
 };
 export const follow = data => {
     return axiosRequest.post(ApiPath.followFroker, data);

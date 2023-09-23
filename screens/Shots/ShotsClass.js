@@ -52,7 +52,6 @@ const ShotClassScreen = props => {
     const [isFocused, setIsFocused] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [refreshingLogin, setRefreshingLogin] = useState(false);
-    const [visitedShots, setVisitedShots] = useState([]);
 
     const windowDimensions = Dimensions.get('window');
     const windowHeight = windowDimensions.height;
@@ -79,13 +78,15 @@ const ShotClassScreen = props => {
                     page: currentPage,
                     limit: currentLimit,
                     shotId: shotId,
-                    visitedShots: visitedShots,
+                    latitude: location?.latitude,
+                    longitude: location?.longitude,
                 });
             } else {
                 data = await getShort({
                     page: currentPage,
                     limit: currentLimit,
-                    visitedShots: visitedShots,
+                    latitude: location?.latitude,
+                    longitude: location?.longitude,
                 });
             }
             setRefreshing(false);
@@ -106,8 +107,6 @@ const ShotClassScreen = props => {
                     .map(page => page?.data?.shots)
                     .flat();
                 setVideoData(shots);
-                const shotsIds = shots.map(shot => shot?.shot?._id);
-                setVisitedShots(shotsIds);
                 setRefreshing(false);
                 setRefreshingLogin(false);
                 setCurrentPage(currentPage + 1);
@@ -250,12 +249,16 @@ const ShotClassScreen = props => {
         await getUserWallet()
             .then(response => response?.data)
             .then(data => {
-                if (!data?.shouldIncreaseWallet) {
+                if (
+                    data &&
+                    data?.maxWalletApplicable &&
+                    !data?.shouldIncreaseWallet
+                ) {
                     dispatch(
                         showDialog({
                             isVisible: true,
                             titleText: 'Your wallet is full!',
-                            subTitleText: `Max ${data.maxWalletApplicable}Rs can be added to wallet. Please use money from your wallet before earning more!`,
+                            subTitleText: `Max ${data?.maxWalletApplicable}Rs can be added to wallet. Please use money from your wallet before earning more!`,
                             buttonText1: 'CLOSE',
                             type: DialogTypes.WARNING,
                         }),

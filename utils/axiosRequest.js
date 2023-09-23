@@ -35,30 +35,11 @@ axiosRequest.interceptors.response.use(
     },
     async function (error) {
         if (error.response.status === 401) {
-            alert('please login to continue');
-        } else if (error.response.status === 404) {
-            store.dispatch({
-                type: SHOW_DIALOG,
-                payload: {
-                    isVisible: true,
-                    titleText: 'Something went wrong!',
-                    subTitleText: error?.response?.data?.message,
-                    buttonText1: 'CLOSE',
-                    type: DialogTypes.ERROR,
-                },
-            });
-        } else if (error.response.status === 400) {
-            store.dispatch({
-                type: SHOW_DIALOG,
-                payload: {
-                    isVisible: true,
-                    titleText: 'Something went wrong!',
-                    subTitleText: error?.response?.data?.message,
-                    buttonText1: 'CLOSE',
-                    type: DialogTypes.ERROR,
-                },
-            });
-        } else if (error.response.status === 500) {
+        } else if (
+            error.response.status === 404 ||
+            error.response.status === 400 ||
+            error.response.status === 500
+        ) {
             store.dispatch({
                 type: SHOW_DIALOG,
                 payload: {

@@ -68,27 +68,16 @@ const FeaturedItem = props => {
 
     useEffect(() => {
         if (location && location.latitude && location.longitude) {
-            const isServableArea_ = isPointInPolygon([
-                location.latitude,
-                location.longitude,
-            ]);
-            setIsServableArea(isServableArea_);
-            if (isServableArea_) {
-                setIsServableArea(
-                    isPointInRadius(
-                        location.latitude,
-                        location.longitude,
-                        item?.foodItem?.restaurant?.address?.latitude,
-                        item?.foodItem?.restaurant?.address?.longitude,
-                        item?.foodItem?.restaurant?.serviceableRadius,
-                    ),
-                );
-            }
+            setIsServableArea(
+                isPointInRadius(
+                    location.latitude,
+                    location.longitude,
+                    item?.foodItem?.restaurant?.address?.latitude,
+                    item?.foodItem?.restaurant?.address?.longitude,
+                    item?.foodItem?.restaurant?.serviceableRadius,
+                ),
+            );
         }
-        // console.log(
-        //     'item?.foodItem?.restaurant?.serviceableRadius',
-        //     item?.foodItem?.restaurant?.serviceableRadius,
-        // );
     }, [location]);
 
     return (
@@ -153,6 +142,7 @@ const FeaturedItem = props => {
                         isEnabled={isRestaurantOpen}
                         price={item?.price ? Number(item?.price) : null}
                         isServableArea={isServableArea}
+                        isRestaurantOpen={isRestaurantOpen}
                     />
                 )}
                 {foodItem && !isInCart && (
@@ -165,6 +155,7 @@ const FeaturedItem = props => {
                         isEnabled={isRestaurantOpen}
                         price={item?.price ? Number(item?.price) : null}
                         isServableArea={isServableArea}
+                        isRestaurantOpen={isRestaurantOpen}
                     />
                 )}
             </View>

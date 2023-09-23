@@ -20,7 +20,7 @@ export default {
     getUserWallet: 'users/getUserWallet',
 
     //Shots
-    shorts: 'froker/shots/getAllShots',
+    shorts: 'froker/shots/getAllShotsUpdated',
     followFroker: 'froker/followFroker',
     likeShots: 'froker/shots/likeShots',
     unfollowFroker: 'froker/unfollowFroker',

@@ -34,6 +34,7 @@ const FeaturedItemAddButton = props => {
         restaurant,
         price = null,
         isServableArea,
+        isRestaurantOpen,
     } = props;
     const currentOrder = useSelector(state => state.currentOrder.currentOrder);
     const cart = useSelector(state => state.cartActions);
@@ -182,7 +183,9 @@ const FeaturedItemAddButton = props => {
                                     (!isEnabled || !isServableArea) &&
                                         styles.isNotEnabledText,
                                 ]}>
-                                {!isServableArea
+                                {!isRestaurantOpen
+                                    ? 'RESTAURANT CLOSED'
+                                    : !isServableArea
                                     ? 'AREA NOT SERVABLE'
                                     : isEnabled
                                     ? 'Add To Cart'
