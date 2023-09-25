@@ -14,6 +14,7 @@ import MainStack from './MainStack';
 import AppTourScreen from '../screens/AppTour/AppTourScreen';
 import DefaultDialog from '../components/DialogBox/DefaultDialog';
 import { showDialog } from '../redux/actions/dialog';
+import { getShotsViewRestSortingConfig } from '../redux/actions/server';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ const RootStack = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const [initialRouteName, setInitialRouteName] = useState('');
+    const location = useSelector(state => state.address.location);
     const locationPermission = useSelector(
         state => state.permissions.locationPermission,
     );
@@ -72,6 +74,18 @@ const RootStack = () => {
             }
         }
     }, [locationPermission, isLocationOn]);
+
+    useEffect(() => {
+        if (location?.latitude && location?.longitude) {
+            dispatch(
+                getShotsViewRestSortingConfig({
+                    latitude: location?.latitude,
+                    longitude: location?.longitude,
+                }),
+            );
+        }
+    }, [location]);
+
     useEffect(() => {
         const appFocusSubscription = AppState.addEventListener(
             'change',

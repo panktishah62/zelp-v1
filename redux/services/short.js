@@ -1,22 +1,36 @@
 import axiosRequest from '../../utils/axiosRequest';
 import ApiPath from '../constants/ApiPath';
 export const getShort = data => {
-    if (data && data.page && data.limit && data.shotId) {
+    if (data?.shotsViewRestSortingConfig?.length) {
+        if (data && data.page && data.limit && data.shotId) {
+            return axiosRequest.post(
+                `${ApiPath.shorts}?page=${data.page}&limit=${data.limit}&shotId=${data.shotId}&latitude=${data.latitude}&longitude=${data.longitude}`,
+                {
+                    shotsViewRestSortingConfig:
+                        data?.shotsViewRestSortingConfig,
+                },
+            );
+        } else if (data && data.page && data.limit) {
+            return axiosRequest.post(
+                `${ApiPath.shorts}?page=${data.page}&limit=${data.limit}&latitude=${data.latitude}&longitude=${data.longitude}`,
+                {
+                    shotsViewRestSortingConfig:
+                        data?.shotsViewRestSortingConfig,
+                },
+            );
+        } else if (data && data.shotId) {
+            return axiosRequest.post(
+                `${ApiPath.shorts}?shotId=${data.shotId}&latitude=${data.latitude}&longitude=${data.longitude}`,
+                {
+                    shotsViewRestSortingConfig:
+                        data?.shotsViewRestSortingConfig,
+                },
+            );
+        }
         return axiosRequest.get(
-            `${ApiPath.shorts}?page=${data.page}&limit=${data.limit}&shotId=${data.shotId}&latitude=${data.latitude}&longitude=${data.longitude}`,
-        );
-    } else if (data && data.page && data.limit) {
-        return axiosRequest.get(
-            `${ApiPath.shorts}?page=${data.page}&limit=${data.limit}&latitude=${data.latitude}&longitude=${data.longitude}`,
-        );
-    } else if (data && data.shotId) {
-        return axiosRequest.get(
-            `${ApiPath.shorts}?shotId=${data.shotId}&latitude=${data.latitude}&longitude=${data.longitude}`,
+            `${ApiPath.shorts}?&latitude=${data.latitude}&longitude=${data.longitude}`,
         );
     }
-    return axiosRequest.get(
-        `${ApiPath.shorts}?&latitude=${data.latitude}&longitude=${data.longitude}`,
-    );
 };
 export const follow = data => {
     return axiosRequest.post(ApiPath.followFroker, data);
@@ -34,4 +48,10 @@ export const unfollowFroker = data => {
 
 export const updateShotsView = data => {
     return axiosRequest.post(`${ApiPath.updateShotsView}`, data);
+};
+
+export const getShotsViewRestSortingConfig_ = data => {
+    return axiosRequest.get(
+        `${ApiPath.getShotsViewRestSortingConfig}?latitude=${data.latitude}&longitude=${data.longitude}`,
+    );
 };

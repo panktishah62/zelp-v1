@@ -4,6 +4,7 @@ import { Linking, PermissionsAndroid } from 'react-native';
 import * as Permissions from 'react-native-permissions';
 import Geolocation from '@react-native-community/geolocation';
 import { getDistance } from 'geolib';
+import remoteConfig from '@react-native-firebase/remote-config';
 import {
     ADD_ADDRESS,
     EDIT_ADDRESS,
@@ -132,7 +133,10 @@ export const getDefaultAddress = (setIsLoading, navigation) => {
                     { latitude, longitude },
                     savedAddress,
                 );
-                if (distance > 500) {
+                if (
+                    distance >
+                    remoteConfig().getValue('UserLocationRadius')?.asNumber()
+                ) {
                     if (navigation) {
                         dispatch(
                             showDialog({

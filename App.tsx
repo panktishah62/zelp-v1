@@ -81,7 +81,7 @@ function App(): JSX.Element {
         });
 
         return () => {
-            Linking.removeEventListener('url', unsubscribe);
+            Linking.removeAllListeners('url');
         };
     }, []);
 

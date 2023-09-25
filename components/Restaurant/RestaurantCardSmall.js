@@ -27,11 +27,9 @@ const RestaurantCard = props => {
     const {
         image,
         title,
-        distance,
         rating,
         rating_count,
         priceForOne,
-        timeTaken,
         cuisines,
         restaurant,
         navigation,
@@ -51,8 +49,6 @@ const RestaurantCard = props => {
                 if (isRestaurantOpen) {
                     navigation.navigate('RestaurantWithMenu', {
                         restaurant: restaurant,
-                        distance,
-                        time: timeTaken,
                     });
                 } else {
                     dispatch(

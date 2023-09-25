@@ -74,8 +74,6 @@ const CategorisedRestaurant = ({ route, navigation }) => {
                             return (
                                 <RestaurantCardLarge
                                     restaurant={restaurant?.restaurant._id}
-                                    distance={restaurant?.distance}
-                                    time={restaurant?.time}
                                     navigation={navigation}
                                     key={index}
                                 />

@@ -15,7 +15,7 @@ import FoodItems from './FoodItem';
 import { isTimeInIntervals } from '../../../utils';
 
 const RestaurantWithFoodItems = props => {
-    const { restaurant, distance, time, navigation } = props;
+    const { restaurant, navigation } = props;
     const foodItems = restaurant.foodItems;
     const [isRestaurantOpen, setIsRestaurantOpen] = useState(false);
 
@@ -78,8 +78,6 @@ const RestaurantWithFoodItems = props => {
                         return (
                             <FoodItems
                                 foodItem={foodItem}
-                                distance={distance}
-                                time={time}
                                 key={index}
                                 navigation={navigation}
                                 restaurant={restaurant._id}

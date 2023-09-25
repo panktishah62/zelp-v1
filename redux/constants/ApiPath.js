@@ -26,6 +26,8 @@ export default {
     unfollowFroker: 'froker/unfollowFroker',
     unlikeShots: 'froker/shots/dislikeShots',
     updateShotsView: 'froker/shots/updateShotsView',
+    getShotsViewRestSortingConfig: 'froker/shots/getShotsViewRestSortingConfig',
+
     //Coupons
     getValidCouponsForUser: 'coupon/getValidCouponsForUserUpdated',
     getSearchedCouponForUser: 'coupon/searchCouponUpdated',

@@ -45,8 +45,6 @@ const SearchAllDishes = props => {
                                 return (
                                     <RestaurantWithFoodItems
                                         restaurant={restaurant?.restaurant}
-                                        distance={restaurant?.distance}
-                                        time={restaurant?.time}
                                         key={index}
                                         navigation={navigation}
                                     />

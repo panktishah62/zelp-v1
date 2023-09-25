@@ -35,7 +35,7 @@ const Cuisines = ({ cuisines }) => {
     );
 };
 
-const OfferCard = ({ restaurant, distance, time, navigation }) => {
+const OfferCard = ({ restaurant, navigation }) => {
     const [cuisines, setCuisines] = useState([]);
     const [isRestaurantOpen, setIsRestaurantOpen] = useState(false);
     const dispatch = useDispatch();
@@ -58,8 +58,6 @@ const OfferCard = ({ restaurant, distance, time, navigation }) => {
                 if (isRestaurantOpen) {
                     navigation.navigate('RestaurantWithMenu', {
                         restaurant: restaurant,
-                        distance: distance,
-                        time: time,
                     });
                 } else {
                     dispatch(

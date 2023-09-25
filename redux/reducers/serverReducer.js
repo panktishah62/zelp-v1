@@ -1,7 +1,13 @@
-import { GET_CONFIG, GET_CONFIG_ERROR } from '../constants';
+import {
+    GET_CONFIG,
+    GET_CONFIG_ERROR,
+    GET_SHOTS_CONFIG_ERROR,
+    GET_SHOTS_VIEW_REST_SORTING_CONFIG,
+} from '../constants';
 
 const initialState = {
     config: null,
+    shotsViewRestSortingConfig: null,
     error: null,
 };
 
@@ -12,9 +18,21 @@ const serverReducer = (state = initialState, action) => {
                 ...state,
                 config: action.payload,
             };
+        case GET_SHOTS_VIEW_REST_SORTING_CONFIG:
+            return {
+                ...state,
+                shotsViewRestSortingConfig: action.payload,
+            };
         case GET_CONFIG_ERROR:
             return {
-                ...initialState,
+                ...state,
+                config: null,
+                error: action.payload,
+            };
+        case GET_SHOTS_CONFIG_ERROR:
+            return {
+                ...state,
+                shotsViewRestSortingConfig: null,
                 error: action.payload,
             };
         default:

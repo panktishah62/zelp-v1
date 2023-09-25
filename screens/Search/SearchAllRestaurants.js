@@ -96,8 +96,6 @@ const SearchAllRestaurants = props => {
                                 return (
                                     <RestaurantCardInfo
                                         restaurant={restaurant?.restaurant}
-                                        distance={restaurant?.distance}
-                                        time={restaurant?.time}
                                         key={index}
                                         navigation={navigation}
                                     />
@@ -110,8 +108,6 @@ const SearchAllRestaurants = props => {
                                     return (
                                         <RestaurantCardInfo
                                             restaurant={restaurant?.restaurant}
-                                            distance={restaurant?.distance}
-                                            time={restaurant?.time}
                                             key={index}
                                             navigation={navigation}
                                         />
@@ -131,8 +127,6 @@ const SearchAllRestaurants = props => {
                                 return (
                                     <RestaurantCardInfo
                                         restaurant={restaurant?.restaurant._id}
-                                        distance={restaurant?.distance}
-                                        time={restaurant?.time}
                                         key={index}
                                         navigation={navigation}
                                     />

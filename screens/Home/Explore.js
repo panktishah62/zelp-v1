@@ -121,17 +121,15 @@ const Explore = props => {
         }
     }, [location?.latitude]);
 
-    const Restaurants = ({ item, distance, time }) => {
+    const Restaurants = ({ item }) => {
         return (
             <RestaurantCard
                 image={item.image}
                 title={item.name}
-                distance={distance}
                 rating={item.rating.value}
                 rating_count={item.rating.count}
                 priceForOne={item.costOfTwo}
                 // timeTaken={`${item.timings[0].openingTime}-${item.timings[0].closingTime}`}
-                timeTaken={time}
                 cuisines={item.tags}
                 navigation={navigation}
                 restaurant={item}
@@ -157,8 +155,6 @@ const Explore = props => {
         return (
             <OfferCard
                 restaurant={item.restaurant}
-                distance={item.distance}
-                time={item.time}
                 navigation={navigation}
                 key={index}
             />
@@ -291,10 +287,6 @@ const Explore = props => {
                                                 <Restaurants
                                                     item={restaurant.restaurant}
                                                     key={index}
-                                                    distance={
-                                                        restaurant.distance
-                                                    }
-                                                    time={restaurant.time}
                                                 />
                                             );
                                         }

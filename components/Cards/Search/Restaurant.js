@@ -8,7 +8,7 @@ import { colors } from '../../../styles/colors';
 import { sliceText } from '../../../utils';
 
 const Restaurant = props => {
-    const { restaurant, distance, time, navigation } = props;
+    const { restaurant, navigation } = props;
     return (
         <View style={styles.container}>
             <View style={styles.containerLeft}>

@@ -50,8 +50,6 @@ const RestaurantCardInfo = ({ restaurant, distance, time, navigation }) => {
                 if (isRestaurantOpen) {
                     navigation.navigate('RestaurantWithMenu', {
                         restaurant: restaurant,
-                        distance: distance,
-                        time: time,
                     });
                 }
             }}>

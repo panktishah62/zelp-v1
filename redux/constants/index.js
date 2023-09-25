@@ -1,6 +1,9 @@
 export const BASE_URL = 'https://froker.live/api/v1';
 export const GET_CONFIG = 'GET_CONFIG';
+export const GET_SHOTS_VIEW_REST_SORTING_CONFIG =
+    'GET_SHOTS_VIEW_REST_SORTING_CONFIG';
 export const GET_CONFIG_ERROR = 'GET_CONFIG_ERROR';
+export const GET_SHOTS_CONFIG_ERROR = 'GET_SHOTS_CONFIG_ERROR';
 export const GOOGLE_MAPS_APIKEY = 'AIzaSyBp4AkSHWTMsEq7WVmcIgNQELjBrWr9puQ';
 export const ORDER_BUFFER_TIME = 0;
 export const CART_LIMIT = 3;

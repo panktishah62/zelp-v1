@@ -42,6 +42,7 @@ const ShotClassScreen = props => {
     const [appStateVisible, setAppStateVisible] = useState(
         appState.current === 'active',
     );
+    const serverData = useSelector(state => state.serverReducer);
     const location = useSelector(state => state.address.location);
     const dispatch = useDispatch();
     const [activeVideoIndex, setActiveVideoIndex] = useState(0);
@@ -80,6 +81,8 @@ const ShotClassScreen = props => {
                     shotId: shotId,
                     latitude: location?.latitude,
                     longitude: location?.longitude,
+                    shotsViewRestSortingConfig:
+                        serverData?.shotsViewRestSortingConfig,
                 });
             } else {
                 data = await getShort({
@@ -87,6 +90,8 @@ const ShotClassScreen = props => {
                     limit: currentLimit,
                     latitude: location?.latitude,
                     longitude: location?.longitude,
+                    shotsViewRestSortingConfig:
+                        serverData?.shotsViewRestSortingConfig,
                 });
             }
             setRefreshing(false);
@@ -187,6 +192,10 @@ const ShotClassScreen = props => {
         isLoggedIn();
     }, [isAuthenticated, location?.latitude]);
 
+    useEffect(() => {
+        onRefresh();
+    }, [serverData?.shotsViewRestSortingConfig]);
+
     const onViewRef = useRef(({ viewableItems }) => {
         viewableItems.forEach(item => {
             // if (
@@ -269,15 +278,19 @@ const ShotClassScreen = props => {
 
     useEffect(() => {
         if (
-            videosData?.length >= 0 &&
+            videosData?.length > 0 &&
             videosData?.length % popupOnNthVideo == 0
         ) {
             fetchUserWallet();
         }
     }, [videosData]);
 
+    useEffect(() => {
+        fetchUserWallet();
+    }, []);
+
     return (
-        <View>
+        <View style={styles.loaderStyle}>
             {!(isLoading || refreshingLogin || refreshing) ? (
                 <FlatList
                     // data={data?.pages.map(page => page.data.shots).flat()}

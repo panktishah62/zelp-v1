@@ -226,7 +226,7 @@ export default function VideoItem({
                             //     uri: data.shot.video,
                             // }}
                             style={[styles.video, { height: screenHeight }]}
-                            resizeMode="cover"
+                            resizeMode="none"
                             paused={!(isActive && isFocused && appStateVisible)}
                             muted={mute}
                             repeat
@@ -236,7 +236,7 @@ export default function VideoItem({
                             playInBackground={false}
                             playWhenInactive={false}
                             poster={posterUrl}
-                            posterResizeMode="cover"
+                            posterResizeMode="contain"
                             onProgress={onProgress}
                             muxOptions={{
                                 application_name: app.name, // (required) the name of your application
@@ -283,6 +283,7 @@ const styles = StyleSheet.create({
         // height: screenHeight - TAB_BAR_HEIGHT,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: colors.BLACK,
     },
     video: {
         position: 'absolute',
