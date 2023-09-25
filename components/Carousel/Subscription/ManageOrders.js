@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
 import { dimensions } from "../../../styles";
+import { dynamicSize } from "../../../utils/responsive";
 
 const ManageOrders = props => {
     const data=[
@@ -59,18 +60,18 @@ const styles = StyleSheet.create({
        
         alignItems:'center',
         flexDirection:'row',
-        width:dimensions.fullWidth-100,
+        width:dimensions.fullWidth-dynamicSize(100),
         height:100.79,
     },
     container:{
-        marginTop:20,
+        marginTop:dynamicSize(20),
         display:'flex',
         justifyContent:'center',
         alignItems:'center',
         height:100.79,
         borderRadius:15,
         borderColor:'black',
-        width:dimensions.fullWidth-60,
+        width:dimensions.fullWidth-dynamicSize(60),
         borderWidth:2,
     },
     itemContainer:{
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'flex-start',
      
-        width:dimensions.fullWidth/4-26,
+        width:dimensions.fullWidth/dynamicSize(4)-dynamicSize(26),
        
        
     },
@@ -99,12 +100,12 @@ const styles = StyleSheet.create({
         borderColor:'black',
         borderWidth :1,
         borderStyle:'dashed',
-        width:46,
+        width:dynamicSize(46),
     },
     manageOrderText:{
         color: '#3D3D3D',
         fontFamily: 'Poppins',
-        fontSize: 14,
+        fontSize: dynamicSize(14),
         fontStyle: 'normal',
         fontWeight: '700',
         letterSpacing: 0.25,
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     mealText:{
         color: '#3D3D3D',
         fontFamily: 'Poppins',
-        fontSize: 14,
+        fontSize: dynamicSize(14),
         fontStyle: 'normal',
         fontWeight: '500',
         letterSpacing: 0.25,
@@ -123,15 +124,15 @@ const styles = StyleSheet.create({
     manageOrderTextSection:{
         position:'absolute',
         top:10,
-        left:(dimensions.fullWidth-190)/2,
+        left:(dimensions.fullWidth-dynamicSize(190))/2,
         backgroundColor:'#fff',
        
-        paddingHorizontal:5,
+        paddingHorizontal:dynamicSize(5),
        height:30
 
     },
     increaseDimension:{
-        width:27.5,   
+        width:dynamicSize(27.5),   
         height:27.5
 
     }

@@ -72,7 +72,7 @@ const PageDetails=props=>{
             <HowToStart/>
             <BestMealHeadingWithStars/>
            
-           <MealCards/>
+           <MealCards isRatingTextVisible={true} isHeadingVisible={true} isButtonVisible={true} />
            <AddOnMealModal/>
           
         </View>

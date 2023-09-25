@@ -66,7 +66,7 @@ const CaroselComponent=props=>{
     //   ];
     
       const renderItem = () => {
-    
+    //make this another component
         return responseDataArr.map((item,index) => (
             <LinearGradient
             colors={['rgba(255, 255, 255, 0.80)', 'rgba(255, 255, 255, 0.25)']}

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
 import { dimensions } from "../../../styles";
+import { dynamicSize } from "../../../utils/responsive";
 
 const SubscriptionDetailsHeading = props => {
     return(
@@ -23,14 +24,14 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         alignItems:'center',
         flexDirection:'row',
-        width:dimensions.fullWidth-90,
+        width:dimensions.fullWidth-dynamicSize(80),
     },
     headingSection:{
         display:'flex',
         justifyContent:'flex-start',
         flexDirection:'column',
         gap:4,
-        marginTop:20,
+        marginTop:dynamicSize(20),
       
     },
     offerMeal:{
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     planText:{
         color: '#3D3D3D',
         fontFamily: 'Poppins',
-        fontSize: 18,
+        fontSize: dynamicSize(18),
         fontStyle: 'normal',
         fontWeight: '700',
         textAlign: 'left',

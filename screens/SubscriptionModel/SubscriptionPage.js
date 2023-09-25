@@ -34,6 +34,7 @@ import { getBannerImages } from '../../redux/services/subscriptionService';
 import SubscriptionPayment from './SubscriptionPayment';
 import PaymentSuccessfull from './PaymentSuccessfull';
 import SubscriptionHomePage from './SubscriptionHomePage';
+import RestaurantMenuPage from './RestaurantMenuPage';
 
 const benifitComponentData=[
     {
@@ -78,7 +79,7 @@ const SubscriptionPage = props => {
     //     <View style={styles.container}>
     //   <CarouselImageAtTop bannerImagesArr={bannerImagesArr}/>
     //     <StarHeadingComponent/>
-        // <CaroselComponent/>
+    //     <CaroselComponent/>
     //     <ParagraphComp/>
     //     <BenifitHeadingComp/>
     //     <BenifitComponent data={benifitComponentData}/>
@@ -87,8 +88,9 @@ const SubscriptionPage = props => {
     //     </View>
     //     </ScrollView>
     <View>
-    <PageDetails/>
-</View>
+        <RestaurantMenuPage/>
+    </View>
+   
    
     )
   ;

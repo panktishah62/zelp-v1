@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
 import TextSurroundedByLine from "./TextSurroundedByLine";
 import { dimensions } from "../../../styles";
+import { dynamicSize } from "../../../utils/responsive";
 
 
 const PreferedPayment=props=>{
@@ -37,7 +38,8 @@ const styles = StyleSheet.create({
         display:'flex',
         justifyContent:'center',
         alignItems:'center',
-        width:dimensions.fullWidth-60,
+        
+        width:dimensions.fullWidth-dynamicSize(60),
         backgroundColor:'#fff',
         borderRadius:10,
         elevation:5,
@@ -46,10 +48,11 @@ const styles = StyleSheet.create({
     text: {
         color: '#606060', // Default color
         fontFamily: 'IBM Plex Sans',
-        fontSize: 14,
+        fontSize: dynamicSize(14),
         fontStyle: 'normal',
         fontWeight: '400',
         textAlign: 'center',
+        marginLeft:dynamicSize(10)
       },
 })
 

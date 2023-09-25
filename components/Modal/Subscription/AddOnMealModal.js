@@ -4,6 +4,7 @@ import { StyleSheet,TouchableOpacity, View, Text,Image, ScrollView } from "react
 import Modal from 'react-native-modal';
 import { dimensions } from "../../../styles";
 import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
+import { dynamicSize } from "../../../utils/responsive";
 const AddOnMealModal = props => {
     const [isModalVisible, setModalVisible] = useState(false);
 
@@ -45,9 +46,9 @@ const AddOnMealModal = props => {
       <View style={mealsStyles.container}>
         <Text style={mealsStyles.firstText}>Select No. of Meals</Text>
         <View style={mealsStyles.buttonContainer}>
-            <View style={mealsStyles.minusButton}><Text>-</Text></View>
+            <View style={mealsStyles.minusButton}><View style={styles.minusButtonInner}><Text style={{fontSize:26}}>-</Text></View></View>
             <Text style={{fontWeight:'700',color:'black'}}>5</Text>
-            <View style={mealsStyles.plusButton}><Text style={{color:'#fff'}}>+</Text></View>
+            <View style={mealsStyles.plusButton}><View style={mealsStyles.plusButtonInner}><Text style={{color:'#fff',fontSize:22}}>+</Text></View></View>
         </View>
       </View>
       <View style={viewStyles.container}>
@@ -143,7 +144,7 @@ const styles=StyleSheet.create({
     buttonContainer:{
         display:'flex',
         alignItems:'center',
-        paddingHorizontal: 120,
+        width:dimensions.fullWidth-dynamicSize(60),
         paddingVertical:10, 
         backgroundColor:'#E1740F',
         borderRadius:5,
@@ -213,10 +214,17 @@ const mealsStyles=StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         width:28.28,
-        height:28.28,
+       height:28.28,
         borderRadius:28,
-       
+      elevation:5,
         backgroundColor:'#E1740F',
+    },
+    plusButtonInner:{
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+        
+       
     },
     minusButton:{
         display:'flex',
@@ -226,8 +234,15 @@ const mealsStyles=StyleSheet.create({
         height:28.28,
         borderRadius:28,
         borderWidth:1,
+      
+    },
+    minusButtonInner:{
+
+    },
+    changeBorder:{
+        
         borderColor:'#E1740F',
-    
+
     }
 })
 

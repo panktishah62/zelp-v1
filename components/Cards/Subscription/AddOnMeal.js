@@ -4,13 +4,18 @@ import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
 import { colors } from "../../styles/colors";
 import { dimensions } from "../../../styles";
 
-
 const AddOnMeals=props=>{
     return(
+      
        <View style={styles.wrapeer}>
-        <View style={styles.container}>
-            
-    
+       
+       <LinearGradient
+      colors={['rgba(255, 255, 255, 0.90)', 'rgba(255, 255, 255, 0.25)']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
+      style={styles.container}
+    >
+   
            <View style={styles.textSection}>
                 <Text style={styles.firstText}>ADD ON MEALS</Text>
                 <Text style={styles.secondText}>(Every 1 extra meal - 1 day extra validity)</Text>
@@ -18,9 +23,11 @@ const AddOnMeals=props=>{
            <View style={styles.iconSection}>
             <Image source={require('../../../assets/images/Subscription/rightArrow.png')}/>
            </View>
-        
+         
  
-        </View>
+    
+        </LinearGradient>
+       
         </View>
     )
 }
@@ -37,11 +44,18 @@ const styles=StyleSheet.create({
         flexDirection:"row",
         justifyContent:"space-around",
         alignItems:"center",
-     backgroundColor: '#FFF',
-      width:dimensions.fullWidth-60,
-    elevation: 3,
-    borderRadius: 10,
-        height: 76.25,
+  
+    width:dimensions.fullWidth-34,
+    backgroundColor: 'rgba(255, 255, 255, 0.80)',
+    borderWidth: 2,
+    borderColor: '#FFF',
+    shadowColor: 'rgba(0, 0, 0, 0.25)',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 10, // This property adds shadow on Android
+    borderRadius: 12,
+    overflow: 'hidden',
     },
     textSection:{
         display:"flex",
@@ -80,16 +94,18 @@ const styles=StyleSheet.create({
         elevation: 3, // This is for Android shadow
       },
       gradient: {
-        borderRadius: 5,
-   
-       marginVertical:10,
-       marginHorizontal:16,
         borderWidth: 2,
         borderColor: '#FFF',
-        borderRadius: 10, // Adjust this as needed
-        height: 76.25,
+        shadowColor: 'rgba(0, 0, 0, 0.25)',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 1,
+        shadowRadius: 10,
+        elevation: 10, // This property adds shadow on Android
+        borderRadius: 5,
+        overflow: 'hidden'
        
       },
+   
 
 })
 

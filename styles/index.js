@@ -189,6 +189,11 @@ export const fonts = StyleSheet.create({
         fontWeight: '400',
         fontSize: 14,
     },
+    POPPINS_500_11:{
+        fontFamily: 'Poppins-Regular',
+        fontWeight: '500',
+        fontSize: 11,
+    }
 });
 
 export const Styles = StyleSheet.create({

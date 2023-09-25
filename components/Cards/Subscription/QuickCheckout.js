@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity,ScrollView } from "react-native";
 import { dimensions } from "../../../styles";
+import { dynamicSize } from "../../../utils/responsive";
 
 const data=[
     {
@@ -177,16 +178,16 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         flexDirection:'row',
-        width:dimensions.fullWidth-60,
+        width:dimensions.fullWidth-dynamicSize(60),
         gap:10,
-        marginTop:80,
+        marginTop:dynamicSize(80),
       
     },
     container: {
         backgroundColor: 'white',
         borderRadius: 10,
-        paddingHorizontal: 6,
-        paddingVertical: 10,
+        paddingHorizontal: dynamicSize(6),
+        paddingVertical: dynamicSize(10),
         justifyContent: 'center',
         elevation: 5,
         alignItems: 'center',
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
     },
    
     dishImage: {
-        width:98.29,
+        width:dynamicSize(98.29),
         height:98.29,
         borderRadius: 50,
         marginTop: -50,
@@ -204,10 +205,10 @@ const styles = StyleSheet.create({
     dishName: {
         color: '#000',
         fontFamily: 'Poppins',
-        fontSize: 12,
+        fontSize: dynamicSize(12),
         fontStyle: 'normal',
         fontWeight: '500',
-        lineHeight: 19,
+        lineHeight: dynamicSize(19),
     },
     ratingContainer: {
         flexDirection: 'row',
@@ -218,13 +219,13 @@ const styles = StyleSheet.create({
     priceText: {
         color: '#000',
         fontFamily: 'Poppins',
-        fontSize: 12,
+        fontSize: dynamicSize(12),
         fontStyle: 'normal',
         fontWeight: '400',
        
     },
     starImage: {
-        width: 14,
+        width: dynamicSize(14),
         height: 14,
         marginRight: 4,
         marginLeft:5,
@@ -232,7 +233,7 @@ const styles = StyleSheet.create({
     ratingValue: {
         color: '#000',
     fontFamily: 'Poppins',
-    fontSize: 12,
+    fontSize: dynamicSize(12),
     fontStyle: 'normal',
     fontWeight: '600',
     
@@ -243,7 +244,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
     
-        width: 88,
+        width: dynamicSize(88),
         height: 28,
         paddingHorizontal: 25,
         alignItems: 'center',
@@ -252,10 +253,10 @@ const styles = StyleSheet.create({
     selectButtonText: {
         color: '#FFF',
     fontFamily: 'Poppins',
-    fontSize: 14,
+    fontSize: dynamicSize(14),
     fontStyle: 'normal',
     fontWeight: '400',
-    lineHeight: 22, // You can use the exact value provided
+    lineHeight: dynamicSize(22), // You can use the exact value provided
     letterSpacing: -0.408,
     },
 });
