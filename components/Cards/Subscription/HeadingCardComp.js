@@ -31,7 +31,7 @@ const HeadingCardComp = (props) => {
        data.map((item,index)=>(
         <View key={index} style={styles.container}>
         <TextSurroundedByLine text={item.headingText}/>
-        <MealCards/>
+        <MealCards activeOrangeButton={true} orangeButtonText={"Select"} showRatingNumber={true} showInfoText={true}/>
     </View>
        ))
     )

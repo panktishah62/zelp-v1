@@ -1,6 +1,5 @@
 import React,{useState} from "react";
 import { StyleSheet, View,Text,ImageBackground, ScrollView,TouchableOpacity } from "react-native";
-import SliderButton from "./SliderButton";
 import { dimensions } from "../../../styles";
 
 const MultipleButtonFoodType=props=>{
@@ -35,8 +34,8 @@ const MultipleButtonFoodType=props=>{
 
     const renderItems=()=>{
      return   data.map((item,index)=>(
-        <TouchableOpacity onPress={()=>clicked(index)}>
-<View key={index} style={[(active===index) && styles.foodTypeButtonContainer,(active!==index) &&styles1.foodTypeButtonContainer]}>
+        <TouchableOpacity key={index}  onPress={()=>clicked(index)}>
+<View  style={[(active===index) && styles.foodTypeButtonContainer,(active!==index) &&styles1.foodTypeButtonContainer]}>
         <View style={[(active===index) && styles.buttonContainer,(active!==index) &&styles1.buttonContainer]}>
             <View style={[(active===index) && styles.imageContainer,(active!==index) &&styles1.imageContainer]}>
             <ImageBackground resizeMode="cover" style={[(active===index) && styles.icon,(active!==index) &&styles1.icon]} source={(active!==index)?item.image:item.whiteImage}/>

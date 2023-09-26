@@ -1,12 +1,12 @@
 import React from "react";
 import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { dimensions,colors } from "../../../styles";
+import { dimensions,colors, fonts } from "../../../styles";
 import { dynamicSize } from "../../../utils/responsive";
 
 const MealCards=props=>{
 
-    const {isButtonVisible,isHeadingVisible,isRatingTextVisible,backendDataArr}=props
+    const {isButtonVisible,isHeadingVisible,isRatingTextVisible,backendDataArr,activeOrangeButton,orangeButtonText,showRatingNumber,showInfoText,showCrossButton}=props
 
     const data = [
         {
@@ -62,23 +62,22 @@ const MealCards=props=>{
                    </View>
                    <View style={styles.middleTextContainer}>
                        <Text style={styles.boldText}>{item.boldText}</Text>
-                       <Image style={styles.nextImage} source={require('../../../assets/images/Subscription/golden_star.png')} />
-                       <Text style={[styles.firstText,{marginLeft:dynamicSize(3)}]}>{item.rating} {isRatingTextVisible && <Text style={[styles.firstText,{marginLeft:dynamicSize(3)}]}>Rating</Text>}</Text>
+                     {showRatingNumber && <Image style={styles.nextImage} source={require('../../../assets/images/Subscription/golden_star.png')} />}
+                    {showRatingNumber &&   <Text style={[styles.firstText,{marginLeft:dynamicSize(3)}]}>{item.rating} </Text>}
                    </View>
-                   <View style={styles.vegContainer}>
+                 {showInfoText &&  <View style={styles.vegContainer}>
                        <Text style={styles.lastText}>{item.lastText}</Text>
                        <Image source={require('../../../assets/images/Subscription/info.png')} />
+                   </View>}
+                  {activeOrangeButton && <View style={styles.selectButtonContainer}>
+                        <Text style={styles.selectButtonText}>{orangeButtonText}</Text>
+                   </View>}
                    </View>
-                   </View>
-                   <View style={styles.secondContainer}>
-                   <View style={styles.starContainer}>
-                
-                   </View>
-                   </View>
+                 
                    
                </View>
                </View>
-               
+             
      </View>
         ))
     }
@@ -105,8 +104,6 @@ const styles=StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',
-      
-       
     },
     imageContainer:{
         width:dynamicSize(100),
@@ -124,13 +121,10 @@ const styles=StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         marginHorizontal:dynamicSize(10),
-      
         marginVertical:10,
-      backgroundColor: '#FFFFFF',
-      borderRadius:14,
-      elevation: 5,
-        
-    
+        backgroundColor: '#FFFFFF',
+        borderRadius:14,
+        elevation: 5,
     },
     middleTextContainer:{
         display:'flex',
@@ -148,12 +142,9 @@ const styles=StyleSheet.create({
         margin:dynamicSize(8),
     },
     leftContainer:{
-       
         width:dynamicSize(90),
         height:100,
         flexShrink:0,
-    
-        
     },
     rightContainer:{
         display:'flex',
@@ -187,7 +178,7 @@ const styles=StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         gap:dynamicSize(6),
-       
+       marginLeft:dynamicSize(4),
     },
     boldText:{
         color: '#3D3D3D',
@@ -234,7 +225,26 @@ const styles=StyleSheet.create({
     fontSize: 14,
     fontStyle: 'normal',
     fontWeight: '400',
-
+    },
+    selectButtonContainer:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor:'#E1740F',
+        borderRadius:22,
+        width:dynamicSize(84),
+        height:25,
+        marginTop:dynamicSize(10),
+    },
+    selectButtonText:{
+        color: '#FFF',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
+        fontSize: 14,
+        fontStyle: 'normal',
+        fontWeight: '400',
+        lineHeight: 22, 
+        letterSpacing: -0.408,
     }
    
 
@@ -299,6 +309,14 @@ const belowButtonStyle=StyleSheet.create({
         fontWeight: '700',
     
         textTransform: 'capitalize',
+    }
+})
+
+const crossButtonStyles=StyleSheet.create({
+    container:{
+        position:'absolute',
+        top:10,
+        right:12,
     }
 })
 

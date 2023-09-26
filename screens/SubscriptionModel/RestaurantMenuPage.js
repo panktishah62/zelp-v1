@@ -3,10 +3,10 @@ import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
 import RestaurantMenuCardDetails from "../../components/Cards/Subscription/RestaurantMenuCardDetails";
 import SearchBar from "../../components/Cards/Search/Subscription/SearchBar";
 import MultipleButtonFoodType from "../../components/Buttons/Subscription/MultipleButtonFoodType";
-import BestSellerHeading from "../../components/Heading/Subscription/BestSellerHeading";
 import QuickCheckout from "../../components/Cards/Subscription/QuickCheckout";
 import HeadingCardComp from "../../components/Cards/Subscription/HeadingCardComp";
 import RestaurantMenuModal from "../../components/Modal/Subscription/RestaurantMenuModal";
+import LeftSimple from "../../components/Heading/Subscription/LeftSimple";
 
 const RestaurantMenuPage=props=>{   
     return(
@@ -16,7 +16,7 @@ const RestaurantMenuPage=props=>{
            <RestaurantMenuCardDetails/>
            <SearchBar/>
            <MultipleButtonFoodType/>
-           <BestSellerHeading/>
+           <LeftSimple text={"Best Sellers"}/>
            <QuickCheckout firstActive={true} secondActive={false}/>
         <HeadingCardComp/>
         </View>

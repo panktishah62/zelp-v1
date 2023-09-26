@@ -2,10 +2,11 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 import { dimensions } from '../../../styles';
 import { dynamicSize } from '../../../utils/responsive';
-const BestSellerHeading = props => {    
+const LeftSimple = props => { 
+    const {text}=props   
     return(
         <View style={styles.container}>
-            <Text style={styles.text}>Best Sellers</Text>
+            <Text style={styles.text}>{text}</Text>
         </View>
     )
 }
@@ -28,4 +29,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default BestSellerHeading;
+export default LeftSimple;

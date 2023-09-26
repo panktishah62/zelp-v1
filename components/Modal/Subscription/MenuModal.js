@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image,ScrollView,TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Image,ScrollView,TouchableHighlight,TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import { dimensions, fonts } from '../../../styles';
 import { dynamicSize } from '../../../utils/responsive';
-import { dehydrate } from 'react-query';
 
 const MenuModal=props=>{
     const{active,toggleModal}=props
@@ -59,8 +58,7 @@ const MenuModal=props=>{
         <View style={styles.container}>
   <Modal
         style={styles.wrapperModalContainer}
-          animationType="slide"
-          transparent={true}
+         
           visible={active}
         >
             <View style={styles1.headingWrapper}>
@@ -71,11 +69,15 @@ const MenuModal=props=>{
                     renderItem()
             }
             </ScrollView>
-            <TouchableHighlight onPress={toggleModal} style={styles1.crossButtonContainer}>
+            <View style={styles1.crossButtonContainer}>
+            <TouchableOpacity onPress={toggleModal} >
+                <View >
            
                 <Image source={require('../../../assets/images/Subscription/orange_cross.png')}/>
-           
-            </TouchableHighlight>
+                </View>
+            </TouchableOpacity>
+            </View>
+
         </Modal>
         </View>
     )

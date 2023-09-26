@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {Text,View,StyleSheet,Image,TouchableHighlight,TouchableOpacity} from 'react-native';
 import { fonts } from "../../../styles";
 import { dynamicSize, normalizeFont } from "../../../utils/responsive";
@@ -8,15 +8,15 @@ const RestaurantMenuModal=props=>{
 
     const [active,setActive]=useState(false)
 
+   
 
-    const toggleModal=()=>{
-        console.log("object")
+    const toggleModal=async()=>{
         setActive(!active)
     }
 
     return(
         <View>
-      {!active &&  <TouchableHighlight onPress={toggleModal}>
+       <TouchableOpacity onPress={toggleModal}>
         <View style={styles.container}>
             
             <View style={styles.innerContainer}>
@@ -25,7 +25,7 @@ const RestaurantMenuModal=props=>{
            </View>
          
         </View>
-        </TouchableHighlight>}
+        </TouchableOpacity>
         <MenuModal active={active} toggleModal={toggleModal}/>
         </View>
     )

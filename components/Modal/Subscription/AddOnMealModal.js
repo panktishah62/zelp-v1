@@ -5,6 +5,7 @@ import Modal from 'react-native-modal';
 import { dimensions } from "../../../styles";
 import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import { dynamicSize } from "../../../utils/responsive";
+import SubscribeNowAddMeal from "../../Buttons/Subscription/SubscribeNowAddMeal";
 const AddOnMealModal = props => {
     const [isModalVisible, setModalVisible] = useState(false);
 
@@ -12,18 +13,23 @@ const AddOnMealModal = props => {
       setModalVisible(!isModalVisible);
     };
   
+
+    const shadowOpt = {
+        width: 200,
+        height: 200,
+        color: '#000000',
+        border: 4,
+        radius: 10,
+        opacity: 0.25,
+        x: 0,
+        y: -2,
+        style: { marginBottom: 20 },
+      };
+
     return (
         <View >
-        <View style={buttonStyles.container}>
-       <TouchableOpacity>
-       <View style={buttonStyles.orangeButton}><Text style={buttonStyles.orangeButtonText}>Subscribe Now</Text></View>
-       </TouchableOpacity>
-        <TouchableOpacity onPress={toggleModal}>
-        <View style={buttonStyles.whiteButton}><Text style={buttonStyles.whiteButtonText}>Add Meal</Text></View>
-        </TouchableOpacity>
-      
-        </View>
-  
+        <SubscribeNowAddMeal isModalVisible={isModalVisible} toggleModal={toggleModal}/>
+           
         <Modal
         style={styles.wrapperModalContainer}
           animationType="slide"
@@ -68,59 +74,6 @@ const AddOnMealModal = props => {
     );
 }
 
-const buttonStyles=StyleSheet.create({
-    container:{
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius:5,
-        flexDirection:'row',
-        height:87,
-        marginTop:20,
-        backgroundColor: '#EBECF0', // Background color
-        elevation:10,
-    },
-    orangeButton:{
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center',
-        width:dimensions.fullWidth/2+10,
-        height:47,
-        backgroundColor:'#E1740F',
-        borderRadius:5,
-        marginHorizontal:15,
-    
-    },
-    whiteButton:{
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center',
-        width:dimensions.fullWidth/2-70,
-        height:47,
-        borderColor:'#3D3D3D',
-        borderWidth:1,
-        borderRadius:5,
-        marginHorizontal:15,
-    },
-    orangeButtonText:{
-        color: '#FFF',
-        fontFamily: 'Nunito',
-        fontSize: 18,
-        fontStyle: 'normal',
-        fontWeight: '700',
-        
-        textTransform: 'capitalize',
-    },
-    whiteButtonText:{
-        color: '#3D3D3D',
-        fontFamily: 'Nunito',
-        fontSize: 16,
-        fontStyle: 'normal',
-        fontWeight: '700',
-        
-        textTransform: 'capitalize',
-    }
-})
 
 const styles=StyleSheet.create({
     wrapperModalContainer:{

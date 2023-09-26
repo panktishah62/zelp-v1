@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
 import { colors } from "../../styles/colors";
 import MealCards from "../../components/Cards/Subscription/MealCards";
@@ -13,6 +13,7 @@ import SubscriptionPlanImage from "../../components/Block/Subscription/Subscript
 import DetailsHeading from "../../components/Heading/Subscription/DetailsHeading";
 import DescriptionOffer from "../../components/Cards/Subscription/DescriptionOffer";
 import LineCircleSurroundedHeading from "../../components/Heading/Subscription/LineCircleSurroundedHeading";
+import SubscribeNowAddMeal from "../../components/Buttons/Subscription/SubscribeNowAddMeal";
 
 const carouSelBannerImageData=[
         {
@@ -57,7 +58,13 @@ const benifitComponentData=[
     
 
 const PageDetails=props=>{
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    const toggleModal = () => {
+      setModalVisible(!isModalVisible);
+    };
     return(
+        <View>
         <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
         <SubscriptionPlanImage/>
@@ -72,11 +79,16 @@ const PageDetails=props=>{
             <HowToStart/>
             <BestMealHeadingWithStars/>
            
-           <MealCards isRatingTextVisible={true} isHeadingVisible={true} isButtonVisible={true} />
-           <AddOnMealModal/>
+           <MealCards isRatingTextVisible={true} isHeadingVisible={true} isButtonVisible={true} 
+           showRatingNumber={true} showInfoText={true}
+           />
+          
           
         </View>
         </ScrollView>
+        <AddOnMealModal/>
+         </View>
+
     )
 }
 

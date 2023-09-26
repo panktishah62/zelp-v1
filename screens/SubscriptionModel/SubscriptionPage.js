@@ -35,6 +35,7 @@ import SubscriptionPayment from './SubscriptionPayment';
 import PaymentSuccessfull from './PaymentSuccessfull';
 import SubscriptionHomePage from './SubscriptionHomePage';
 import RestaurantMenuPage from './RestaurantMenuPage';
+import Cart from './Cart';
 
 const benifitComponentData=[
     {
@@ -88,7 +89,7 @@ const SubscriptionPage = props => {
     //     </View>
     //     </ScrollView>
     <View>
-        <RestaurantMenuPage/>
+        <Cart/>
     </View>
    
    
