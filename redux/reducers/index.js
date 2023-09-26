@@ -12,6 +12,7 @@ import followedFrokerReducer from './frokerReducer';
 import stylesReducer from './stylesReducer';
 import networkReducer from './networkReducer';
 import dialogReducer from './dialogReducer';
+import selectSubscriptionMenuReducer from './selectSubscriptionMenuReducer';
 
 // Define the root reducer
 const rootReducer = combineReducers({
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
     dynamicStyles: stylesReducer,
     network: networkReducer,
     dialog: dialogReducer,
+    subscriptionSelectMenu:selectSubscriptionMenuReducer,
 });
 
 // Define the persistConfig object
