@@ -13,7 +13,7 @@ const MealCards=props=>{
     const dispatch=useDispatch()
 
     const {isSelectedAny,index:gotIndex,componentName}=useSelector(state=>state.subscriptionSelectMenu)
-    console.log(isSelectedAny,gotIndex,componentName)
+    // console.log(isSelectedAny,gotIndex,componentName)
 
 
     const selectButtonHandler=(index,componentName)=>{
