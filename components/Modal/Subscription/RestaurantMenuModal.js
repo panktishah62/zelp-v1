@@ -13,6 +13,8 @@ const RestaurantMenuModal = props => {
     const toggleModal = async () => {
         setActive(!active)
     }
+    
+
 
     return (
         <View>

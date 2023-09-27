@@ -1,4 +1,4 @@
-import { SUBSCRIPTION_RESET_SELECT_MENU_ITEM, SUBSCRIPTION_SELECT_MENU_ITEM } from '../constants';
+import { SUBSCRIPTION_RESET_SELECT_MENU_ITEM, SUBSCRIPTION_SELECT_MENU_ITEM, SUBSCRIPTION_VEG_MENU_ONLY } from '../constants';
 
 const initialState = {
     index:-1,
@@ -21,6 +21,7 @@ const selectSubscriptionMenuReducer = (state = initialState, action) => {
             return{
                 ...initialState
             }
+        
 
         default:
             return state;

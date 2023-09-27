@@ -14,6 +14,8 @@ import networkReducer from './networkReducer';
 import dialogReducer from './dialogReducer';
 import menuModalReducer from './menuModalReducer';
 import selectSubscriptionMenuReducer from './selectSubscriptionMenuReducer';
+import vegbuttonActiveReducer from './vegbuttonActiveReducer';
+import subscriptionCartReducer from './subscriptionCartReducer';
 
 // Define the root reducer
 const rootReducer = combineReducers({
@@ -30,6 +32,8 @@ const rootReducer = combineReducers({
     dialog: dialogReducer,
     menuModal:menuModalReducer,
     subscriptionSelectMenu:selectSubscriptionMenuReducer,
+    vegbutton:vegbuttonActiveReducer,
+    subscriptionCart:subscriptionCartReducer,
 });
 
 // Define the persistConfig object

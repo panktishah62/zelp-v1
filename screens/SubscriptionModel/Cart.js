@@ -6,8 +6,25 @@ import OrangeButton from "../../components/Buttons/Subscription/OrangeButton";
 import LeftSimple from "../../components/Heading/Subscription/LeftSimple";
 import SimpleHeading from "../../components/Heading/Subscription/SimpleHeading";
 import MealCards from "../../components/Cards/Subscription/MealCards";
+import { useSelector } from "react-redux";
 
 const Cart=props=>{
+
+    const {itemName,itemId,itemType}=useSelector(state=>state.subscriptionCart);
+    console.log(itemName,itemId,itemType)
+    const mealCardData= [
+        {
+            id:itemId,
+            image:require('../../assets/images/Subscription/golgappa.png'),
+            vegImage:require('../../assets/images/Subscription/veg.png'),
+            vegText:itemType,
+            boldText:itemName,
+            lastText:'Made with cauliflower',
+            starImage:require('../../assets/images/Subscription/golden_star.png'),
+            rating:'4.0',
+        },   
+    ]
+
     return(
         <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
@@ -15,7 +32,7 @@ const Cart=props=>{
             <CartDetails /> 
             <DeliveryInstruction/>
            <SimpleHeading text={"Food in your cart"}/>
-           <MealCards activeOrangeButton={true} orangeButtonText={"Change"} showCrossButton={true} />
+           <MealCards data={mealCardData} activeOrangeButton={true} orangeButtonText={"Change"} showCrossButton={true} />
             <OrangeButton text="Place Your Order"/> 
           
         </View>

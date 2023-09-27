@@ -7,7 +7,13 @@ import MealCards from './MealCards';
 import { useSelector } from 'react-redux';
 
 const HeadingCardComp = (props) => {
-    const { catagoryId } = useSelector((state) => state.menuModal);
+    const {mealCardData}=props;
+    
+    const {catagoryId} = useSelector((state)=>state.menuModal)
+
+    
+  
+    
 
     const data = [
         {
@@ -48,7 +54,7 @@ const HeadingCardComp = (props) => {
     const renderItem = ({ item ,index}) => (
         <View style={styles.container} key={index}>
             <TextSurroundedByLine text={item.headingText} />
-            <MealCards activeOrangeButton={true} orangeButtonText={"Select"} showRatingNumber={true} showInfoText={true} />
+            <MealCards data={mealCardData} activeOrangeButton={true} orangeButtonText={"Select"} showRatingNumber={true} showInfoText={true} />
         </View>
     );
 
