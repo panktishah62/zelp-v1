@@ -52,7 +52,7 @@ const HeadingCardComp = (props) => {
        
         <View key={index} style={styles.container}>
         <TextSurroundedByLine text={item.headingText}/>
-        <MealCards  activeOrangeButton={true} orangeButtonText={"Select"} showRatingNumber={true} showInfoText={true}/>
+        <MealCards heading={item.headingText} activeOrangeButton={true} orangeButtonText={"Select"} showRatingNumber={true} showInfoText={true}/>
     </View>
    
        ))

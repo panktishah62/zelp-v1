@@ -3,10 +3,26 @@ import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { dimensions,colors, fonts } from "../../../styles";
 import { dynamicSize } from "../../../utils/responsive";
+import { useDispatch, useSelector } from "react-redux";
+import { resetSelectionButton, selectMenu } from "../../../redux/actions/subscriptionActions";
 
 const MealCards=props=>{
 
-    const {isButtonVisible,isHeadingVisible,isRatingTextVisible,backendDataArr,activeOrangeButton,orangeButtonText,showRatingNumber,showInfoText,showCrossButton}=props
+    const {isButtonVisible,isHeadingVisible,isRatingTextVisible,backendDataArr,activeOrangeButton,orangeButtonText,showRatingNumber,showInfoText,showCrossButton,heading}=props
+
+    const dispatch=useDispatch()
+
+    const {isSelectedAny,index:gotIndex,componentName}=useSelector(state=>state.subscriptionSelectMenu)
+    // console.log(isSelectedAny,gotIndex,componentName)
+
+
+    const selectButtonHandler=(index,componentName)=>{
+        if(isSelectedAny){
+            return;
+        }
+        // dispatch(resetSelectionButton())
+        dispatch(selectMenu(index,componentName))
+    }
 
     const data = [
         {
@@ -74,9 +90,30 @@ const MealCards=props=>{
                        <Text style={styles.lastText}>{item.lastText}</Text>
                        <Image source={require('../../../assets/images/Subscription/info.png')} />
                    </View>}
-                  {activeOrangeButton && <View style={styles.selectButtonContainer}>
-                        <Text style={styles.selectButtonText}>{orangeButtonText}</Text>
-                   </View>}
+                  {activeOrangeButton && (isSelectedAny) && (gotIndex!==index) &&
+                  <TouchableOpacity onPress={()=>selectButtonHandler(index,heading)}>
+                    <View style={styles.selectDisableButtonContainer}>
+                        <Text style={styles.selectDisableButtonText}>Select</Text>
+                   </View>
+                   </TouchableOpacity>}
+                   {activeOrangeButton && (isSelectedAny) && (gotIndex===index) && (componentName!==heading) &&
+                  <TouchableOpacity onPress={()=>selectButtonHandler(index,heading)}>
+                    <View style={styles.selectDisableButtonContainer}>
+                        <Text style={styles.selectDisableButtonText}>Select</Text>
+                   </View>
+                   </TouchableOpacity>}
+                   {activeOrangeButton && (!isSelectedAny) &&
+                  <TouchableOpacity onPress={()=>selectButtonHandler(index,heading)}>
+                    <View style={styles.selectButtonContainer}>
+                        <Text style={styles.selectButtonText}>Select</Text>
+                   </View>
+                   </TouchableOpacity>}
+                   {activeOrangeButton && (isSelectedAny) && (index===gotIndex)&& (componentName===heading) && 
+                  <TouchableOpacity onPress={()=>selectButtonHandler(index,"MealCards")}>
+                    <View style={styles.selectButtonContainer}>
+                        <Text style={styles.selectButtonText}>Selected</Text>
+                   </View>
+                   </TouchableOpacity>}
                    </View>
                  
                    
@@ -245,6 +282,26 @@ const styles=StyleSheet.create({
         marginTop:dynamicSize(10),
     },
     selectButtonText:{
+        color: '#FFF',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
+        fontSize: 14,
+        fontStyle: 'normal',
+        fontWeight: '400',
+        lineHeight: 22, 
+        letterSpacing: -0.408,
+    },
+    selectDisableButtonContainer:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor:'#5D5956',
+        borderRadius:22,
+        width:dynamicSize(84),
+        height:25,
+        marginTop:dynamicSize(10),
+    },
+    selectDisableButtonText:{
         color: '#FFF',
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 14,

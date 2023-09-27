@@ -2,6 +2,8 @@ import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity,ScrollView } from "react-native";
 import { dimensions } from "../../../styles";
 import { dynamicSize } from "../../../utils/responsive";
+import { resetSelectionButton, selectMenu } from "../../../redux/actions/subscriptionActions";
+import { useDispatch,useSelector } from "react-redux";
 
 const data=[
     {
@@ -21,6 +23,20 @@ const data=[
 
 
 const BestSellerItemCard = () => {
+
+
+    const dispatch=useDispatch();
+    const {isSelectedAny,index:gotIndex,componentName}=useSelector(state=>state.subscriptionSelectMenu)
+    console.log(isSelectedAny,gotIndex,componentName)
+
+    const selectButtonHandler=(index,componentName)=>{
+        if(isSelectedAny){
+            return;
+        }
+        
+       dispatch(selectMenu(index,componentName))
+    }
+
     return data.map((item, index) => (
         <View key={index} style={styles.container}>
         <View style={styles.imageContainer}>
@@ -32,9 +48,22 @@ const BestSellerItemCard = () => {
             <Image source={require('../../../assets/images/Subscription/golden_star.png')} style={styles.starImage} />
             <Text style={styles.ratingValue}>4.1</Text>
         </View>
+       {((isSelectedAny)&&(gotIndex===index)&&(componentName==="BestSellerItemCard"))&&
         <TouchableOpacity style={styles.selectButton} >
+            <Text style={styles.selectButtonText}>Selected</Text>
+        </TouchableOpacity>}
+        {(!isSelectedAny)&& 
+        <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard")}>
             <Text style={styles.selectButtonText}>Select</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
+        {((isSelectedAny)&&(gotIndex!==index)) &&
+        <TouchableOpacity style={styles.selectButtonDisable}  >
+            <Text style={styles.selectButtonDisableText}>Select</Text>
+        </TouchableOpacity>}
+        {((isSelectedAny)&&(gotIndex===index)) &&(componentName!=="BestSellerItemCard")&&
+        <TouchableOpacity style={styles.selectButtonDisable}  >
+            <Text style={styles.selectButtonDisableText}>Select</Text>
+        </TouchableOpacity>}
     </View>
     ));
 };
@@ -246,7 +275,7 @@ const styles = StyleSheet.create({
     
         width: dynamicSize(88),
         height: 28,
-        paddingHorizontal: 25,
+       
         alignItems: 'center',
         marginTop: 10,
     },
@@ -259,6 +288,27 @@ const styles = StyleSheet.create({
     lineHeight: dynamicSize(22), // You can use the exact value provided
     letterSpacing: -0.408,
     },
+    selectButtonDisable:{
+        backgroundColor: '#5D5956',
+        borderRadius: 25,
+        display: 'flex',
+        justifyContent: 'center',
+    
+        width: dynamicSize(88),
+        height: 28,
+        paddingHorizontal: 25,
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    selectButtonDisableText:{
+        color: '#FFF',
+        fontFamily: 'Poppins',
+        fontSize: dynamicSize(14),
+        fontStyle: 'normal',
+        fontWeight: '400',
+        lineHeight: dynamicSize(22), // You can use the exact value provided
+        letterSpacing: -0.408,
+    }
 });
 
 

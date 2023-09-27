@@ -8,21 +8,26 @@ const MultipleButtonFoodType=props=>{
             id:1,
             text:"Breakfast",
             time:"(9:00 am - 12:00 AM)",
-            image:require('../../../assets/images/Subscription/breakfast_black.png'),
-            whiteImage:require('../../../assets/images/Subscription/breakfast.png')
+            image:require('../../../assets/images/Subscription/grey_icons/breakfast.png'),
+            whiteImage:require('../../../assets/images/Subscription/white_icons/breakfast.png')
         },
         {
             id:2,
             text:"Lunch",
             time:"(12:00 pm - 3:00 PM)",
-            image:require('../../../assets/images/Subscription/lunch_black.png'),
+            image:require('../../../assets/images/Subscription/grey_icons/lunch.png'),
+            whiteImage:require('../../../assets/images/Subscription/white_icons/lunch.png')
+
 
         },
         {
             id:3,
             text:"Dinner",
             time:"(6:00 pm - 9:00 PM)",
-            image:require('../../../assets/images/Subscription/dinner_black.png'),
+            image:require('../../../assets/images/Subscription/grey_icons/dinner.png'),
+            whiteImage:require('../../../assets/images/Subscription/white_icons/dinner.png')
+
+
 
         }
     ]
@@ -48,7 +53,7 @@ const MultipleButtonFoodType=props=>{
     }
     return(
         <View style={styles.container}>
-           <ScrollView horizontal={true}>
+           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             {renderItems()}
             </ScrollView>
         </View>
