@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useRef} from "react";
 import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { dimensions,colors, fonts } from "../../../styles";
@@ -42,9 +42,14 @@ const MealCards=props=>{
         },
         
     ]
+   
+
+    
+   
 
     const renderItem=()=>{
         return data.map((item,index)=>(
+            
             <View key={index} style={styles.wrapperContainer}>
            
       
@@ -93,9 +98,11 @@ const MealCards=props=>{
          {isHeadingVisible &&   <View style={belowButtonStyle.container}>
                 <Text  style={belowButtonStyle.textStyle}>Available from 9:00Am - 11:00 AM </Text>
             </View>}
-        <View style={styles.container}>
+       
+        <View>
            {renderItem()}
         </View>
+      
         </View>
     )
 }
