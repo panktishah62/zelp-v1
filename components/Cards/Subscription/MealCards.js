@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View,Text,Image, ScrollView,TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { dimensions,colors, fonts } from "../../../styles";
@@ -8,7 +8,7 @@ import { resetSelectionButton, selectMenu } from "../../../redux/actions/subscri
 
 const MealCards=props=>{
 
-    const {isButtonVisible,isHeadingVisible,isRatingTextVisible,backendDataArr,activeOrangeButton,orangeButtonText,showRatingNumber,showInfoText,showCrossButton,heading}=props
+    const {isButtonVisible,isHeadingVisible,isRatingTextVisible,backendDataArr,activeOrangeButton,orangeButtonText,showRatingNumber,showInfoText,showCrossButton,heading,data}=props
 
     const dispatch=useDispatch()
 
@@ -24,43 +24,19 @@ const MealCards=props=>{
         dispatch(selectMenu(index,componentName))
     }
 
-    const data = [
-        {
-            id:'1',
-            image:require('../../../assets/images/Subscription/golgappa.png'),
-            vegImage:require('../../../assets/images/Subscription/veg.png'),
-            vegText:'Veg',
-            boldText:'Golgappa 1 plate',
-            lastText:'Made with cauliflower',
-            starImage:require('../../../assets/images/Subscription/golden_star.png'),
-            rating:'4.0',
-        },
-        {
-            id:'2',
-            image:require('../../../assets/images/Subscription/golgappa.png'),
-            vegImage:require('../../../assets/images/Subscription/veg.png'),
-            vegText:'Veg',
-            boldText:'Golgappa 1 plate',
-            lastText:'Made with cauliflower',
-            starImage:require('../../../assets/images/Subscription/golden_star.png'),
-            rating:'4.0',
-        },
+    const {isVegButtonActive} =useSelector(state=>state.vegbutton)
 
-         {
-            id:'3',
-            image:require('../../../assets/images/Subscription/golgappa.png'),
-            vegImage:require('../../../assets/images/Subscription/veg.png'),
-            vegText:'Veg',
-            boldText:'Golgappa 1 plate',
-            lastText:'Made with cauliflower',
-            starImage:require('../../../assets/images/Subscription/golden_star.png'),
-            rating:'4.0',
-        },
-        
-    ]
+
+    useEffect(()=>{
+        console.log(isVegButtonActive,"isVegButtonActive")
+
+    },[isVegButtonActive])
+    
+     const filterData = isVegButtonActive ? data.filter((item) => item.vegText === 'Veg') : data;
+
 
     const renderItem=()=>{
-        return data.map((item,index)=>(
+        return filterData?.map((item,index)=>(
             <View key={index} style={styles.wrapperContainer}>
            
       

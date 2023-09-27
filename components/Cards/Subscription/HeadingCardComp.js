@@ -6,6 +6,7 @@ import { dynamicSize } from '../../../utils/responsive'
 import MealCards from './MealCards'
 
 const HeadingCardComp = (props) => {
+    const {mealCardData}=props;
 
     const data=[
         {
@@ -31,7 +32,7 @@ const HeadingCardComp = (props) => {
        data.map((item,index)=>(
         <View key={index} style={styles.container}>
         <TextSurroundedByLine text={item.headingText}/>
-        <MealCards heading={item.headingText} activeOrangeButton={true} orangeButtonText={"Select"} showRatingNumber={true} showInfoText={true}/>
+        <MealCards data={mealCardData} heading={item.headingText} activeOrangeButton={true} orangeButtonText={"Select"} showRatingNumber={true} showInfoText={true}/>
     </View>
        ))
     )

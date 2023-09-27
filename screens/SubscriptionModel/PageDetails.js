@@ -55,6 +55,42 @@ const benifitComponentData=[
             text:"No Additional costs",
         },
     ]
+
+
+    const mealCardData= [
+        {
+            id:'1',
+            image:require('../../assets/images/Subscription/golgappa.png'),
+            vegImage:require('../../assets/images/Subscription/veg.png'),
+            vegText:'Veg',
+            boldText:'Golgappa 1 plate',
+            lastText:'Made with cauliflower',
+            starImage:require('../../assets/images/Subscription/golden_star.png'),
+            rating:'4.0',
+        },
+        {
+            id:'2',
+            image:require('../../assets/images/Subscription/golgappa.png'),
+            vegImage:require('../../assets/images/Subscription/veg.png'),
+            vegText:'NonVeg',
+            boldText:'Golgappa 1 plate',
+            lastText:'Made with cauliflower',
+            starImage:require('../../assets/images/Subscription/golden_star.png'),
+            rating:'4.0',
+        },
+
+         {
+            id:'3',
+            image:require('../../assets/images/Subscription/golgappa.png'),
+            vegImage:require('../../assets/images/Subscription/veg.png'),
+            vegText:'NonVeg',
+            boldText:'Golgappa 1 plate',
+            lastText:'Made with cauliflower',
+            starImage:require('../../assets/images/Subscription/golden_star.png'),
+            rating:'4.0',
+        },
+        
+    ]
     
 
 const PageDetails=props=>{
@@ -80,7 +116,7 @@ const PageDetails=props=>{
             <BestMealHeadingWithStars/>
            
            <MealCards isRatingTextVisible={true} isHeadingVisible={true} isButtonVisible={true} 
-           showRatingNumber={true} showInfoText={true}
+           showRatingNumber={true} data={mealCardData} showInfoText={true}
            />
           
           

@@ -13,6 +13,7 @@ import stylesReducer from './stylesReducer';
 import networkReducer from './networkReducer';
 import dialogReducer from './dialogReducer';
 import selectSubscriptionMenuReducer from './selectSubscriptionMenuReducer';
+import vegbuttonActiveReducer from './vegbuttonActiveReducer';
 
 // Define the root reducer
 const rootReducer = combineReducers({
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
     network: networkReducer,
     dialog: dialogReducer,
     subscriptionSelectMenu:selectSubscriptionMenuReducer,
+    vegbutton:vegbuttonActiveReducer
 });
 
 // Define the persistConfig object

@@ -8,6 +8,43 @@ import SimpleHeading from "../../components/Heading/Subscription/SimpleHeading";
 import MealCards from "../../components/Cards/Subscription/MealCards";
 
 const Cart=props=>{
+
+
+    const mealCardData= [
+        {
+            id:'1',
+            image:require('../../assets/images/Subscription/golgappa.png'),
+            vegImage:require('../../assets/images/Subscription/veg.png'),
+            vegText:'Veg',
+            boldText:'Golgappa 1 plate',
+            lastText:'Made with cauliflower',
+            starImage:require('../../assets/images/Subscription/golden_star.png'),
+            rating:'4.0',
+        },
+        {
+            id:'2',
+            image:require('../../assets/images/Subscription/golgappa.png'),
+            vegImage:require('../../assets/images/Subscription/veg.png'),
+            vegText:'NonVeg',
+            boldText:'Golgappa 1 plate',
+            lastText:'Made with cauliflower',
+            starImage:require('../../assets/images/Subscription/golden_star.png'),
+            rating:'4.0',
+        },
+
+         {
+            id:'3',
+            image:require('../../assets/images/Subscription/golgappa.png'),
+            vegImage:require('../../assets/images/Subscription/veg.png'),
+            vegText:'NonVeg',
+            boldText:'Golgappa 1 plate',
+            lastText:'Made with cauliflower',
+            starImage:require('../../assets/images/Subscription/golden_star.png'),
+            rating:'4.0',
+        },
+        
+    ]
+
     return(
         <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
@@ -15,7 +52,7 @@ const Cart=props=>{
             <CartDetails /> 
             <DeliveryInstruction/>
            <SimpleHeading text={"Food in your cart"}/>
-           <MealCards activeOrangeButton={true} orangeButtonText={"Change"} showCrossButton={true} />
+           <MealCards data={mealCardData} activeOrangeButton={true} orangeButtonText={"Change"} showCrossButton={true} />
             <OrangeButton text="Place Your Order"/> 
           
         </View>

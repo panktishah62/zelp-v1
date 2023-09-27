@@ -9,6 +9,43 @@ import RestaurantMenuModal from "../../components/Modal/Subscription/RestaurantM
 import LeftSimple from "../../components/Heading/Subscription/LeftSimple";
 
 const RestaurantMenuPage=props=>{   
+
+    const mealCardData= [
+        {
+            id:'1',
+            image:require('../../assets/images/Subscription/golgappa.png'),
+            vegImage:require('../../assets/images/Subscription/veg.png'),
+            vegText:'Veg',
+            boldText:'Golgappa 1 plate',
+            lastText:'Made with cauliflower',
+            starImage:require('../../assets/images/Subscription/golden_star.png'),
+            rating:'4.0',
+        },
+        {
+            id:'2',
+            image:require('../../assets/images/Subscription/golgappa.png'),
+            vegImage:require('../../assets/images/Subscription/veg.png'),
+            vegText:'NonVeg',
+            boldText:'Golgappa 1 plate',
+            lastText:'Made with cauliflower',
+            starImage:require('../../assets/images/Subscription/golden_star.png'),
+            rating:'4.0',
+        },
+
+         {
+            id:'3',
+            image:require('../../assets/images/Subscription/golgappa.png'),
+            vegImage:require('../../assets/images/Subscription/veg.png'),
+            vegText:'NonVeg',
+            boldText:'Golgappa 1 plate',
+            lastText:'Made with cauliflower',
+            starImage:require('../../assets/images/Subscription/golden_star.png'),
+            rating:'4.0',
+        },
+        
+    ]
+
+
     return(
         <View>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -18,7 +55,7 @@ const RestaurantMenuPage=props=>{
            <MultipleButtonFoodType/>
            <LeftSimple text={"Best Sellers"}/>
            <QuickCheckout firstActive={true} secondActive={false}/>
-        <HeadingCardComp/>
+        <HeadingCardComp mealCardData={mealCardData}/>
         </View>
         </ScrollView>
         <RestaurantMenuModal/>
