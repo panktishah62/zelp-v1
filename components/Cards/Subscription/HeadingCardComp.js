@@ -1,12 +1,19 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import React,{useEffect, useRef} from 'react'
+import { StyleSheet, Text, View, Image,ScrollView } from 'react-native'
 import { dimensions } from '../../../styles'
 import TextSurroundedByLine from './TextSurroundedByLine'
 import { dynamicSize } from '../../../utils/responsive'
 import MealCards from './MealCards'
+import { useSelector } from 'react-redux'
 
 const HeadingCardComp = (props) => {
     const {mealCardData}=props;
+    
+    const {catagoryId} = useSelector((state)=>state.menuModal)
+
+    
+  
+    
 
     const data=[
         {
@@ -27,14 +34,35 @@ const HeadingCardComp = (props) => {
 
     ]
 
+    const scrollViewRef = useRef();
+    const handleButtonPress = index => {
+        console.log(index)
+        scrollViewRef?.current?.scrollTo({
+            y: index,
+            animated: true,
+        });
+    };
+ useEffect(()=>{
+  handleButtonPress(catagoryId);
+  
 
-    return(
-       data.map((item,index)=>(
+ },[catagoryId])
+
+ const renderItems=()=>{
+    return data.map((item,index)=>(
+       
         <View key={index} style={styles.container}>
         <TextSurroundedByLine text={item.headingText}/>
         <MealCards data={mealCardData} heading={item.headingText} activeOrangeButton={true} orangeButtonText={"Select"} showRatingNumber={true} showInfoText={true}/>
     </View>
+   
        ))
+ }
+
+    return(
+        <ScrollView ref={scrollViewRef}>
+      {renderItems()}
+       </ScrollView>
     )
 }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useRef} from "react";
 import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
 import RestaurantMenuCardDetails from "../../components/Cards/Subscription/RestaurantMenuCardDetails";
 import SearchBar from "../../components/Cards/Search/Subscription/SearchBar";
@@ -48,7 +48,7 @@ const RestaurantMenuPage=props=>{
 
     return(
         <View>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView  showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
            <RestaurantMenuCardDetails/>
            <SearchBar/>
@@ -58,7 +58,7 @@ const RestaurantMenuPage=props=>{
         <HeadingCardComp mealCardData={mealCardData}/>
         </View>
         </ScrollView>
-        <RestaurantMenuModal/>
+        <RestaurantMenuModal />
         </View>
     )
 }

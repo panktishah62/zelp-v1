@@ -12,6 +12,7 @@ import followedFrokerReducer from './frokerReducer';
 import stylesReducer from './stylesReducer';
 import networkReducer from './networkReducer';
 import dialogReducer from './dialogReducer';
+import menuModalReducer from './menuModalReducer';
 import selectSubscriptionMenuReducer from './selectSubscriptionMenuReducer';
 import vegbuttonActiveReducer from './vegbuttonActiveReducer';
 
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
     dynamicStyles: stylesReducer,
     network: networkReducer,
     dialog: dialogReducer,
+    menuModal:menuModalReducer
     subscriptionSelectMenu:selectSubscriptionMenuReducer,
     vegbutton:vegbuttonActiveReducer
 });

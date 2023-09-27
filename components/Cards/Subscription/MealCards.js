@@ -106,9 +106,11 @@ const MealCards=props=>{
          {isHeadingVisible &&   <View style={belowButtonStyle.container}>
                 <Text  style={belowButtonStyle.textStyle}>Available from 9:00Am - 11:00 AM </Text>
             </View>}
-        <View style={styles.container}>
+       
+        <View>
            {renderItem()}
         </View>
+      
         </View>
     )
 }
