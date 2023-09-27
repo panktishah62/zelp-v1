@@ -41,6 +41,9 @@ import { getConfig } from '../redux/actions/server';
 import PaymentsScreen from '../screens/Payments/Payment';
 import RefundOrder from '../screens/Orders/RefundOrders';
 import ReferralScreen from '../screens/User/Referral';
+import Home from '../screens/SubscriptionModel/Home';
+import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
+import PageDetails from '../screens/SubscriptionModel/PageDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -256,6 +259,7 @@ const MainStack = () => {
                     ),
                 })}
             />
+            
             <Stack.Screen
                 name="FrokerProfileEditing"
                 component={FrokerProfileEditingScreen}
@@ -270,6 +274,32 @@ const MainStack = () => {
             />
             <Stack.Screen name="FrokerSplash" component={FrokerSplashScreen} />
             <Stack.Screen name="Favourites" component={FavouritesScreen} />
+
+            {/* subscription screen */}
+            <Stack.Screen
+                name="SubscriptionPage"
+                component={SubscriptionPage}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitle
+                            navigation={navigation}
+                            title={'Subscription Home'}
+                        />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="PlanDetails"
+                component={PageDetails}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitle
+                            navigation={navigation}
+                            title={'Plan Details'}
+                        />
+                    ),
+                })}
+            />
         </Stack.Navigator>
     );
 };

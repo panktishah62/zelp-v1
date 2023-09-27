@@ -79,9 +79,9 @@ const PageDetails=props=>{
             <HowToStart/>
             <BestMealHeadingWithStars/>
            
-           <MealCards isRatingTextVisible={true} isHeadingVisible={true} isButtonVisible={true} 
+           <View style={styles.mealCard}><MealCards isRatingTextVisible={true} isHeadingVisible={true} isButtonVisible={true} 
            showRatingNumber={true} showInfoText={true}
-           />
+           /></View>
           
           
         </View>
@@ -97,6 +97,9 @@ const styles=StyleSheet.create({
         backgroundColor: '#F3F4F8',
 
     },
+    mealCard:{
+        marginBottom:100,
+    }
 
 })  
 

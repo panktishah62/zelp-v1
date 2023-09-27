@@ -28,7 +28,7 @@ const rootReducer = combineReducers({
     dynamicStyles: stylesReducer,
     network: networkReducer,
     dialog: dialogReducer,
-    menuModal:menuModalReducer
+    menuModal:menuModalReducer,
     subscriptionSelectMenu:selectSubscriptionMenuReducer,
 });
 

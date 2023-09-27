@@ -36,23 +36,24 @@ import PaymentSuccessfull from './PaymentSuccessfull';
 import SubscriptionHomePage from './SubscriptionHomePage';
 import RestaurantMenuPage from './RestaurantMenuPage';
 import Cart from './Cart';
+import Home from './Home';
 
-const benifitComponentData=[
+const benifitComponentData = [
     {
-        image:require('../../assets/images/Subscription/salad_3.png'),
-        text:"Choose your Preferred Meal",
+        image: require('../../assets/images/Subscription/salad_3.png'),
+        text: "Choose your Preferred Meal",
     },
     {
-        image:require('../../assets/images/Subscription/clock.png'),
-        text:"Wide Variety of options",
+        image: require('../../assets/images/Subscription/clock.png'),
+        text: "Wide Variety of options",
     },
     {
-        image:require('../../assets/images/Subscription/plate.png'),
-        text:"Delivery at your Door Step",
+        image: require('../../assets/images/Subscription/plate.png'),
+        text: "Delivery at your Door Step",
     },
     {
-        image:require('../../assets/images/Subscription/delivery_2.png'),
-        text:"No Additional costs",
+        image: require('../../assets/images/Subscription/delivery_2.png'),
+        text: "No Additional costs",
     },
 ]
 
@@ -60,41 +61,42 @@ const benifitComponentData=[
 
 
 const SubscriptionPage = props => {
+    const {navigation} = props
+    const navigateHandler = () => {
+        navigation.navigate('PlanDetails')
+    }
 
-    
-    const [bannerImagesArr,setBannerImagesArr]=useState([]);
+    const [bannerImagesArr, setBannerImagesArr] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchBannerImages();
     }
-    ,[setBannerImagesArr])
+        , [setBannerImagesArr])
 
-    const fetchBannerImages=async()=>{
-        const response=await getBannerImages();
-       
+    const fetchBannerImages = async () => {
+        const response = await getBannerImages();
+
         setBannerImagesArr(response?.data?.data);
     }
 
     return (
-    //     <ScrollView showsVerticalScrollIndicator={false}>
-    //     <View style={styles.container}>
-    //   <CarouselImageAtTop bannerImagesArr={bannerImagesArr}/>
-    //     <StarHeadingComponent/>
-    //     <CaroselComponent/>
-    //     <ParagraphComp/>
-    //     <BenifitHeadingComp/>
-    //     <BenifitComponent data={benifitComponentData}/>
-    //     <PartnersComponent />
-    //     <MealComponent  />
-    //     </View>
-    //     </ScrollView>
-    <View>
-        <RestaurantMenuPage/>
-    </View>
-   
-   
+        <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.container}>
+                <CarouselImageAtTop bannerImagesArr={bannerImagesArr} />
+                <StarHeadingComponent />
+                <CaroselComponent navigateHandler={navigateHandler}/>
+                <ParagraphComp />
+                <BenifitHeadingComp />
+                <BenifitComponent data={benifitComponentData} />
+                <PartnersComponent />
+                <MealComponent />
+            </View>
+        </ScrollView>
+
+
+
     )
-  ;
+        ;
 };
 const styles = StyleSheet.create({
     container: {

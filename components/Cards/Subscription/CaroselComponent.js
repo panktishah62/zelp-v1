@@ -1,7 +1,7 @@
-import React,{useEffect,useState} from "react";
-import { View,Text,Image, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Carousel from 'react-native-new-snap-carousel';
-import { dimensions,Styles } from "../../../styles";
+import { dimensions, Styles } from "../../../styles";
 import { colors } from "../../../styles/colors";
 import LinearGradient from "react-native-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
@@ -9,22 +9,23 @@ import { getSubscriptionPlanDetails } from "../../../redux/services/subscription
 
 
 
-const CaroselComponent=props=>{
+const CaroselComponent = props => {
+    const { navigateHandler } = props
 
-    const [responseDataArr,setResponseDataArr]=useState([]);
+    const [responseDataArr, setResponseDataArr] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchData();
-    },[setResponseDataArr])
+    }, [setResponseDataArr])
 
 
-    const fetchData=async()=>{
-        const response=await getSubscriptionPlanDetails();
-       
+    const fetchData = async () => {
+        const response = await getSubscriptionPlanDetails();
+
         setResponseDataArr(response?.data?.data);
     }
 
-//static data for testing
+    //static data for testing
     // const data = [
     //     {
     //         id: '1',
@@ -62,118 +63,120 @@ const CaroselComponent=props=>{
     //         buttonText:'₹119/Meal',
     //         lastText:'₹175/Meal',
     //     },
-       
+
     //   ];
-    
-      const renderItem = () => {
-    //make this another component
-        return responseDataArr.map((item,index) => (
+
+    const renderItem = () => {
+        //make this another component
+        return responseDataArr.map((item, index) => (
             <LinearGradient
-            colors={['rgba(255, 255, 255, 0.80)', 'rgba(255, 255, 255, 0.25)']}
-            style={styles.gradient}
-            key={index}
-          >
-          <View style={[styles.conatiner,styles.shadow]} key={index} >
-            
-            <View style={styles.imageContainer}>
-          { (item.image) &&  <Image style={styles.imageStyle} source={
-                {uri: item.image}
-            } />}
-            {!(item.image)&&<Image style={styles.imageStyle} source={require('../../../assets/images/Subscription/food_item_1.png')} />}
-            </View>
-            <View style={styles.iconTextContainer}>
-            <Text style={styles.iconTextText}>{item.name}</Text>
-            <Image source={item.iconImage} />
-            </View>
-            <View style={styles.simpleTextConatiner}>
-                <Text style={styles.simpleTextText}>Starts From</Text>
-            </View>
-            <View style={styles.buttonWrapperContainer}>
-            <View style={styles.buttonContainer}>
-                <Text style={styles.buttonText}>₹119/Meal</Text>
-            </View>
-            </View>
-            <View style={styles.lastTextContainer}>
-            <Text style={styles.lastTextText}>₹175/Meal</Text>
-            </View>
-            
-          </View>
-          </LinearGradient>
+                colors={['rgba(255, 255, 255, 0.80)', 'rgba(255, 255, 255, 0.25)']}
+                style={styles.gradient}
+                key={index}
+            >
+                <View style={[styles.conatiner, styles.shadow]} key={index} >
+
+                    <View style={styles.imageContainer}>
+                        {(item.image) && <Image style={styles.imageStyle} source={
+                            { uri: item.image }
+                        } />}
+                        {!(item.image) && <Image style={styles.imageStyle} source={require('../../../assets/images/Subscription/food_item_1.png')} />}
+                    </View>
+                    <View style={styles.iconTextContainer}>
+                        <Text style={styles.iconTextText}>{item.name}</Text>
+                        <Image source={item.iconImage} />
+                    </View>
+                    <View style={styles.simpleTextConatiner}>
+                        <Text style={styles.simpleTextText}>Starts From</Text>
+                    </View>
+                    <View style={styles.buttonWrapperContainer}>
+                        <TouchableOpacity onPress={navigateHandler}>
+                            <View style={styles.buttonContainer}>
+                                <Text style={styles.buttonText}>₹119/Meal</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.lastTextContainer}>
+                        <Text style={styles.lastTextText}>₹175/Meal</Text>
+                    </View>
+
+                </View>
+            </LinearGradient>
         )
         );
-      };
+    };
 
 
 
- return(
-    <View style={styles.conatiner} >
-       {responseDataArr.length!==0 && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            {renderItem()}
+    return (
+        <View style={styles.conatiner} >
+            {responseDataArr.length !== 0 && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                {renderItem()}
             </ScrollView>}
 
-    </View>
- )
+        </View>
+    )
 }
 
-const styles=StyleSheet.create({
-    conatiner:{
-        width: dimensions.fullWidth, 
-        height: 270.433, 
+const styles = StyleSheet.create({
+    conatiner: {
+        width: dimensions.fullWidth,
+        height: 270.433,
         flexShrink: 0,
-   
-       
+
+
     },
-    imageStyle:{
-        width: dimensions.fullWidth/2-20,
+    imageStyle: {
+        width: dimensions.fullWidth / 2 - 20,
         height: 120.848,
-        borderRadius:7,
+        borderRadius: 7,
     },
-    imageContainer:{
-        width: dimensions.fullWidth/2-20, 
-        height: 123.848, 
-      
+    imageContainer: {
+        width: dimensions.fullWidth / 2 - 20,
+        height: 123.848,
+
     },
-    iconTextContainer:{
-            display:'flex',
-            flexDirection:'row',
-            alignItems:'center',
-            justifyContent:'center',
-          gap:8,
+    iconTextContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
     },
-    shadow:{
-         
-        width: dimensions.fullWidth/2-20, 
-        margin:10,
-        height: 250.433, 
-            backgroundColor: '#FFF',
-            borderRadius: 5,
-            elevation: 5, // Apply elevation for shadow
-          
+    shadow: {
+
+        width: dimensions.fullWidth / 2 - 20,
+        margin: 10,
+        height: 250.433,
+        backgroundColor: '#FFF',
+        borderRadius: 5,
+        elevation: 5, // Apply elevation for shadow
+
     },
-    iconTextText:{
-        fontFamily: 'Nunito',    
-        fontSize: 16,           
-        fontStyle: 'normal',     
-        fontWeight: '700',       
-        color: '#3D3D3D',        
-        textAlign: 'justify',   
-        lineHeight: 20,           
-        letterSpacing: 0.48,    
+    iconTextText: {
+        fontFamily: 'Nunito',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: '700',
+        color: '#3D3D3D',
+        textAlign: 'justify',
+        lineHeight: 20,
+        letterSpacing: 0.48,
         textTransform: 'capitalize',
     },
-    iconTextIcon:{
-        width: 18, 
-        height: 18, 
-       
+    iconTextIcon: {
+        width: 18,
+        height: 18,
+
     },
-    simpleTextConatiner:{
-        display:'flex',
-        flexDirection:'row',
-        justifyContent:'center',
-        marginTop:8,
-        
+    simpleTextConatiner: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 8,
+
     },
-    simpleTextText:{
+    simpleTextText: {
         fontFamily: 'Nunito',
         fontSize: 12,
         fontStyle: 'normal',
@@ -182,51 +185,51 @@ const styles=StyleSheet.create({
         textAlign: 'center',
         letterSpacing: 0.6,
     },
-    buttonWrapperContainer:{
+    buttonWrapperContainer: {
         display: 'flex',
-       
+
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
         flexWrap: 'wrap',
         flexShrink: 0,
         paddingTop: 10,
-        
+
     },
-    buttonContainer:{
+    buttonContainer: {
         width: 118.937,
         height: 29.77,
-       padding:4,
-        backgroundColor:colors.ORANGE,
-      
-        borderRadius:5
+        padding: 4,
+        backgroundColor: colors.ORANGE,
+
+        borderRadius: 5
     },
-    buttonText:{
+    buttonText: {
         fontFamily: 'Nunito',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '900',
         color: '#FFF',
-        textAlign:'center',
+        textAlign: 'center',
         letterSpacing: 0.8,
     },
-    lastTextContainer:{
-        display:'flex',
-        flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center',
-        marginTop:8,
-        gap:8,
+    lastTextContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 8,
+        gap: 8,
     },
-    lastTextText:{
-        
+    lastTextText: {
+
         fontFamily: 'Nunito',
-    fontSize: 12,
-    fontStyle: 'normal',
-    fontWeight: '500',
-    color: '#3D3D3D',
-    letterSpacing: 0.6,
-    textDecorationLine: 'line-through',
+        fontSize: 12,
+        fontStyle: 'normal',
+        fontWeight: '500',
+        color: '#3D3D3D',
+        letterSpacing: 0.6,
+        textDecorationLine: 'line-through',
     }
 })
 

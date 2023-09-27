@@ -33,6 +33,7 @@ import {
 } from '../utils/pushnotification_helper';
 import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
 import { showDialog } from '../redux/actions/dialog';
+import Home from '../screens/SubscriptionModel/Home';
 
 const Tab = createBottomTabNavigator();
 
@@ -165,7 +166,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             ),
                         }}
                         name="Subscription"
-                        component={SubscriptionPage}
+                        component={Home}
                     />
                     <Tab.Screen
                         options={({ route }) => ({
