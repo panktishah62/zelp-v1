@@ -15,9 +15,6 @@ import {
 } from 'react-native';
 
 import { colors } from '../../styles/colors';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
-import { handlePaymentCallBack } from '../../redux/linking/HandleLinks';
-import { buildLinkForPaymentCallback } from '../../redux/linking/CreateLinks';
 import { checkPaymentStatus } from '../../redux/services/paymentService';
 import {
     PAYMENT_CODES,

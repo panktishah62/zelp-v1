@@ -23,7 +23,6 @@ import { colors } from '../../styles/colors';
 import { isPointInPolygon, isTimeInIntervals } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
 import Carousel, { Pagination } from 'react-native-new-snap-carousel';
-import RestaurantCardLarge from '../../components/Restaurant/RestaurantCardLarge';
 import OfferCard from '../../components/Cards/Offers/OfferCard';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
@@ -54,23 +53,14 @@ const Explore = props => {
                         data?.restaurants?.length &&
                         data?.restaurants?.length % 2 != 0
                     ) {
-                        const restaurants = data.restaurants.sort(function (
-                            a,
-                            b,
-                        ) {
-                            return !isTimeInIntervals(a.restaurant.timings);
-                        });
                         setRestaurants(
-                            data.restaurants.slice(0, restaurants.length - 1),
+                            data.restaurants.slice(
+                                0,
+                                data.restaurants.length - 1,
+                            ),
                         );
                     } else {
-                        const restaurants = data?.restaurants?.sort(function (
-                            a,
-                            b,
-                        ) {
-                            return !isTimeInIntervals(a.restaurant.timings);
-                        });
-                        setRestaurants(restaurants);
+                        setRestaurants(data?.restaurants);
                     }
                 }
                 setIsLoading(false); // set loading to false after fetch
@@ -123,17 +113,7 @@ const Explore = props => {
 
     const Restaurants = ({ item }) => {
         return (
-            <RestaurantCard
-                image={item.image}
-                title={item.name}
-                rating={item.rating.value}
-                rating_count={item.rating.count}
-                priceForOne={item.costOfTwo}
-                // timeTaken={`${item.timings[0].openingTime}-${item.timings[0].closingTime}`}
-                cuisines={item.tags}
-                navigation={navigation}
-                restaurant={item}
-            />
+            <RestaurantCard restaurantObject={item} navigation={navigation} />
         );
     };
 
@@ -285,7 +265,7 @@ const Explore = props => {
                                         if (restaurant.restaurant) {
                                             return (
                                                 <Restaurants
-                                                    item={restaurant.restaurant}
+                                                    item={restaurant}
                                                     key={index}
                                                 />
                                             );

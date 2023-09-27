@@ -24,14 +24,12 @@ import {
 import { useIsFocused } from '@react-navigation/native';
 import VideoItem from './Shot';
 
-import dynamicLinks from '@react-native-firebase/dynamic-links';
-import { handleShotsLinkInShots } from '../../redux/linking/HandleLinks';
-import { dynamicSize } from '../../utils/responsive';
 import { getUserProfile } from '../../redux/actions/user';
 import { showDialog } from '../../redux/actions/dialog';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { getUserWallet } from '../../redux/services/userService';
 import { DialogTypes } from '../../utils';
+import { queryClient } from '../../utils/queryClient';
 
 const ShotClassScreen = props => {
     const { route, navigation } = props;
@@ -70,7 +68,7 @@ const ShotClassScreen = props => {
         fetchNextPage,
         isFetchingNextPage,
         refetch,
-    } = useInfiniteQuery({
+    } = useInfiniteQuery('shots', {
         queryKey: ['shots'],
         queryFn: async currPage => {
             let data = {};
@@ -115,6 +113,10 @@ const ShotClassScreen = props => {
                 setRefreshing(false);
                 setRefreshingLogin(false);
                 setCurrentPage(currentPage + 1);
+
+                if (shots.length > 0 && shots?.length % popupOnNthVideo === 0) {
+                    fetchUserWallet();
+                }
             }
         },
     });
@@ -164,60 +166,17 @@ const ShotClassScreen = props => {
         setActiveVideoIndex(0);
         setRefreshing(true);
         setVideoData([]);
-        const timeoutId = setTimeout(() => {
-            refetch();
-        }, 500);
-
-        return () => clearTimeout(timeoutId);
+        setShotId(undefined);
+        queryClient.invalidateQueries('shots');
+        refetch({ force: true });
     };
-
-    const onRefreshLogin = () => {
-        setCurrentPage(1);
-        setActiveVideoIndex(0);
-        setRefreshingLogin(true);
-        setVideoData([]);
-        const timeoutId = setTimeout(() => {
-            // refetch();
-            loadMore();
-        }, 500);
-
-        return () => clearTimeout(timeoutId);
-    };
-
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const isLoggedIn = async () => {
-        onRefreshLogin();
-    };
-    useEffect(() => {
-        isLoggedIn();
-    }, [isAuthenticated, location?.latitude]);
 
     useEffect(() => {
         onRefresh();
-    }, [serverData?.shotsViewRestSortingConfig]);
+    }, [location?.latitude, shotId]);
 
     const onViewRef = useRef(({ viewableItems }) => {
         viewableItems.forEach(item => {
-            // if (
-            //     item.index !== 0 &&
-            //     (item.index % 2 === 0 || item.index % 5 === 0)
-            // ) {
-            //     // console.log(item.index);
-            //     setCurrentPage(item.index);
-            // }
-            // if (
-            //     item.index !== 0 &&
-            //     item.index % 2 === 0 &&
-            //     item.index % 5 !== 0
-            // ) {
-            //     loadMore();
-            // }
-            // if (
-            //     item.index > 0 &&
-            //     item.index + 2 == currentLimit * currentPage
-            // ) {
-            //     loadMore();
-            // }
             setActiveVideoIndex(item.index);
         });
     });
@@ -225,34 +184,6 @@ const ShotClassScreen = props => {
     const _viewabilityConfig = useRef({
         viewAreaCoveragePercentThreshold: 75,
     });
-
-    const handleDynamicLink = link => {
-        if (link && link.url) {
-            // handleShotsLinkInShots(link, setShotId, onRefreshLogin);
-            if (link.url.includes('shotId')) {
-                handleShotsLinkInShots(link, setShotId, onRefreshLogin);
-            }
-        }
-    };
-
-    useEffect(() => {
-        const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
-        // When the component is unmounted, remove the listener
-        return () => unsubscribe();
-    }, []);
-
-    useEffect(() => {
-        dynamicLinks()
-            .getInitialLink()
-            .then(link => {
-                if (link && link.url) {
-                    // handleShotsLinkInShots(link, setShotId, onRefreshLogin);
-                    if (link.url.includes('shotId')) {
-                        handleShotsLinkInShots(link, setShotId, onRefreshLogin);
-                    }
-                }
-            });
-    }, []);
 
     const fetchUserWallet = async () => {
         await getUserWallet()
@@ -277,21 +208,27 @@ const ShotClassScreen = props => {
     };
 
     useEffect(() => {
-        if (
-            videosData?.length > 0 &&
-            videosData?.length % popupOnNthVideo == 0
-        ) {
-            fetchUserWallet();
-        }
-    }, [videosData]);
-
-    useEffect(() => {
         fetchUserWallet();
     }, []);
 
+    useEffect(() => {}, [
+        videosData,
+        currentPage,
+        isLoading,
+        refreshingLogin,
+        refreshing,
+        hasNextPage,
+        isFetchingNextPage,
+    ]);
+
     return (
         <View style={styles.loaderStyle}>
-            {!(isLoading || refreshingLogin || refreshing) ? (
+            {!(
+                isLoading ||
+                refreshingLogin ||
+                refreshing ||
+                videosData.length === 0
+            ) ? (
                 <FlatList
                     // data={data?.pages.map(page => page.data.shots).flat()}
                     snapToAlignment="start"

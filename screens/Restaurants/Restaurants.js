@@ -135,7 +135,7 @@ const RestaurantsScreen = props => {
                 }}
                 style={{ height: ITEM_HEIGHT }}>
                 <RestaurantCardLarge
-                    restaurant={item?.restaurant}
+                    restaurantObject={item}
                     navigation={navigation}
                 />
             </View>

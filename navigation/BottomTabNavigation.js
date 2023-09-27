@@ -33,6 +33,7 @@ import {
 } from '../utils/pushnotification_helper';
 import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
 import { showDialog } from '../redux/actions/dialog';
+import { Linking } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -115,6 +116,24 @@ const BottomTabNavigation = ({ navigation }) => {
                     }
                 }
             });
+    }, []);
+
+    useEffect(() => {
+        const getUrlAsync = async () => {
+            // Get the deep link used to open the app
+            const initialUrl = await Linking.getInitialURL();
+            const type =
+                initialUrl?.split('/').length > 3
+                    ? initialUrl?.split('/')[3]
+                    : '';
+
+            if (type === 'shots') {
+                const shotsId = initialUrl?.split('/')[4];
+                navigation.navigate('Shots', { shotsId: shotsId });
+            }
+        };
+
+        getUrlAsync();
     }, []);
 
     if (isLoading) {
@@ -213,7 +232,7 @@ const BottomTabNavigation = ({ navigation }) => {
                         name="Restaurants"
                         component={RestaurantsScreen}
                     />
-                    <Tab.Screen
+                    {/* <Tab.Screen
                         options={{
                             tabBarIcon: ({ focused, color }) =>
                                 focused ? (
@@ -235,7 +254,7 @@ const BottomTabNavigation = ({ navigation }) => {
                         }}
                         name="Food Affair"
                         component={FoodAffairScreen}
-                    />
+                    /> */}
                 </Tab.Navigator>
             )}
         </ErrorHandler>

@@ -21,7 +21,7 @@ import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Root, Toast } from 'react-native-popup-confirm-toast';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from 'react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import linking from './redux/linking/Linking';
@@ -36,8 +36,7 @@ import { convertedVersionToNumber } from './utils';
 import { PaperProvider } from 'react-native-paper';
 import AppUpdateScreen from './screens/AppUpdateScreen';
 import { toastConfig } from './utils/config';
-
-const queryClient = new QueryClient();
+import { queryClient } from './utils/queryClient';
 
 const useInitialURL = () => {
   const [url, setUrl] = useState(null);

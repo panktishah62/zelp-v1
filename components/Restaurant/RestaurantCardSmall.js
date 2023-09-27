@@ -24,16 +24,12 @@ import { useDispatch } from 'react-redux';
 const IMAGE_URI = '../../assets/images/restaurant.png';
 
 const RestaurantCard = props => {
-    const {
-        image,
-        title,
-        rating,
-        rating_count,
-        priceForOne,
-        cuisines,
-        restaurant,
-        navigation,
-    } = props;
+    const { restaurantObject, navigation } = props;
+    const { restaurant } = restaurantObject;
+    const { image, name, costOfTwo } = restaurant;
+    const rating = restaurant?.rating?.value;
+    const rating_count = restaurant?.rating?.count;
+
     const dispatch = useDispatch();
     const [isRestaurantOpen, setIsRestaurantOpen] = useState(false);
 
@@ -111,19 +107,19 @@ const RestaurantCard = props => {
                 <View style={styles.bottomContainer}>
                     <View>
                         <Text style={styles.title} numberOfLines={1}>
-                            {title}
+                            {name}
                         </Text>
                         <Text
                             style={[
                                 fonts.NUNITO_700_8,
                                 { color: colors.GREY_MEDIUM },
                             ]}>
-                            ₹ {priceForOne} for one
+                            ₹ {costOfTwo} for one
                         </Text>
                     </View>
-                    {/* {isRestaurantOpen && (
+                    {isRestaurantOpen && (
                         <View style={styles.distanceContainer}>
-                            {distance && (
+                            {/* {distance && (
                                 <View style={Styles.row}>
                                     <LocationIcon />
                                     <Text
@@ -135,18 +131,18 @@ const RestaurantCard = props => {
                                         {distance}
                                     </Text>
                                 </View>
-                            )}
-                            {timeTaken && (
+                            )} */}
+                            {restaurantObject?.time && (
                                 <Text
                                     style={[
                                         fonts.NUNITO_700_10,
                                         { color: colors.ORANGE },
                                     ]}>
-                                    {timeTaken}
+                                    {restaurantObject?.time}
                                 </Text>
                             )}
                         </View>
-                    )} */}
+                    )}
                     {!isRestaurantOpen && (
                         <View>
                             <Text

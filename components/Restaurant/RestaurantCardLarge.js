@@ -29,17 +29,17 @@ const Cuisines = ({ cuisines }) => {
         <View style={styles.cuisines}>
             {cuisines && (
                 <Text style={styles.cuisinesText}>
-                    {sliceText(cuisines.slice(0, 3).toString(), 40)}
+                    {sliceText(cuisines.slice(0, 3).toString(), 30)}
                 </Text>
             )}
         </View>
     );
 };
 
-const RestaurantCardLarge = ({ restaurant, distance, time, navigation }) => {
+const RestaurantCardLarge = ({ restaurantObject, navigation }) => {
+    const { restaurant, time, isRestaurantOpen } = restaurantObject;
     const dispatch = useDispatch();
     const [cuisines, setCuisines] = useState([]);
-    const [isRestaurantOpen, setIsRestaurantOpen] = useState(false);
     useEffect(() => {
         const newCategory = [];
         if (restaurant && restaurant.category) {
@@ -48,9 +48,6 @@ const RestaurantCardLarge = ({ restaurant, distance, time, navigation }) => {
             });
         }
         setCuisines(newCategory);
-        if (restaurant.timings) {
-            setIsRestaurantOpen(isTimeInIntervals(restaurant.timings));
-        }
     }, []);
 
     return (
@@ -155,9 +152,9 @@ const RestaurantCardLarge = ({ restaurant, distance, time, navigation }) => {
               </Text>
             )} */}
                     </View>
-                    {/* {isRestaurantOpen && (
+                    {isRestaurantOpen && (
                         <View>
-                            {distance && (
+                            {/* {distance && (
                                 <View style={Styles.row}>
                                     <LocationIcon />
 
@@ -170,7 +167,7 @@ const RestaurantCardLarge = ({ restaurant, distance, time, navigation }) => {
                                         {distance}
                                     </Text>
                                 </View>
-                            )}
+                            )} */}
                             {time && (
                                 <Text
                                     style={[
@@ -181,7 +178,7 @@ const RestaurantCardLarge = ({ restaurant, distance, time, navigation }) => {
                                 </Text>
                             )}
                         </View>
-                    )} */}
+                    )}
                     {!isRestaurantOpen && (
                         <View>
                             <Text
@@ -239,8 +236,8 @@ const styles = StyleSheet.create({
         padding: 2,
     },
     cuisines: {
-        backgroundColor: colors.WHITE,
-        opacity: 0.5,
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        // opacity: 0.5,
         borderRadius: 7,
         height: 19,
         minWidth: dimensions.fullWidth * 0.5,
@@ -248,7 +245,7 @@ const styles = StyleSheet.create({
     },
     cuisinesText: {
         color: colors.BLACK,
-        ...fonts.NUNITO_500_8,
+        ...fonts.NUNITO_700_10,
     },
     titleContainer: {
         justifyContent: 'center',

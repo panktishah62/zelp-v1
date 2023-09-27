@@ -122,8 +122,8 @@
 		3003D1521E174F409080440A /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../assets/fonts/Inter/static/Inter-Bold.ttf"; sourceTree = "<group>"; };
 		309B09BD5230823C28F06A4A /* Pods-Froker-FrokerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Froker-FrokerTests.release.xcconfig"; path = "Target Support Files/Pods-Froker-FrokerTests/Pods-Froker-FrokerTests.release.xcconfig"; sourceTree = "<group>"; };
 		33A51E39E4028324805ABE47 /* libPods-Froker-FrokerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Froker-FrokerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		37E186E02225C6C8E5D62DAC /* Pods-ImageNotification.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageNotification.debug.xcconfig"; path = "Target Support Files/Pods-ImageNotification/Pods-ImageNotification.debug.xcconfig"; sourceTree = "<group>"; };
 		3CDA0F4C96DD4DDF8BC84099 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins/Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		4022D2B30CF7F1EECD16CAED /* Pods-ImageNotification.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageNotification.debug.xcconfig"; path = "Target Support Files/Pods-ImageNotification/Pods-ImageNotification.debug.xcconfig"; sourceTree = "<group>"; };
 		42982D99AB7E47AD9C8B253E /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBoldItalic.ttf"; path = "../assets/fonts/Nunito/static/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		44328FF093D8471A855F6ACD /* Inter-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Thin.ttf"; path = "../assets/fonts/Inter/static/Inter-Thin.ttf"; sourceTree = "<group>"; };
 		44D18391AF7B44B2BA6A8B02 /* Nunito-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-MediumItalic.ttf"; path = "../assets/fonts/Nunito/static/Nunito-MediumItalic.ttf"; sourceTree = "<group>"; };
@@ -156,6 +156,7 @@
 		C190D1C236B74AF7BC8336D1 /* Nunito-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-LightItalic.ttf"; path = "../assets/fonts/Nunito/static/Nunito-LightItalic.ttf"; sourceTree = "<group>"; };
 		C381326C15794FEB83E5D22B /* Nunito-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Medium.ttf"; path = "../assets/fonts/Nunito/static/Nunito-Medium.ttf"; sourceTree = "<group>"; };
 		C65F0CD0592C4B9688F92340 /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BlackItalic.ttf"; path = "../assets/fonts/Nunito/static/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; };
+		C718947398218CAD2A6BC022 /* Pods-ImageNotification.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageNotification.release.xcconfig"; path = "Target Support Files/Pods-ImageNotification/Pods-ImageNotification.release.xcconfig"; sourceTree = "<group>"; };
 		CA5E18A12AB25011009487AD /* ImageNotification.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ImageNotification.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA5E18A32AB25011009487AD /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		CA5E18A42AB25011009487AD /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
@@ -172,7 +173,6 @@
 		D4B7C9DEBE5B41A3BA7B9ADB /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../assets/fonts/Poppins/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		D608D7054355D07C9E3D0820 /* libPods-ImageNotification.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ImageNotification.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D60B2C35A8AE4D05B092A05D /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.ttf"; path = "../assets/fonts/Nunito/static/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
-		DA457F593A6CA868B51BE0CB /* Pods-ImageNotification.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageNotification.release.xcconfig"; path = "Target Support Files/Pods-ImageNotification/Pods-ImageNotification.release.xcconfig"; sourceTree = "<group>"; };
 		DDC6DB5DF6134DFE865AE734 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-ExtraBold.ttf"; path = "../assets/fonts/Inter/static/Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		DE5E35EBD81F412D81D77A79 /* Nunito-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Black.ttf"; path = "../assets/fonts/Nunito/static/Nunito-Black.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -352,8 +352,8 @@
 				0FC47397532BB52F484A25D2 /* Pods-Froker.release.xcconfig */,
 				1CCEC94F4395B4160DBE4F75 /* Pods-Froker-FrokerTests.debug.xcconfig */,
 				309B09BD5230823C28F06A4A /* Pods-Froker-FrokerTests.release.xcconfig */,
-				37E186E02225C6C8E5D62DAC /* Pods-ImageNotification.debug.xcconfig */,
-				DA457F593A6CA868B51BE0CB /* Pods-ImageNotification.release.xcconfig */,
+				4022D2B30CF7F1EECD16CAED /* Pods-ImageNotification.debug.xcconfig */,
+				C718947398218CAD2A6BC022 /* Pods-ImageNotification.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1090,7 +1090,7 @@
 		};
 		CA5E18AA2AB25011009487AD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 37E186E02225C6C8E5D62DAC /* Pods-ImageNotification.debug.xcconfig */;
+			baseConfigurationReference = 4022D2B30CF7F1EECD16CAED /* Pods-ImageNotification.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1127,7 +1127,7 @@
 		};
 		CA5E18AB2AB25011009487AD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA457F593A6CA868B51BE0CB /* Pods-ImageNotification.release.xcconfig */;
+			baseConfigurationReference = C718947398218CAD2A6BC022 /* Pods-ImageNotification.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
