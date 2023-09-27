@@ -3,6 +3,8 @@ import {
     SUBSCRIPTION_RESET_SELECT_MENU_ITEM,
     SUBSCRIPTION_VEG_MENU_ONLY_FALSE,
     SUBSCRIPTION_VEG_MENU_ONLY_TRUE,
+    SUBSCRIPTION_ADD_TO_CART,
+    SUBSCRIPTION_REMOVE_FROM_CART,
 } from '../constants';
 
 export const selectMenu = (index, componentName) => {
@@ -41,3 +43,21 @@ export const selectAllMenu = () => {
         });
     };
 };
+
+export const addSubscribedItemToCart = data => {
+  
+    return async dispatch => {
+        dispatch({
+            type: SUBSCRIPTION_ADD_TO_CART,
+            payload:data
+        });
+    }
+}
+
+export const removeSubscribedItemFromCart = () => {
+    return async dispatch => {
+        dispatch({
+            type: SUBSCRIPTION_REMOVE_FROM_CART,
+        });
+    }
+}

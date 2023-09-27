@@ -6,43 +6,23 @@ import OrangeButton from "../../components/Buttons/Subscription/OrangeButton";
 import LeftSimple from "../../components/Heading/Subscription/LeftSimple";
 import SimpleHeading from "../../components/Heading/Subscription/SimpleHeading";
 import MealCards from "../../components/Cards/Subscription/MealCards";
+import { useSelector } from "react-redux";
 
 const Cart=props=>{
 
-
+    const {itemName,itemId,itemType}=useSelector(state=>state.subscriptionCart);
+    console.log(itemName,itemId,itemType)
     const mealCardData= [
         {
-            id:'1',
+            id:itemId,
             image:require('../../assets/images/Subscription/golgappa.png'),
             vegImage:require('../../assets/images/Subscription/veg.png'),
-            vegText:'Veg',
-            boldText:'Golgappa 1 plate',
+            vegText:itemType,
+            boldText:itemName,
             lastText:'Made with cauliflower',
             starImage:require('../../assets/images/Subscription/golden_star.png'),
             rating:'4.0',
-        },
-        {
-            id:'2',
-            image:require('../../assets/images/Subscription/golgappa.png'),
-            vegImage:require('../../assets/images/Subscription/veg.png'),
-            vegText:'NonVeg',
-            boldText:'Golgappa 1 plate',
-            lastText:'Made with cauliflower',
-            starImage:require('../../assets/images/Subscription/golden_star.png'),
-            rating:'4.0',
-        },
-
-         {
-            id:'3',
-            image:require('../../assets/images/Subscription/golgappa.png'),
-            vegImage:require('../../assets/images/Subscription/veg.png'),
-            vegText:'NonVeg',
-            boldText:'Golgappa 1 plate',
-            lastText:'Made with cauliflower',
-            starImage:require('../../assets/images/Subscription/golden_star.png'),
-            rating:'4.0',
-        },
-        
+        },   
     ]
 
     return(

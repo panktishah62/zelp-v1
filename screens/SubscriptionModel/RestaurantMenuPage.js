@@ -1,4 +1,4 @@
-import React,{useRef} from "react";
+import React,{useRef,useEffect} from "react";
 import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
 import RestaurantMenuCardDetails from "../../components/Cards/Subscription/RestaurantMenuCardDetails";
 import SearchBar from "../../components/Cards/Search/Subscription/SearchBar";
@@ -7,6 +7,9 @@ import QuickCheckout from "../../components/Cards/Subscription/QuickCheckout";
 import HeadingCardComp from "../../components/Cards/Subscription/HeadingCardComp";
 import RestaurantMenuModal from "../../components/Modal/Subscription/RestaurantMenuModal";
 import LeftSimple from "../../components/Heading/Subscription/LeftSimple";
+import OrangeButton from "../../components/Buttons/Subscription/OrangeButton";
+import AbsoluteOrangeButton from "../../components/Buttons/Subscription/AbsoluteOrangeButton";
+import { useSelector } from "react-redux";
 
 const RestaurantMenuPage=props=>{   
 
@@ -45,6 +48,9 @@ const RestaurantMenuPage=props=>{
         
     ]
 
+    const {isSelectedAny}=useSelector(state=>state.subscriptionSelectMenu)
+    const {itemName,itemId,itemType}=useSelector((state)=>state.subscriptionCart);
+    console.log(itemName,itemId,itemType)
 
     return(
         <View>
@@ -59,6 +65,7 @@ const RestaurantMenuPage=props=>{
         </View>
         </ScrollView>
         <RestaurantMenuModal />
+       {isSelectedAny && <AbsoluteOrangeButton text={"Proceed to checkout"}/>}
         </View>
     )
 }

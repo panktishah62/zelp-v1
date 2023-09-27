@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity,ScrollView } from "react-native";
 import { dimensions } from "../../../styles";
 import { dynamicSize } from "../../../utils/responsive";
-import { resetSelectionButton, selectMenu } from "../../../redux/actions/subscriptionActions";
+import { addSubscribedItemToCart, resetSelectionButton, selectMenu } from "../../../redux/actions/subscriptionActions";
 import { useDispatch,useSelector } from "react-redux";
 
 const data=[
@@ -29,13 +29,24 @@ const BestSellerItemCard = () => {
     const {isSelectedAny,index:gotIndex,componentName}=useSelector(state=>state.subscriptionSelectMenu)
     console.log(isSelectedAny,gotIndex,componentName)
 
-    const selectButtonHandler=(index,componentName)=>{
-        if(isSelectedAny){
-            return;
-        }
+    const selectButtonHandler=(index,componentName,itemName,itemImage,itemType)=>{
         
-       dispatch(selectMenu(index,componentName))
+       
+        // dispatch(resetSelectionButton())
+        dispatch(selectMenu(index,componentName))
+        itemAddToCartHandler(index,itemName,itemImage,itemType);
     }
+
+    const itemAddToCartHandler=(index,itemName,itemImage,itemType)=>{
+        const cartObj={
+            itemName,
+            itemImage,
+            itemType,
+            itemId:index,
+        }
+        dispatch(addSubscribedItemToCart(cartObj))
+    }
+
 
     return data.map((item, index) => (
         <View key={index} style={styles.container}>
@@ -49,21 +60,23 @@ const BestSellerItemCard = () => {
             <Text style={styles.ratingValue}>4.1</Text>
         </View>
        {((isSelectedAny)&&(gotIndex===index)&&(componentName==="BestSellerItemCard"))&&
-        <TouchableOpacity style={styles.selectButton} >
-            <Text style={styles.selectButtonText}>Selected</Text>
+        <TouchableOpacity style={styles.selectedButton} >
+           <Image style={styles.tickIcon} source={require('../../../assets/images/Subscription/tick.png')}/>
         </TouchableOpacity>}
-        {(!isSelectedAny)&& 
-        <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard")}>
+     
+        {(isSelectedAny)&& (gotIndex===index) &&(componentName!=="BestSellerItemCard")&&
+        <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard","Chicken Tikka","","NonVeg")}>
             <Text style={styles.selectButtonText}>Select</Text>
         </TouchableOpacity>}
         {((isSelectedAny)&&(gotIndex!==index)) &&
-        <TouchableOpacity style={styles.selectButtonDisable}  >
-            <Text style={styles.selectButtonDisableText}>Select</Text>
+        <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard","Chicken Tikka","","NonVeg")}>
+            <Text style={styles.selectButtonText}>Select</Text>
         </TouchableOpacity>}
-        {((isSelectedAny)&&(gotIndex===index)) &&(componentName!=="BestSellerItemCard")&&
-        <TouchableOpacity style={styles.selectButtonDisable}  >
-            <Text style={styles.selectButtonDisableText}>Select</Text>
+        {(!isSelectedAny)&&
+        <TouchableOpacity style={styles.selectButton}   onPress={()=>selectButtonHandler(index,"BestSellerItemCard","Chicken Tikka","","NonVeg")}>
+            <Text style={styles.selectButtonText}>Select</Text>
         </TouchableOpacity>}
+      
     </View>
     ));
 };
@@ -221,6 +234,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         alignItems: 'center',
     },
+    
     imageContainer: {
         alignItems: 'center',
     },
@@ -259,6 +273,10 @@ const styles = StyleSheet.create({
         marginRight: 4,
         marginLeft:5,
     },
+    tickIcon:{
+        width:dynamicSize(20),
+        height:dynamicSize(20),
+    },
     ratingValue: {
         color: '#000',
     fontFamily: 'Poppins',
@@ -269,6 +287,18 @@ const styles = StyleSheet.create({
     },
     selectButton: {
         backgroundColor: '#E1740F',
+        borderRadius: 25,
+        display: 'flex',
+        justifyContent: 'center',
+    
+        width: dynamicSize(88),
+        height: 28,
+       
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    selectedButton:{
+        backgroundColor:'#00B16A',
         borderRadius: 25,
         display: 'flex',
         justifyContent: 'center',

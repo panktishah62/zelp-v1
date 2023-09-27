@@ -15,6 +15,7 @@ import dialogReducer from './dialogReducer';
 import menuModalReducer from './menuModalReducer';
 import selectSubscriptionMenuReducer from './selectSubscriptionMenuReducer';
 import vegbuttonActiveReducer from './vegbuttonActiveReducer';
+import subscriptionCartReducer from './subscriptionCartReducer';
 
 // Define the root reducer
 const rootReducer = combineReducers({
@@ -29,9 +30,10 @@ const rootReducer = combineReducers({
     dynamicStyles: stylesReducer,
     network: networkReducer,
     dialog: dialogReducer,
-    menuModal:menuModalReducer
+    menuModal:menuModalReducer,
     subscriptionSelectMenu:selectSubscriptionMenuReducer,
-    vegbutton:vegbuttonActiveReducer
+    vegbutton:vegbuttonActiveReducer,
+    subscriptionCart:subscriptionCartReducer,
 });
 
 // Define the persistConfig object

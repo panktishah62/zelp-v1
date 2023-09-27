@@ -4,7 +4,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { dimensions,colors, fonts } from "../../../styles";
 import { dynamicSize } from "../../../utils/responsive";
 import { useDispatch, useSelector } from "react-redux";
-import { resetSelectionButton, selectMenu } from "../../../redux/actions/subscriptionActions";
+import { addSubscribedItemToCart, resetSelectionButton, selectMenu } from "../../../redux/actions/subscriptionActions";
 
 const MealCards=props=>{
 
@@ -16,12 +16,22 @@ const MealCards=props=>{
     // console.log(isSelectedAny,gotIndex,componentName)
 
 
-    const selectButtonHandler=(index,componentName)=>{
-        if(isSelectedAny){
-            return;
-        }
+    const selectButtonHandler=(index,componentName,itemName,itemImage,itemType)=>{
+        
+       
         // dispatch(resetSelectionButton())
         dispatch(selectMenu(index,componentName))
+        itemAddToCartHandler(index,itemName,itemImage,itemType);
+    }
+
+    const itemAddToCartHandler=(index,itemName,itemImage,itemType)=>{
+        const cartObj={
+            itemName,
+            itemImage,
+            itemType,
+            itemId:index,
+        }
+        dispatch(addSubscribedItemToCart(cartObj))
     }
 
     const {isVegButtonActive} =useSelector(state=>state.vegbutton)
@@ -61,28 +71,23 @@ const MealCards=props=>{
                        <Text style={styles.lastText}>{item.lastText}</Text>
                        <Image source={require('../../../assets/images/Subscription/info.png')} />
                    </View>}
-                  {activeOrangeButton && (isSelectedAny) && (gotIndex!==index) &&
-                  <TouchableOpacity onPress={()=>selectButtonHandler(index,heading)}>
-                    <View style={styles.selectDisableButtonContainer}>
-                        <Text style={styles.selectDisableButtonText}>Select</Text>
+                 
+                   {activeOrangeButton && (index!==gotIndex) &&
+                  <TouchableOpacity onPress={()=>selectButtonHandler(index,heading,item.boldText,item.image,item.vegText)}>
+                    <View style={styles.selectButtonContainer}>
+                        <Text style={styles.selectButtonText}>Select</Text>
                    </View>
                    </TouchableOpacity>}
-                   {activeOrangeButton && (isSelectedAny) && (gotIndex===index) && (componentName!==heading) &&
-                  <TouchableOpacity onPress={()=>selectButtonHandler(index,heading)}>
-                    <View style={styles.selectDisableButtonContainer}>
-                        <Text style={styles.selectDisableButtonText}>Select</Text>
-                   </View>
-                   </TouchableOpacity>}
-                   {activeOrangeButton && (!isSelectedAny) &&
-                  <TouchableOpacity onPress={()=>selectButtonHandler(index,heading)}>
+                   {activeOrangeButton && (index===gotIndex) && (componentName!==heading) &&
+                  <TouchableOpacity onPress={()=>selectButtonHandler(index,heading,item.boldText,item.image,item.vegText)}>
                     <View style={styles.selectButtonContainer}>
                         <Text style={styles.selectButtonText}>Select</Text>
                    </View>
                    </TouchableOpacity>}
                    {activeOrangeButton && (isSelectedAny) && (index===gotIndex)&& (componentName===heading) && 
-                  <TouchableOpacity onPress={()=>selectButtonHandler(index,"MealCards")}>
-                    <View style={styles.selectButtonContainer}>
-                        <Text style={styles.selectButtonText}>Selected</Text>
+                  <TouchableOpacity >
+                    <View style={styles.selectedButtonContainer}>
+                      <Image style={styles.tickIcon} source={require('../../../assets/images/Subscription/tick.png')}/>
                    </View>
                    </TouchableOpacity>}
                    </View>
@@ -250,6 +255,21 @@ const styles=StyleSheet.create({
         borderRadius:22,
         width:dynamicSize(84),
         height:25,
+        marginTop:dynamicSize(10),
+    },
+    tickIcon:{
+        width:dynamicSize(20),
+        height:dynamicSize(20),
+    },
+    selectedButtonContainer:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor:'#00B16A',
+        borderRadius:22,
+        width:dynamicSize(84),
+        height:28,
         marginTop:dynamicSize(10),
     },
     selectButtonText:{
