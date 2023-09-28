@@ -35,6 +35,7 @@ import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
 import { showDialog } from '../redux/actions/dialog';
 import Home from '../screens/SubscriptionModel/Home';
 import RestaurantMenuPage from '../screens/SubscriptionModel/RestaurantMenuPage';
+import Cart from '../screens/SubscriptionModel/Cart';
 
 const Tab = createBottomTabNavigator();
 

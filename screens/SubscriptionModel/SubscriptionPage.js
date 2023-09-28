@@ -68,12 +68,11 @@ const SubscriptionPage = props => {
 
     useEffect(() => {
         fetchBannerImages();
-    }
-        , [setBannerImagesArr])
+    }, [setBannerImagesArr])
 
     const fetchBannerImages = async () => {
         const response = await getBannerImages();
-
+        console.log("banner images", response?.data);
         setBannerImagesArr(response?.data?.data);
     }
 

@@ -60,7 +60,7 @@ const PartnersComponent = props => {
     const renderItems = () => {
         
     
-        return partnerRestaurants.map((item) => (
+        return partnerRestaurants && partnerRestaurants.map((item) => (
           <View key={item.id} style={styles.item}>
             <View style={styles.imageText}>
                 <Image style={styles.imageTextImage}  source={{
