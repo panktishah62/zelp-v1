@@ -220,6 +220,7 @@ const PaymentsScreen = props => {
             );
             if (cart?.billingDetails?.totalAmount === 0) {
                 setPaymentMethod(method);
+                return;
             } else if (!isPaymentApplicable) {
                 dispatch(
                     showDialog({
