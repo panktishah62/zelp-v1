@@ -29,6 +29,7 @@ const RootStack = () => {
     );
     const isLocationOn = useSelector(state => state.permissions.isLocationOn);
     const isInternetOn = useSelector(state => state.network.isInternetOn);
+    const initialPopup = remoteConfig().getValue('InitialPopup').asString();
 
     const isFirstLaunch = async () => {
         try {
@@ -38,18 +39,6 @@ const RootStack = () => {
                 setInitialRouteName('MainStack');
             } else {
                 setInitialRouteName('AppTour');
-                const initialPopup = JSON.parse(
-                    remoteConfig().getValue('InitialPopup')?.asString(),
-                );
-                if (initialPopup) {
-                    dispatch(
-                        showDialog({
-                            isVisible: true,
-                            ...initialPopup,
-                            type: DialogTypes.DEFAULT,
-                        }),
-                    );
-                }
             }
         } catch (error) {
             dispatch(
@@ -87,6 +76,20 @@ const RootStack = () => {
             }
         }
     }, [locationPermission, isLocationOn]);
+
+    useEffect(() => {
+        if (initialRouteName === 'AppTour') {
+            if (initialPopup) {
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        ...JSON.parse(initialPopup),
+                        type: DialogTypes.DEFAULT,
+                    }),
+                );
+            }
+        }
+    }, [initialRouteName, initialPopup]);
 
     useEffect(() => {
         if (location?.latitude && location?.longitude) {
