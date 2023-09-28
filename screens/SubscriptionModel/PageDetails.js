@@ -103,17 +103,18 @@ const PageDetails=props=>{
     console.log(itemId)
 
     const [fetchedData,setFetchedData] = useState(null);
-
+    const [bannerImagesArr,setBannerImagesArr]=useState([]);
     const fetchPlanDetails=async()=>{
         const response = await getOneSubscriptionPlanDetails(itemId);
-        console.log("details",response.data)
-        console.log(response.data.data)
+     
         setFetchedData(response.data.data)
+        setBannerImagesArr(response.data.bannerImage)
+
     }
 
     useEffect(()=>{
         fetchPlanDetails()
-    },[itemId])
+    },[itemId,setBannerImagesArr])
 
     const navigationHandler = ()=>{
         navigation.navigate('SubscriptionPayment')
@@ -132,8 +133,9 @@ const PageDetails=props=>{
         <SubscriptionPlanImage image={fetchedData?.image}/>
         <DetailsHeading name={fetchedData?.name}/>
         <DescriptionOffer discount={fetchedData?.appliedDiscount} price={fetchedData?.pricePerMeal}/>
-        <LineCircleSurroundedHeading validity={fetchedData?.validityPerMeal}/>
-            <CarouselImageAtTop isStatic={true} bannerImagesArr={carouSelBannerImageData}/>
+        <LineCircleSurroundedHeading discount={fetchedData?.appliedDiscount}  price={fetchedData?.pricePerMeal} validity={fetchedData?.validityPerMeal}/>
+
+            <CarouselImageAtTop bannerImagesArr={bannerImagesArr}/>
             <BenifitHeadingComp/>
             <BenifitComponent data={benifitComponentData}/>
             <AddOnMeals/>
