@@ -15,6 +15,7 @@ import AppTourScreen from '../screens/AppTour/AppTourScreen';
 import DefaultDialog from '../components/DialogBox/DefaultDialog';
 import { showDialog } from '../redux/actions/dialog';
 import { getShotsViewRestSortingConfig } from '../redux/actions/server';
+import remoteConfig from '@react-native-firebase/remote-config';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,18 @@ const RootStack = () => {
                 setInitialRouteName('MainStack');
             } else {
                 setInitialRouteName('AppTour');
+                const initialPopup = JSON.parse(
+                    remoteConfig().getValue('InitialPopup')?.asString(),
+                );
+                if (initialPopup) {
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            ...initialPopup,
+                            type: DialogTypes.DEFAULT,
+                        }),
+                    );
+                }
             }
         } catch (error) {
             dispatch(
