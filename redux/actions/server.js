@@ -23,6 +23,8 @@ export const getConfig = () => {
                 maxWalletMoneyToUse: parameters.maxWalletMoneyToUse.asNumber(),
                 GSTtaxes: parameters.GSTtaxes.asNumber(),
                 minOrderValue: parameters.minOrderValue.asNumber(),
+                minOrderValueForWallet:
+                    parameters.minOrderValueForWallet.asNumber(),
                 deliveryPartnerFees: parameters.deliveryPartnerFees.asNumber(),
                 packagingCharges: parameters.packagingCharges.asNumber(),
                 deliveryTip: parameters.deliveryTip.asNumber(),

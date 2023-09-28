@@ -37,10 +37,7 @@ export function calculateTotal(billingData) {
             const deliveryCharge =
                 restaurants[restaurantId]?.restaurant?.deliveryCharge;
 
-            if (
-                restaurants[restaurantId].restaurantTotal <=
-                maxOrderValueToApplyDeliveryCharge
-            ) {
+            if (restaurantTotal <= maxOrderValueToApplyDeliveryCharge) {
                 totalDeliveryCharge += deliveryCharge;
             }
         }
@@ -48,7 +45,7 @@ export function calculateTotal(billingData) {
             Number(totalPriceByRestaurant * config?.GSTtaxes) / 100,
         );
 
-        if (totalPriceByRestaurant < config?.minOrderValue) {
+        if (totalPriceByRestaurant < config?.minOrderValueForWallet) {
             isWalletMoneyUsed = false;
         }
 
@@ -99,6 +96,7 @@ export function calculateTotal(billingData) {
             taxes: taxes,
             walletMoney: isWalletMoneyUsed ? maxWalletMoneyToUse : 0,
             discountAmount: discountAmount,
+            areChargesApplied: true,
         };
     } else {
         return null;
@@ -241,7 +239,7 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
         };
 
         const billingDetails = calculateTotal(billingData);
-        if (billingDetails?.totalItemsPrice < config?.minOrderValue) {
+        if (billingDetails?.totalItemsPrice < config?.minOrderValueForWallet) {
             isWalletMoneyUsed = false;
         }
         return { restaurants, count, billingDetails, isWalletMoneyUsed };
@@ -258,7 +256,7 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
     };
 
     const billingDetails = calculateTotal(billingData);
-    if (billingDetails?.totalItemsPrice < config?.minOrderValue) {
+    if (billingDetails?.totalItemsPrice < config?.minOrderValueForWallet) {
         isWalletMoneyUsed = false;
     }
     return { restaurants, count, billingDetails, isWalletMoneyUsed };
@@ -292,26 +290,16 @@ export function canApplyWallet(_state, _showDialog = true) {
         state?.config &&
         Number(state?.walletMoney) > Number(state?.config?.maxWalletMoneyToUse)
     ) {
-        console.log('in if 1');
         return false;
     }
-    // if (
-    //     state?.billingDetails &&
-    //     state?.config &&
-    //     Number(state?.billingDetails?.totalAmount) < state?.walletMoney
-    // ) {
-    //     console.log('in if 2');
-    //     return false;
-    // }
     if (
         state?.billingDetails &&
         state?.config &&
         Number(state?.billingDetails?.totalItemsPrice) >
-            Number(state?.config?.minOrderValue)
+            Number(state?.config?.minOrderValueForWallet)
     ) {
         return true;
     } else {
-        console.log('in if 3');
         return false;
     }
     return false;

@@ -49,13 +49,13 @@ const WalletMoney = props => {
                 Number(
                     cart?.billingDetails &&
                         cart?.billingDetails?.totalItemsPrice,
-                ) <= Number(config?.minOrderValue)
+                ) <= Number(config?.minOrderValueForWallet)
             ) {
                 dispatch(
                     showDialog({
                         isVisible: true,
                         titleText: 'Wallet Error',
-                        subTitleText: `Cannot apply wallet money for the item total less than or equal to ${config.minOrderValue}`,
+                        subTitleText: `Cannot apply wallet money for the item total less than or equal to ${config.minOrderValueForWallet}`,
                         buttonText1: 'CLOSE',
                         type: DialogTypes.WARNING,
                     }),
