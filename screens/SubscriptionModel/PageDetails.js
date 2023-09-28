@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
 import { colors } from "../../styles/colors";
 import MealCards from "../../components/Cards/Subscription/MealCards";
@@ -14,6 +14,7 @@ import DetailsHeading from "../../components/Heading/Subscription/DetailsHeading
 import DescriptionOffer from "../../components/Cards/Subscription/DescriptionOffer";
 import LineCircleSurroundedHeading from "../../components/Heading/Subscription/LineCircleSurroundedHeading";
 import SubscribeNowAddMeal from "../../components/Buttons/Subscription/SubscribeNowAddMeal";
+import { getOneSubscriptionPlanDetails } from "../../redux/services/subscriptionService";
 
 const carouSelBannerImageData=[
         {
@@ -56,6 +57,8 @@ const benifitComponentData=[
         },
     ]
 
+    
+
 
     const mealCardData= [
         {
@@ -94,6 +97,29 @@ const benifitComponentData=[
     
 
 const PageDetails=props=>{
+
+    const {navigation,route} = props
+    const {itemId}=route.params
+    console.log(itemId)
+
+    const [fetchedData,setFetchedData] = useState(null);
+
+    const fetchPlanDetails=async()=>{
+        const response = await getOneSubscriptionPlanDetails(itemId);
+        console.log("details",response.data)
+        console.log(response.data.data)
+        setFetchedData(response.data.data)
+    }
+
+    useEffect(()=>{
+        fetchPlanDetails()
+    },[itemId])
+
+    const navigationHandler = ()=>{
+        navigation.navigate('SubscriptionPayment')
+    }
+
+
     const [isModalVisible, setModalVisible] = useState(false);
 
     const toggleModal = () => {
@@ -103,10 +129,10 @@ const PageDetails=props=>{
         <View>
         <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-        <SubscriptionPlanImage/>
-        <DetailsHeading/>
-        <DescriptionOffer/>
-        <LineCircleSurroundedHeading/>
+        <SubscriptionPlanImage image={fetchedData?.image}/>
+        <DetailsHeading name={fetchedData?.name}/>
+        <DescriptionOffer discount={fetchedData?.appliedDiscount} price={fetchedData?.pricePerMeal}/>
+        <LineCircleSurroundedHeading validity={fetchedData?.validityPerMeal}/>
             <CarouselImageAtTop isStatic={true} bannerImagesArr={carouSelBannerImageData}/>
             <BenifitHeadingComp/>
             <BenifitComponent data={benifitComponentData}/>
@@ -122,7 +148,7 @@ const PageDetails=props=>{
           
         </View>
         </ScrollView>
-        <AddOnMealModal/>
+        <AddOnMealModal navigationHandler={navigationHandler}/>
          </View>
 
     )

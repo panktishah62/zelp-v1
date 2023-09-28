@@ -13,3 +13,7 @@ export const getBannerImages=()=>{
 export const getPartnerRestaurants = () => {
     return axiosRequest.get(ApiPath.getPartnerRestaurants);
 }
+
+export const getOneSubscriptionPlanDetails=(subscriptionPlanId)=>{
+    return axiosRequest.get(`${ApiPath.showOneSubscriptionPlan}/${subscriptionPlanId}`)
+}

@@ -3,13 +3,17 @@ import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
 import { dimensions } from "../../../styles";
 
 const DetailsHeading=props=>{
+    const name = props.name
+   
     return(
         <View style={styles.wrapper}>
             <View style={styles.container}>
                 <View style={styles.leftContainer}>
                     <View style={styles.firstLeft}>
                         <Image source={require('../../../assets/images/Subscription/coin_1.png')}/>
-                        <Text style={textStyels.firstText}>Basic</Text>
+                        <Text style={textStyels.firstText}>
+                            {name}
+                        </Text>
                     </View>
                     <Text style={textStyels.thirdText}>Froker Subscription Plan</Text>
                 </View>

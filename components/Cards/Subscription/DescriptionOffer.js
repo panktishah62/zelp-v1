@@ -3,13 +3,16 @@ import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
 import { dimensions } from "../../../styles";
 
 const DescriptionOffer = props => {
+    const discount =  props.discount ;
+    const price = props.price || 100
+    const afterPrice = price * (1- discount /100);
     return(
         <View style={styles.wrapper}>
             <View style={styles.container}>
-            <View style={styles.topContainer}><Text style={textStyles.firstText}>30% off on Froker Meals</Text></View>
+            <View style={styles.topContainer}><Text style={textStyles.firstText}>{discount}% off on Froker Meals</Text></View>
             <View style={styles.bottomContainer}>
-                <Text style={textStyles.secondText}>₹130/Meal</Text>
-                <Text style={textStyles.fourthText}><Text style={textStyles.thirdText}>₹89.00</Text>/ 1 Meal</Text>
+                <Text style={[discount!=0 ? textStyles.withDiscout:textStyles.withOutDiscout]}>₹{price}/Meal</Text>
+                {discount!=0 && <Text style={textStyles.fourthText}><Text style={textStyles.thirdText}>₹{afterPrice}</Text>/ 1 Meal</Text>}
             </View>
             </View>
         </View>
@@ -58,15 +61,24 @@ const textStyles=StyleSheet.create({
         fontWeight: '700',
         letterSpacing: 0.7,
     },
-    secondText:{
+    withDiscout:{
+        color: '#3D3D3D',
+        fontFamily: 'Nunito',
+        fontSize: 18,
+        fontStyle: 'normal',
+        fontWeight: '500',
+        textDecorationLine: 'line-through',
+        letterSpacing: 0.9,
+    },
+    withOutDiscout:{
         color: '#3D3D3D',
         fontFamily: 'Nunito',
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: '500',
         letterSpacing: 0.9,
-        textDecorationLine: 'line-through',
     },
+
     thirdText:{
         color: '#E1740F',
         fontFamily: 'Nunito',

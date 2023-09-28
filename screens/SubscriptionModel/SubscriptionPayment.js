@@ -8,6 +8,12 @@ import BlockImage from "../../components/Block/Subscription/BlockImage";
 
 
 const SubscriptionPayment=props=>{
+
+  const {navigation} = props
+  const handleNavigation =() =>{
+    navigation.navigate("PaymentSuccessfull");
+  }
+
   return(
     <View style={styles.container}>
       <ScrollView>
@@ -15,7 +21,7 @@ const SubscriptionPayment=props=>{
         <BlockImage/>
         <PromoCodesAndOffers promoCode="Meal30" offer="30%"/>
         <PreferedPayment/>
-        <OrderSummary/>
+        <OrderSummary handleNavigation={handleNavigation}/>
       </ScrollView>
     </View>
   )

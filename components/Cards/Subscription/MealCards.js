@@ -1,5 +1,5 @@
 import React, { useEffect,useRef } from "react";
-import { StyleSheet, View,Text,Image, ScrollView,TouchableOpacity,TouchableOpacity } from "react-native";
+import { StyleSheet, View,Text,Image, ScrollView,TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { dimensions,colors, fonts } from "../../../styles";
 import { dynamicSize } from "../../../utils/responsive";

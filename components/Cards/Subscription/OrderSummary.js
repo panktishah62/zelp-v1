@@ -1,8 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 import { dimensions } from '../../../styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const OrderSummary = props => {
+
+    const { handleNavigation } = props
+
     return (
         <View style={styles.wrapperContainer}>
             <View style={styles.container}>
@@ -20,8 +24,9 @@ const OrderSummary = props => {
                     <Text style={buttonStyles.changeText}>Total Charge</Text>
                     <Text style={styles.rightText}>Rs. 430</Text>
                 </View>
-                <View style={buttonStyles.container}><Text style={buttonStyles.text}>Pay Online Now</Text></View>
-
+                <TouchableOpacity onPress={handleNavigation}>
+                    <View style={buttonStyles.container}><Text style={buttonStyles.text}>Pay Online Now</Text></View>
+                </TouchableOpacity>
 
             </View>
         </View>
@@ -39,37 +44,37 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width:dimensions.fullWidth-40,
+        width: dimensions.fullWidth - 40,
         backgroundColor: '#FFF',
         borderRadius: 12,
         padding: 10,
         elevation: 5,
     },
-    firstContainer:{
-        display:'flex',
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
-        padding:10,
-        width:dimensions.fullWidth-60,
+    firstContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10,
+        width: dimensions.fullWidth - 60,
     },
-    leftText:{
+    leftText: {
         color: '#000',
         fontFamily: 'Inter',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
-       
+
     },
-    rightText:{
+    rightText: {
         color: '#E1740F',
-    textAlign: 'right',
-    fontFamily: 'Poppins',
-    fontSize: 16,
-    fontStyle: 'normal',
-    fontWeight: '600',
+        textAlign: 'right',
+        fontFamily: 'Poppins',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: '600',
     },
-    headingText:{
+    headingText: {
         color: '#3D3D3D',
         fontFamily: 'Poppins',
         fontSize: 16,
@@ -77,54 +82,54 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         letterSpacing: 0.25,
         textTransform: 'capitalize',
-    
+
     },
-    headingContainer:{
-        textAlign:'center',
+    headingContainer: {
+        textAlign: 'center',
     }
 });
 
 const buttonStyles = StyleSheet.create({
-   container:{
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor:'#E1740F',
-    borderRadius:12,
-    width:dimensions.fullWidth-80,
-    paddingVertical:16,
-    marginVertical:10,
-    
-   },
-   text:{
-    color: '#FFF',
-    fontFamily: 'Rubik',
-    fontSize: 14,
-    fontStyle: 'normal',
-    fontWeight: '500',
-    
-    letterSpacing: 0.25,
-    textTransform: 'uppercase',
-   },
-   changeText:{
-    color: '#000',
-    fontFamily: 'Poppins',
-    fontSize: 16,
-    fontStyle: 'normal',
-    fontWeight: '700',
-  
-    textTransform: 'capitalize',
-   }
+    container: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#E1740F',
+        borderRadius: 12,
+        width: dimensions.fullWidth - 80,
+        paddingVertical: 16,
+        marginVertical: 10,
+
+    },
+    text: {
+        color: '#FFF',
+        fontFamily: 'Rubik',
+        fontSize: 14,
+        fontStyle: 'normal',
+        fontWeight: '500',
+
+        letterSpacing: 0.25,
+        textTransform: 'uppercase',
+    },
+    changeText: {
+        color: '#000',
+        fontFamily: 'Poppins',
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: '700',
+
+        textTransform: 'capitalize',
+    }
 });
 
-const lineStyles=StyleSheet.create({
-    container:{
+const lineStyles = StyleSheet.create({
+    container: {
         height: 1,
-        width: dimensions.fullWidth-80, 
-    backgroundColor: 'transparent', 
-        borderBottomWidth: 1, 
-        borderColor: 'black', 
-        borderStyle: 'dashed', 
+        width: dimensions.fullWidth - 80,
+        backgroundColor: 'transparent',
+        borderBottomWidth: 1,
+        borderColor: 'black',
+        borderStyle: 'dashed',
     }
 })
 

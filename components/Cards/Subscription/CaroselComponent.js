@@ -10,7 +10,11 @@ import { getSubscriptionPlanDetails } from "../../../redux/services/subscription
 
 
 const CaroselComponent = props => {
-    const { navigateHandler } = props
+    const { navigation } = props
+    const navigateHandler = (id) => {
+        navigation.navigate('PlanDetails',{itemId:id})
+    }
+
 
     const [responseDataArr, setResponseDataArr] = useState([]);
 
@@ -90,7 +94,7 @@ const CaroselComponent = props => {
                         <Text style={styles.simpleTextText}>Starts From</Text>
                     </View>
                     <View style={styles.buttonWrapperContainer}>
-                        <TouchableOpacity onPress={navigateHandler}>
+                        <TouchableOpacity onPress={()=>navigateHandler(item?._id)}>
                             <View style={styles.buttonContainer}>
                                 <Text style={styles.buttonText}>₹119/Meal</Text>
                             </View>

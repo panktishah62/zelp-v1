@@ -62,9 +62,7 @@ const benifitComponentData = [
 
 const SubscriptionPage = props => {
     const {navigation} = props
-    const navigateHandler = () => {
-        navigation.navigate('PlanDetails')
-    }
+    
 
     const [bannerImagesArr, setBannerImagesArr] = useState([]);
 
@@ -84,7 +82,7 @@ const SubscriptionPage = props => {
             <View style={styles.container}>
                 <CarouselImageAtTop bannerImagesArr={bannerImagesArr} />
                 <StarHeadingComponent />
-                <CaroselComponent navigateHandler={navigateHandler}/>
+                <CaroselComponent navigation={navigation}/>
                 <ParagraphComp />
                 <BenifitHeadingComp />
                 <BenifitComponent data={benifitComponentData} />

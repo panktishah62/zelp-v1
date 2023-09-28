@@ -70,5 +70,6 @@ export default {
     getSubscriptionPlanDetails:'subscriptionPlan/showSubscriptionPlans',
     getBannerImages:'subscriptionPlan/getBannerImages',
     getPartnerRestaurants:'subscriptionPlan/getPartnerRestaurants',
+    showOneSubscriptionPlan:'subscriptionPlan/showSubscriptionPlanDetails',
 
 };

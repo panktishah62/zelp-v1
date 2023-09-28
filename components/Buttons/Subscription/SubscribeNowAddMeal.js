@@ -3,11 +3,14 @@ import { StyleSheet, View,Text,Image, ScrollView,TouchableOpacity } from "react-
 import { dimensions } from "../../../styles";
 
 const SubscribeNowAddMeal=props=>{
+
+  const {navigationHandler} = props
+
     const {isModalVisible,toggleModal}=props;
     return(
         <View style={buttonStyles.wrapperContainer}>
     {/* <View style={buttonStyles.container}> */}
-    <TouchableOpacity>
+    <TouchableOpacity onPress={navigationHandler}>
     <View style={buttonStyles.orangeButton}><Text style={buttonStyles.orangeButtonText}>Subscribe Now</Text></View>
     </TouchableOpacity>
      <TouchableOpacity onPress={toggleModal}>

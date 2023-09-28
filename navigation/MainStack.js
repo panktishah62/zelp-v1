@@ -44,6 +44,8 @@ import ReferralScreen from '../screens/User/Referral';
 import Home from '../screens/SubscriptionModel/Home';
 import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
 import PageDetails from '../screens/SubscriptionModel/PageDetails';
+import SubscriptionPayment from '../screens/SubscriptionModel/SubscriptionPayment';
+import PaymentSuccessfull from '../screens/SubscriptionModel/PaymentSuccessfull';
 
 const Stack = createNativeStackNavigator();
 
@@ -296,6 +298,42 @@ const MainStack = () => {
                         <HeaderWithTitle
                             navigation={navigation}
                             title={'Plan Details'}
+                        />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="SubscriptionPayment"
+                component={SubscriptionPayment}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitle
+                            navigation={navigation}
+                            title={'Subscription Payment'}
+                        />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="PaymentSuccessfull"
+                component={PaymentSuccessfull}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitle
+                            navigation={navigation}
+                            title={'Payment Successfull'}
+                        />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="SubscriptionHomePage"
+                component={PaymentSuccessfull}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitle
+                            navigation={navigation}
+                            title={'Payment Successfull'}
                         />
                     ),
                 })}

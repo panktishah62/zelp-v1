@@ -3,6 +3,8 @@ import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
 import { dimensions } from "../../../styles";
 
 const LineCircleSurroundedHeading = props => {
+    const validity = props.validity;
+    console.log(validity)
 
     return(
         <View style={styles.wrapper}>
@@ -12,7 +14,7 @@ const LineCircleSurroundedHeading = props => {
             <Image source={require('../../../assets/images/Subscription/circle.png')}/>
 
         </View>
-        <View style={styles.secondContainer}><Text style={textStyles.firstText}>Just pay <Text style={textStyles.secondText}>₹455</Text> for Min. 5 meals - 10 days validity</Text></View>
+        <View style={styles.secondContainer}><Text style={textStyles.firstText}>Just pay <Text style={textStyles.secondText}>₹455</Text> for Min. 5 meals - {validity} days validity</Text></View>
         <View style={styles.thirdContainer}>
         <Image source={require('../../../assets/images/Subscription/circle.png')}/>
         <Image style={styles.image} source={require('../../../assets/images/Subscription/line.png')}/>
