@@ -14,6 +14,7 @@ import {
     REMOVE_WALLET_MONEY_FROM_CART,
     RESET_CART_ACTIONS,
     RESET_CART_ERROR,
+    UPDATE_MAX_WALLET_MONEY_TO_USE,
 } from '../constants';
 import {
     addItemToRestaurants,
@@ -44,6 +45,15 @@ const cartActionsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 config: action.payload,
+            };
+        case UPDATE_MAX_WALLET_MONEY_TO_USE:
+            return {
+                ...state,
+                config: {
+                    ...state?.config,
+                    maxWalletMoneyToUse: action?.payload,
+                },
+                isWalletMoneyUsed: false,
             };
         case CART_ERROR:
             return {
@@ -121,6 +131,7 @@ const cartActionsReducer = (state = initialState, action) => {
                 discountAmount: state.discountAmount,
                 coupon: state.coupon,
                 count: state.foodItemsCount,
+                walletMoney: state.walletMoney,
             };
             const billingDetails = calculateTotal(billingData);
             return {

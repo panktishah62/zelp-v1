@@ -51,6 +51,7 @@ const ShotClassScreen = props => {
     const [isFocused, setIsFocused] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [refreshingLogin, setRefreshingLogin] = useState(false);
+    const [prevLocation, setPrevLocation] = useState(location);
 
     const windowDimensions = Dimensions.get('window');
     const windowHeight = windowDimensions.height;
@@ -172,7 +173,13 @@ const ShotClassScreen = props => {
     };
 
     useEffect(() => {
-        onRefresh();
+        if (
+            location?.latitude != undefined &&
+            location?.latitude != prevLocation?.latitude
+        ) {
+            setPrevLocation(location);
+            onRefresh();
+        }
     }, [location?.latitude, shotId]);
 
     const onViewRef = useRef(({ viewableItems }) => {

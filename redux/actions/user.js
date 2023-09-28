@@ -1,9 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
+    CALCULATE_TOTAL,
     EDIT_USER_PROFILE,
     FETCH_DATA_FAILURE_USER,
     GET_USER_PROFILE,
     RESET_USER,
+    UPDATE_MAX_WALLET_MONEY_TO_USE,
 } from '../constants';
 import { getUserWallet } from './cartActions';
 import { editUserProfile_, getUserProfile_ } from '../services/userService';
@@ -40,6 +42,13 @@ export const getUserProfile = setIsLoading => {
                             payload: data.user,
                         });
                         dispatch(getUserWallet(data.user.wallet));
+                        dispatch({
+                            type: UPDATE_MAX_WALLET_MONEY_TO_USE,
+                            payload: data.user.wallet,
+                        });
+                        dispatch({
+                            type: CALCULATE_TOTAL,
+                        });
                         if (setIsLoading) {
                             setIsLoading(false);
                         }

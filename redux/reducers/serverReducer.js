@@ -3,6 +3,7 @@ import {
     GET_CONFIG_ERROR,
     GET_SHOTS_CONFIG_ERROR,
     GET_SHOTS_VIEW_REST_SORTING_CONFIG,
+    UPDATE_MAX_WALLET_MONEY_TO_USE,
 } from '../constants';
 
 const initialState = {
@@ -34,6 +35,14 @@ const serverReducer = (state = initialState, action) => {
                 ...state,
                 shotsViewRestSortingConfig: null,
                 error: action.payload,
+            };
+        case UPDATE_MAX_WALLET_MONEY_TO_USE:
+            return {
+                ...state,
+                shotsViewRestSortingConfig: {
+                    ...state?.shotsViewRestSortingConfig,
+                    maxWalletMoneyToUse: action.payload,
+                },
             };
         default:
             return state;

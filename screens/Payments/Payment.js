@@ -162,8 +162,12 @@ const PaymentsScreen = props => {
     };
 
     const openPaymentGateway = async () => {
-        setIsLoading(true);
-        createLink(merchantTransactionId);
+        if (cart?.billingDetails?.totalAmount === 0) {
+            placeOrderWithCOD();
+        } else {
+            setIsLoading(true);
+            createLink(merchantTransactionId);
+        }
     };
 
     const placeOrderWithCOD = async () => {
@@ -214,7 +218,9 @@ const PaymentsScreen = props => {
                 cart.restaurants,
                 method,
             );
-            if (!isPaymentApplicable) {
+            if (cart?.billingDetails?.totalAmount === 0) {
+                setPaymentMethod(method);
+            } else if (!isPaymentApplicable) {
                 dispatch(
                     showDialog({
                         isVisible: true,
