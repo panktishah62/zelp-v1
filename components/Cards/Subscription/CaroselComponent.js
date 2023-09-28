@@ -68,7 +68,7 @@ const CaroselComponent = props => {
 
     const renderItem = () => {
         //make this another component
-        return responseDataArr.map((item, index) => (
+        return responseDataArr && responseDataArr?.map((item, index) => (
             <LinearGradient
                 colors={['rgba(255, 255, 255, 0.80)', 'rgba(255, 255, 255, 0.25)']}
                 style={styles.gradient}
@@ -110,7 +110,7 @@ const CaroselComponent = props => {
 
     return (
         <View style={styles.conatiner} >
-            {responseDataArr.length !== 0 && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            { responseDataArr &&(responseDataArr?.length !== 0) && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {renderItem()}
             </ScrollView>}
 
