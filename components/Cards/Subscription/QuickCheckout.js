@@ -18,6 +18,11 @@ const data=[
         image:require('../../../assets/images/Subscription/plate.png'),
         text:"Delivery at your Door Step",
     },
+    {
+        image:require('../../../assets/images/Subscription/plate.png'),
+        text:"Delivery at your Door Step",
+    },
+    
 ]
 
 
@@ -107,7 +112,13 @@ const QuickCheckout = props => {
    if(firstActive){
     return(
         <View style={styles.wrapperContainer}>
+            <ScrollView horizontal>
+        <View style={styles.innerContainer}>
+           
            {BestSellerItemCard()}
+        </View>
+
+           </ScrollView>
         </View>
     
     )
@@ -115,7 +126,10 @@ const QuickCheckout = props => {
    else{
          return(
           <View style={styles1.wrapperContainer}>
+        
           {OrderHistoryItemCard()}
+        
+        
       </View>
          )
    }
@@ -124,14 +138,21 @@ const QuickCheckout = props => {
 //style for the Order History Item Card
 const styles1=StyleSheet.create({
     wrapperContainer:{
-        display:'flex',
-        marginTop:40,
+       marginTop:dynamicSize(20),
+        justifyContent:'center',
+        alignItems:'center',
+        gap:10,
+        flexDirection:'column',
+    
+    },
+    innerContainer:{
+     
+       
 
         justifyContent:'center',
         alignItems:'center',
         gap:10,
         flexDirection:'column',
-        width:dimensions.fullWidth-60,
     },
     name:{
         color: '#3D3D3D',
@@ -162,7 +183,7 @@ const styles1=StyleSheet.create({
         width:dimensions.fullWidth-60,
         borderWidth:1,
         borderRadius:10,
-        
+        marginTop:10,
         height:75,
         flexDirection:'row',
         
@@ -220,10 +241,20 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         flexDirection:'row',
-        width:dimensions.fullWidth-dynamicSize(60),
+        width:dimensions.fullWidth-dynamicSize(20),
+        
         gap:10,
-        marginTop:dynamicSize(80),
+       marginTop:dynamicSize(20)
       
+    },
+    innerContainer:{
+        display:'flex',
+        justifyContent:'center',
+        flexDirection:'row',
+        gap:10,
+        marginTop:dynamicSize(50),
+        marginBottom:dynamicSize(20),
+        alignItems:'center',
     },
     container: {
         backgroundColor: 'white',

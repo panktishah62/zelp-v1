@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 
 const RestaurantMenuPage = props => {
     const data = ['menuContent']
+    const {navigation}=props
     const mealCardData= [
         {
             id:'1',
@@ -49,6 +50,7 @@ const RestaurantMenuPage = props => {
     ]
 
     const {isSelectedAny}=useSelector(state=>state.subscriptionSelectMenu)
+    console.log(isSelectedAny,"isSelectedAny")
     const {itemName,itemId,itemType}=useSelector((state)=>state.subscriptionCart);
     console.log(itemName,itemId,itemType)
 
@@ -67,7 +69,7 @@ const RestaurantMenuPage = props => {
         ))}
     </ScrollView>
     <RestaurantMenuModal />
-       {isSelectedAny && <AbsoluteOrangeButton text={"Proceed to checkout"}/>}
+       {isSelectedAny && <AbsoluteOrangeButton navigation={navigation} text={"Proceed to checkout"}/>}
 </View>
 
     )

@@ -46,6 +46,10 @@ import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
 import PageDetails from '../screens/SubscriptionModel/PageDetails';
 import SubscriptionPayment from '../screens/SubscriptionModel/SubscriptionPayment';
 import PaymentSuccessfull from '../screens/SubscriptionModel/PaymentSuccessfull';
+import SubscriptionHomePage from '../screens/SubscriptionModel/SubscriptionHomePage';
+import HeaderWithCart from '../components/Header/HeaderWithCart';
+import RestaurantMenuPage from '../screens/SubscriptionModel/RestaurantMenuPage';
+import Cart from '../screens/SubscriptionModel/Cart';
 
 const Stack = createNativeStackNavigator();
 
@@ -190,6 +194,7 @@ const MainStack = () => {
                     ),
                 })}
             />
+             
             <Stack.Screen name="Wallet" component={WalletScreen} />
             <Stack.Screen
                 name="Notifications"
@@ -212,9 +217,8 @@ const MainStack = () => {
                 component={HelpAndSupportScreen}
                 options={({ navigation, route }) => ({
                     header: () => (
-                        <HeaderWithTitle
+                        <HeaderWithCart
                             navigation={navigation}
-                            title={'Help and Support'}
                         />
                     ),
                 })}
@@ -327,17 +331,42 @@ const MainStack = () => {
                 })}
             />
             <Stack.Screen
-                name="SubscriptionHomePage"
-                component={PaymentSuccessfull}
+                name="SubscribedUserHome"
+                component={SubscriptionHomePage}
                 options={({ navigation, route }) => ({
                     header: () => (
-                        <HeaderWithTitle
+                        <HeaderWithLocation
                             navigation={navigation}
-                            title={'Payment Successfull'}
+                            
                         />
                     ),
                 })}
             />
+             <Stack.Screen
+                name="SubscriptionRestaurantMenu"
+                component={RestaurantMenuPage}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitle
+                            navigation={navigation}
+                            title="Restaurant Menu"
+                        />
+                    ),
+                })}
+            />
+             <Stack.Screen
+                name="SubscriptionCart"
+                component={Cart}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitle
+                            navigation={navigation}
+                            title="Cart"
+                        />
+                    ),
+                })}
+            />
+            
         </Stack.Navigator>
     );
 };

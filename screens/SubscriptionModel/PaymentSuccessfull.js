@@ -4,11 +4,12 @@ import { dimensions } from '../../styles';
 import PaymentSuccessfullCard from '../../components/Cards/Subscription/PaymentSuccessfullCard';
 
 const PaymentSuccessfull=props=>{
+    const {navigation} = props
     return(
         <ScrollView >
         <View style={styles.container}>
             
-           <PaymentSuccessfullCard/>
+           <PaymentSuccessfullCard navigation={navigation}/>
            
         </View>
         </ScrollView>
