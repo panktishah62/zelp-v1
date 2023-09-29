@@ -1,11 +1,52 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 import { dimensions } from '../../../styles';
+import { Linking } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
+import { subscribeToAPlan } from '../../../redux/services/subscriptionService';
 
 const OrderSummary = props => {
 
-    const { handleNavigation } = props
+    const navigation = props.navigation
+
+    const subscriptionID = props.subscriptionID
+
+    const { mealCount } = useSelector((state) => state.mealDetails)
+    const { finalPrice } = useSelector((state) => state.finalSubscriptionPrice)
+    console.log("final price", finalPrice)
+    console.log("meal count", mealCount)
+    console.log("id", subscriptionID)
+    const extraMeal = mealCount - 5;
+    const validity = 10 + extraMeal;
+    console.log("validity", validity)
+
+    const openExternalURL = (url) => {
+        Linking.openURL(url)
+          .then((supported) => {
+            if (!supported) {
+              console.error(`Cannot open URL: ${url}`);
+            }
+          })
+          .catch((err) => console.error('An error occurred', err));
+      };
+      
+
+
+    const subscriptionDetails = async () => {
+        const response = await subscribeToAPlan(subscriptionID,
+            { validity: [{ meals: mealCount, validity, price: finalPrice }], amount: finalPrice * mealCount * 100, redirectUrl: "https://facebook.com" }
+        );
+        const redirectURL = response.data.data.data.instrumentResponse.redirectInfo.url
+        console.log(redirectURL)
+        openExternalURL(redirectURL)
+    }
+
+
+
+    const handlePaymentDetails = () => {
+        subscriptionDetails()
+    }
 
     return (
         <View style={styles.wrapperContainer}>
@@ -24,7 +65,7 @@ const OrderSummary = props => {
                     <Text style={buttonStyles.changeText}>Total Charge</Text>
                     <Text style={styles.rightText}>Rs. 430</Text>
                 </View>
-                <TouchableOpacity onPress={handleNavigation}>
+                <TouchableOpacity onPress={handlePaymentDetails}>
                     <View style={buttonStyles.container}><Text style={buttonStyles.text}>Pay Online Now</Text></View>
                 </TouchableOpacity>
 
