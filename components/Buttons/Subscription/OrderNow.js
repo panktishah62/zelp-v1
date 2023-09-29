@@ -3,11 +3,18 @@ import { StyleSheet, View, Text, Image, ScrollView,TouchableOpacity } from "reac
 import { dimensions } from "../../../styles";
 
 const OrderNow=props=>{
+    const {navigation}=props;
+
+    const handleNavigation=()=>{
+        navigation.navigate("SubscriptionRestaurantMenu");
+    }
     return(
+        <TouchableOpacity onPress={handleNavigation}>
         <View style={styles.container}>
             <Image source={require('../../../assets/images/Subscription/ordernow.png')}/>
                 <Text style={styles.buttonText}>Order Now</Text>
         </View>
+        </TouchableOpacity>
     )
 }
 

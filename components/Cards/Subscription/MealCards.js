@@ -9,8 +9,9 @@ import { addSubscribedItemToCart, resetSelectionButton, selectMenu, setSubscript
 const MealCards = props => {
 
     const [mealType, setMealType] = useState("Breakfast");
-    const { isButtonVisible, isHeadingVisible, isRatingTextVisible, backendDataArr, activeOrangeButton, orangeButtonText, showRatingNumber, showInfoText, showCrossButton, heading, data } = props
-    const isDynamic=props.isDynamic;
+    const { isButtonVisible, isHeadingVisible, isRatingTextVisible, backendDataArr, activeOrangeButton, orangeButtonText, showRatingNumber, showInfoText, showCrossButton, heading, data,isDynamic } = props
+    
+    console.log(heading,"data")
 
     const dispatch = useDispatch()
 
@@ -53,7 +54,10 @@ const MealCards = props => {
                 <View style={styles.itemConainer}>
                     <View style={styles.leftContainer}>
                         <View style={styles.imageContainer}>
-                      {item.image && <Image style={{height:100}}  source={{uri:item.image}}/>}</View>
+                      {isDynamic  && <Image style={{height:dynamicSize(100)}}  source={{uri:item.image}}/>}
+                      {!isDynamic && <Image style={{height:dynamicSize(100)}}   source={item.image}/>}
+                      </View>
+                    
                     </View>
                     <View style={styles.rightContainer}>
                         <View style={styles.firstContainer}>

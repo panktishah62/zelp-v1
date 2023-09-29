@@ -1,8 +1,13 @@
 import React, { startTransition } from "react";
 import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
 import { dimensions } from "../../../styles";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const PaymentSuccessfullCard=props=>{
+    const {navigation} = props
+    const navigationHandler = () =>{
+        navigation.navigate("SubscribedUserHome");
+    }
     return(
         <View>
                     <Text style={styles.headingText}>Payment Status</Text>
@@ -23,10 +28,12 @@ const PaymentSuccessfullCard=props=>{
             <Text style={styles1.secondText}>₹450</Text>
            </View>
            <View style={styles1.line}></View>
+           <TouchableOpacity onPress={navigationHandler}>
            <View style={belowStyles.container}>
                 <Text style={belowStyles.buttonText}>Order Details</Text>
                 
            </View>
+              </TouchableOpacity>
            <Text style={belowStyles.closeText}>Close</Text>
         </View>
         </View>

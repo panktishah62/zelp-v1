@@ -8,11 +8,15 @@ import OrderNow from '../../components/Buttons/Subscription/OrderNow';
 import SwitchButtons from '../../components/Buttons/Subscription/SwitchButtons';
 import QuickCheckout from '../../components/Cards/Subscription/QuickCheckout';
 import ManageOrders from '../../components/Carousel/Subscription/ManageOrders';
+import { useSelector } from 'react-redux';
+import AbsoluteOrangeButton from '../../components/Buttons/Subscription/AbsoluteOrangeButton';
 
 const SubscriptionHomePage=props=>{
     const [firstActive,setFirstActive]=useState(true);
     const [secondActive,setSecondActive]=useState(false);
+    const {isSelectedAny}=useSelector(state=>state.subscriptionSelectMenu)
 
+    const {navigation}=props;
     const toggleFirst=()=>{
         if(firstActive){
             return
@@ -28,17 +32,21 @@ const SubscriptionHomePage=props=>{
         setFirstActive(false);
     }
     return(
+        <View>
         <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
             <LogoHeading text="Froker Subscription"/>
             <SubscriptionDetailsHeading/>
             <TextLogo/>
             <ManageOrders/>
-            <OrderNow/>
+            <OrderNow navigation={navigation}/>
             <SwitchButtons firstActive={firstActive} secondActive={secondActive} toggleFirst={toggleFirst} toggleSecond={toggleSecond}/>
             <QuickCheckout firstActive={firstActive} secondActive={secondActive}/>
         </View>
         </ScrollView>
+        {isSelectedAny && <AbsoluteOrangeButton navigation={navigation} text={"Proceed to checkout"}/>}
+
+        </View>
     )
 }
 
@@ -48,7 +56,7 @@ const styles = StyleSheet.create({
         justifyContent:'flex-start',
         alignItems:'center',
         backgroundColor:'#fff',
-        height:dimensions.fullHeight,
+
     }
 })
 

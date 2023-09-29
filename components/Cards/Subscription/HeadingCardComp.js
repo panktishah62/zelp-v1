@@ -12,6 +12,7 @@ const HeadingCardComp = (props) => {
     const {catagoryId} = useSelector((state)=>state.menuModal)
 
     
+    
   
     
 
@@ -54,7 +55,7 @@ const HeadingCardComp = (props) => {
     const renderItem = ({ item ,index}) => (
         <View style={styles.container} key={index}>
             <TextSurroundedByLine text={item.headingText} />
-            <MealCards data={mealCardData} activeOrangeButton={true} orangeButtonText={"Select"} showRatingNumber={true} showInfoText={true} />
+            <MealCards data={mealCardData} heading={item.headingText} isDynamic={false} activeOrangeButton={true} orangeButtonText={"Select"} showRatingNumber={true} showInfoText={true} />
         </View>
     );
 
@@ -62,11 +63,7 @@ const HeadingCardComp = (props) => {
         <FlatList
             ref={flatListRef}
             data={data}
-            getItemLayout={(data, index) => ({
-                length: 50,
-                offset: 50 * index,
-                index,
-            })}
+          
             keyExtractor={(item,index) => index.toString()}
             renderItem={renderItem}
             contentContainerStyle={styles.contentContainer}

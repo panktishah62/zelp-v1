@@ -2,14 +2,22 @@ import React from "react";
 import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
 import { dynamicSize, normalizeFont } from "../../../utils/responsive";
 import { dimensions } from "../../../styles";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const AbsoluteOrangeButton = props => {
-
+    const { navigation } = props;
     const { text } = props;
+    const handleNavigation = () => {  
+        navigation.navigate("SubscriptionCart");  
+    }
 
     return (
         <View style={styles.container}>
+        <TouchableOpacity onPress={handleNavigation}>
+
             <Text style={styles.text}>{text}</Text>
+        </TouchableOpacity>
+
         </View>
     )
 
