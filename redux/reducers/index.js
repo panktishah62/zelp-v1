@@ -16,6 +16,8 @@ import menuModalReducer from './menuModalReducer';
 import selectSubscriptionMenuReducer from './selectSubscriptionMenuReducer';
 import vegbuttonActiveReducer from './vegbuttonActiveReducer';
 import subscriptionCartReducer from './subscriptionCartReducer';
+import menuDetailsReducer from './mealDetailsReducer';
+import finalSubscriptionPriceReducer from './finalSubscriptionPriceReducer';
 import mealTypeForSubscriptionReducer from './mealTypeForSubscriptionReducer';
 
 // Define the root reducer
@@ -35,6 +37,8 @@ const rootReducer = combineReducers({
     subscriptionSelectMenu:selectSubscriptionMenuReducer,
     vegbutton:vegbuttonActiveReducer,
     subscriptionCart:subscriptionCartReducer,
+    mealDetails:menuDetailsReducer,
+    finalSubscriptionPrice:finalSubscriptionPriceReducer,
     mealTypeForSubscription:mealTypeForSubscriptionReducer,
 });
 
