@@ -17,7 +17,7 @@ const SubscriptionPayment=props=>{
   return(
     <View style={styles.container}>
       <ScrollView>
-        <PlanDetailsHeading/>
+        <PlanDetailsHeading navigation={navigation}/>{/*Modall is here*/}
         <BlockImage/>
         <PromoCodesAndOffers promoCode="Meal30" offer="30%"/>
         <PreferedPayment/>

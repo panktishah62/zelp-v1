@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Carousel from 'react-native-new-snap-carousel';
-import { dimensions, Styles } from "../../../styles";
+import { dimensions, fonts, Styles } from "../../../styles";
 import { colors } from "../../../styles/colors";
 import LinearGradient from "react-native-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
@@ -10,9 +10,17 @@ import { getSubscriptionPlanDetails } from "../../../redux/services/subscription
 
 
 const CaroselComponent = props => {
-    const { navigation } = props
-    const navigateHandler = (id) => {
+    const { navigation,showKnowMore } = props
+    const navigateHandler = (id,string) => {
+        if(string==="priceButton"&&!showKnowMore){
         navigation.navigate('PlanDetails',{itemId:id})
+        }
+        if(string==="knowMoreButton"&&showKnowMore){
+            navigation.navigate('PlanDetails',{itemId:id})
+            }
+        else{
+            return
+        }
     }
 
 
@@ -94,15 +102,24 @@ const CaroselComponent = props => {
                         <Text style={styles.simpleTextText}>Starts From</Text>
                     </View>
                     <View style={styles.buttonWrapperContainer}>
-                        <TouchableOpacity onPress={()=>navigateHandler(item?._id)}>
+                        <TouchableOpacity onPress={()=>navigateHandler(item?._id,"priceButton")}>
                             <View style={styles.buttonContainer}>
                                 <Text style={styles.buttonText}>₹119/Meal</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.lastTextContainer}>
+                {!showKnowMore &&    <View style={styles.lastTextContainer}>
                         <Text style={styles.lastTextText}>₹175/Meal</Text>
-                    </View>
+                    </View>}
+                    {
+                        showKnowMore &&
+                        <TouchableOpacity onPress={()=>navigateHandler(item?._id,"knowMoreButton")}>
+                         <View style={styles.lastTextContainer}>
+                            <Text style={styles.knowMoreText}>Know More</Text>
+                            <Image source={require('../../../assets/images/Subscription/info.png')}/>
+                        </View>
+                        </TouchableOpacity>
+                    }
 
                 </View>
             </LinearGradient>
@@ -146,6 +163,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 8,
+    },
+    knowMoreText:{
+        color: '#3D3D3D',
+        fontFamily: fonts.NUNITO_400_14.fontFamily,
+        fontSize: 12,
+        fontStyle: 'normal',
+        fontWeight: '700',
+        letterSpacing: 0.6,
     },
     shadow: {
 

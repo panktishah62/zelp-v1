@@ -7,6 +7,9 @@ import CarouselModal from '../../Modal/Subscription/CarouselModal';
 const PlanDetailsHeading = props => {
     const [isModalVisible, setModalVisible] = useState(false);
 
+
+    const { navigation } = props
+
     const toggleModal = () => {
       setModalVisible(!isModalVisible);
     };
@@ -43,7 +46,7 @@ const PlanDetailsHeading = props => {
             </View>
            </View>
         </View>
-        <CarouselModal isModalVisible={isModalVisible} toogleModal={toggleModal}/>
+        <CarouselModal navigation={navigation} isModalVisible={isModalVisible} toogleModal={toggleModal}/>
         </View>
     );
 };
