@@ -14,7 +14,8 @@ import DetailsHeading from "../../components/Heading/Subscription/DetailsHeading
 import DescriptionOffer from "../../components/Cards/Subscription/DescriptionOffer";
 import LineCircleSurroundedHeading from "../../components/Heading/Subscription/LineCircleSurroundedHeading";
 import SubscribeNowAddMeal from "../../components/Buttons/Subscription/SubscribeNowAddMeal";
-import { getOneSubscriptionPlanDetails } from "../../redux/services/subscriptionService";
+import { getCombos, getOneSubscriptionPlanDetails } from "../../redux/services/subscriptionService";
+import { useSelector } from "react-redux";
 
 const carouSelBannerImageData = [
     {
@@ -101,15 +102,34 @@ const PageDetails = props => {
     const { navigation, route } = props
     const { itemId } = route.params
 
+    const {mealType}=useSelector(state=>state.mealTypeForSubscription)
+
+    
+
     const [fetchedData, setFetchedData] = useState(null);
     const [bannerImagesArr, setBannerImagesArr] = useState([]);
+    const [combosArray,setCombosArray]=useState([]);
+    const [benifitComponentArray,setBenifitComponentArray]=useState([]);
     const fetchPlanDetails = async () => {
         const response = await getOneSubscriptionPlanDetails(itemId);
 
         setFetchedData(response.data.data)
         setBannerImagesArr(response.data.bannerImage)
-
+        setBenifitComponentArray(response.data.benifitComponent)
     }
+    
+    
+
+    const fetchCombos=async()=>{
+        const response=await getCombos(itemId,mealType);
+        console.log(response?.data?.data)
+        setCombosArray(response?.data?.data)
+    }
+    useEffect(()=>{
+        fetchCombos()
+    },[setCombosArray,mealType])
+
+    console.log(combosArray)
 
    
     useEffect(() => {
@@ -128,30 +148,30 @@ const PageDetails = props => {
     };
     return (
         <View>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.container}>
-                    <SubscriptionPlanImage image={fetchedData?.image} />
-                    <DetailsHeading name={fetchedData?.name} />
-                    <DescriptionOffer discount={fetchedData?.appliedDiscount} price={fetchedData?.pricePerMeal} itemId={itemId} />
-                    <LineCircleSurroundedHeading discount={fetchedData?.appliedDiscount} price={fetchedData?.pricePerMeal} validity={fetchedData?.validityPerMeal} />
+        <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+        <SubscriptionPlanImage image={fetchedData?.image}/>
+        <DetailsHeading name={fetchedData?.name}/>
+        <DescriptionOffer discount={fetchedData?.appliedDiscount} price={fetchedData?.pricePerMeal}/>
+        <LineCircleSurroundedHeading discount={fetchedData?.appliedDiscount}  price={fetchedData?.pricePerMeal} validity={fetchedData?.validityPerMeal}/>
 
-                    <CarouselImageAtTop bannerImagesArr={bannerImagesArr} />
-                    <BenifitHeadingComp />
-                    <BenifitComponent data={benifitComponentData} />
-                    <AddOnMeals />
+            <CarouselImageAtTop bannerImagesArr={bannerImagesArr}/>
+            <BenifitHeadingComp/>
+            <BenifitComponent data={benifitComponentData}/>
+            <AddOnMeals/>
 
-                    <HowToStart />
-                    <BestMealHeadingWithStars />
-
-                    <View style={styles.mealCard}><MealCards isRatingTextVisible={true} isHeadingVisible={true} isButtonVisible={true}
-                        showRatingNumber={true} data={mealCardData} showInfoText={true}
-                    /></View>
-
-
-                </View>
-            </ScrollView>
-            <AddOnMealModal navigationHandler={navigationHandler} />
+            <HowToStart/>
+            <BestMealHeadingWithStars/>
+           
+           <View style={styles.mealCard}><MealCards isRatingTextVisible={true} isHeadingVisible={true} isButtonVisible={true} 
+           showRatingNumber={true} data={mealCardData} showInfoText={true}
+           /></View>
+          
+          
         </View>
+        </ScrollView>
+        <AddOnMealModal navigationHandler={navigationHandler}/>
+         </View>
 
     )
 }

@@ -9,6 +9,8 @@ import {
     SUBSCRIPTION_MEAL_NUMBER,
     SUBSCRIPTION_MEAL_NUMBER_INCREASED,
     SUBSCRIPTION_MEAL_NUMBER_DECREASED,
+    SET_SUBSCRIPTION_MEAL_TYPE,
+    RESET_SUBSCRIPTION_MEAL_TYPE,
 } from '../constants';
 
 export const selectMenu = (index, componentName) => {
@@ -92,5 +94,26 @@ export const finalPlanDetails = (data) => {
             type:  FINAL_SUBSCRIPTION_MODEL_PRICE,
             payload:data,
         });
+    }
+}
+export const setSubscriptionMealType=(mealType)=>{
+    return async dispatch=>{
+        dispatch({
+            type:SET_SUBSCRIPTION_MEAL_TYPE,
+            payload:{
+                mealType:mealType
+            }
+        })
+    }
+}
+
+export const resetSubscriptionMealType=()=>{
+    return async dispatch=>{
+        dispatch({
+            type:RESET_SUBSCRIPTION_MEAL_TYPE,
+            payload:{
+                mealType:'Breakfast'
+            }
+        })
     }
 }

@@ -71,7 +71,7 @@ export default {
     getBannerImages:'subscriptionPlan/getBannerImages',
     getPartnerRestaurants:'subscriptionPlan/getPartnerRestaurants',
     showOneSubscriptionPlan:'subscriptionPlan/showSubscriptionPlanDetails',
-    showComboForSubscription:`subscriptionPlan/getCombosForSubscriptionPlan/`,
+    showComboForSubscription:`subscriptionPlan/getCombosForSubscriptionPlan`,
 
 
 };
