@@ -6,9 +6,16 @@ import { dimensions } from "../../../styles";
 import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import { dynamicSize } from "../../../utils/responsive";
 import SubscribeNowAddMeal from "../../Buttons/Subscription/SubscribeNowAddMeal";
+import { useDispatch, useSelector } from "react-redux";
+import { mealDetailsDecreased, mealDetailsIncreased } from "../../../redux/actions/subscriptionActions";
 
 
 const AddOnMealModal = props => {
+
+  const dispatch = useDispatch();
+  const {mealCount} = useSelector((state)=> state.mealDetails)
+  const [mealNo, setMealNo] = useState(5);
+  const totalDays = mealNo * 2;
 
   const { navigationHandler } = props
 
@@ -31,6 +38,18 @@ const AddOnMealModal = props => {
     style: { marginBottom: 20 },
   };
 
+  const handleAddMeal = () => {
+    setMealNo(prevState => prevState + 1);
+    dispatch(mealDetailsIncreased({mealCount:mealNo}));
+  }
+
+  const handleRemoveMeal = () => {
+    if (mealNo === 5) return;
+    setMealNo(mealNo - 1);
+    
+    dispatch(mealDetailsDecreased({mealCount:mealNo}));
+  }
+
   return (
     <View >
       <SubscribeNowAddMeal isModalVisible={isModalVisible} navigationHandler={navigationHandler} toggleModal={toggleModal} />
@@ -52,25 +71,23 @@ const AddOnMealModal = props => {
                 </TouchableOpacity>
               </View>
             </View>
-
             <View style={mealsStyles.container}>
               <Text style={mealsStyles.firstText}>Select No. of Meals</Text>
               <View style={mealsStyles.buttonContainer}>
-                <View style={mealsStyles.minusButton}><View style={styles.minusButtonInner}><Text style={{ fontSize: 26 }}>-</Text></View></View>
-                <Text style={{ fontWeight: '700', color: 'black' }}>5</Text>
-                <View style={mealsStyles.plusButton}><View style={mealsStyles.plusButtonInner}><Text style={{ color: '#fff', fontSize: 22 }}>+</Text></View></View>
+                <TouchableOpacity onPress={handleRemoveMeal}><View style={[mealsStyles.minusButton, mealNo > 5 && mealsStyles.changeBackground]}><View style={mealsStyles.minusButtonInner}><Text style={{ fontSize: 26 }}>-</Text></View></View></TouchableOpacity>
+                <Text style={{ fontWeight: '700', color: 'black' }}>{mealNo}</Text>
+                <TouchableOpacity onPress={handleAddMeal}><View style={mealsStyles.plusButton}><View style={mealsStyles.plusButtonInner}><Text style={{ color: '#fff', fontSize: 22 }}>+</Text></View></View></TouchableOpacity>
               </View>
             </View>
             <View style={viewStyles.container}>
               <Text style={viewStyles.text}> Validity of the plan</Text>
-              <View style={viewStyles.buttonContainer}><Text style={viewStyles.buttonText}>10 days</Text></View>
+              <View style={viewStyles.buttonContainer}><Text style={viewStyles.buttonText}>{totalDays} days</Text></View>
             </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={navigationHandler}>
+            <TouchableOpacity onPress={navigationHandler}>
+              <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>Subscribe Now</Text>
-              </TouchableOpacity>
-
-            </View>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -183,6 +200,9 @@ const mealsStyles = StyleSheet.create({
 
 
   },
+  changeBackground: {
+    borderColor: '#E1740F',
+  },
   minusButton: {
     display: 'flex',
     alignItems: 'center',
@@ -194,7 +214,8 @@ const mealsStyles = StyleSheet.create({
 
   },
   minusButtonInner: {
-
+    backgroundColor: 'black',
+    height: 1.4
   },
   changeBorder: {
 

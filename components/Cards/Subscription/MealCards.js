@@ -110,15 +110,15 @@ const MealCards = props => {
     return (
         <View>
             {isButtonVisible && <View style={buttonStyles.buttonContainer}>
-                <TouchableOpacity onPress={()=>handleMenuType("Breakfast")}>
-                    <View style={[buttonStyles.eachButtonStyle, mealType==="Breakfast" && buttonStyles.changeStyle]}><Text style={[buttonStyles.textStyle,mealType==="Breakfast" && buttonStyles.changeTextStyle]}>Breakfast</Text></View>
+                <TouchableOpacity onPress={() => handleMenuType("Breakfast")}>
+                    <View style={[buttonStyles.eachButtonStyle, mealType === "Breakfast" && buttonStyles.changeStyle]}><Text style={[buttonStyles.textStyle, mealType === "Breakfast" && buttonStyles.changeTextStyle]}>Breakfast</Text></View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>handleMenuType("Lunch")}>
-                <View style={[buttonStyles.eachButtonStyle,mealType==="Lunch" && buttonStyles.changeStyle]}><Text style={[buttonStyles.textStyle,mealType==="Lunch" &&buttonStyles.changeTextStyle]}>Lunch</Text></View>
-                    
+                <TouchableOpacity onPress={() => handleMenuType("Lunch")}>
+                    <View style={[buttonStyles.eachButtonStyle, mealType === "Lunch" && buttonStyles.changeStyle]}><Text style={[buttonStyles.textStyle, mealType === "Lunch" && buttonStyles.changeTextStyle]}>Lunch</Text></View>
+
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>handleMenuType("Dinner")}>
-                <View style={[buttonStyles.eachButtonStyle,mealType==="Dinner" && buttonStyles.changeStyle]}><Text style={[buttonStyles.textStyle,mealType==="Dinner" &&buttonStyles.changeTextStyle]}>Dinner</Text></View>
+                <TouchableOpacity onPress={() => handleMenuType("Dinner")}>
+                    <View style={[buttonStyles.eachButtonStyle, mealType === "Dinner" && buttonStyles.changeStyle]}><Text style={[buttonStyles.textStyle, mealType === "Dinner" && buttonStyles.changeTextStyle]}>Dinner</Text></View>
                 </TouchableOpacity>
             </View>}
             {isHeadingVisible && <View style={belowButtonStyle.container}>

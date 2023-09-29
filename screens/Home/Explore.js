@@ -307,7 +307,7 @@ const Explore = props => {
                     <ActivityIndicator size="large" color={colors.ORANGE} />
                 )}
             </View>
-            {!isLoading && (!isServableArea || restaurants.length === 0) && (
+            {!isLoading && (!isServableArea || restaurants?.length === 0) && (
                 <View
                     style={[
                         styles.commingSoon,
