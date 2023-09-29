@@ -14,7 +14,8 @@ import DetailsHeading from "../../components/Heading/Subscription/DetailsHeading
 import DescriptionOffer from "../../components/Cards/Subscription/DescriptionOffer";
 import LineCircleSurroundedHeading from "../../components/Heading/Subscription/LineCircleSurroundedHeading";
 import SubscribeNowAddMeal from "../../components/Buttons/Subscription/SubscribeNowAddMeal";
-import { getOneSubscriptionPlanDetails } from "../../redux/services/subscriptionService";
+import { getCombos, getOneSubscriptionPlanDetails } from "../../redux/services/subscriptionService";
+import { useSelector } from "react-redux";
 
 const carouSelBannerImageData=[
         {
@@ -102,15 +103,34 @@ const PageDetails=props=>{
     const {itemId}=route.params
     console.log(itemId)
 
+    const {mealType}=useSelector(state=>state.mealTypeForSubscription)
+
+    
+
     const [fetchedData,setFetchedData] = useState(null);
     const [bannerImagesArr,setBannerImagesArr]=useState([]);
+    const [combosArray,setCombosArray]=useState([]);
+    const [benifitComponentArray,setBenifitComponentArray]=useState([]);
     const fetchPlanDetails=async()=>{
         const response = await getOneSubscriptionPlanDetails(itemId);
      
         setFetchedData(response.data.data)
         setBannerImagesArr(response.data.bannerImage)
-
+        setBenifitComponentArray(response.data.benifitComponent)
     }
+    
+    
+
+    const fetchCombos=async()=>{
+        const response=await getCombos(itemId,mealType);
+        console.log(response?.data?.data)
+        setCombosArray(response?.data?.data)
+    }
+    useEffect(()=>{
+        fetchCombos()
+    },[setCombosArray,mealType])
+
+    console.log(combosArray)
 
     useEffect(()=>{
         fetchPlanDetails()
@@ -137,14 +157,13 @@ const PageDetails=props=>{
 
             <CarouselImageAtTop bannerImagesArr={bannerImagesArr}/>
             <BenifitHeadingComp/>
-            <BenifitComponent data={benifitComponentData}/>
+            <BenifitComponent data={benifitComponentData} hi={true}/>
             <AddOnMeals/>
 
             <HowToStart/>
             <BestMealHeadingWithStars/>
            
-           <View style={styles.mealCard}><MealCards isRatingTextVisible={true} isHeadingVisible={true} isButtonVisible={true} 
-           showRatingNumber={true} data={mealCardData} showInfoText={true}
+           <View style={styles.mealCard}><MealCards isDynamic={true} isRatingTextVisible={true} isHeadingVisible={true} isButtonVisible={true} showRatingNumber={true} data={combosArray} showInfoText={true}
            /></View>
           
           

@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://cdc6-180-151-107-110.ngrok.io/api/v1';
+export const BASE_URL = 'https://50f3-27-7-188-50.ngrok.io/api/v1';
 export const GET_CONFIG = 'GET_CONFIG';
 export const GET_CONFIG_ERROR = 'GET_CONFIG_ERROR';
 export const GOOGLE_MAPS_APIKEY = 'AIzaSyBp4AkSHWTMsEq7WVmcIgNQELjBrWr9puQ';
@@ -105,3 +105,7 @@ export const SUBSCRIPTION_VEG_MENU_ONLY_FALSE="SUBSCRIPTION_VEG_MENU_ONLY_FALSE"
 //subscription cart constants starts from here
 export const SUBSCRIPTION_ADD_TO_CART = 'SUBSCRIPTION_ADD_TO_CART';
 export const SUBSCRIPTION_REMOVE_FROM_CART = 'SUBSCRIPTION_REMOVE_FROM_CART';
+
+//subscription meal type
+export const SET_SUBSCRIPTION_MEAL_TYPE = 'SUBSCRIPTION_MEAL_TYPE';
+export const RESET_SUBSCRIPTION_MEAL_TYPE = 'RESET_SUBSCRIPTION_MEAL_TYPE';

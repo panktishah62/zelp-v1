@@ -4,13 +4,13 @@ import LinearGradient from "react-native-linear-gradient";
 import { dimensions, colors, fonts } from "../../../styles";
 import { dynamicSize } from "../../../utils/responsive";
 import { useDispatch, useSelector } from "react-redux";
-import { addSubscribedItemToCart, resetSelectionButton, selectMenu } from "../../../redux/actions/subscriptionActions";
+import { addSubscribedItemToCart, resetSelectionButton, selectMenu, setSubscriptionMealType } from "../../../redux/actions/subscriptionActions";
 
 const MealCards = props => {
 
     const [mealType, setMealType] = useState("Breakfast");
-
     const { isButtonVisible, isHeadingVisible, isRatingTextVisible, backendDataArr, activeOrangeButton, orangeButtonText, showRatingNumber, showInfoText, showCrossButton, heading, data } = props
+    const isDynamic=props.isDynamic;
 
     const dispatch = useDispatch()
 
@@ -45,23 +45,20 @@ const MealCards = props => {
     }, [isVegButtonActive])
 
     const filterData = isVegButtonActive ? data.filter((item) => item.vegText === 'Veg') : data;
-
-
     const renderItem = () => {
-        return filterData?.map((item, index) => (
+        return filterData && filterData?.map((item, index) => (
             <View key={index} style={styles.wrapperContainer}>
 
 
                 <View style={styles.itemConainer}>
                     <View style={styles.leftContainer}>
                         <View style={styles.imageContainer}>
-                            <Image style={styles.image} source={item.image} />
-                        </View>
+                      {item.image && <Image style={{height:100}}  source={{uri:item.image}}/>}</View>
                     </View>
                     <View style={styles.rightContainer}>
                         <View style={styles.firstContainer}>
                             <View style={styles.vegContainer}>
-                                <Image source={item.vegImage} />
+                                <Image source={require('../../../assets/images/Subscription/veg.png')} />
                                 <Text style={styles.vegText} >{item.vegText}</Text>
                             </View>
                             <View style={styles.middleTextContainer}>
@@ -104,7 +101,8 @@ const MealCards = props => {
 
 
     const handleMenuType = (type) => {
-        setMealType(type)
+        setMealType(type);
+       dispatch(setSubscriptionMealType(type))
     }
 
     return (

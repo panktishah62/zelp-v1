@@ -1,20 +1,31 @@
 import React from 'react'
 import { View,Text,StyleSheet,Image } from 'react-native'
 import { dynamicSize } from '../../../utils/responsive'
-
+import Svg, { Path } from 'react-native-svg';
 
 
 const BenifitComponent = props => { 
 
     
-        const {data}=props
+        const {data,hi}=props
+        console.log("data",hi)
 
 
     return(
         <View style={styles.container}>
             {data && data.map((item,index)=>(
             <View style={styles.innerContainer} key={index}>
-            <Image style={styles.innerImage} source={item.image} />
+           {!hi && <Image style={styles.innerImage} source={item.image} />}
+            { hi &&
+                   <Svg
+        width={100}
+        height={100}
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <Path d={item.svg} fill="#FF5733" />
+      </Svg>
+            }
             <Text style={styles.innerText}>{item.text}</Text>
             </View>
             ))

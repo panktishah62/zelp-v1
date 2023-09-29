@@ -5,6 +5,8 @@ import {
     SUBSCRIPTION_VEG_MENU_ONLY_TRUE,
     SUBSCRIPTION_ADD_TO_CART,
     SUBSCRIPTION_REMOVE_FROM_CART,
+    SET_SUBSCRIPTION_MEAL_TYPE,
+    RESET_SUBSCRIPTION_MEAL_TYPE,
 } from '../constants';
 
 export const selectMenu = (index, componentName) => {
@@ -59,5 +61,27 @@ export const removeSubscribedItemFromCart = () => {
         dispatch({
             type: SUBSCRIPTION_REMOVE_FROM_CART,
         });
+    }
+}
+
+export const setSubscriptionMealType=(mealType)=>{
+    return async dispatch=>{
+        dispatch({
+            type:SET_SUBSCRIPTION_MEAL_TYPE,
+            payload:{
+                mealType:mealType
+            }
+        })
+    }
+}
+
+export const resetSubscriptionMealType=()=>{
+    return async dispatch=>{
+        dispatch({
+            type:RESET_SUBSCRIPTION_MEAL_TYPE,
+            payload:{
+                mealType:'Breakfast'
+            }
+        })
     }
 }

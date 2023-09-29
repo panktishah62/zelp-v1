@@ -16,6 +16,7 @@ import menuModalReducer from './menuModalReducer';
 import selectSubscriptionMenuReducer from './selectSubscriptionMenuReducer';
 import vegbuttonActiveReducer from './vegbuttonActiveReducer';
 import subscriptionCartReducer from './subscriptionCartReducer';
+import mealTypeForSubscriptionReducer from './mealTypeForSubscriptionReducer';
 
 // Define the root reducer
 const rootReducer = combineReducers({
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
     subscriptionSelectMenu:selectSubscriptionMenuReducer,
     vegbutton:vegbuttonActiveReducer,
     subscriptionCart:subscriptionCartReducer,
+    mealTypeForSubscription:mealTypeForSubscriptionReducer,
 });
 
 // Define the persistConfig object
