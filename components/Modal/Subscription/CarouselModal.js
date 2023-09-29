@@ -7,7 +7,7 @@ import { dimensions } from '../../../styles';
   
 
 const CarouselModal = props => {
-   const {isModalVisible,toogleModal}=props;
+   const {isModalVisible,toogleModal,navigation}=props;
     return(
         <Modal
         style={styles.wrapperModalContainer}
@@ -21,7 +21,7 @@ const CarouselModal = props => {
            
           <View>
        
-           <CaroselComponent/>
+        <CaroselComponent navigation={navigation} showKnowMore={true}/>
         
           </View>
           <View style={mealsStyles.container}>
