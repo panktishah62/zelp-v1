@@ -35,7 +35,7 @@ const OrderSummary = props => {
 
     const subscriptionDetails = async () => {
         const response = await subscribeToAPlan(subscriptionID,
-            { validity: [{ meals: mealCount, validity, price: finalPrice }], amount: finalPrice * mealCount * 100, redirectUrl: "https://facebook.com" }
+            { validity: [{ meals: mealCount, validity, price: finalPrice }], amount: 100, redirectUrl: "https://facebook.com" }
         );
         const redirectURL = response.data.data.data.instrumentResponse.redirectInfo.url
         console.log(redirectURL)

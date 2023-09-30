@@ -74,5 +74,6 @@ export default {
     showComboForSubscription:`subscriptionPlan/getCombosForSubscriptionPlan`,
     getBestSellerFoodItems:`subscriptionPlan/getBestSellingFoodItems`,
     getCategorizedFoodItems:'subscriptionPlan/getCategorizedFoodItems',
-    subscribeToAPlan:"subscriptionPlan/subscribeToAPlan"
+    subscribeToAPlan:"subscriptionPlan/subscribeToAPlan",
+    showSubscriptionDetails:"subscriptionPlan/showSubscriptionDetails",
 };
