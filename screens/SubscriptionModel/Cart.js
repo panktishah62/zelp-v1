@@ -10,12 +10,12 @@ import { useSelector } from "react-redux";
 
 const Cart=props=>{
 
-    const {itemName,itemId,itemType}=useSelector(state=>state.subscriptionCart);
-    console.log(itemName,itemId,itemType)
+    const {itemName,itemId,itemImage,itemType}=useSelector(state=>state.subscriptionCart);
+    console.log(itemName,itemId,itemType,itemImage)
     const mealCardData= [
         {
             id:itemId,
-            image:require('../../assets/images/Subscription/golgappa.png'),
+            image:itemImage,
             vegImage:require('../../assets/images/Subscription/veg.png'),
             vegText:itemType,
             boldText:itemName,
@@ -32,7 +32,7 @@ const Cart=props=>{
             <CartDetails /> 
             <DeliveryInstruction/>
            <SimpleHeading text={"Food in your cart"}/>
-           <MealCards data={mealCardData} activeOrangeButton={true} orangeButtonText={"Change"} showCrossButton={true} />
+           <MealCards isDynamic={true} data={mealCardData} activeOrangeButton={true} orangeButtonText={"Change"} showCrossButton={true} />
             <OrangeButton text="Place Your Order"/> 
           
         </View>

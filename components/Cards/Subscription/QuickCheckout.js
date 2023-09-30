@@ -27,64 +27,6 @@ const data=[
 
 
 
-const BestSellerItemCard = () => {
-
-
-    const dispatch=useDispatch();
-    const {isSelectedAny,index:gotIndex,componentName}=useSelector(state=>state.subscriptionSelectMenu)
-    console.log(isSelectedAny,gotIndex,componentName)
-
-    const selectButtonHandler=(index,componentName,itemName,itemImage,itemType)=>{
-        
-       
-        // dispatch(resetSelectionButton())
-        dispatch(selectMenu(index,componentName))
-        itemAddToCartHandler(index,itemName,itemImage,itemType);
-    }
-
-    const itemAddToCartHandler=(index,itemName,itemImage,itemType)=>{
-        const cartObj={
-            itemName,
-            itemImage,
-            itemType,
-            itemId:index,
-        }
-        dispatch(addSubscribedItemToCart(cartObj))
-    }
-
-
-    return data.map((item, index) => (
-        <View key={index} style={styles.container}>
-        <View style={styles.imageContainer}>
-            <Image source={require('../../../assets/images/Subscription/dish_image.png')} style={styles.dishImage} />
-        </View>
-        <Text style={styles.dishName}>Chicken Tikka</Text>
-        <View style={styles.ratingContainer}>
-            <Text style={styles.priceText}>Rating</Text>
-            <Image source={require('../../../assets/images/Subscription/golden_star.png')} style={styles.starImage} />
-            <Text style={styles.ratingValue}>4.1</Text>
-        </View>
-       {((isSelectedAny)&&(gotIndex===index)&&(componentName==="BestSellerItemCard"))&&
-        <TouchableOpacity style={styles.selectedButton} >
-           <Image style={styles.tickIcon} source={require('../../../assets/images/Subscription/tick.png')}/>
-        </TouchableOpacity>}
-     
-        {(isSelectedAny)&& (gotIndex===index) &&(componentName!=="BestSellerItemCard")&&
-        <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard","Chicken Tikka","","NonVeg")}>
-            <Text style={styles.selectButtonText}>Select</Text>
-        </TouchableOpacity>}
-        {((isSelectedAny)&&(gotIndex!==index)) &&
-        <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard","Chicken Tikka","","NonVeg")}>
-            <Text style={styles.selectButtonText}>Select</Text>
-        </TouchableOpacity>}
-        {(!isSelectedAny)&&
-        <TouchableOpacity style={styles.selectButton}   onPress={()=>selectButtonHandler(index,"BestSellerItemCard","Chicken Tikka","","NonVeg")}>
-            <Text style={styles.selectButtonText}>Select</Text>
-        </TouchableOpacity>}
-      
-    </View>
-    ));
-};
 
 const OrderHistoryItemCard = () => {
     return data.map((item, index) => (
@@ -108,7 +50,72 @@ const OrderHistoryItemCard = () => {
 
 
 const QuickCheckout = props => {
-    const {firstActive,secondActive}=props;
+    const {firstActive,secondActive,bestSellerItemCard}=props;
+
+
+    const BestSellerItemCard = () => {
+
+
+        const dispatch=useDispatch();
+        const {isSelectedAny,index:gotIndex,componentName}=useSelector(state=>state.subscriptionSelectMenu)
+        console.log(isSelectedAny,gotIndex,componentName)
+    
+        const selectButtonHandler=(index,componentName,itemName,itemImage,itemType)=>{
+            
+           
+            // dispatch(resetSelectionButton())
+            dispatch(selectMenu(index,componentName))
+            itemAddToCartHandler(index,itemName,itemImage,itemType);
+        }
+    
+        const itemAddToCartHandler=(index,itemName,itemImage,itemType)=>{
+            const cartObj={
+                itemName,
+                itemImage,
+                itemType,
+                itemId:index,
+            }
+            dispatch(addSubscribedItemToCart(cartObj))
+        }
+    
+    
+        return bestSellerItemCard && bestSellerItemCard.map((item, index) => (
+            <View key={index} style={styles.container}>
+            <View style={styles.imageContainer}>
+                {/* <Image source={require('../../../assets/images/Subscription/dish_image.png')}/> */}
+              
+                <Image  style={styles.dishImage}  source={{uri:item.image}}/>
+            </View>
+            <Text style={styles.dishName}>{item.name}</Text>
+            <View style={styles.ratingContainer}>
+                <Image source={require('../../../assets/images/Subscription/golden_star.png')} style={styles.starImage} />
+                <Text style={styles.ratingValue}>{item.rating.value}</Text>
+            </View>
+           {((isSelectedAny)&&(gotIndex===index)&&(componentName==="BestSellerItemCard"))&&
+            <TouchableOpacity style={styles.selectedButton} >
+               <Image style={styles.tickIcon} source={require('../../../assets/images/Subscription/tick.png')}/>
+            </TouchableOpacity>}
+         
+            {(isSelectedAny)&& (gotIndex===index) &&(componentName!=="BestSellerItemCard")&&
+            <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg")}>
+                <Text style={styles.selectButtonText}>Select</Text>
+            </TouchableOpacity>}
+            {((isSelectedAny)&&(gotIndex!==index)) &&
+            <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg")}>
+                <Text style={styles.selectButtonText}>Select</Text>
+            </TouchableOpacity>}
+            {(!isSelectedAny)&&
+            <TouchableOpacity style={styles.selectButton}   onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg")}>
+                <Text style={styles.selectButtonText}>Select</Text>
+            </TouchableOpacity>}
+          
+        </View>
+
+        ));
+    };
+
+
+
    if(firstActive){
     return(
         <View style={styles.wrapperContainer}>

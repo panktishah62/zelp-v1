@@ -22,6 +22,10 @@ export const getCombos = (subscriptionPlanId, type) => {
     return axiosRequest.post(`${ApiPath.showComboForSubscription}/${subscriptionPlanId}`,{type})
 }
 
+export const getBestSellerFoodItems = (subscriptionPlanId,type) => {
+    return axiosRequest.post(`${ApiPath.getBestSellerFoodItems}/${subscriptionPlanId}`,{type})
+}
+
 export const subscribeToAPlan = (subscriptionPlanId, data) => {
     return axiosRequest.post(`${ApiPath.subscribeToAPlan}/${subscriptionPlanId}`,data)
 }

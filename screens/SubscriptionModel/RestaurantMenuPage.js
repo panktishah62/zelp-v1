@@ -1,4 +1,4 @@
-import React,{useRef,useEffect} from "react";
+import React,{useRef,useEffect,useState} from "react";
 import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
 import RestaurantMenuCardDetails from "../../components/Cards/Subscription/RestaurantMenuCardDetails";
 import SearchBar from "../../components/Cards/Search/Subscription/SearchBar";
@@ -10,6 +10,7 @@ import LeftSimple from "../../components/Heading/Subscription/LeftSimple";
 import OrangeButton from "../../components/Buttons/Subscription/OrangeButton";
 import AbsoluteOrangeButton from "../../components/Buttons/Subscription/AbsoluteOrangeButton";
 import { useSelector } from "react-redux";
+import { getBestSellerFoodItems } from "../../redux/services/subscriptionService";
 
 const RestaurantMenuPage = props => {
     const data = ['menuContent']
@@ -49,10 +50,23 @@ const RestaurantMenuPage = props => {
         
     ]
 
+    const [bestSellerItemArray,setBestSellerItemArray]=useState([]) 
+    const {planID}=useSelector(state=>state.finalSubscriptionPrice)
+    const {mealType}=useSelector(state=>state.mealTypeForSubscription)
+    const fetchBestSellers=async()=>{
+        console.log(planID,mealType,"planID,mealType")
+        const response =await getBestSellerFoodItems(planID,mealType)
+        console.log(response.data,"bestSellerItemArray")
+        setBestSellerItemArray(response.data)
+    }
+    useEffect(()=>{
+        fetchBestSellers()
+    },[setBestSellerItemArray,mealType])
+
     const {isSelectedAny}=useSelector(state=>state.subscriptionSelectMenu)
     console.log(isSelectedAny,"isSelectedAny")
-    const {itemName,itemId,itemType}=useSelector((state)=>state.subscriptionCart);
-    console.log(itemName,itemId,itemType)
+    const {itemName,itemId,itemType,itemImage}=useSelector((state)=>state.subscriptionCart);
+    console.log(itemName,itemId,itemType,itemImage)
 
     return (
         <View>
@@ -63,7 +77,7 @@ const RestaurantMenuPage = props => {
                 <SearchBar />
                 <MultipleButtonFoodType />
                 <LeftSimple text={"Best Sellers"} />
-                <QuickCheckout firstActive={true} secondActive={false} />
+                <QuickCheckout bestSellerItemCard={bestSellerItemArray} firstActive={true} secondActive={false} />
                 <HeadingCardComp  mealCardData={mealCardData}/>
             </View>
         ))}

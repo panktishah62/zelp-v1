@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 import { dimensions } from '../../styles';
 import LogoHeading from '../../components/Heading/Subscription/LogoHeading';
@@ -10,6 +10,7 @@ import QuickCheckout from '../../components/Cards/Subscription/QuickCheckout';
 import ManageOrders from '../../components/Carousel/Subscription/ManageOrders';
 import { useSelector } from 'react-redux';
 import AbsoluteOrangeButton from '../../components/Buttons/Subscription/AbsoluteOrangeButton';
+import { getBestSellerFoodItems } from '../../redux/services/subscriptionService';
 
 const SubscriptionHomePage=props=>{
     const [firstActive,setFirstActive]=useState(true);
@@ -31,6 +32,39 @@ const SubscriptionHomePage=props=>{
         setSecondActive(!secondActive);
         setFirstActive(false);
     }
+    const {planID}=useSelector(state=>state.finalSubscriptionPrice)
+
+    const fetcheBestSellerItems=async()=>{
+        const currentTime = new Date();
+        const currentHour = 5;
+        const currentMinutes = 50;
+     
+        let type;
+        
+        if ((currentHour === 6 && currentMinutes >= 0 && currentMinutes < 60) ||
+            (currentHour === 7 && currentMinutes >= 0 && currentMinutes < 60) ||
+            (currentHour === 8 && currentMinutes >= 0 && currentMinutes < 60)) {
+          type = "Breakfast";
+        } else if ((currentHour === 12 && currentMinutes >= 0 && currentMinutes < 60) ||
+                   (currentHour === 13 && currentMinutes >= 0 && currentMinutes < 60) ||
+                   (currentHour === 14 && currentMinutes >= 0 && currentMinutes < 60) ||
+                   (currentHour === 15 && currentMinutes >= 0 && currentMinutes < 60)) {
+          type = "Lunch";
+        } else if ((currentHour === 18 && currentMinutes >= 0 && currentMinutes < 60) ||
+                   (currentHour === 19 && currentMinutes >= 0 && currentMinutes < 60) ||
+                   (currentHour === 20 && currentMinutes >= 0 && currentMinutes < 60) ||
+                   (currentHour === 21 && currentMinutes >= 0 && currentMinutes < 60)) {
+          type = "Dinner";
+        } 
+        const response=await getBestSellerFoodItems(planID,type)
+        console.log(response.data,"response.data")
+    }
+
+
+    useEffect(() => {
+        fetcheBestSellerItems()
+    }, []);
+
     return(
         <View>
         <ScrollView showsVerticalScrollIndicator={false}>

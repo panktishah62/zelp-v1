@@ -54,7 +54,7 @@ const MealCards = props => {
                 <View style={styles.itemConainer}>
                     <View style={styles.leftContainer}>
                         <View style={styles.imageContainer}>
-                      {isDynamic  && <Image style={{height:dynamicSize(100)}}  source={{uri:item.image}}/>}
+                      {isDynamic  && <Image style={{height:dynamicSize(100),borderRadius:50}}  source={{uri:item.image}}/>}
                       {!isDynamic && <Image style={{height:dynamicSize(100)}}   source={item.image}/>}
                       </View>
                     
