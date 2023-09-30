@@ -39,7 +39,7 @@ const MultipleButtonFoodType = props => {
 
     const dispatch=useDispatch();
 
-    const [isEnabled, setIsEnabled] = useState(false);
+    const [isEnabled, setIsEnabled] = useState(true);
 
 
   const toggleSwitch = () =>{

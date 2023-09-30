@@ -33,11 +33,11 @@ const SubscriptionHomePage=props=>{
         setFirstActive(false);
     }
     const {planID}=useSelector(state=>state.finalSubscriptionPrice)
-
+    const [bestSellerItemArray,setBestSellerItemArray]=useState([])
     const fetcheBestSellerItems=async()=>{
         const currentTime = new Date();
-        const currentHour = 5;
-        const currentMinutes = 50;
+        const currentHour = currentTime.getHours();
+        const currentMinutes = currentTime.getMinutes();
      
         let type;
         
@@ -50,20 +50,19 @@ const SubscriptionHomePage=props=>{
                    (currentHour === 14 && currentMinutes >= 0 && currentMinutes < 60) ||
                    (currentHour === 15 && currentMinutes >= 0 && currentMinutes < 60)) {
           type = "Lunch";
-        } else if ((currentHour === 18 && currentMinutes >= 0 && currentMinutes < 60) ||
-                   (currentHour === 19 && currentMinutes >= 0 && currentMinutes < 60) ||
-                   (currentHour === 20 && currentMinutes >= 0 && currentMinutes < 60) ||
-                   (currentHour === 21 && currentMinutes >= 0 && currentMinutes < 60)) {
+        } else {
           type = "Dinner";
         } 
-        const response=await getBestSellerFoodItems(planID,type)
+        console.log(type,"planID,type")
+        const response=await getBestSellerFoodItems(planID,"Lunch")
         console.log(response.data,"response.data")
-    }
+        setBestSellerItemArray(response.data)
+    }   
 
 
     useEffect(() => {
         fetcheBestSellerItems()
-    }, []);
+    }, [setBestSellerItemArray,planID]);
 
     return(
         <View>
@@ -75,7 +74,7 @@ const SubscriptionHomePage=props=>{
             <ManageOrders/>
             <OrderNow navigation={navigation}/>
             <SwitchButtons firstActive={firstActive} secondActive={secondActive} toggleFirst={toggleFirst} toggleSecond={toggleSecond}/>
-            <QuickCheckout firstActive={firstActive} secondActive={secondActive}/>
+            <QuickCheckout bestSellerItemCard={bestSellerItemArray}  firstActive={firstActive} secondActive={secondActive}/>
         </View>
         </ScrollView>
         {isSelectedAny && <AbsoluteOrangeButton navigation={navigation} text={"Proceed to checkout"}/>}

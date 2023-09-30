@@ -13,14 +13,14 @@ const HeadingCardComp = (props) => {
     const { catagoryId } = useSelector((state) => state.menuModal)
 
     const { planID } = useSelector((state) => state.finalSubscriptionPrice);
-
+    const { mealType } = useSelector((state) => state.mealTypeForSubscription);
 
     const [catagorizedData, setCatagorizedData] = useState([]);
 
     const fetchCatagorizedData = async () => {
         console.log(planID)
-        const response = await getCategorizedFoodItems(planID, { type: "Lunch" });
-        setCatagorizedData(response?.data[0].items)
+        const response = await getCategorizedFoodItems(planID, mealType);
+        setCatagorizedData(response?.data)
         
     }
 
@@ -28,7 +28,7 @@ const HeadingCardComp = (props) => {
 
     useEffect(() => {
         fetchCatagorizedData()
-    }, [])
+    }, [planID,mealType])
 
 
 
@@ -71,15 +71,15 @@ const HeadingCardComp = (props) => {
 
     const renderItem = ({ item, index }) => (
         <View style={styles.container} key={index}>
-            <TextSurroundedByLine text={item.headingText} />
-            <MealCards data={mealCardData} heading={item.headingText} isDynamic={false} activeOrangeButton={true} orangeButtonText={"Select"} showRatingNumber={true} showInfoText={true} />
+           {item?.items?.length>0 && <TextSurroundedByLine text={item.name} />}
+            <MealCards data={item.items} heading={item.name} isDynamic={true} activeOrangeButton={true} orangeButtonText={"Select"} showRatingNumber={true} showInfoText={true} />
         </View>
     );
 
     return (
         <FlatList
             ref={flatListRef}
-            data={data}
+            data={catagorizedData}
 
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}

@@ -72,7 +72,7 @@ export default {
     getPartnerRestaurants:'subscriptionPlan/getPartnerRestaurants',
     showOneSubscriptionPlan:'subscriptionPlan/showSubscriptionPlanDetails',
     showComboForSubscription:`subscriptionPlan/getCombosForSubscriptionPlan`,
-    getBestSellerFoodItems:`subscriptionPlan/getBestSellingFoodItems`,,
-    getCategorizedFoodItems:'subscriptionPlan/getCategorizedFoodItems'
-
+    getBestSellerFoodItems:`subscriptionPlan/getBestSellingFoodItems`,
+    getCategorizedFoodItems:'subscriptionPlan/getCategorizedFoodItems',
+    subscribeToAPlan:"subscriptionPlan/subscribeToAPlan"
 };

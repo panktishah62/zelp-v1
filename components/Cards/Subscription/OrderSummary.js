@@ -45,7 +45,8 @@ const OrderSummary = props => {
 
 
     const handlePaymentDetails = () => {
-        subscriptionDetails()
+        // subscriptionDetails()
+        navigation.navigate("SubscribedUserHome")
     }
 
     return (

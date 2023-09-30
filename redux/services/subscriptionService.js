@@ -30,6 +30,6 @@ export const subscribeToAPlan = (subscriptionPlanId, data) => {
     return axiosRequest.post(`${ApiPath.subscribeToAPlan}/${subscriptionPlanId}`,data)
 }
 
-export const getCategorizedFoodItems = (subscriptionPlanId,data) => {
-    return axiosRequest.post(`${ApiPath.getCategorizedFoodItems}/${subscriptionPlanId}`,data)
+export const getCategorizedFoodItems = (subscriptionPlanId,type) => {
+    return axiosRequest.post(`${ApiPath.getCategorizedFoodItems}/${subscriptionPlanId}`,{type})
 }
