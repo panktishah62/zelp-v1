@@ -10,7 +10,7 @@ import BlockImage from "../../components/Block/Subscription/BlockImage";
 const SubscriptionPayment = props => {
 
 
-  const { navigation, route  } = props
+  const { navigation, route } = props
   const subscriptionID = route.params.itemId;
   const name = route.params.name
   console.log(name)
