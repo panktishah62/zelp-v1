@@ -15,7 +15,7 @@ const AddOnMealModal = props => {
   const dispatch = useDispatch();
   const {mealCount} = useSelector((state)=> state.mealDetails)
   const [mealNo, setMealNo] = useState(5);
-  const totalDays = mealNo * 2;
+  const totalDays = mealCount + 5;
 
   const { navigationHandler } = props
 
@@ -44,10 +44,14 @@ const AddOnMealModal = props => {
   }
 
   const handleRemoveMeal = () => {
-    if (mealNo === 5) return;
+    if (mealCount === 5) return;
     setMealNo(mealNo - 1);
-    
     dispatch(mealDetailsDecreased({mealCount:mealNo}));
+  }
+  const handleSubscribe=()=>{
+    toggleModal()
+    navigationHandler();
+
   }
 
   return (
@@ -75,7 +79,7 @@ const AddOnMealModal = props => {
               <Text style={mealsStyles.firstText}>Select No. of Meals</Text>
               <View style={mealsStyles.buttonContainer}>
                 <TouchableOpacity onPress={handleRemoveMeal}><View style={[mealsStyles.minusButton, mealNo > 5 && mealsStyles.changeBackground]}><View style={mealsStyles.minusButtonInner}><Text style={{ fontSize: 26 }}>-</Text></View></View></TouchableOpacity>
-                <Text style={{ fontWeight: '700', color: 'black' }}>{mealNo}</Text>
+                <Text style={{ fontWeight: '700', color: 'black' }}>{mealCount}</Text>
                 <TouchableOpacity onPress={handleAddMeal}><View style={mealsStyles.plusButton}><View style={mealsStyles.plusButtonInner}><Text style={{ color: '#fff', fontSize: 22 }}>+</Text></View></View></TouchableOpacity>
               </View>
             </View>
@@ -83,7 +87,7 @@ const AddOnMealModal = props => {
               <Text style={viewStyles.text}> Validity of the plan</Text>
               <View style={viewStyles.buttonContainer}><Text style={viewStyles.buttonText}>{totalDays} days</Text></View>
             </View>
-            <TouchableOpacity onPress={navigationHandler}>
+            <TouchableOpacity onPress={handleSubscribe}>
               <View style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>Subscribe Now</Text>
               </View>

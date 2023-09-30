@@ -3,9 +3,16 @@ import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from 'rea
 import { dimensions } from '../../../styles';
 import { Touchable } from 'react-native';
 import CarouselModal from '../../Modal/Subscription/CarouselModal';
+import { useSelector } from 'react-redux';
 
 const PlanDetailsHeading = props => {
     const [isModalVisible, setModalVisible] = useState(false);
+    const name = props.name
+    const { mealCount } = useSelector((state) => state.mealDetails)
+    const { finalPrice } = useSelector((state) => state.finalSubscriptionPrice)
+    const extraMeal = mealCount - 5;
+    const validity = 10 + extraMeal;
+    const totalPlanPrice = mealCount * finalPrice;
 
 
     const { navigation } = props
@@ -19,7 +26,7 @@ const PlanDetailsHeading = props => {
         <View style={styles.wrapperContainer}>
             <View style={styles.container}>
                 <View style={styles.basicContainer}>
-                    <Text style={styles.basicText}>Basic</Text>
+                    <Text style={styles.basicText}>{name}</Text>
                     <Image
                         source={require('../../../assets/images/Subscription/coin_1.png')}
                     />
@@ -39,10 +46,10 @@ const PlanDetailsHeading = props => {
            <View style={planModelStyles.container}>
            <View style={planModelStyles.leftContainer}>
                 <Text style={planModelStyles.leftTopText}>Plan Model :</Text>
-                <Text style={planModelStyles.leftBottomText}>5 Meals with 10 Days validity</Text>
+                <Text style={planModelStyles.leftBottomText}>{mealCount} Meals with {validity} Days validity</Text>
             </View>
             <View style={planModelStyles.rightContainer}>
-                <Text style={planModelStyles.rightContainerText}>₹450</Text>
+                <Text style={planModelStyles.rightContainerText}>₹{totalPlanPrice}</Text>
             </View>
            </View>
         </View>

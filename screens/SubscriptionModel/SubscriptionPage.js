@@ -17,7 +17,7 @@ import { DialogTypes } from '../../utils';
 import { dynamicSize } from '../../utils/responsive';
 
 import { showDialog } from '../../redux/actions/dialog';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import SubscriptionCard from '../../components/Cards/Subscription/SubscriptionCard';
 import HeadingComp from '../../components/Cards/Subscription/HeadingComp';
@@ -61,8 +61,10 @@ const benifitComponentData = [
 
 
 const SubscriptionPage = props => {
-    const {navigation} = props
+    const { navigation } = props
+
     
+
 
     const [bannerImagesArr, setBannerImagesArr] = useState([]);
 
@@ -81,7 +83,7 @@ const SubscriptionPage = props => {
             <View style={styles.container}>
                 <CarouselImageAtTop bannerImagesArr={bannerImagesArr} />
                 <StarHeadingComponent />
-                <CaroselComponent navigation={navigation}/>
+                <CaroselComponent navigation={navigation} />
                 <ParagraphComp />
                 <BenifitHeadingComp />
                 <BenifitComponent data={benifitComponentData} />

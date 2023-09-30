@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
 import PlanDetailsHeading from "../../components/Heading/Subscription/PlanDetailsHeading";
 import PromoCodesAndOffers from "../../components/Cards/Subscription/PromoCodesAndOffers";
 import PreferedPayment from "../../components/Cards/Subscription/PreferedPayment";
@@ -7,21 +7,27 @@ import OrderSummary from "../../components/Cards/Subscription/OrderSummary";
 import BlockImage from "../../components/Block/Subscription/BlockImage";
 
 
-const SubscriptionPayment=props=>{
+const SubscriptionPayment = props => {
 
-  const {navigation} = props
-  const handleNavigation =() =>{
+  
+
+  const { navigation, route  } = props
+  const subscriptionID = route.params.itemId;
+  const name = route.params.name
+  console.log(name)
+
+  const handleNavigation = () => {
     navigation.navigate("PaymentSuccessfull");
   }
 
-  return(
+  return (
     <View style={styles.container}>
       <ScrollView>
-        <PlanDetailsHeading navigation={navigation}/>{/*Modall is here*/}
-        <BlockImage/>
-        <PromoCodesAndOffers promoCode="Meal30" offer="30%"/>
-        <PreferedPayment/>
-        <OrderSummary handleNavigation={handleNavigation}/>
+        <PlanDetailsHeading name={name} navigation={navigation} />{/*Modall is here*/}
+        <BlockImage />
+        <PromoCodesAndOffers promoCode="Meal30" offer="30%" />
+        <PreferedPayment />
+        <OrderSummary navigation={navigation} subscriptionID={subscriptionID} handleNavigation={handleNavigation} />
       </ScrollView>
     </View>
   )
@@ -30,9 +36,9 @@ const SubscriptionPayment=props=>{
 
 
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor:'#F3F4F8'
-    }
+  container: {
+    backgroundColor: '#F3F4F8'
+  }
 })
 
 
