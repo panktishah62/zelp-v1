@@ -14,83 +14,10 @@ const data=[
         image:require('../../../assets/images/Subscription/clock.png'),
         text:"Wide Variety of options",
     },
-    {
-        image:require('../../../assets/images/Subscription/plate.png'),
-        text:"Delivery at your Door Step",
-    },
-    {
-        image:require('../../../assets/images/Subscription/plate.png'),
-        text:"Delivery at your Door Step",
-    },
     
 ]
 
 
-const BestSellerItemCard = (bestSellerItemCard,isVegButtonActive) => {
-
-
-    const dispatch=useDispatch();
-    const {isSelectedAny,index:gotIndex,componentName}=useSelector(state=>state.subscriptionSelectMenu)
-    console.log(isSelectedAny,gotIndex,componentName)
-
-    const selectButtonHandler=(index,componentName,itemName,itemImage,itemType)=>{
-        
-       
-        // dispatch(resetSelectionButton())
-        dispatch(selectMenu(index,componentName))
-        itemAddToCartHandler(index,itemName,itemImage,itemType);
-    }
-
-    const itemAddToCartHandler=(index,itemName,itemImage,itemType)=>{
-        const cartObj={
-            itemName,
-            itemImage,
-            itemType,
-            itemId:index,
-        }
-        dispatch(addSubscribedItemToCart(cartObj))
-    }
-    let filterData;
-    if(bestSellerItemCard){
-    filterData = isVegButtonActive ? bestSellerItemCard.filter((item) => item.iVeg === true) : bestSellerItemCard;
-    console.log(bestSellerItemCard,"filterData")
-    }
-    
-    console.log(filterData,"filterData")
-    return filterData && filterData.map((item, index) => (
-        <View key={index} style={styles.container}>
-        <View style={styles.imageContainer}>
-            {/* <Image source={require('../../../assets/images/Subscription/dish_image.png')}/> */}
-          
-            <Image  style={styles.dishImage}  source={{uri:item.image}}/>
-        </View>
-        <Text style={styles.dishName}>{item.name}</Text>
-        <View style={styles.ratingContainer}>
-            <Image source={require('../../../assets/images/Subscription/golden_star.png')} style={styles.starImage} />
-            <Text style={styles.ratingValue}>{item.rating.value}</Text>
-        </View>
-       {((isSelectedAny)&&(gotIndex===index)&&(componentName==="BestSellerItemCard"))&&
-        <TouchableOpacity style={styles.selectedButton} >
-           <Image style={styles.tickIcon} source={require('../../../assets/images/Subscription/tick.png')}/>
-        </TouchableOpacity>}
-     
-        {(isSelectedAny)&& (gotIndex===index) &&(componentName!=="BestSellerItemCard")&&
-        <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg")}>
-            <Text style={styles.selectButtonText}>Select</Text>
-        </TouchableOpacity>}
-        {((isSelectedAny)&&(gotIndex!==index)) &&
-        <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg")}>
-            <Text style={styles.selectButtonText}>Select</Text>
-        </TouchableOpacity>}
-        {(!isSelectedAny)&&
-        <TouchableOpacity style={styles.selectButton}   onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg")}>
-            <Text style={styles.selectButtonText}>Select</Text>
-        </TouchableOpacity>}
-      
-    </View>
-
-    ));
-};
 
 
 
@@ -123,10 +50,77 @@ const QuickCheckout = props => {
     const {firstActive,secondActive,bestSellerItemCard}=props;
 
     const { isVegButtonActive } = useSelector(state => state.vegbutton)
+    const dispatch=useDispatch();
+    const {isSelectedAny,index:gotIndex,componentName}=useSelector(state=>state.subscriptionSelectMenu)
+    console.log(isSelectedAny,gotIndex,componentName)
+    const BestSellerItemCard = (bestSellerItemCard,isVegButtonActive) => {
 
+
+      
+    
+        const selectButtonHandler=(index,componentName,itemName,itemImage,itemType)=>{
+            
+           
+            // dispatch(resetSelectionButton())
+            dispatch(selectMenu(index,componentName))
+            itemAddToCartHandler(index,itemName,itemImage,itemType);
+        }
+    
+        const itemAddToCartHandler=(index,itemName,itemImage,itemType)=>{
+            const cartObj={
+                itemName,
+                itemImage,
+                itemType,
+                itemId:index,
+            }
+            dispatch(addSubscribedItemToCart(cartObj))
+        }
+        let filterData;
+        if(bestSellerItemCard){
+        filterData = isVegButtonActive ? bestSellerItemCard.filter((item) => item.iVeg === true) : bestSellerItemCard;
+        console.log(bestSellerItemCard,"filterData")
+        }
+        
+        console.log(filterData,"filterData")
+        return filterData && filterData.map((item, index) => (
+            <View key={index} style={styles.container}>
+            <View style={styles.imageContainer}>
+                {/* <Image source={require('../../../assets/images/Subscription/dish_image.png')}/> */}
+              
+                <Image  style={styles.dishImage}  source={{uri:item.image}}/>
+            </View>
+            <Text style={styles.dishName}>{item.name}</Text>
+            <View style={styles.ratingContainer}>
+                <Image source={require('../../../assets/images/Subscription/golden_star.png')} style={styles.starImage} />
+                <Text style={styles.ratingValue}>{item.rating.value}</Text>
+            </View>
+           {((isSelectedAny)&&(gotIndex===index)&&(componentName==="BestSellerItemCard"))&&
+            <TouchableOpacity style={styles.selectedButton} >
+               <Image style={styles.tickIcon} source={require('../../../assets/images/Subscription/tick.png')}/>
+            </TouchableOpacity>}
+         
+            {(isSelectedAny)&& (gotIndex===index) &&(componentName!=="BestSellerItemCard")&&
+            <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg")}>
+                <Text style={styles.selectButtonText}>Select</Text>
+            </TouchableOpacity>}
+            {((isSelectedAny)&&(gotIndex!==index)) &&
+            <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg")}>
+                <Text style={styles.selectButtonText}>Select</Text>
+            </TouchableOpacity>}
+            {(!isSelectedAny)&&
+            <TouchableOpacity style={styles.selectButton}   onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg")}>
+                <Text style={styles.selectButtonText}>Select</Text>
+            </TouchableOpacity>}
+          
+        </View>
+    
+        ));
+    };
+    
   
     
-
+console.log(secondActive,"secondActive")
+console.log(firstActive,"firstActive")  
 
 
    if(firstActive){
@@ -146,10 +140,7 @@ const QuickCheckout = props => {
    else{
          return(
           <View style={styles1.wrapperContainer}>
-        
           {OrderHistoryItemCard()}
-        
-        
       </View>
          )
    }
