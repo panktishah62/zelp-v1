@@ -21,15 +21,17 @@ const ManageOrders = props => {
         imageSource:require('../../../assets/images/Subscription/golden_star.png')
     },
     ]
+    const pendingImage=require('../../../assets/images/Subscription/subscription_icons/orange_clock.png')
+    const {orderArray}  = props;
 
     const renderItem=()=>{
         const length=data.length;
-        return data.map((item,index)=>(
+        return orderArray && orderArray.map((item,index)=>(
            
                 <View key={index} style={styles.itemContainer}>
-                    <View style={styles.innerContainer}>
-                        <Image style={styles.increaseDimension} source={item.imageSource}/>
-                   {  !(index+1===length) &&   <View style={styles.line}></View>}
+                    <View style={styles.innerContainer}>  
+                       {item.orderStatus==='pending' && <Image source={pendingImage} style={styles.increaseDimension}/>}
+                   {  !(index+1===length) && orderArray?.length!==1 &&   <View style={styles.line}></View>}
                     </View>
                     <View style={styles.textContainer}><Text style={styles.mealText}>Meal {index+1}</Text></View>
                 </View>

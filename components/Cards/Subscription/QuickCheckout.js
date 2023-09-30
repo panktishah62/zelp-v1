@@ -1,9 +1,11 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity,ScrollView } from "react-native";
-import { dimensions } from "../../../styles";
-import { dynamicSize } from "../../../utils/responsive";
+import { dimensions, fonts } from "../../../styles";
+import { dynamicSize, normalizeFont } from "../../../utils/responsive";
 import { addSubscribedItemToCart, resetSelectionButton, selectMenu } from "../../../redux/actions/subscriptionActions";
 import { useDispatch,useSelector } from "react-redux";
+import moment from 'moment';
+
 
 const data=[
     {
@@ -20,34 +22,9 @@ const data=[
 
 
 
-
-
-const OrderHistoryItemCard = () => {
-    return data.map((item, index) => (
-        <View key={index} style={styles1.container}>
-            <View style={styles1.firstContainer}>
-                <View style={styles1.imageContainer}><Image style={styles1.image} source={require('../../../assets/images/Subscription/dish_image.png')}/></View>
-                <View style={styles1.textContainer}><Text style={styles1.name}>Noodles</Text><Text style={styles1.time}>01-08-2023 5:30 PM</Text></View>
-            </View>
-            <View style={styles1.secondContainer}>
-                <View style={styles1.iconContainer}>
-                    <Image style={styles1.icon} source={require('../../../assets/images/Subscription/leftRoundArrow.png')}/>
-                    <Image style={styles1.icon}source={require('../../../assets/images/Subscription/rightRoundArrow.png')}/>
-
-                </View>
-                <View style={styles1.textContainerTwo}><Text style={styles1.buttonText}>Reorder</Text></View>
-            </View>
-
-            </View> 
-    ));
-};
-
-
-
-
-
 const QuickCheckout = props => {
-    const {firstActive,secondActive,bestSellerItemCard}=props;
+    const currentDate = moment();
+    const {firstActive,secondActive,bestSellerItemCard,QuickCheckoutArray}=props;
 
     const { isVegButtonActive } = useSelector(state => state.vegbutton)
     const dispatch=useDispatch();
@@ -55,8 +32,6 @@ const QuickCheckout = props => {
     console.log(isSelectedAny,gotIndex,componentName)
     const BestSellerItemCard = (bestSellerItemCard,isVegButtonActive) => {
 
-
-      
     
         const selectButtonHandler=(index,componentName,itemName,itemImage,itemType)=>{
             
@@ -117,10 +92,28 @@ const QuickCheckout = props => {
         ));
     };
     
+    const OrderHistoryItemCard = () => {
+        return QuickCheckoutArray && QuickCheckoutArray.map((item, index) => (
+            <View key={index} style={styles1.container}>
+                <View style={styles1.firstContainer}>
+                    <View style={styles1.imageContainer}><Image style={styles1.image} source={require('../../../assets/images/Subscription/dish_image.png')}/></View>
+                    <View style={styles1.textContainer}><Text style={styles1.name}>{item?.foodItem.name}</Text><Text style={styles1.time}>{moment(item.createdAt).format('DD-MM-YYYY h:mm A').toString()}</Text></View>
+                </View>
+                <View style={styles1.secondContainer}>
+                    <View style={styles1.iconContainer}>
+                        <Image style={styles1.icon} source={require('../../../assets/images/Subscription/leftRoundArrow.png')}/>
+                        <Image style={styles1.icon}source={require('../../../assets/images/Subscription/rightRoundArrow.png')}/>
+    
+                    </View>
+                    <View style={styles1.textContainerTwo}><Text style={styles1.buttonText}>Reorder</Text></View>
+                </View>
+    
+                </View> 
+        ));
+    };
   
     
-console.log(secondActive,"secondActive")
-console.log(firstActive,"firstActive")  
+
 
 
    if(firstActive){
@@ -155,7 +148,7 @@ const styles1=StyleSheet.create({
         alignItems:'center',
         gap:10,
         flexDirection:'column',
-    
+        marginBottom:dynamicSize(40),
     },
     innerContainer:{
      
@@ -168,21 +161,21 @@ const styles1=StyleSheet.create({
     },
     name:{
         color: '#3D3D3D',
-        fontFamily: 'Poppins',
-        fontSize: 16,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
+        fontSize: normalizeFont(14),
         fontStyle: 'normal',
         fontWeight: '600',
     },
     time:{
         color: '#3D3D3D',
-        fontFamily: 'Poppins',
-        fontSize: 12,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
+        fontSize: normalizeFont(12),
         fontStyle: 'normal',
         fontWeight: '500',
     },
     buttonText:{
         color: '#FFF',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '500',
@@ -254,7 +247,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         flexDirection:'row',
         width:dimensions.fullWidth-dynamicSize(20),
-        
+     
         gap:10,
        marginTop:dynamicSize(20)
       
@@ -290,7 +283,7 @@ const styles = StyleSheet.create({
     },
     dishName: {
         color: '#000',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: dynamicSize(12),
         fontStyle: 'normal',
         fontWeight: '500',
@@ -304,7 +297,7 @@ const styles = StyleSheet.create({
     },
     priceText: {
         color: '#000',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: dynamicSize(12),
         fontStyle: 'normal',
         fontWeight: '400',
@@ -322,7 +315,7 @@ const styles = StyleSheet.create({
     },
     ratingValue: {
         color: '#000',
-    fontFamily: 'Poppins',
+    fontFamily: fonts.POPPINS_500_11.fontFamily,
     fontSize: dynamicSize(12),
     fontStyle: 'normal',
     fontWeight: '600',
@@ -354,7 +347,7 @@ const styles = StyleSheet.create({
     },
     selectButtonText: {
         color: '#FFF',
-    fontFamily: 'Poppins',
+    fontFamily: fonts.POPPINS_500_11.fontFamily,
     fontSize: dynamicSize(14),
     fontStyle: 'normal',
     fontWeight: '400',
@@ -375,7 +368,7 @@ const styles = StyleSheet.create({
     },
     selectButtonDisableText:{
         color: '#FFF',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: dynamicSize(14),
         fontStyle: 'normal',
         fontWeight: '400',
