@@ -7,13 +7,16 @@ import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors
 import { dynamicSize } from "../../../utils/responsive";
 import SubscribeNowAddMeal from "../../Buttons/Subscription/SubscribeNowAddMeal";
 import { useDispatch, useSelector } from "react-redux";
-import { mealDetailsDecreased, mealDetailsIncreased } from "../../../redux/actions/subscriptionActions";
+import { finalPlanDetails, mealDetailsDecreased, mealDetailsIncreased } from "../../../redux/actions/subscriptionActions";
 
 
 const AddOnMealModal = props => {
 
   const dispatch = useDispatch();
-  const {mealCount} = useSelector((state)=> state.mealDetails)
+
+  const itemId = props.itemId;
+  const planID=itemId
+  const { mealCount } = useSelector((state) => state.mealDetails)
   const [mealNo, setMealNo] = useState(5);
   const totalDays = mealCount + 5;
 
@@ -21,9 +24,7 @@ const AddOnMealModal = props => {
 
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
+
 
 
   const shadowOpt = {
@@ -40,15 +41,25 @@ const AddOnMealModal = props => {
 
   const handleAddMeal = () => {
     setMealNo(prevState => prevState + 1);
-    dispatch(mealDetailsIncreased({mealCount:mealNo}));
+    dispatch(mealDetailsIncreased({ mealCount: mealNo }));
   }
 
   const handleRemoveMeal = () => {
     if (mealCount === 5) return;
     setMealNo(mealNo - 1);
-    dispatch(mealDetailsDecreased({mealCount:mealNo}));
+    dispatch(mealDetailsDecreased({ mealCount: mealNo }));
   }
-  const handleSubscribe=()=>{
+
+
+  const { finalPrice } = useSelector((state) => state.finalSubscriptionPrice)
+
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const handleSubscribe = () => {
+    dispatch(finalPlanDetails({ finalPrice, planID }))
     toggleModal()
     navigationHandler();
 
@@ -56,7 +67,7 @@ const AddOnMealModal = props => {
 
   return (
     <View >
-      <SubscribeNowAddMeal isModalVisible={isModalVisible} navigationHandler={navigationHandler} toggleModal={toggleModal} />
+      <SubscribeNowAddMeal itemId={itemId} isModalVisible={isModalVisible} navigationHandler={navigationHandler} toggleModal={toggleModal} />
       <Modal
         style={styles.wrapperModalContainer}
         animationType="slide"

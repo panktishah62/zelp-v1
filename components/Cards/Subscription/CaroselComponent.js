@@ -6,19 +6,23 @@ import { colors } from "../../../styles/colors";
 import LinearGradient from "react-native-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
 import { getSubscriptionPlanDetails } from "../../../redux/services/subscriptionService";
+import { useSelector } from "react-redux";
 
 
 
 const CaroselComponent = props => {
-    const { navigation,showKnowMore } = props
-    const navigateHandler = (id,string) => {
-        if(string==="priceButton"&&!showKnowMore){
-        navigation.navigate('PlanDetails',{itemId:id})
+
+    const { planID } = useSelector((state) => state.finalSubscriptionPrice);
+
+    const { navigation, showKnowMore } = props
+    const navigateHandler = (id, string) => {
+        if (string === "priceButton" && !showKnowMore) {
+            navigation.navigate('PlanDetails', { itemId: id })
         }
-        if(string==="knowMoreButton"&&showKnowMore){
-            navigation.navigate('PlanDetails',{itemId:id})
-            }
-        else{
+        if (string === "knowMoreButton" && showKnowMore) {
+            navigation.navigate('PlanDetails', { itemId: id })
+        }
+        else {
             return
         }
     }
@@ -102,22 +106,24 @@ const CaroselComponent = props => {
                         <Text style={styles.simpleTextText}>Starts From</Text>
                     </View>
                     <View style={styles.buttonWrapperContainer}>
-                        <TouchableOpacity onPress={()=>navigateHandler(item?._id,"priceButton")}>
+                        {planID === '' || planID !== item?._id ? <TouchableOpacity onPress={() => navigateHandler(item?._id, "priceButton")}>
                             <View style={styles.buttonContainer}>
                                 <Text style={styles.buttonText}>₹119/Meal</Text>
                             </View>
-                        </TouchableOpacity>
+                        </TouchableOpacity> : <View style={styles.selectedbuttonContainer}>
+                            <Text style={styles.buttonText}>Selected</Text>
+                        </View>}
                     </View>
-                {!showKnowMore &&    <View style={styles.lastTextContainer}>
+                    {!showKnowMore && <View style={styles.lastTextContainer}>
                         <Text style={styles.lastTextText}>₹175/Meal</Text>
                     </View>}
                     {
                         showKnowMore &&
-                        <TouchableOpacity onPress={()=>navigateHandler(item?._id,"knowMoreButton")}>
-                         <View style={styles.lastTextContainer}>
-                            <Text style={styles.knowMoreText}>Know More</Text>
-                            <Image source={require('../../../assets/images/Subscription/info.png')}/>
-                        </View>
+                        <TouchableOpacity onPress={() => navigateHandler(item?._id, "knowMoreButton")}>
+                            <View style={styles.lastTextContainer}>
+                                <Text style={styles.knowMoreText}>Know More</Text>
+                                <Image source={require('../../../assets/images/Subscription/info.png')} />
+                            </View>
                         </TouchableOpacity>
                     }
 
@@ -131,7 +137,7 @@ const CaroselComponent = props => {
 
     return (
         <View style={styles.conatiner} >
-            { responseDataArr &&(responseDataArr?.length !== 0) && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            {responseDataArr && (responseDataArr?.length !== 0) && <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {renderItem()}
             </ScrollView>}
 
@@ -164,7 +170,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 8,
     },
-    knowMoreText:{
+    knowMoreText: {
         color: '#3D3D3D',
         fontFamily: fonts.NUNITO_400_14.fontFamily,
         fontSize: 12,
@@ -230,7 +236,13 @@ const styles = StyleSheet.create({
         height: 29.77,
         padding: 4,
         backgroundColor: colors.ORANGE,
-
+        borderRadius: 5
+    },
+    selectedbuttonContainer:{
+        width: 118.937,
+        height: 29.77,
+        padding: 4,
+        backgroundColor: colors.GREEN,
         borderRadius: 5
     },
     buttonText: {

@@ -3,11 +3,16 @@ import { StyleSheet,Image, Text, TouchableOpacity, View, requireNativeComponent 
 import Modal from 'react-native-modal';
 import CaroselComponent from '../../Cards/Subscription/CaroselComponent';
 import { dimensions } from '../../../styles';
+import { useSelector } from 'react-redux';
 
   
 
 const CarouselModal = props => {
    const {isModalVisible,toogleModal,navigation}=props;
+
+    const {planId} = useSelector((state)=>state.finalSubscriptionPrice)
+    
+
     return(
         <Modal
         style={styles.wrapperModalContainer}

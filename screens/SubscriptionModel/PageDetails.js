@@ -101,7 +101,7 @@ const PageDetails = props => {
 
     const { navigation, route } = props
     const { itemId } = route.params
-    console.log(itemId)
+    console.log("id",itemId)
 
     const { mealType } = useSelector(state => state.mealTypeForSubscription)
 
@@ -114,6 +114,8 @@ const PageDetails = props => {
     const [bannerImagesArr, setBannerImagesArr] = useState([]);
     const [combosArray, setCombosArray] = useState([]);
     const [benifitComponentArray, setBenifitComponentArray] = useState([]);
+
+    
     const fetchPlanDetails = async () => {
         const response = await getOneSubscriptionPlanDetails(itemId);
 
@@ -175,7 +177,7 @@ const PageDetails = props => {
 
                 </View>
             </ScrollView>
-            <AddOnMealModal name={fetchedData?.name} navigationHandler={navigationHandler} />
+            <AddOnMealModal itemId={itemId} name={fetchedData?.name} navigationHandler={navigationHandler} />
         </View>
 
     )
