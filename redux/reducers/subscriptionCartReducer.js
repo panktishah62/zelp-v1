@@ -17,7 +17,7 @@ const subscriptionCartReducer = (state = initialState, action) => {
               itemName: action.payload.itemName,
                 itemId:action.payload.itemId,
                 itemType:action.payload.itemType,
-                
+                itemImage:action.payload.itemImage,
                
             };
         case SUBSCRIPTION_REMOVE_FROM_CART:

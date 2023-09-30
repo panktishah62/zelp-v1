@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { useDispatch } from 'react-redux';
-import { selectAllMenu, selectVegMenu } from '../../../redux/actions/subscriptionActions';
+import { selectAllMenu, selectVegMenu, setSubscriptionMealType } from '../../../redux/actions/subscriptionActions';
 
 const MultipleButtonFoodType = props => {
     const data = [
@@ -52,13 +52,14 @@ const MultipleButtonFoodType = props => {
     }
 }
     const [active, setActive] = useState(0);
-    const clicked = index => {
+    const clicked = (index,text) => {
         setActive(index);
+        dispatch(setSubscriptionMealType(text))
     };
 
     const renderItems = () => {
         return data.map((item, index) => (
-            <TouchableOpacity key={index} onPress={() => clicked(index)}>
+            <TouchableOpacity key={index} onPress={() => clicked(index,item.text)}>
                 <View
                     style={[
                         active === index && styles.foodTypeButtonContainer,
