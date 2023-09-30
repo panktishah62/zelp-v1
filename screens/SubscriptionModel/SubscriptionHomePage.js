@@ -36,12 +36,12 @@ const SubscriptionHomePage = props => {
         setFirstActive(false);
     }
     const { planID } = useSelector(state => state.finalSubscriptionPrice)
-
+    const [bestSellerItemArray,setBestSellerItemArray]=useState([])
     const fetcheBestSellerItems = async () => {
         const currentTime = new Date();
         const currentHour = currentTime.getHours();
-        const currentMinutes = currentTime.getMinutes();
-
+        const currentMinutes = currentTime.getMinutes()
+     
         let type;
 
         if ((currentHour === 6 && currentMinutes >= 0 && currentMinutes < 60) ||
@@ -60,9 +60,18 @@ const SubscriptionHomePage = props => {
         // console.log(response.data, "response.data")
         setBestSellerItem(response?.data)
     }
+           
+        console.log(type,"planID,type")
+        const response= await getBestSellerFoodItems(planID,"Lunch")
+        console.log(response.data,"response.data")
+        setBestSellerItemArray(response.data)
+    }   
+
+
     useEffect(() => {
         fetcheBestSellerItems()
-    }, []);
+  
+    }, [setBestSellerItemArray,planID]);
 
 
     const subscriptionDetails = async () => {
@@ -76,24 +85,11 @@ const SubscriptionHomePage = props => {
 
 
 
-    return (
+    return(
         <View>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.container}>
-                    <LogoHeading text="Froker Subscription" />
-                    <SubscriptionDetailsHeading />
-                    <TextLogo />
-                    <ManageOrders />
-                    <OrderNow navigation={navigation} />
-                    <SwitchButtons firstActive={firstActive} secondActive={secondActive} toggleFirst={toggleFirst} toggleSecond={toggleSecond} />
-                    <QuickCheckout firstActive={firstActive} secondActive={secondActive} />
-                </View>
-            </ScrollView>
-            {isSelectedAny && <AbsoluteOrangeButton navigation={navigation} text={"Proceed to checkout"} />}
-
+      
         </View>
     )
-}
 
 const styles = StyleSheet.create({
     container: {
