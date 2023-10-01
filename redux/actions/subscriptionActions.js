@@ -96,12 +96,15 @@ export const finalPlanDetails = (data) => {
         });
     }
 }
-export const setSubscriptionMealType=(mealType)=>{
+export const setSubscriptionMealType=(mealType,mealPlanId,mealPlanTime)=>{
     return async dispatch=>{
         dispatch({
             type:SET_SUBSCRIPTION_MEAL_TYPE,
             payload:{
-                mealType:mealType
+                mealType:mealType,
+                mealPlanId:mealPlanId,
+                mealPlanTime:mealPlanTime
+
             }
         })
     }

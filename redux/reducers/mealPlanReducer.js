@@ -1,9 +1,7 @@
 import { RESET_SUBSCRIPTION_MEAL_TYPE, SET_SUBSCRIPTION_MEAL_TYPE } from '../constants';
 
 const initialState = {
- mealType:'Breakfast',
- mealPlanId:'',
- mealPlanTime:'',
+ mealType:'Breakfast'
 };
 
 const mealTypeForSubscriptionReducer = (state = initialState, action) => {
@@ -12,8 +10,6 @@ const mealTypeForSubscriptionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 mealType: action.payload.mealType,
-                mealPlanId:action.payload.mealPlanId,
-                mealPlanTime:action.payload.mealPlanTime,
             };
         case RESET_SUBSCRIPTION_MEAL_TYPE:
             return{

@@ -23,6 +23,14 @@ const data=[
 
 
 const QuickCheckout = props => {
+
+    const {navigation}=props
+    const reorderButtonHandler=(id)=>{
+        navigation.navigate('SubscriptionCart',{subscriptionId:id})
+
+    }
+
+
     const currentDate = moment();
     const {firstActive,secondActive,bestSellerItemCard,QuickCheckoutArray}=props;
 
@@ -99,7 +107,8 @@ const QuickCheckout = props => {
                     <View style={styles1.imageContainer}><Image style={styles1.image} source={require('../../../assets/images/Subscription/dish_image.png')}/></View>
                     <View style={styles1.textContainer}><Text style={styles1.name}>{item?.foodItem.name}</Text><Text style={styles1.time}>{moment(item.createdAt).format('DD-MM-YYYY h:mm A').toString()}</Text></View>
                 </View>
-                <View style={styles1.secondContainer}>
+            <TouchableOpacity onPress={()=>reorderButtonHandler(item._id)}>
+                <View style={styles1.secondContainer} >
                     <View style={styles1.iconContainer}>
                         <Image style={styles1.icon} source={require('../../../assets/images/Subscription/leftRoundArrow.png')}/>
                         <Image style={styles1.icon}source={require('../../../assets/images/Subscription/rightRoundArrow.png')}/>
@@ -107,7 +116,7 @@ const QuickCheckout = props => {
                     </View>
                     <View style={styles1.textContainerTwo}><Text style={styles1.buttonText}>Reorder</Text></View>
                 </View>
-    
+                </TouchableOpacity>
                 </View> 
         ));
     };

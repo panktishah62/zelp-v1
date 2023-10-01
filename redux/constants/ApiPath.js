@@ -76,4 +76,6 @@ export default {
     getCategorizedFoodItems:'subscriptionPlan/getCategorizedFoodItems',
     subscribeToAPlan:"subscriptionPlan/subscribeToAPlan",
     showSubscriptionDetails:"subscriptionPlan/showSubscriptionDetails",
+    getOneSubscriptionOrder:"subscriptionPlan/getOneSubscriptionOrder",
+    getMealPlansForSubscription:"subscriptionPlan/getMealPlansForSubscriptionPlan",
 };

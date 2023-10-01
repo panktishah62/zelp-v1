@@ -37,3 +37,11 @@ export const getCategorizedFoodItems = (subscriptionPlanId,data) => {
 export const showSubscriptionDetails = () => {
     return axiosRequest.get(`${ApiPath.showSubscriptionDetails}`)
 }
+
+export const getOneSubscriptionOrder = (subscriptionOrderId) => {
+    return axiosRequest.get(`${ApiPath.getOneSubscriptionOrder}/${subscriptionOrderId}`)
+}
+
+export const getMealPlansForSubscription = (subscriptionPlanId) => {
+    return axiosRequest.get(`${ApiPath.getMealPlansForSubscription}/${subscriptionPlanId}`)
+}

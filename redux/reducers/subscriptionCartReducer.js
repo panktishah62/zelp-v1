@@ -7,6 +7,7 @@ const initialState = {
   itemType:"",//veg or nonveg
   itemCategory:"",//breakfast,lunch,dinner  
   typePng:"",//veg or nonveg
+  foodItemId:"",//food item id
 };
 
 const subscriptionCartReducer = (state = initialState, action) => {
@@ -18,7 +19,7 @@ const subscriptionCartReducer = (state = initialState, action) => {
                 itemId:action.payload.itemId,
                 itemType:action.payload.itemType,
                 itemImage:action.payload.itemImage,
-               
+                foodItemId:action.payload.foodItemId,
             };
         case SUBSCRIPTION_REMOVE_FROM_CART:
             return {

@@ -52,9 +52,10 @@ const RestaurantMenuPage = props => {
 
     const [bestSellerItemArray,setBestSellerItemArray]=useState([]) 
     const {planID}=useSelector(state=>state.finalSubscriptionPrice)
-    const {mealType}=useSelector(state=>state.mealTypeForSubscription)
+    const {mealType,mealPlanTime,mealPlanId}=useSelector(state=>state.mealTypeForSubscription)
+    
     const fetchBestSellers=async()=>{
-        console.log(planID,mealType,"planID,mealType")
+       
         const response =await getBestSellerFoodItems(planID,mealType)
         console.log(response.data,"bestSellerItemArray")
         setBestSellerItemArray(response.data)

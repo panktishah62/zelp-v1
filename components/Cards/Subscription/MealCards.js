@@ -19,21 +19,23 @@ const MealCards = props => {
     // console.log(isSelectedAny,gotIndex,componentName)
 
 
-    const selectButtonHandler = (index, componentName, itemName, itemImage, itemType) => {
+    const selectButtonHandler = (index, componentName, itemName, itemImage, itemType,foodItemId) => {
 
 
         // dispatch(resetSelectionButton())
         dispatch(selectMenu(index, componentName))
-        itemAddToCartHandler(index, itemName, itemImage, itemType);
+        itemAddToCartHandler(index, itemName, itemImage, itemType,foodItemId);
     }
 
-    const itemAddToCartHandler = (index, itemName, itemImage, itemType) => {
+    const itemAddToCartHandler = (index, itemName, itemImage, itemType,foodItemId) => {
         const cartObj = {
             itemName,
             itemImage,
             itemType,
             itemId: index,
+            foodItemId
         }
+        
         dispatch(addSubscribedItemToCart(cartObj))
     }
 
@@ -71,18 +73,18 @@ const MealCards = props => {
                                 {showRatingNumber && <Text style={[styles.firstText, { marginLeft: dynamicSize(3) }]}>{item.rating} </Text>}
                             </View>
                             {showInfoText && <View style={styles.vegContainer}>
-                                <Text style={styles.lastText}>{item.lastText}</Text>
+                                <Text style={styles.lastText}>Know more</Text>
                                 <Image source={require('../../../assets/images/Subscription/info.png')} />
                             </View>}
 
                             {activeOrangeButton && (index !== gotIndex) &&
-                                <TouchableOpacity onPress={() => selectButtonHandler(index, heading, item.boldText, item.image, item.vegText)}>
+                                <TouchableOpacity onPress={() => selectButtonHandler(index, heading, item.boldText, item.image, item.vegText,item._id)}>
                                     <View style={styles.selectButtonContainer}>
                                         <Text style={styles.selectButtonText}>Select</Text>
                                     </View>
                                 </TouchableOpacity>}
                             {activeOrangeButton && (index === gotIndex) && (componentName !== heading) &&
-                                <TouchableOpacity onPress={() => selectButtonHandler(index, heading, item.boldText, item.image, item.vegText)}>
+                                <TouchableOpacity onPress={() => selectButtonHandler(index, heading, item.boldText, item.image, item.vegText,item._id)}>
                                     <View style={styles.selectButtonContainer}>
                                         <Text style={styles.selectButtonText}>Select</Text>
                                     </View>

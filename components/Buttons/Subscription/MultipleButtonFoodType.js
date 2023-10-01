@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
     StyleSheet,
     View,
@@ -9,8 +9,9 @@ import {
     Switch,
 } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAllMenu, selectVegMenu, setSubscriptionMealType } from '../../../redux/actions/subscriptionActions';
+import { getMealPlansForSubscription } from '../../../redux/services/subscriptionService';
 
 const MultipleButtonFoodType = props => {
     const data = [
@@ -36,10 +37,28 @@ const MultipleButtonFoodType = props => {
             whiteImage: require('../../../assets/images/Subscription/white_icons/dinner.png'),
         },
     ];
-
+    const {planID}=useSelector(state=>state.finalSubscriptionPrice)
+    
     const dispatch=useDispatch();
 
+    const [mealPlans,setMealPlans]=useState([])
+
     const [isEnabled, setIsEnabled] = useState(true);
+
+    const fetchMealPlanType=async()=>{
+        const response =await getMealPlansForSubscription(planID)
+        console.log(response.data.data,"mealPlans")
+        setMealPlans(response.data.data)
+    }
+    const {itemName,itemId,itemImage,foodItemId,itemType}=useSelector(state=>state.subscriptionCart);
+    console.log(itemName,itemId,itemImage,itemType,foodItemId,"subscriptionCart")
+    console.log(mealPlans,"mealPlans")
+    useEffect(()=>{ 
+        fetchMealPlanType()
+    }
+    ,[planID])
+
+    
 
 
   const toggleSwitch = () =>{
@@ -52,14 +71,14 @@ const MultipleButtonFoodType = props => {
     }
 }
     const [active, setActive] = useState(0);
-    const clicked = (index,text) => {
+    const clicked = (index,text,itemId,itemTime) => {
         setActive(index);
-        dispatch(setSubscriptionMealType(text))
+        dispatch(setSubscriptionMealType(text,itemId,itemTime))
     };
 
     const renderItems = () => {
-        return data.map((item, index) => (
-            <TouchableOpacity key={index} onPress={() => clicked(index,item.text)}>
+        return mealPlans && mealPlans.map((item, index) => (
+            <TouchableOpacity key={index} onPress={() => clicked(index,item.type,item._id,'')}>
                 <View
                     style={[
                         active === index && styles.foodTypeButtonContainer,
@@ -75,7 +94,7 @@ const MultipleButtonFoodType = props => {
                                 active === index && styles.imageContainer,
                                 active !== index && styles1.imageContainer,
                             ]}>
-                            <ImageBackground
+                            {/* <ImageBackground
                                 resizeMode="cover"
                                 style={[
                                     active === index && styles.icon,
@@ -86,14 +105,14 @@ const MultipleButtonFoodType = props => {
                                         ? item.image
                                         : item.whiteImage
                                 }
-                            />
+                            /> */}
                         </View>
                         <Text
                             style={[
                                 active === index && styles.buttonText,
                                 active !== index && styles1.buttonText,
                             ]}>
-                            {item.text} {active === index && item.time}
+                            {item.type} {active === index && item.time}
                         </Text>
                     </View>
                 </View>

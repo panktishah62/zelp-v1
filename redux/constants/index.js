@@ -1,4 +1,4 @@
-export const BASE_URL =  'https://5fa5-180-151-107-110.ngrok.io/api/v1';
+export const BASE_URL =  'https://132d-115-99-199-248.ngrok.io/api/v1';
 export const GET_CONFIG = 'GET_CONFIG';
 export const GET_CONFIG_ERROR = 'GET_CONFIG_ERROR';
 export const GOOGLE_MAPS_APIKEY = 'AIzaSyBp4AkSHWTMsEq7WVmcIgNQELjBrWr9puQ';
@@ -116,3 +116,4 @@ export const SET_SUBSCRIPTION_MEAL_TYPE = 'SET_SUBSCRIPTION_MEAL_TYPE';
 export const RESET_SUBSCRIPTION_MEAL_TYPE = 'RESET_SUBSCRIPTION_MEAL_TYPE';
 
 export const RESET_VALUE = 'RESET_VALUE';
+export const UPDATE_MEAL_PLAN = 'UPDATE_MEAL_PLAN';

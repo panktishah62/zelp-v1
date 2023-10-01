@@ -8,9 +8,13 @@ import OrderNow from '../../components/Buttons/Subscription/OrderNow';
 import SwitchButtons from '../../components/Buttons/Subscription/SwitchButtons';
 import QuickCheckout from '../../components/Cards/Subscription/QuickCheckout';
 import ManageOrders from '../../components/Carousel/Subscription/ManageOrders';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AbsoluteOrangeButton from '../../components/Buttons/Subscription/AbsoluteOrangeButton';
-import { getBestSellerFoodItems, showSubscriptionDetails } from '../../redux/services/subscriptionService';
+import {
+    getBestSellerFoodItems,
+    showSubscriptionDetails,
+} from '../../redux/services/subscriptionService';
+import { finalPlanDetails } from '../../redux/actions/subscriptionActions';
 
 const SubscriptionHomePage = props => {
     const [firstActive, setFirstActive] = useState(true);
@@ -27,7 +31,7 @@ const SubscriptionHomePage = props => {
         setFirstActive(!firstActive);
         setSecondActive(false);
     };
-    const [subscribedUserDetails,setSubscribedUserDetails]=useState(null)
+    const [subscribedUserDetails, setSubscribedUserDetails] = useState(null);
     const toggleSecond = () => {
         if (secondActive) {
             return;
@@ -35,10 +39,14 @@ const SubscriptionHomePage = props => {
         setSecondActive(!secondActive);
         setFirstActive(false);
     };
-    const {planID}=useSelector(state=>state.finalSubscriptionPrice)
-   
+    const { planID,finalPrice } = useSelector(state => state.finalSubscriptionPrice);
+    console.log(planID, 'planID,finalPrice');
+    const dispatch = useDispatch();
     const [bestSellerItemArray, setBestSellerItemArray] = useState([]);
     const fetcheBestSellerItems = async () => {
+        
+        if(subscriptionplanId!==''){
+            console.log(subscriptionplanId,"fdsnfsdk")
         const currentTime = new Date();
         const currentHour = currentTime.getHours();
         const currentMinutes = currentTime.getMinutes();
@@ -68,33 +76,34 @@ const SubscriptionHomePage = props => {
             type = 'Dinner';
         }
         console.log(type, 'planID,type');
-        const response = await getBestSellerFoodItems(planID, type);
+        const response = await getBestSellerFoodItems(subscriptionplanId, "Lunch");
         console.log(response.data, 'response.data');
         setBestSellerItemArray(response.data);
-    };
-    const [subscriptionplanId,setSubscriptionPlanId]=useState('')
-    const [subscriptionOrder,setSubscriptionOrder]=useState([])
-    const UserSubscriptionDetails = async()=>{
-        const response=await showSubscriptionDetails()
-        console.log(response.data.subscriptionOrder,"response.data")
-        setSubscribedUserDetails(response?.data?.data)
-       
-        setSubscriptionOrder(response?.data?.subscriptionOrder)
-    } 
-
-   
-    
-    useEffect(()=>{
-        UserSubscriptionDetails()
+        dispatch(finalPlanDetails({planID:subscriptionplanId,finalPrice}))
     }
-    ,[setSubscriptionOrder,setSubscribedUserDetails])
-
-
-   
+    };
+    const [subscriptionplanId, setSubscriptionPlanId] = useState('');
+    const [subscriptionOrder, setSubscriptionOrder] = useState([]);
+    const UserSubscriptionDetails = async () => {
+        const response = await showSubscriptionDetails();
+        console.log(response.data.subscriptionOrder, 'response.data');
+        setSubscribedUserDetails(response?.data?.data);
+     console.log(response.data.data.subscriptionPlan._id,"My own subscriptionPlanId")
+        setSubscriptionOrder(response?.data?.subscriptionOrder);
+        setSubscriptionPlanId(response.data.data.subscriptionPlan._id)
+       
+    };
 
     useEffect(() => {
+    
+        UserSubscriptionDetails();
+    }, [setSubscriptionOrder, setSubscribedUserDetails,finalPrice,subscriptionplanId]);
+
+    useEffect(() => {
+     
         fetcheBestSellerItems();
-    }, [setBestSellerItemArray, planID]);
+        
+    }, [setBestSellerItemArray, subscriptionplanId]);
 
     return (
         <View>
@@ -112,7 +121,8 @@ const SubscriptionHomePage = props => {
                         toggleSecond={toggleSecond}
                     />
                     <QuickCheckout
-                    QuickCheckoutArray={subscriptionOrder}
+                    navigation={navigation}
+                        QuickCheckoutArray={subscriptionOrder}
                         bestSellerItemCard={bestSellerItemArray}
                         firstActive={firstActive}
                         secondActive={secondActive}
