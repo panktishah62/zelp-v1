@@ -66,6 +66,9 @@ target 'Froker' do
 
   # use_frameworks! :linkage => :static
   $RNFirebaseAsStaticFramework = true
+
+  # Add the RNFBCrashlytics podspec to your app target:
+  pod 'RNFBCrashlytics', :path => '../node_modules/@react-native-firebase/crashlytics'
   
   # Flags change depending on the env values.
   flags = get_default_flags()

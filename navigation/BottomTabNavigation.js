@@ -34,6 +34,7 @@ import {
 import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
 import { showDialog } from '../redux/actions/dialog';
 import { Linking } from 'react-native';
+import branch from 'react-native-branch';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,6 +44,21 @@ const BottomTabNavigation = ({ navigation }) => {
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const userId = useSelector(state => state.auth.userId);
     const dispatch = useDispatch();
+
+    // Listener
+    branch.subscribe({
+        onOpenStart: ({ uri, cachedInitialEvent }) => {},
+
+        onOpenComplete: ({ error, params, uri }) => {
+            if (error) {
+                return;
+            } else if (params) {
+                if (params?.custom) {
+                    navigation.navigate('Shots', { shotsId: params.custom });
+                }
+            }
+        },
+    });
 
     // Function to navigate to a different screen
     const navigateToScreen = (screenName, data) => {
@@ -122,13 +138,10 @@ const BottomTabNavigation = ({ navigation }) => {
         const getUrlAsync = async () => {
             // Get the deep link used to open the app
             const initialUrl = await Linking.getInitialURL();
-            const type =
-                initialUrl?.split('/').length > 3
-                    ? initialUrl?.split('/')[3]
-                    : '';
-
+            const len = initialUrl?.split('/').length;
+            const type = len > 3 ? initialUrl?.split('/')[len - 2] : '';
             if (type === 'shots') {
-                const shotsId = initialUrl?.split('/')[4];
+                const shotsId = initialUrl?.split('/')[len - 1];
                 navigation.navigate('Shots', { shotsId: shotsId });
             }
         };

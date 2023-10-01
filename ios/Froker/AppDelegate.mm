@@ -7,6 +7,7 @@
 #import <UserNotifications/UserNotifications.h>
 #import <RNCPushNotificationIOS.h>
 #import <UserNotifications/UNUserNotificationCenter.h>
+#import <RNBranch/RNBranch.h>
 
 @interface AppDelegate() <UIApplicationDelegate, RCTBridgeDelegate, UNUserNotificationCenterDelegate>
 
@@ -24,6 +25,11 @@
 
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
+  
+  // Uncomment this line to use the test key instead of the live one.
+  [RNBranch useTestInstance];
+  [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
+  NSURL *jsCodeLocation;
   
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
@@ -73,6 +79,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
    openURL:(NSURL *)url
    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
+  [RNBranch application:application openURL:url options:options];
   return [RCTLinkingManager application:application openURL:url options:options];
 }
 
@@ -80,6 +87,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 - (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity
  restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
 {
+  [RNBranch continueUserActivity:userActivity];
  return [RCTLinkingManager application:application
                   continueUserActivity:userActivity
                     restorationHandler:restorationHandler];

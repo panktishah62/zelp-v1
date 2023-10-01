@@ -112,8 +112,11 @@ const FeaturedItem = props => {
                     ) : (
                         <NonVegIcon style={styles.icon} />
                     )}
-                    <Text style={styles.titleText}>
-                        {sliceText(item?.foodItem?.name, 25)}
+                    <Text
+                        style={styles.titleText}
+                        numberOfLines={1}
+                        ellipsizeMode="tail">
+                        {item?.foodItem?.name}
                     </Text>
                     <View style={Styles.row_flex_start}>
                         <StarIcon />
@@ -126,8 +129,11 @@ const FeaturedItem = props => {
                     </View>
 
                     <Text style={styles.subtitleText}>₹ {item?.price}</Text>
-                    <Text style={styles.titleTextBold}>
-                        {sliceText(item?.foodItem?.restaurant?.name, 30)}
+                    <Text
+                        style={styles.titleTextBold}
+                        numberOfLines={1}
+                        ellipsizeMode="tail">
+                        {item?.foodItem?.restaurant?.name}
                     </Text>
                 </View>
             </View>
@@ -204,6 +210,7 @@ const styles = StyleSheet.create({
                 ...fonts.NUNITO_700_12,
             },
         }),
+        paddingRight: 5,
     },
     subtitleText: {
         ...fonts.NUNITO_800_12,
@@ -232,6 +239,7 @@ const styles = StyleSheet.create({
                 ...fonts.NUNITO_800_10,
             },
         }),
+        paddingRight: 5,
     },
 });
 export default FeaturedItem;

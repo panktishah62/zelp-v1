@@ -125,21 +125,21 @@ const cartActionsReducer = (state = initialState, action) => {
             };
         case CALCULATE_TOTAL:
             const billingData = {
-                restaurants: state.restaurants,
-                config: state.config,
-                isWalletMoneyUsed: state.isWalletMoneyUsed,
-                discountAmount: state.discountAmount,
-                coupon: state.coupon,
-                count: state.foodItemsCount,
-                walletMoney: state.walletMoney,
+                restaurants: state?.restaurants,
+                config: state?.config,
+                isWalletMoneyUsed: state?.isWalletMoneyUsed,
+                discountAmount: state?.discountAmount,
+                coupon: state?.coupon,
+                count: state?.foodItemsCount,
+                walletMoney: state?.walletMoney,
             };
             const billingDetails = calculateTotal(billingData);
             return {
                 ...state,
                 billingDetails: billingDetails,
-                discountAmount: billingDetails.discountAmount,
+                discountAmount: billingDetails?.discountAmount,
                 coupon:
-                    billingDetails.discountAmount != 0 ? state.coupon : null,
+                    billingDetails?.discountAmount != 0 ? state?.coupon : null,
             };
         case RESET_CART_ACTIONS:
             return {

@@ -73,16 +73,30 @@
           <data android:host="froker.live" android:scheme="http"/>
           <data android:host="froker.live" android:scheme="https"/>
         </intent-filter>
-        <intent-filter android:autoVerify="true">
-          <action android:name="android.intent.action.VIEW" />
-          <category android:name="android.intent.category.DEFAULT" />
-          <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="https" android:host="frokerprachi.app.link" />
-          <data android:scheme="https" android:host="frokerprachi-alternate.app.link" />
-          <data android:scheme="https" android:host="frokerprachi.test-app.link" />
-          <data android:scheme="https" android:host="frokerprachi-alternate.test-app.link" />
-        </intent-filter>
+          <!-- Branch App Links - Live App -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="froker.app.link" />
+                <!-- example-alternate domain is required for App Links when the Journeys/Web SDK and Deepviews are used inside your website.  -->
+                <data android:scheme="https" android:host="froker-alternate.app.link" />
+            </intent-filter>
+           <!-- Branch App Links - Test App -->
+           <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="froker.test-app.link" />
+                <!-- example-alternate domain is required for App Links when the Journeys/Web SDK and Deepviews are used inside your website.  -->
+                <data android:scheme="https" android:host="froker-alternate.test-app.link" />
+            </intent-filter>
       </activity>
+
+       <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_dBmprK34lSiVINsxwB6lSeldwqeiuNCD" />
+        <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_jFegqH01nKhJKGtrwxYiJbcczBllESuG" />
+        <meta-data android:name="io.branch.sdk.TestMode" android:value="false" />     <!-- Set to true to use Branch_Test_Key (useful when simulating installs and/or switching between debug and production flavors) -->
+
       <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
 

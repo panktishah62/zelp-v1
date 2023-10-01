@@ -39,10 +39,7 @@ const serverReducer = (state = initialState, action) => {
         case UPDATE_MAX_WALLET_MONEY_TO_USE:
             return {
                 ...state,
-                shotsViewRestSortingConfig: {
-                    ...state?.shotsViewRestSortingConfig,
-                    maxWalletMoneyToUse: action.payload,
-                },
+                maxWalletMoneyToUse: action.payload,
             };
         default:
             return state;
