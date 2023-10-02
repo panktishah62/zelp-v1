@@ -14,7 +14,7 @@ import {
     getBestSellerFoodItems,
     showSubscriptionDetails,
 } from '../../redux/services/subscriptionService';
-import { finalPlanDetails } from '../../redux/actions/subscriptionActions';
+import { finalPlanDetails, setSubscriptionDetails } from '../../redux/actions/subscriptionActions';
 
 const SubscriptionHomePage = props => {
     const [firstActive, setFirstActive] = useState(true);
@@ -76,7 +76,7 @@ const SubscriptionHomePage = props => {
             type = 'Dinner';
         }
         console.log(type, 'planID,type');
-        const response = await getBestSellerFoodItems(subscriptionplanId, "Lunch");
+        const response = await getBestSellerFoodItems(subscriptionplanId, type);
         console.log(response.data, 'response.data');
         setBestSellerItemArray(response.data);
         dispatch(finalPlanDetails({planID:subscriptionplanId,finalPrice}))
@@ -89,18 +89,22 @@ const SubscriptionHomePage = props => {
         console.log(response.data.subscriptionOrder, 'response.data');
         setSubscribedUserDetails(response?.data?.data);
      console.log(response.data.data.subscriptionPlan._id,"My own subscriptionPlanId")
+     
         setSubscriptionOrder(response?.data?.subscriptionOrder);
         setSubscriptionPlanId(response.data.data.subscriptionPlan._id)
+      
+     dispatch(setSubscriptionDetails(response.data.data._id))
+
        
     };
 
     useEffect(() => {
     
         UserSubscriptionDetails();
-    }, [setSubscriptionOrder, setSubscribedUserDetails,finalPrice,subscriptionplanId]);
+    }, [setSubscriptionOrder,setSubscribedUserDetails,finalPrice,subscriptionplanId]);
 
     useEffect(() => {
-     
+      
         fetcheBestSellerItems();
         
     }, [setBestSellerItemArray, subscriptionplanId]);

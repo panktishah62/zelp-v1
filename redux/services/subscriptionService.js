@@ -45,3 +45,8 @@ export const getOneSubscriptionOrder = (subscriptionOrderId) => {
 export const getMealPlansForSubscription = (subscriptionPlanId) => {
     return axiosRequest.get(`${ApiPath.getMealPlansForSubscription}/${subscriptionPlanId}`)
 }
+
+export const orderUsingSubscription = (subscriptionId,data) => {
+    return axiosRequest.post(`${ApiPath.orderUsingSubscription}/${subscriptionId}`,data)
+}
+

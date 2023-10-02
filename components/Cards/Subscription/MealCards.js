@@ -27,7 +27,7 @@ const MealCards = props => {
         itemAddToCartHandler(index, itemName, itemImage, itemType,foodItemId);
     }
 
-    const itemAddToCartHandler = (index, itemName, itemImage, itemType,foodItemId) => {
+    const itemAddToCartHandler = (index, itemName, itemImage, itemType,foodItemId,mealPlanId) => {
         const cartObj = {
             itemName,
             itemImage,

@@ -1,13 +1,15 @@
 import React from "react";
-import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { dynamicSize, normalizeFont } from "../../../utils/responsive";
 import { dimensions } from "../../../styles";
 
 const OrangeButton = props=>{
-    const {text}=props
+    const {text,orderHandler}=props
     return(
         <View style={styles.container}>
+            <TouchableOpacity onPress={orderHandler}>
             <Text style={styles.text}>{text}</Text>
+            </TouchableOpacity>
         </View>
     )
 }

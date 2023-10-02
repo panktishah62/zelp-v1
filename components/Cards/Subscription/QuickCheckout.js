@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity,ScrollView } from "react-native";
 import { dimensions, fonts } from "../../../styles";
 import { dynamicSize, normalizeFont } from "../../../utils/responsive";
-import { addSubscribedItemToCart, resetSelectionButton, selectMenu } from "../../../redux/actions/subscriptionActions";
+import { addSubscribedItemToCart, resetSelectionButton, selectMenu, setSubscriptionMealType } from "../../../redux/actions/subscriptionActions";
 import { useDispatch,useSelector } from "react-redux";
 import moment from 'moment';
 
@@ -25,14 +25,27 @@ const data=[
 const QuickCheckout = props => {
 
     const {navigation}=props
-    const reorderButtonHandler=(id)=>{
-        navigation.navigate('SubscriptionCart',{subscriptionId:id})
+    const {firstActive,secondActive,bestSellerItemCard,QuickCheckoutArray}=props;
+    const {mealType,mealPlanTime,mealPlanId}=useSelector(state=>state.mealTypeForSubscription)
+
+    console.log(QuickCheckoutArray,"QuickCheckoutArray")
+
+    const reorderButtonHandler=(itemName,itemImage,itemType,itemId,foodItemId,mealType,mealPlanId)=>{
+        const cartObj = {
+            itemName,
+            itemImage,
+            itemType,
+            itemId,
+            foodItemId
+        }
+        dispatch(addSubscribedItemToCart(cartObj))
+        dispatch(setSubscriptionMealType(mealType,mealPlanId,''))
+        navigation.navigate('SubscriptionCart',{subscriptionId:''})
 
     }
 
 
     const currentDate = moment();
-    const {firstActive,secondActive,bestSellerItemCard,QuickCheckoutArray}=props;
 
     const { isVegButtonActive } = useSelector(state => state.vegbutton)
     const dispatch=useDispatch();
@@ -41,20 +54,22 @@ const QuickCheckout = props => {
     const BestSellerItemCard = (bestSellerItemCard,isVegButtonActive) => {
 
     
-        const selectButtonHandler=(index,componentName,itemName,itemImage,itemType)=>{
+        const selectButtonHandler=(index,componentName,itemName,itemImage,itemType,foodItemId)=>{
             
            
             // dispatch(resetSelectionButton())
             dispatch(selectMenu(index,componentName))
-            itemAddToCartHandler(index,itemName,itemImage,itemType);
+            itemAddToCartHandler(index,itemName,itemImage,itemType,foodItemId);
         }
     
-        const itemAddToCartHandler=(index,itemName,itemImage,itemType)=>{
+        const itemAddToCartHandler=(index,itemName,itemImage,itemType,foodItemId)=>{
+            console.log(foodItemId,"mohito")
             const cartObj={
                 itemName,
                 itemImage,
                 itemType,
                 itemId:index,
+                foodItemId
             }
             dispatch(addSubscribedItemToCart(cartObj))
         }
@@ -83,15 +98,15 @@ const QuickCheckout = props => {
             </TouchableOpacity>}
          
             {(isSelectedAny)&& (gotIndex===index) &&(componentName!=="BestSellerItemCard")&&
-            <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg")}>
+            <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg",item._id)}>
                 <Text style={styles.selectButtonText}>Select</Text>
             </TouchableOpacity>}
             {((isSelectedAny)&&(gotIndex!==index)) &&
-            <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg")}>
+            <TouchableOpacity style={styles.selectButton}  onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg",item._id)}>
                 <Text style={styles.selectButtonText}>Select</Text>
             </TouchableOpacity>}
             {(!isSelectedAny)&&
-            <TouchableOpacity style={styles.selectButton}   onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg")}>
+            <TouchableOpacity style={styles.selectButton}   onPress={()=>selectButtonHandler(index,"BestSellerItemCard",item.name,item.image,item.isVeg?"Veg":"Non Veg",item._id)}>
                 <Text style={styles.selectButtonText}>Select</Text>
             </TouchableOpacity>}
           
@@ -105,9 +120,9 @@ const QuickCheckout = props => {
             <View key={index} style={styles1.container}>
                 <View style={styles1.firstContainer}>
                     <View style={styles1.imageContainer}><Image style={styles1.image} source={require('../../../assets/images/Subscription/dish_image.png')}/></View>
-                    <View style={styles1.textContainer}><Text style={styles1.name}>{item?.foodItem.name}</Text><Text style={styles1.time}>{moment(item.createdAt).format('DD-MM-YYYY h:mm A').toString()}</Text></View>
+                    <View style={styles1.textContainer}><Text style={styles1.name}>{item?.foodItem?.name}</Text><Text style={styles1.time}>{moment(item.createdAt).format('DD-MM-YYYY h:mm A').toString()}</Text></View>
                 </View>
-            <TouchableOpacity onPress={()=>reorderButtonHandler(item._id)}>
+            <TouchableOpacity onPress={()=>reorderButtonHandler(item.foodItem.name,item.foodItem.image,item.foodItem.isVeg?'Veg':'NonVeg',index,item.foodItem._id,item.mealPlans.type,item.mealPlans._id)}>
                 <View style={styles1.secondContainer} >
                     <View style={styles1.iconContainer}>
                         <Image style={styles1.icon} source={require('../../../assets/images/Subscription/leftRoundArrow.png')}/>

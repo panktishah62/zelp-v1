@@ -8,7 +8,7 @@ const AbsoluteOrangeButton = props => {
     const { navigation } = props;
     const { text } = props;
     const handleNavigation = () => {  
-        navigation.navigate("SubscriptionCart");  
+        navigation.navigate("SubscriptionCart",{subscriptionId:''});  
     }
 
     return (

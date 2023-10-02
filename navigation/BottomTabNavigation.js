@@ -36,6 +36,7 @@ import { showDialog } from '../redux/actions/dialog';
 import Home from '../screens/SubscriptionModel/Home';
 import RestaurantMenuPage from '../screens/SubscriptionModel/RestaurantMenuPage';
 import Cart from '../screens/SubscriptionModel/Cart';
+import SubscriptionHomePage from '../screens/SubscriptionModel/SubscriptionHomePage';
 
 const Tab = createBottomTabNavigator();
 
@@ -168,7 +169,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             ),
                         }}
                         name="Subscription"
-                        component={Home}
+                        component={SubscriptionHomePage}
                     />
                     <Tab.Screen
                         options={({ route }) => ({

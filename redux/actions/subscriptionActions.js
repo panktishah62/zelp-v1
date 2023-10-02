@@ -11,6 +11,7 @@ import {
     SUBSCRIPTION_MEAL_NUMBER_DECREASED,
     SET_SUBSCRIPTION_MEAL_TYPE,
     RESET_SUBSCRIPTION_MEAL_TYPE,
+    SET_SUBSCRIPTION_DETAILS,
 } from '../constants';
 
 export const selectMenu = (index, componentName) => {
@@ -116,6 +117,17 @@ export const resetSubscriptionMealType=()=>{
             type:RESET_SUBSCRIPTION_MEAL_TYPE,
             payload:{
                 mealType:'Breakfast'
+            }
+        })
+    }
+}
+
+export const setSubscriptionDetails=(id)=>{
+    return async dispatch=>{
+        dispatch({
+            type:SET_SUBSCRIPTION_DETAILS,
+            payload:{
+                id
             }
         })
     }

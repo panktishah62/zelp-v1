@@ -78,4 +78,5 @@ export default {
     showSubscriptionDetails:"subscriptionPlan/showSubscriptionDetails",
     getOneSubscriptionOrder:"subscriptionPlan/getOneSubscriptionOrder",
     getMealPlansForSubscription:"subscriptionPlan/getMealPlansForSubscriptionPlan",
+    orderUsingSubscription:"subscriptionPlan/orderUsingSubscription"
 };
