@@ -19,23 +19,26 @@ const OrderSummary = props => {
     console.log("id", subscriptionID)
     const extraMeal = mealCount - 5;
     const validity = 10 + extraMeal;
+    const total = finalPrice * mealCount;
+    const tax = finalPrice * mealCount * 5 / 100
+    const final = total + tax
     console.log("validity", validity)
 
     const openExternalURL = (url) => {
         Linking.openURL(url)
-          .then((supported) => {
-            if (!supported) {
-              console.error(`Cannot open URL: ${url}`);
-            }
-          })
-          .catch((err) => console.error('An error occurred', err));
-      };
-      
+            .then((supported) => {
+                if (!supported) {
+                    console.error(`Cannot open URL: ${url}`);
+                }
+            })
+            .catch((err) => console.error('An error occurred', err));
+    };
+
 
 
     const subscriptionDetails = async () => {
         const response = await subscribeToAPlan(subscriptionID,
-            { validity: [{ meals: mealCount, validity, price: finalPrice }], amount: 100, redirectUrl: "https://facebook.com" }
+            { validity: [{ meals: mealCount, validity, price: finalPrice }], amount: final * 100, redirectUrl: "https://facebook.com" }
         );
         const redirectURL = response.data.data.data.instrumentResponse.redirectInfo.url
         console.log(redirectURL)
@@ -45,8 +48,8 @@ const OrderSummary = props => {
 
 
     const handlePaymentDetails = () => {
-        // subscriptionDetails()
-        navigation.navigate("SubscribedUserHome")
+        subscriptionDetails()
+        // navigation.navigate("SubscribedUserHome")
     }
 
     return (
@@ -55,16 +58,16 @@ const OrderSummary = props => {
                 <View><Text style={styles.headingText}>Order Summary</Text></View>
                 <View style={styles.firstContainer}>
                     <Text style={styles.leftText}>Selected Items</Text>
-                    <Text style={styles.rightText}>Rs. 430</Text>
+                    <Text style={styles.rightText}>Rs. {total}</Text>
                 </View>
                 <View style={styles.firstContainer}>
                     <Text style={styles.leftText}>Government Tax</Text>
-                    <Text style={styles.rightText}>Rs. 20</Text>
+                    <Text style={styles.rightText}>Rs.{tax}</Text>
                 </View>
                 <View style={lineStyles.container}></View>
                 <View style={styles.firstContainer}>
                     <Text style={buttonStyles.changeText}>Total Charge</Text>
-                    <Text style={styles.rightText}>Rs. 430</Text>
+                    <Text style={styles.rightText}>Rs. {final}</Text>
                 </View>
                 <TouchableOpacity onPress={handlePaymentDetails}>
                     <View style={buttonStyles.container}><Text style={buttonStyles.text}>Pay Online Now</Text></View>
