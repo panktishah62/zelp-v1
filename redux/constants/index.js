@@ -1,4 +1,4 @@
-export const BASE_URL =  'https://2662-27-7-138-18.ngrok.io/api/v1';
+export const BASE_URL =  'https://d279-2409-40f2-1c-fc57-f4db-8d9e-3a3-b233.ngrok.io/api/v1';
 export const GET_CONFIG = 'GET_CONFIG';
 export const GET_CONFIG_ERROR = 'GET_CONFIG_ERROR';
 export const GOOGLE_MAPS_APIKEY = 'AIzaSyBp4AkSHWTMsEq7WVmcIgNQELjBrWr9puQ';

@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     Switch,
 } from 'react-native';
+import moment from 'moment';
 import { dimensions, fonts } from '../../../styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllMenu, selectVegMenu, setSubscriptionMealType } from '../../../redux/actions/subscriptionActions';
@@ -49,6 +50,7 @@ const MultipleButtonFoodType = props => {
         const response =await getMealPlansForSubscription(planID)
         console.log(response.data.data,"mealPlans")
         setMealPlans(response.data.data)
+        dispatch(setSubscriptionMealType(response.data.data[0].type,response.data.data[0]._id,''))
     }
     const {itemName,itemId,itemImage,foodItemId,itemType}=useSelector(state=>state.subscriptionCart);
     console.log(itemName,itemId,itemImage,itemType,foodItemId,"subscriptionCart")

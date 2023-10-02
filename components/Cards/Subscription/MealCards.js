@@ -4,12 +4,12 @@ import LinearGradient from "react-native-linear-gradient";
 import { dimensions, colors, fonts } from "../../../styles";
 import { dynamicSize } from "../../../utils/responsive";
 import { useDispatch, useSelector } from "react-redux";
-import { addSubscribedItemToCart, resetSelectionButton, selectMenu, setSubscriptionMealType } from "../../../redux/actions/subscriptionActions";
+import { addSubscribedItemToCart, removeSubscribedItemFromCart, resetSelectionButton, selectMenu, setSubscriptionMealType } from "../../../redux/actions/subscriptionActions";
 
 const MealCards = props => {
 
     const [mealType, setMealType] = useState("Breakfast");
-    const { isButtonVisible, isHeadingVisible, isRatingTextVisible, backendDataArr, activeOrangeButton, orangeButtonText, showRatingNumber, showInfoText, showCrossButton, heading, data,isDynamic } = props
+    const { isButtonVisible,isCart, isHeadingVisible, isRatingTextVisible, backendDataArr, activeOrangeButton,navigation, orangeButtonText, showRatingNumber, showInfoText, showCrossButton, heading, data,isDynamic } = props
     
     console.log(heading,"data")
 
@@ -40,6 +40,10 @@ const MealCards = props => {
     }
 
     const { isVegButtonActive } = useSelector(state => state.vegbutton)
+    const removeCartHandler=()=>{
+        dispatch(removeSubscribedItemFromCart())
+        // navigation.navigate('Subscription')
+    }
 
 
     useEffect(() => {
@@ -77,7 +81,7 @@ const MealCards = props => {
                                 <Image source={require('../../../assets/images/Subscription/info.png')} />
                             </View>}
 
-                            {activeOrangeButton && (index !== gotIndex) &&
+                             { activeOrangeButton && (index !== gotIndex) &&
                                 <TouchableOpacity onPress={() => selectButtonHandler(index, heading, item.boldText, item.image, item.vegText,item._id)}>
                                     <View style={styles.selectButtonContainer}>
                                         <Text style={styles.selectButtonText}>Select</Text>
@@ -95,6 +99,14 @@ const MealCards = props => {
                                         <Image style={styles.tickIcon} source={require('../../../assets/images/Subscription/tick.png')} />
                                     </View>
                                 </TouchableOpacity>}
+                                { isCart &&
+                                     <TouchableOpacity onPress={removeCartHandler}>
+                                     <View style={styles.selectButtonContainer}>
+                                     <Text style={styles.selectButtonText}>Remove</Text>
+
+                                     </View>
+                                 </TouchableOpacity>
+                                }
                         </View>
 
 
