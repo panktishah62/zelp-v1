@@ -16,16 +16,9 @@ const Home = props => {
         setSubscriptionDetails(response.data.data)
 
     }
-   const handleUserNavigation=()=>{
-    if(subscriptionDetails){
-        navigation.navigate('SubscribedUserHome')
-     }
-   }
+ 
 
-   useEffect(()=>{
-         handleUserNavigation()
-    }
-    ,[subscriptionDetails])
+  
 
    
     useEffect(()=>{
@@ -37,8 +30,11 @@ const Home = props => {
    
 
     const handleNavigation = ()=>{
-      
+       if(!subscriptionDetails){
         navigation.navigate('SubscriptionPage')
+       }else{
+        navigation.navigate('SubscribedUserHome')
+       }
 
     }
 

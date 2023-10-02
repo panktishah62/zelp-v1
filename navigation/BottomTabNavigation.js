@@ -169,7 +169,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             ),
                         }}
                         name="Subscription"
-                        component={SubscriptionHomePage}
+                        component={Home}
                     />
                     <Tab.Screen
                         options={({ route }) => ({
