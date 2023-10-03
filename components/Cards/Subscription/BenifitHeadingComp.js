@@ -1,36 +1,40 @@
 import React from 'react';
-import { Text,View,StyleSheet,Image } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import { colors } from '../../../styles/colors';
 import { fonts } from '../../../styles';
 const BenifitHeadingComp = props => {
-
     return (
         <View style={styles.wrapperMealText}>
-                <View style={styles.bestMealContainer}>
-                    <Image
-                        source={require('../../../assets/images/Subscription/star.png')}
-                    />
+            <View style={styles.bestMealContainer}>
+                <Image
+                    source={require('../../../assets/images/Subscription/star.png')}
+                />
 
-                    <Text style={[styles.text]}>
-                    <Text style={[styles.changeColor,styles.changeFont]}>Benefits</Text> of      
-                    </Text>
-                    <View style={styles.horizontalLine} />
-                </View>
-                <View style={styles.bestMealContainer}>
-                    <View
-                        style={[styles.horizontalLine, styles.changeLineColor]}
-                    />
-                    <Text style={styles.text}>  <Text style={[styles.changeColor,styles.changeFont]}>Froker</Text> Subscription</Text>
-
-                    <Image
-                        source={require('../../../assets/images/Subscription/star.png')}
-                    />
-                </View>
+                <Text style={[styles.text]}>
+                    <Text style={[styles.changeColor, styles.changeFont]}>
+                        Benefits
+                    </Text>{' '}
+                    of
+                </Text>
+                <View style={styles.horizontalLine} />
             </View>
-    )
+            <View style={styles.bestMealContainer}>
+                <View style={[styles.horizontalLine, styles.changeLineColor]} />
+                <Text style={styles.text}>
+                    {' '}
+                    <Text style={[styles.changeColor, styles.changeFont]}>
+                        Froker
+                    </Text>{' '}
+                    Subscription
+                </Text>
 
-}
-
+                <Image
+                    source={require('../../../assets/images/Subscription/star.png')}
+                />
+            </View>
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -45,7 +49,7 @@ const styles = StyleSheet.create({
     },
     bestMealContainer: {
         display: 'flex',
-        gap:4,
+        gap: 4,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -67,15 +71,14 @@ const styles = StyleSheet.create({
     },
     changeColor: {
         color: colors.ORANGE,
-       
     },
-    changeFont:{
+    changeFont: {
         fontSize: 20,
         fontWeight: 'bold',
     },
     changeLineColor: {
         backgroundColor: colors.ORANGE,
     },
-})
+});
 
 export default BenifitHeadingComp;

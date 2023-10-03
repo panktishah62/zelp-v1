@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         gap: 5,
         alignItems: 'center',
         flexDirection: 'row',
-        width: 105,
+        width: dynamicSize(105),
         height: 36,
         borderColor: '#E1740F',
         borderRadius: 30,

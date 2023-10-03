@@ -50,6 +50,7 @@ import SubscriptionHomePage from '../screens/SubscriptionModel/SubscriptionHomeP
 import HeaderWithCart from '../components/Header/HeaderWithCart';
 import RestaurantMenuPage from '../screens/SubscriptionModel/RestaurantMenuPage';
 import Cart from '../screens/SubscriptionModel/Cart';
+import HeaderWithImage from '../components/Header/HeaderWithImage';
 
 const Stack = createNativeStackNavigator();
 
@@ -347,7 +348,7 @@ const MainStack = () => {
                 component={RestaurantMenuPage}
                 options={({ navigation, route }) => ({
                     header: () => (
-                        <HeaderWithTitle
+                        <HeaderWithImage
                             navigation={navigation}
                             title="Restaurant Menu"
                         />

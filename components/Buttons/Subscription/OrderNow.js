@@ -1,41 +1,43 @@
-import React from "react";
-import { StyleSheet, View, Text, Image, ScrollView,TouchableOpacity } from "react-native";
-import { dimensions } from "../../../styles";
+import React from 'react';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { dimensions } from '../../../styles';
 
-const OrderNow=props=>{
-    const {navigation}=props;
+const OrderNow = props => {
+    const { navigation, name } = props;
 
-    const handleNavigation=()=>{
-        navigation.navigate("SubscriptionRestaurantMenu");
-    }
-    return(
+    const handleNavigation = () => {
+        navigation.navigate('SubscriptionRestaurantMenu',{name});
+    };
+    return (
         <TouchableOpacity onPress={handleNavigation}>
-        <View style={styles.container}>
-            <Image source={require('../../../assets/images/Subscription/ordernow.png')}/>
+            <View style={styles.container}>
+                <Image
+                    source={require('../../../assets/images/Subscription/ordernow.png')}
+                />
                 <Text style={styles.buttonText}>Order Now</Text>
-        </View>
+            </View>
         </TouchableOpacity>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
-    container:{
-        width:dimensions.fullWidth-60,
+    container: {
+        width: dimensions.fullWidth - 60,
         display: 'flex',
         flexDirection: 'row',
         width: 330,
         marginVertical: 20,
         height: 45,
         padding: 10.094,
-        borderWidth:1,
-        borderColor:'#E1740F',
-        borderRadius:7,
+        borderWidth: 1,
+        borderColor: '#E1740F',
+        borderRadius: 7,
         justifyContent: 'center',
         alignItems: 'center',
         gap: 5,
         flexShrink: 0,
     },
-    buttonText:{
+    buttonText: {
         color: '#E1740F',
         fontFamily: 'Poppins',
         fontSize: 16,
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         letterSpacing: 0.25,
         textTransform: 'capitalize',
-    }
-})
+    },
+});
 
 export default OrderNow;

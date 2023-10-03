@@ -1,55 +1,51 @@
-import React,{useState} from "react";
-import { StyleSheet, View,Text,Image, ScrollView,TouchableOpacity } from "react-native";
+import React, { useState } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import { fonts } from '../../../styles';
 
-import Slider from 'react-native-slider'
-const SliderButton=props=>{
+const SliderButton = props => {
     const [sliderValue, setSliderValue] = useState(0);
 
-    const handleSliderChange = (value) => {
-      setSliderValue(value);
+    const handleSliderChange = value => {
+        setSliderValue(value);
     };
-    const toogleToEnd=()=>{
-        if(sliderValue===0){
-        setSliderValue(100)
+    const toogleToEnd = () => {
+        if (sliderValue === 0) {
+            setSliderValue(100);
+        } else {
+            setSliderValue(0);
         }
-        else{
-            setSliderValue(0)
-        }
-    }
-  
-    return(
+    };
+
+    return (
         <View style={styles.container}>
-             <Text style={styles.text}>Veg</Text>
-            
+            <Text style={styles.text}>Veg</Text>
         </View>
-    )
-}
+    );
+};
 
-const styles=StyleSheet.create({
-    container:{
-        display:'flex',
-        justifyContent:'flex-start',
-        alignContent:"center",
-        flexDirection:'row',
+const styles = StyleSheet.create({
+    container: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignContent: 'center',
+        flexDirection: 'row',
     },
-    vegButtonContainer:{
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center',
-        flexDirection:'row',
-        gap:5,
-       
+    vegButtonContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        gap: 5,
     },
-    text:{
+    text: {
         color: '#3D3D3D',
-    fontFamily: 'Nunito',
-    fontSize: 14,
-    fontStyle: 'normal',
-    fontWeight: '700',
-    lineHeight: 22, // You can adjust this based on your design
-    letterSpacing: -0.408,
-    }
+        fontFamily: fonts.NUNITO_500_16.fontFamily,
+        fontSize: 14,
+        fontStyle: 'normal',
+        fontWeight: '700',
+        lineHeight: 22, // You can adjust this based on your design
+        letterSpacing: -0.408,
+    },
+});
 
-})
-
-export default SliderButton
+export default SliderButton;

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
 import { dimensions } from "../../../styles";
+import { dynamicSize } from "../../../utils/responsive";
 
 const LogoHeading=props=>{
     const {text}=props;
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
         flexDirection:'row'
     },
     logoStyle:{
-        width: 39,
+        width: dynamicSize(39),
         height: 37.206
     },
     logoText:{

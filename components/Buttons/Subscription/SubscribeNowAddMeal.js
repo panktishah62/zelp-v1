@@ -20,6 +20,7 @@ const SubscribeNowAddMeal = props => {
   }
 
   const { isModalVisible, toggleModal } = props;
+  
   return (
     <View style={buttonStyles.wrapperContainer}>
       {/* <View style={buttonStyles.container}> */}

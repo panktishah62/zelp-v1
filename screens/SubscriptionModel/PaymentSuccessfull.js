@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
+import { StyleSheet, View,  ScrollView } from 'react-native';
 import { dimensions } from '../../styles';
 import PaymentSuccessfullCard from '../../components/Cards/Subscription/PaymentSuccessfullCard';
 

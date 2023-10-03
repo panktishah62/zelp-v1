@@ -89,7 +89,6 @@ export const mealDetailsDecreased = (data) => {
 }
 
 export const finalPlanDetails = (data) => {
-    console.log(data,"action Final")
     return async dispatch => {
         dispatch({
             type:  FINAL_SUBSCRIPTION_MODEL_PRICE,

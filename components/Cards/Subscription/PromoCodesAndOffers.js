@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
-import { dimensions } from "../../../styles";
+import { StyleSheet, View,Text,Image } from "react-native";
+import { dimensions, fonts } from "../../../styles";
 
 const PromoCodesAndOffers=props=>{
     const {promoCode,offer}=props;
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
      rightText:{
         color: '#FFF',
     textAlign: 'right',
-    fontFamily: 'Nunito',
+    fontFamily: fonts.NUNITO_500_16.fontFamily,
     fontSize: 12,
     fontStyle: 'normal',
     fontWeight: '600',
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
      },
      leftText:{
         color: '#3D3D3D',
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_500_16.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '700',
@@ -141,7 +141,7 @@ const boxStyle = StyleSheet.create({
     paddingHorizontal: 14,
     color: '#FFF',
     textAlign: 'right',
-    fontFamily: 'Nunito',
+    fontFamily: fonts.NUNITO_500_16.fontFamily,
     fontSize: 12,
     fontStyle: 'normal',
     fontWeight: '700',
@@ -150,7 +150,7 @@ const boxStyle = StyleSheet.create({
  },
  codeText:{
     color: '#3D3D3D',
-    fontFamily: 'Nunito',
+    fontFamily: fonts.NUNITO_500_16.fontFamily,
     fontSize: 14,
     fontStyle: 'normal',
     fontWeight: '600',

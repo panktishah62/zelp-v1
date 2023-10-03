@@ -2,51 +2,21 @@ import React from 'react';
 import { Image, Text, StyleSheet, View } from 'react-native';
 import { fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
+import HowToStart from './HowToStart';
 
 const MealComponent = props => {
-    const data = [
-        {
-            id: '1',
-            imageSource: require('../../../assets/images/Subscription/salad.png'),
-            text: 'Salad',
-        },
-        {
-            id: '2',
-            imageSource: require('../../../assets/images/Subscription/Barbeque.png'),
-            text: 'Barbecue',
-        },
-        {
-            id: '3',
-            imageSource: require('../../../assets/images/Subscription/pancakes.png'),
-            text: 'Pancake',
-        },
-        {
-            id: '4',
-            imageSource: require('../../../assets/images/Subscription/burgers.png'),
-            text: 'Burger',
-        },
-        {
-            id: '5',
-            imageSource: require('../../../assets/images/Subscription/Nuggets.png'),
-            text: 'Nuggets',
-        },
-        {
-            id: '6',
-            imageSource: require('../../../assets/images/Subscription/icecream.png'),
-            text: 'IceCream',
-        },
-    ];
+    const bestMealArr = props.bestMealArr;
 
-    const numRows = Math.ceil(data.length / 3);
+    const numRows = Math.ceil(bestMealArr?.length / 3);
 
     const renderRow = rowData => {
         return (
-            <View style={styles.row}>
+           bestMealArr && <View style={styles.row}>
                 {rowData.map(item => (
                     <View style={styles.box} key={item.id}>
                         <Image
                             style={styles.imageStyle}
-                            source={item.imageSource}
+                            source={{uri:item.imageSource}}
                         />
                         <Text style={styles.itemText}>{item.text}</Text>
                     </View>
@@ -81,21 +51,16 @@ const MealComponent = props => {
             </View>
             <View>
                 <View style={styles.container}>
-                    {[...Array(numRows)].map((_, rowIndex) => {
+                    {bestMealArr && [...Array(numRows)].map((_, rowIndex) => {
                         const start = rowIndex * 3;
                         const end = start + 3;
-                        return renderRow(data.slice(start, end));
+                        return renderRow(bestMealArr?.slice(start, end));
                     })}
                 </View>
-            <View >
-                <Text style={styles.manyMoreText}>& Many More</Text>
-            </View>
-            <View style={styles.wrapperHowToStart}>
-            <View style={styles.howToStartContainer}>
-                    <Text style={styles.howToStartText}>How to subscribe & Order</Text>
-                    <Image source={require('../../../assets/images/Subscription/play_button.png')}/>
-            </View>
-            </View>
+                <View >
+                    <Text style={styles.manyMoreText}>& Many More</Text>
+                </View>
+                <HowToStart/>
             </View>
         </View>
     );
@@ -175,35 +140,36 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         textAlign: 'center',
     },
-    howToStartContainer:{
+    howToStartContainer: {
         display: 'flex',
-      width: 254,
-    height: 31,
-  padding:3,
-   margin:20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row', // For horizontal alignment of children
-    flexWrap: 'wrap', // To allow multiple lines (if needed)
-    gap: 5,
-    flexShrink: 0,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#E1740F',
+        width: 254,
+        height: 41,
+        padding: 10,
+        margin: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row', // For horizontal alignment of children
+        flexWrap: 'wrap', // To allow multiple lines (if needed)
+        gap: 5,
+        flexShrink: 0,
+        borderRadius: 5,
+        borderWidth: 1,
+        backgroundColor: colors.ORANGE,
+        borderColor: '#E1740F',
     },
-    wrapperHowToStart:{
+    wrapperHowToStart: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
     },
-    howToStartText:{
-        color: colors.ORANGE,
+    howToStartText: {
+        color: colors.WHITE,
         fontFamily: 'Poppins',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '600',
-       
+
         textTransform: 'capitalize',
     }
 });

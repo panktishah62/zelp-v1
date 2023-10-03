@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
+import React from "react";
+import { StyleSheet, View, ScrollView } from "react-native";
 import PlanDetailsHeading from "../../components/Heading/Subscription/PlanDetailsHeading";
 import PromoCodesAndOffers from "../../components/Cards/Subscription/PromoCodesAndOffers";
 import PreferedPayment from "../../components/Cards/Subscription/PreferedPayment";
@@ -13,7 +13,6 @@ const SubscriptionPayment = props => {
   const { navigation, route } = props
   const subscriptionID = route.params.itemId;
   const name = route.params.name
-  console.log(name)
 
   const handleNavigation = () => {
     navigation.navigate("PaymentSuccessfull");

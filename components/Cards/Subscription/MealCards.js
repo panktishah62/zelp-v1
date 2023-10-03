@@ -1,153 +1,307 @@
-import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
-import { dimensions, colors, fonts } from "../../../styles";
-import { dynamicSize } from "../../../utils/responsive";
-import { useDispatch, useSelector } from "react-redux";
-import { addSubscribedItemToCart, removeSubscribedItemFromCart, resetSelectionButton, selectMenu, setSubscriptionMealType } from "../../../redux/actions/subscriptionActions";
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { dimensions, fonts } from '../../../styles';
+import { dynamicSize } from '../../../utils/responsive';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    addSubscribedItemToCart,
+    removeSubscribedItemFromCart,
+    selectMenu,
+    setSubscriptionMealType,
+} from '../../../redux/actions/subscriptionActions';
 
 const MealCards = props => {
+    const [mealType, setMealType] = useState('Breakfast');
+    const {
+        isButtonVisible,
+        isCart,
+        isHeadingVisible,
+        activeOrangeButton,
+        showRatingNumber,
+        showInfoText,
+        heading,
+        data,
+        isDynamic,
+    } = props;
 
-    const [mealType, setMealType] = useState("Breakfast");
-    const { isButtonVisible,isCart, isHeadingVisible, isRatingTextVisible, backendDataArr, activeOrangeButton,navigation, orangeButtonText, showRatingNumber, showInfoText, showCrossButton, heading, data,isDynamic } = props
-    
-    console.log(heading,"data")
+    const dispatch = useDispatch();
 
-    const dispatch = useDispatch()
-
-    const { isSelectedAny, index: gotIndex, componentName } = useSelector(state => state.subscriptionSelectMenu)
+    const {
+        isSelectedAny,
+        index: gotIndex,
+        componentName,
+    } = useSelector(state => state.subscriptionSelectMenu);
     // console.log(isSelectedAny,gotIndex,componentName)
 
-
-    const selectButtonHandler = (index, componentName, itemName, itemImage, itemType,foodItemId) => {
-
-
+    const selectButtonHandler = (
+        index,
+        componentName,
+        itemName,
+        itemImage,
+        itemType,
+        foodItemId,
+    ) => {
         // dispatch(resetSelectionButton())
-        dispatch(selectMenu(index, componentName))
-        itemAddToCartHandler(index, itemName, itemImage, itemType,foodItemId);
-    }
+        dispatch(selectMenu(index, componentName));
+        itemAddToCartHandler(index, itemName, itemImage, itemType, foodItemId);
+    };
 
-    const itemAddToCartHandler = (index, itemName, itemImage, itemType,foodItemId,mealPlanId) => {
+    const itemAddToCartHandler = (
+        index,
+        itemName,
+        itemImage,
+        itemType,
+        foodItemId,
+    ) => {
         const cartObj = {
             itemName,
             itemImage,
             itemType,
             itemId: index,
-            foodItemId
-        }
-        
-        dispatch(addSubscribedItemToCart(cartObj))
-    }
+            foodItemId,
+        };
 
-    const { isVegButtonActive } = useSelector(state => state.vegbutton)
-    const removeCartHandler=()=>{
-        dispatch(removeSubscribedItemFromCart())
+        dispatch(addSubscribedItemToCart(cartObj));
+    };
+
+    const { isVegButtonActive } = useSelector(state => state.vegbutton);
+    const removeCartHandler = () => {
+        dispatch(removeSubscribedItemFromCart());
         // navigation.navigate('Subscription')
-    }
+    };
 
-
-    useEffect(() => {
-        console.log(isVegButtonActive, "isVegButtonActive")
-
-    }, [isVegButtonActive])
-
-    const filterData = isVegButtonActive ? data.filter((item) => item.vegText === 'Veg') : data;
+    const filterData = isVegButtonActive
+        ? data.filter(item => item.vegText === 'Veg')
+        : data;
     const renderItem = () => {
-        return filterData && filterData?.map((item, index) => (
-            <View key={index} style={styles.wrapperContainer}>
-
-
-                <View style={styles.itemConainer}>
-                    <View style={styles.leftContainer}>
-                        <View style={styles.imageContainer}>
-                      {isDynamic  && <Image style={{height:dynamicSize(100),borderRadius:50}}  source={{uri:item.image}}/>}
-                      {!isDynamic && <Image style={{height:dynamicSize(100)}}   source={item.image}/>}
-                      </View>
-                    
-                    </View>
-                    <View style={styles.rightContainer}>
-                        <View style={styles.firstContainer}>
-                            <View style={styles.vegContainer}>
-                                <Image source={require('../../../assets/images/Subscription/veg.png')} />
-                                <Text style={styles.vegText} >{item.vegText}</Text>
+        return (
+            filterData &&
+            filterData?.map((item, index) => (
+                <View key={index} style={styles.wrapperContainer}>
+                    <View style={styles.itemConainer}>
+                        <View style={styles.leftContainer}>
+                            <View style={styles.imageContainer}>
+                                {isDynamic && (
+                                    <Image
+                                        style={{
+                                            height: dynamicSize(100),
+                                            borderRadius: 50,
+                                        }}
+                                        source={{ uri: item.image }}
+                                    />
+                                )}
+                                {!isDynamic && (
+                                    <Image
+                                        style={{ height: dynamicSize(100) }}
+                                        source={item.image}
+                                    />
+                                )}
                             </View>
-                            <View style={styles.middleTextContainer}>
-                                <Text style={styles.boldText}>{item.boldText}</Text>
-                                {showRatingNumber && <Image style={styles.nextImage} source={require('../../../assets/images/Subscription/golden_star.png')} />}
-                                {showRatingNumber && <Text style={[styles.firstText, { marginLeft: dynamicSize(3) }]}>{item.rating} </Text>}
-                            </View>
-                            {showInfoText && <View style={styles.vegContainer}>
-                                <Text style={styles.lastText}>Know more</Text>
-                                <Image source={require('../../../assets/images/Subscription/info.png')} />
-                            </View>}
-
-                             { activeOrangeButton && (index !== gotIndex) &&
-                                <TouchableOpacity onPress={() => selectButtonHandler(index, heading, item.boldText, item.image, item.vegText,item._id)}>
-                                    <View style={styles.selectButtonContainer}>
-                                        <Text style={styles.selectButtonText}>Select</Text>
-                                    </View>
-                                </TouchableOpacity>}
-                            {activeOrangeButton && (index === gotIndex) && (componentName !== heading) &&
-                                <TouchableOpacity onPress={() => selectButtonHandler(index, heading, item.boldText, item.image, item.vegText,item._id)}>
-                                    <View style={styles.selectButtonContainer}>
-                                        <Text style={styles.selectButtonText}>Select</Text>
-                                    </View>
-                                </TouchableOpacity>}
-                            {activeOrangeButton && (isSelectedAny) && (index === gotIndex) && (componentName === heading) &&
-                                <TouchableOpacity >
-                                    <View style={styles.selectedButtonContainer}>
-                                        <Image style={styles.tickIcon} source={require('../../../assets/images/Subscription/tick.png')} />
-                                    </View>
-                                </TouchableOpacity>}
-                                { isCart &&
-                                     <TouchableOpacity onPress={removeCartHandler}>
-                                     <View style={styles.selectButtonContainer}>
-                                     <Text style={styles.selectButtonText}>Remove</Text>
-
-                                     </View>
-                                 </TouchableOpacity>
-                                }
                         </View>
+                        <View style={styles.rightContainer}>
+                            <View style={styles.firstContainer}>
+                                <View style={styles.vegContainer}>
+                                    <Image
+                                        source={require('../../../assets/images/Subscription/veg.png')}
+                                    />
+                                    <Text style={styles.vegText}>
+                                        {item.vegText}
+                                    </Text>
+                                </View>
+                                <View style={styles.middleTextContainer}>
+                                    <Text style={styles.boldText}>
+                                        {item.boldText}
+                                    </Text>
+                                    {showRatingNumber && (
+                                        <Image
+                                            style={styles.nextImage}
+                                            source={require('../../../assets/images/Subscription/golden_star.png')}
+                                        />
+                                    )}
+                                    {showRatingNumber && (
+                                        <Text
+                                            style={[
+                                                styles.firstText,
+                                                { marginLeft: dynamicSize(3) },
+                                            ]}>
+                                            {item.rating}{' '}
+                                        </Text>
+                                    )}
+                                </View>
+                                {showInfoText && (
+                                    <View style={styles.vegContainer}>
+                                        <Text style={styles.lastText}>
+                                            Know more
+                                        </Text>
+                                        <Image
+                                            source={require('../../../assets/images/Subscription/info.png')}
+                                        />
+                                    </View>
+                                )}
 
-
+                                {activeOrangeButton && index !== gotIndex && (
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            selectButtonHandler(
+                                                index,
+                                                heading,
+                                                item.boldText,
+                                                item.image,
+                                                item.vegText,
+                                                item._id,
+                                            )
+                                        }>
+                                        <View
+                                            style={
+                                                styles.selectButtonContainer
+                                            }>
+                                            <Text
+                                                style={styles.selectButtonText}>
+                                                Select
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                )}
+                                {activeOrangeButton &&
+                                    index === gotIndex &&
+                                    componentName !== heading && (
+                                        <TouchableOpacity
+                                            onPress={() =>
+                                                selectButtonHandler(
+                                                    index,
+                                                    heading,
+                                                    item.boldText,
+                                                    item.image,
+                                                    item.vegText,
+                                                    item._id,
+                                                )
+                                            }>
+                                            <View
+                                                style={
+                                                    styles.selectButtonContainer
+                                                }>
+                                                <Text
+                                                    style={
+                                                        styles.selectButtonText
+                                                    }>
+                                                    Select
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    )}
+                                {activeOrangeButton &&
+                                    isSelectedAny &&
+                                    index === gotIndex &&
+                                    componentName === heading && (
+                                        <TouchableOpacity>
+                                            <View
+                                                style={
+                                                    styles.selectedButtonContainer
+                                                }>
+                                                <Image
+                                                    style={styles.tickIcon}
+                                                    source={require('../../../assets/images/Subscription/tick.png')}
+                                                />
+                                            </View>
+                                        </TouchableOpacity>
+                                    )}
+                                {isCart && (
+                                    <TouchableOpacity
+                                        onPress={removeCartHandler}>
+                                        <View
+                                            style={
+                                                styles.selectButtonContainer
+                                            }>
+                                            <Text
+                                                style={styles.selectButtonText}>
+                                                Remove
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                )}
+                            </View>
+                        </View>
                     </View>
                 </View>
+            ))
+        );
+    };
 
-            </View>
-        ))
-    }
-
-
-    const handleMenuType = (type) => {
+    const handleMenuType = type => {
         setMealType(type);
-       dispatch(setSubscriptionMealType(type))
-    }
+        dispatch(setSubscriptionMealType(type));
+    };
 
     return (
         <View>
-            {isButtonVisible && <View style={buttonStyles.buttonContainer}>
-                <TouchableOpacity onPress={() => handleMenuType("Breakfast")}>
-                    <View style={[buttonStyles.eachButtonStyle, mealType === "Breakfast" && buttonStyles.changeStyle]}><Text style={[buttonStyles.textStyle, mealType === "Breakfast" && buttonStyles.changeTextStyle]}>Breakfast</Text></View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleMenuType("Lunch")}>
-                    <View style={[buttonStyles.eachButtonStyle, mealType === "Lunch" && buttonStyles.changeStyle]}><Text style={[buttonStyles.textStyle, mealType === "Lunch" && buttonStyles.changeTextStyle]}>Lunch</Text></View>
+            {isButtonVisible && (
+                <View style={buttonStyles.buttonContainer}>
+                    <TouchableOpacity
+                        onPress={() => handleMenuType('Breakfast')}>
+                        <View
+                            style={[
+                                buttonStyles.eachButtonStyle,
+                                mealType === 'Breakfast' &&
+                                    buttonStyles.changeStyle,
+                            ]}>
+                            <Text
+                                style={[
+                                    buttonStyles.textStyle,
+                                    mealType === 'Breakfast' &&
+                                        buttonStyles.changeTextStyle,
+                                ]}>
+                                Breakfast
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleMenuType('Lunch')}>
+                        <View
+                            style={[
+                                buttonStyles.eachButtonStyle,
+                                mealType === 'Lunch' &&
+                                    buttonStyles.changeStyle,
+                            ]}>
+                            <Text
+                                style={[
+                                    buttonStyles.textStyle,
+                                    mealType === 'Lunch' &&
+                                        buttonStyles.changeTextStyle,
+                                ]}>
+                                Lunch
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleMenuType('Dinner')}>
+                        <View
+                            style={[
+                                buttonStyles.eachButtonStyle,
+                                mealType === 'Dinner' &&
+                                    buttonStyles.changeStyle,
+                            ]}>
+                            <Text
+                                style={[
+                                    buttonStyles.textStyle,
+                                    mealType === 'Dinner' &&
+                                        buttonStyles.changeTextStyle,
+                                ]}>
+                                Dinner
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            )}
+            {isHeadingVisible && (
+                <View style={belowButtonStyle.container}>
+                    <Text style={belowButtonStyle.textStyle}>
+                        Available from 9:00Am - 11:00 AM{' '}
+                    </Text>
+                </View>
+            )}
 
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleMenuType("Dinner")}>
-                    <View style={[buttonStyles.eachButtonStyle, mealType === "Dinner" && buttonStyles.changeStyle]}><Text style={[buttonStyles.textStyle, mealType === "Dinner" && buttonStyles.changeTextStyle]}>Dinner</Text></View>
-                </TouchableOpacity>
-            </View>}
-            {isHeadingVisible && <View style={belowButtonStyle.container}>
-                <Text style={belowButtonStyle.textStyle}>Available from 9:00Am - 11:00 AM </Text>
-            </View>}
-
-            <View>
-                {renderItem()}
-            </View>
-
+            <View>{renderItem()}</View>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -158,8 +312,7 @@ const styles = StyleSheet.create({
         width: dynamicSize(100),
     },
     image: {
-        width: dynamicSize(100)
-
+        width: dynamicSize(100),
     },
     nextImage: {
         marginLeft: dynamicSize(10),
@@ -202,7 +355,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: dimensions.fullWidth - dynamicSize(160),
         gap: dynamicSize(10),
-
     },
     firstContainer: {
         display: 'flex',
@@ -220,7 +372,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'center',
         height: 100,
-
     },
     vegContainer: {
         display: 'flex',
@@ -254,7 +405,6 @@ const styles = StyleSheet.create({
         fontSize: dynamicSize(12),
         fontStyle: 'normal',
         fontWeight: '400',
-
     },
     gradient: {
         borderRadius: 14,
@@ -266,7 +416,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: dynamicSize(6),
-
     },
     vegText: {
         color: '#3D3D3D',
@@ -329,10 +478,8 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         lineHeight: 22,
         letterSpacing: -0.408,
-    }
-
-
-})
+    },
+});
 
 const buttonStyles = StyleSheet.create({
     buttonContainer: {
@@ -345,7 +492,6 @@ const buttonStyles = StyleSheet.create({
         flexShrink: 0,
         flexDirection: 'row',
         alignItems: 'center',
-
     },
     eachButtonStyle: {
         borderRadius: 5,
@@ -355,8 +501,6 @@ const buttonStyles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-
-
     },
     changeStyle: {
         backgroundColor: '#E1740F',
@@ -365,7 +509,7 @@ const buttonStyles = StyleSheet.create({
     },
     textStyle: {
         color: '#3D3D3D',
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_500_16.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '700',
@@ -374,34 +518,25 @@ const buttonStyles = StyleSheet.create({
     },
     changeTextStyle: {
         color: '#FFFFFF',
-    }
-})
+    },
+});
 
 const belowButtonStyle = StyleSheet.create({
     container: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-
     },
     textStyle: {
         color: '#3D3D3D',
         textAlign: 'center',
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_500_16.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '700',
 
         textTransform: 'capitalize',
-    }
-})
-
-const crossButtonStyles = StyleSheet.create({
-    container: {
-        position: 'absolute',
-        top: 10,
-        right: 12,
-    }
-})
+    },
+});
 
 export default MealCards;

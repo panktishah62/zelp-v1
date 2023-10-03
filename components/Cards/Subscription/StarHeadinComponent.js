@@ -2,8 +2,10 @@ import React from 'react';
 import { Text,View,StyleSheet,Image } from 'react-native';
 import { colors } from '../../../styles/colors';
 import { fonts } from '../../../styles';
+import CaroselComponent from './CaroselComponent';
 const StarHeadingComponent = props => {
 
+    const navigation = props.navigation
     return (
         <View style={styles.wrapperMealText}>
                 <View style={styles.bestMealContainer}>
@@ -27,6 +29,8 @@ const StarHeadingComponent = props => {
                         source={require('../../../assets/images/Subscription/star.png')}
                     />
                 </View>
+                <CaroselComponent navigation={navigation} />
+
             </View>
     )
 

@@ -1,102 +1,69 @@
 import React, { useEffect, useState } from 'react';
-import {
-    ActivityIndicator,
-    Image,
-    Linking,
-    ScrollView,
-    StyleSheet,
-    Text,
-    Image,
-    View,
-} from 'react-native';
-import { getSubscriptionModelData } from '../../redux/services/subscriptionModelService';
-import MenuListing from '../../components/SubscriptionModel/MenuListing';
-import SubscriptionModel from '../../components/SubscriptionModel/SubscriptionModel';
-import IconButton from '../../components/Buttons/IconButton';
-import { colors } from '../../styles/colors';
-import { DialogTypes } from '../../utils';
-import { dynamicSize } from '../../utils/responsive';
-
-import { showDialog } from '../../redux/actions/dialog';
-import { useDispatch, useSelector } from 'react-redux';
-
-import SubscriptionCard from '../../components/Cards/Subscription/SubscriptionCard';
-import HeadingComp from '../../components/Cards/Subscription/HeadingComp';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import ParagraphComp from '../../components/Cards/Subscription/ParagraphComp';
 import BenifitComponent from '../../components/Cards/Subscription/BenifitComponent';
-import CaroselComponent from '../../components/Cards/Subscription/CaroselComponent';
 import PartnersComponent from '../../components/Cards/Subscription/PartnersComponent';
 import MealComponent from '../../components/Cards/Subscription/MealComponent';
 import StarHeadingComponent from '../../components/Cards/Subscription/StarHeadinComponent';
 import BenifitHeadingComp from '../../components/Cards/Subscription/BenifitHeadingComp';
 import CarouselImageAtTop from '../../components/Cards/Subscription/CarouselImageAtTop';
-import PageDetails from './PageDetails';
 import { getBannerImages } from '../../redux/services/subscriptionService';
-import SubscriptionPayment from './SubscriptionPayment';
-import PaymentSuccessfull from './PaymentSuccessfull';
-import SubscriptionHomePage from './SubscriptionHomePage';
-import RestaurantMenuPage from './RestaurantMenuPage';
-import Cart from './Cart';
-import Home from './Home';
 
 const benifitComponentData = [
     {
         image: require('../../assets/images/Subscription/salad_3.png'),
-        text: "Choose your Preferred Meal",
+        text: 'Choose your Preferred Meal',
     },
     {
         image: require('../../assets/images/Subscription/clock.png'),
-        text: "Wide Variety of options",
+        text: 'Wide Variety of options',
     },
     {
         image: require('../../assets/images/Subscription/plate.png'),
-        text: "Delivery at your Door Step",
+        text: 'Delivery at your Door Step',
     },
     {
         image: require('../../assets/images/Subscription/delivery_2.png'),
-        text: "No Additional costs",
+        text: 'No Additional costs',
     },
-]
-
-
-
+];
 
 const SubscriptionPage = props => {
-    const { navigation } = props
-
-    
-
+    const { navigation } = props;
 
     const [bannerImagesArr, setBannerImagesArr] = useState([]);
-
+    const [benifitItemArr,setBenifitItemArr] = useState([]);
+    const [bestMealArr,setBestMealArr] = useState([])
+    const [minValidity,setMinValidity] = useState(null)
+ 
     useEffect(() => {
         fetchBannerImages();
-    }, [setBannerImagesArr])
+    }, [setBannerImagesArr]);
 
     const fetchBannerImages = async () => {
         const response = await getBannerImages();
-        console.log("banner images", response?.data);
         setBannerImagesArr(response?.data?.data);
-    }
+        setBenifitItemArr(response?.data.benifitComponent)
+        setBestMealArr(response?.data.bestMealArray)
+        setMinValidity(response?.data.minValidity)
+
+    };
+
+    
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
                 <CarouselImageAtTop bannerImagesArr={bannerImagesArr} />
-                <StarHeadingComponent />
-                <CaroselComponent navigation={navigation} />
-                <ParagraphComp />
+                <StarHeadingComponent navigation={navigation} />
+                <ParagraphComp minValidity={minValidity}/>
                 <BenifitHeadingComp />
-                <BenifitComponent data={benifitComponentData} />
+                <BenifitComponent data={benifitItemArr} isDynamic={true}/>
                 <PartnersComponent />
-                <MealComponent />
+                <MealComponent bestMealArr={bestMealArr}/>
             </View>
         </ScrollView>
-
-
-
-    )
-        ;
+    );
 };
 const styles = StyleSheet.create({
     container: {
@@ -119,4 +86,3 @@ const styles = StyleSheet.create({
 });
 
 export default SubscriptionPage;
-

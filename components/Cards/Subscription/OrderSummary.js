@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import { dimensions } from '../../../styles';
 import { Linking } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -7,55 +7,49 @@ import { useSelector } from 'react-redux';
 import { subscribeToAPlan } from '../../../redux/services/subscriptionService';
 
 const OrderSummary = props => {
+    const subscriptionID = props.subscriptionID;
 
-    const navigation = props.navigation
-
-    const subscriptionID = props.subscriptionID
-
-    const { mealCount } = useSelector((state) => state.mealDetails)
-    const { finalPrice } = useSelector((state) => state.finalSubscriptionPrice)
-    console.log("final price", finalPrice)
-    console.log("meal count", mealCount)
-    console.log("id", subscriptionID)
+    const { mealCount } = useSelector(state => state.mealDetails);
+    const { finalPrice } = useSelector(state => state.finalSubscriptionPrice);
     const extraMeal = mealCount - 5;
     const validity = 10 + extraMeal;
     const total = finalPrice * mealCount;
-    const tax = finalPrice * mealCount * 5 / 100
-    const final = total + tax
-    console.log("validity", validity)
+    const tax = (finalPrice * mealCount * 5) / 100;
+    const final = total + tax;
 
-    const openExternalURL = (url) => {
+    const openExternalURL = url => {
         Linking.openURL(url)
-            .then((supported) => {
+            .then(supported => {
                 if (!supported) {
                     console.error(`Cannot open URL: ${url}`);
                 }
             })
-            .catch((err) => console.error('An error occurred', err));
+            .catch(err => console.error('An error occurred', err));
     };
 
-
-
     const subscriptionDetails = async () => {
-        const response = await subscribeToAPlan(subscriptionID,
-            { validity: [{ meals: mealCount, validity, price: finalPrice }], amount: final * 100, redirectUrl: "https://facebook.com" }
-        );
-        const redirectURL = response.data.data.data.instrumentResponse.redirectInfo.url
-        console.log(redirectURL)
-        openExternalURL(redirectURL)
-    }
-
-
+        const response = await subscribeToAPlan(subscriptionID, {
+            validity: [{ meals: mealCount, validity, price: finalPrice }],
+            amount: final * 100,
+            redirectUrl: 'https://facebook.com',
+        });
+        const redirectURL =
+            response.data.data.data.instrumentResponse.redirectInfo.url;
+        console.log(redirectURL);
+        openExternalURL(redirectURL);
+    };
 
     const handlePaymentDetails = () => {
-        subscriptionDetails()
+        subscriptionDetails();
         // navigation.navigate("SubscribedUserHome")
-    }
+    };
 
     return (
         <View style={styles.wrapperContainer}>
             <View style={styles.container}>
-                <View><Text style={styles.headingText}>Order Summary</Text></View>
+                <View>
+                    <Text style={styles.headingText}>Order Summary</Text>
+                </View>
                 <View style={styles.firstContainer}>
                     <Text style={styles.leftText}>Selected Items</Text>
                     <Text style={styles.rightText}>Rs. {total}</Text>
@@ -70,9 +64,10 @@ const OrderSummary = props => {
                     <Text style={styles.rightText}>Rs. {final}</Text>
                 </View>
                 <TouchableOpacity onPress={handlePaymentDetails}>
-                    <View style={buttonStyles.container}><Text style={buttonStyles.text}>Pay Online Now</Text></View>
+                    <View style={buttonStyles.container}>
+                        <Text style={buttonStyles.text}>Pay Online Now</Text>
+                    </View>
                 </TouchableOpacity>
-
             </View>
         </View>
     );
@@ -109,7 +104,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
-
     },
     rightText: {
         color: '#E1740F',
@@ -127,11 +121,10 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         letterSpacing: 0.25,
         textTransform: 'capitalize',
-
     },
     headingContainer: {
         textAlign: 'center',
-    }
+    },
 });
 
 const buttonStyles = StyleSheet.create({
@@ -144,7 +137,6 @@ const buttonStyles = StyleSheet.create({
         width: dimensions.fullWidth - 80,
         paddingVertical: 16,
         marginVertical: 10,
-
     },
     text: {
         color: '#FFF',
@@ -164,7 +156,7 @@ const buttonStyles = StyleSheet.create({
         fontWeight: '700',
 
         textTransform: 'capitalize',
-    }
+    },
 });
 
 const lineStyles = StyleSheet.create({
@@ -175,7 +167,7 @@ const lineStyles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: 'black',
         borderStyle: 'dashed',
-    }
-})
+    },
+});
 
 export default OrderSummary;

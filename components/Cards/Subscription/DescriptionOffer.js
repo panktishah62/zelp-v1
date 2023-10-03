@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
+import { StyleSheet, View, Text} from "react-native";
 import { dimensions } from "../../../styles";
 import { useDispatch, useSelector } from "react-redux";
 import { finalPlanDetails } from "../../../redux/actions/subscriptionActions";
@@ -12,9 +12,6 @@ const DescriptionOffer = props => {
 
     const dispatch = useDispatch();
 
-
-    const { finalPrice,planID } = useSelector((state) => state.finalSubscriptionPrice)
-    console.log(finalPrice,planID)
 
     useEffect(() => {
         const updateRedux = () => {

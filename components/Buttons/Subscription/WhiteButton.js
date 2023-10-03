@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
+import React from "react";
+import { StyleSheet, View, Text,  TouchableOpacity } from "react-native";
 import { dimensions, fonts } from "../../../styles";
 
 const WhiteButton = props => {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     text: {
         color: '#E1740F',
         textAlign: 'center',
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_500_16.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '700',

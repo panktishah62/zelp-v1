@@ -2,6 +2,7 @@ import React from "react";
 import { View,Text } from "react-native";
 import { StyleSheet } from "react-native";
 import { colors } from "../../../styles/colors";
+import { fonts } from "../../../styles";
 
 const HeadingComp= props=>{
     const {text,color,containerStyle}=props
@@ -21,7 +22,7 @@ const styles=StyleSheet.create({
         backgroundColor: colors.WHITE,
     },
     text:{
-        fontFamily: 'Nunito',    
+        fontFamily: fonts.NUNITO_500_16.fontFamily,    
         fontSize: 16,             
         fontStyle: 'normal',    
         fontWeight: '800',      

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
-import { dimensions } from '../../styles';
+import { StyleSheet, View,ScrollView } from 'react-native';
 import LogoHeading from '../../components/Heading/Subscription/LogoHeading';
 import SubscriptionDetailsHeading from '../../components/Heading/Subscription/SubscriptionDetailsHeading';
 import TextLogo from '../../components/Buttons/Subscription/TextLogo';
@@ -39,14 +38,12 @@ const SubscriptionHomePage = props => {
         setSecondActive(!secondActive);
         setFirstActive(false);
     };
-    const { planID, finalPrice } = useSelector(state => state.finalSubscriptionPrice);
-    console.log(planID, 'planID,finalPrice');
+    const { finalPrice } = useSelector(state => state.finalSubscriptionPrice);
     const dispatch = useDispatch();
     const [bestSellerItemArray, setBestSellerItemArray] = useState([]);
     const fetcheBestSellerItems = async () => {
 
         if (subscriptionplanId !== '') {
-            console.log(subscriptionplanId, "fdsnfsdk")
             const currentTime = new Date();
             const currentHour = currentTime.getHours();
             const currentMinutes = currentTime.getMinutes();
@@ -75,9 +72,7 @@ const SubscriptionHomePage = props => {
             } else {
                 type = 'Dinner';
             }
-            console.log(type, 'planID,type');
             const response = await getBestSellerFoodItems(subscriptionplanId, type);
-            // console.log(response.data, 'response.data');
             setBestSellerItemArray(response.data);
             dispatch(finalPlanDetails({ planID: subscriptionplanId, finalPrice }))
         }
@@ -86,14 +81,11 @@ const SubscriptionHomePage = props => {
     const [subscriptionOrder, setSubscriptionOrder] = useState([]);
     const UserSubscriptionDetails = async () => {
         const response = await showSubscriptionDetails();
-        console.log(response.data.subscriptionOrder, 'response.data now');
         setSubscribedUserDetails(response?.data?.data);
-        console.log(response.data.data.subscriptionPlan, "My own subscriptionPlanId")
         setSubscriptionOrder(response?.data?.subscriptionOrder);
         setSubscriptionPlanId(response.data.data.subscriptionPlan._id)
         dispatch(setSubscriptionDetails(response.data.data._id))
     };
-    // console.log(subscribedUserDetails,"now")
 
     useEffect(() => {
         UserSubscriptionDetails();
@@ -113,7 +105,7 @@ const SubscriptionHomePage = props => {
                     <SubscriptionDetailsHeading name={subscribedUserDetails?.subscriptionPlan.name} details={subscribedUserDetails?.validity[0]}/>
                     <TextLogo />
                     <ManageOrders orderArray={subscriptionOrder} />
-                    <OrderNow navigation={navigation} />
+                    <OrderNow name={subscribedUserDetails?.subscriptionPlan.name} navigation={navigation} />
                     <SwitchButtons
                         firstActive={firstActive}
                         secondActive={secondActive}
