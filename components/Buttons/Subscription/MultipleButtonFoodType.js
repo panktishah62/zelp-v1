@@ -59,7 +59,12 @@ const MultipleButtonFoodType = props => {
         fetchMealPlanType()
     }
     ,[planID])
-
+    const formatTimeRange = (timing) => {
+        const formattedOpeningTime = moment(timing.openingTime).format('h:mm A');
+        const formattedClosingTime = moment(timing.closingTime).format('h:mm A');
+        return `${formattedOpeningTime} - ${formattedClosingTime}`;
+      };
+      
     
 
 
