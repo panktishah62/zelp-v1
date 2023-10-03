@@ -108,11 +108,11 @@ const CaroselComponent = props => {
                     <View style={styles.buttonWrapperContainer}>
                         {planID === '' || planID !== item?._id ? <TouchableOpacity onPress={() => navigateHandler(item?._id, "priceButton")}>
                             <View style={styles.buttonContainer}>
-                                <Text style={styles.buttonText}>₹{item?.pricePerMeal * (1 - item?.appliedDiscount/100)}/Meal</Text>
+                                <Text style={styles.buttonText}>₹{item?.pricePerMeal * (1 - item?.appliedDiscount / 100)}/Meal</Text>
                             </View>
-                        </TouchableOpacity> : <View style={styles.selectedbuttonContainer}>
+                        </TouchableOpacity> : <TouchableOpacity onPress={() => navigateHandler(item?._id, "priceButton")}><View style={styles.selectedbuttonContainer}>
                             <Text style={styles.buttonText}>Selected</Text>
-                        </View>}
+                        </View></TouchableOpacity>}
                     </View>
                     {!showKnowMore && <View style={styles.lastTextContainer}>
                         <Text style={styles.lastTextText}>₹{item?.pricePerMeal}/Meal</Text>
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.ORANGE,
         borderRadius: 5
     },
-    selectedbuttonContainer:{
+    selectedbuttonContainer: {
         width: 118.937,
         height: 29.77,
         padding: 4,

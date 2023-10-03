@@ -60,7 +60,7 @@ const AddOnMealModal = props => {
 
   const handleSubscribe = () => {
     dispatch(finalPlanDetails({ finalPrice, planID }))
-    toggleModal()
+    // toggleModal()
     navigationHandler();
 
   }
