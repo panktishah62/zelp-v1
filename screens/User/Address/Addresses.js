@@ -34,6 +34,8 @@ const Addresses = ({ navigation }) => {
             const _token = await AsyncStorage.getItem('token');
             if (_token != null && _token != '') {
                 setIsAuthenticated(true);
+                setIsLoading(true);
+                dispatch(getAllAddress(() => setIsLoading(false)));
             } else {
                 setIsAuthenticated(false);
             }
@@ -56,11 +58,6 @@ const Addresses = ({ navigation }) => {
 
     useEffect(() => {
         isLoggedIn();
-    }, []);
-
-    useEffect(() => {
-        setIsLoading(true);
-        dispatch(getAllAddress(() => setIsLoading(false)));
     }, []);
 
     return (

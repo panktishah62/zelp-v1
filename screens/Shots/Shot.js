@@ -33,6 +33,7 @@ import { debounce } from 'lodash'; // Using lodash for debouncing
 import { updateShotsView } from '../../redux/services/short';
 import { useSelector } from 'react-redux';
 import remoteConfig from '@react-native-firebase/remote-config';
+import axios from 'axios';
 
 // wrap the `Video` component with Mux functionality
 const MuxVideo = muxReactNativeVideo(Video);
@@ -56,6 +57,8 @@ export default function VideoItem({
     const [isBuffering, setIsBuffering] = useState(true);
     const [lastProgress, setLastProgress] = useState();
     const [currentTime, setCurrentTime] = useState();
+    const [videoDuration, setVideoDuration] = useState();
+
     const player = useRef(null);
     const LoadMuteUnmute = () => {
         return showIcon ? (
@@ -105,9 +108,6 @@ export default function VideoItem({
             clearInterval(interval);
         };
     }, [mute]);
-    const [source, setSource] = useState(null);
-    const [videoUrl, setVideoUrl] = useState(null); // Add videoUrl state
-    const [isSource, setIsSource] = useState(false); // Add videoUrl state
 
     // useEffect(() => {
     //     getSource(data.shot.video);
@@ -162,24 +162,100 @@ export default function VideoItem({
 
     const userProfile = useSelector(state => state.user.userProfile);
     const onUpdateShotsView = async data => {
-        if (data && userProfile) {
-            const response = await updateShotsView({
+        if (data && userProfile && isActive) {
+            await updateShotsView({
                 shotsId: data,
             });
         }
     };
 
     // Debounced function to update wallet balance
-    const debouncedUpdateWallet = debounce(onUpdateShotsView, 5000);
+    const debouncedUpdateWallet = debounce(onUpdateShotsView, 100);
+
+    const getVideoLength = async () => {
+        const MUX_TOKEN_ID = remoteConfig().getValue('MUX_TOKEN_ID').asString();
+        const MUX_TOKEN_SECRET = remoteConfig()
+            .getValue('MUX_TOKEN_SECRET')
+            .asString();
+        // Replace with the playback ID of your video asset
+        const playbackId = data.shot.fileLocation;
+
+        // Set up the authentication headers
+        const authHeader = {
+            Authorization: `Basic ${Buffer.from(
+                `${MUX_TOKEN_ID}:${MUX_TOKEN_SECRET}`,
+            ).toString('base64')}`,
+        };
+        // Step 1: Get the asset ID associated with the playback ID
+        await axios
+            .get(
+                // `https://api.mux.com/video/v1/assets?playback_ids=${playbackId}`,
+                `https://api.mux.com/video/v1/playback-ids/${playbackId}`,
+                { headers: authHeader },
+            )
+            .then(async response => {
+                const assetId = response.data.data.object.id; // Assuming there is only one asset per playback ID
+                // Step 2: Use the asset ID to fetch video information
+                await axios
+                    .get(`https://api.mux.com/video/v1/assets/${assetId}`, {
+                        headers: authHeader,
+                    })
+                    .then(assetResponse => {
+                        // Extract the video duration from the asset API response
+                        const durationInSeconds =
+                            assetResponse.data.data.duration;
+                        const watchFullLengthToGetMoney = remoteConfig()
+                            .getValue('watchFullLengthToGetMoney')
+                            .asBoolean();
+                        if (watchFullLengthToGetMoney) {
+                            const marginToWatchShotsAndGetMoney = remoteConfig()
+                                .getValue('marginToWatchShotsAndGetMoney')
+                                .asNumber();
+                            const duration =
+                                durationInSeconds -
+                                (durationInSeconds *
+                                    marginToWatchShotsAndGetMoney) /
+                                    100;
+                            // console.log('duration', duration, data?.shot?._id);
+                            setVideoDuration(Math.round(duration * 1000));
+                        } else {
+                            const minTimeToAddToWallet = remoteConfig()
+                                .getValue('minTimeToAddToWallet')
+                                .asNumber();
+                            setVideoDuration(minTimeToAddToWallet);
+                        }
+                    })
+                    .catch(error => {});
+            })
+            .catch(error => {});
+    };
 
     useEffect(() => {
         if (isActive) {
-            debouncedUpdateWallet(data?.shot?._id);
+            getVideoLength();
         }
         if (!isActive && Platform.OS === 'ios') {
             setIsBuffering(true);
         }
     }, [isActive]);
+
+    let timeoutId;
+    useEffect(() => {
+        if (isActive && videoDuration && videoDuration > 0) {
+            // console.log('in if', data?.shot?._id);
+            // This code will run after 5 seconds
+            const timeoutId = setTimeout(() => {
+                // Your action here
+                debouncedUpdateWallet(data?.shot?._id);
+            }, videoDuration);
+
+            // Clear the timeout if the component unmounts before the 5 seconds
+            return () => clearTimeout(timeoutId);
+        } else {
+            // console.log('in else', data?.shot?._id);
+            clearTimeout(timeoutId);
+        }
+    }, [isActive, videoDuration]);
 
     return (
         <View
@@ -226,7 +302,7 @@ export default function VideoItem({
                             //     uri: data.shot.video,
                             // }}
                             style={[styles.video, { height: screenHeight }]}
-                            resizeMode="cover"
+                            resizeMode="none"
                             paused={!(isActive && isFocused && appStateVisible)}
                             muted={mute}
                             repeat
@@ -236,7 +312,7 @@ export default function VideoItem({
                             playInBackground={false}
                             playWhenInactive={false}
                             poster={posterUrl}
-                            posterResizeMode="cover"
+                            posterResizeMode="contain"
                             onProgress={onProgress}
                             muxOptions={{
                                 application_name: app.name, // (required) the name of your application
@@ -283,6 +359,7 @@ const styles = StyleSheet.create({
         // height: screenHeight - TAB_BAR_HEIGHT,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: colors.BLACK,
     },
     video: {
         position: 'absolute',

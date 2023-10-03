@@ -20,14 +20,7 @@ import { useSelector } from 'react-redux';
 import { dynamicSize } from '../../../utils/responsive';
 
 const FoodItems = props => {
-    const {
-        foodItem,
-        distance,
-        time,
-        restaurant,
-        isRestaurantOpen,
-        navigation,
-    } = props;
+    const { foodItem, restaurant, isRestaurantOpen, navigation } = props;
 
     const myCart = useSelector(state => state.cartActions);
     const [count, setCount] = useState(0);

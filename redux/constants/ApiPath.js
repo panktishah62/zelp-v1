@@ -17,14 +17,17 @@ export default {
     editUserProfile: 'users/updateProfile',
     getUserProfile: 'users/userProfile',
     updateUserToken: 'users/updateUserToken',
+    getUserWallet: 'users/getUserWallet',
 
     //Shots
-    shorts: 'froker/shots/getAllShots',
+    shorts: 'froker/shots/getAllShotsUpdated',
     followFroker: 'froker/followFroker',
     likeShots: 'froker/shots/likeShots',
     unfollowFroker: 'froker/unfollowFroker',
     unlikeShots: 'froker/shots/dislikeShots',
     updateShotsView: 'froker/shots/updateShotsView',
+    getShotsViewRestSortingConfig: 'froker/shots/getShotsViewRestSortingConfig',
+
     //Coupons
     getValidCouponsForUser: 'coupon/getValidCouponsForUserUpdated',
     getSearchedCouponForUser: 'coupon/searchCouponUpdated',

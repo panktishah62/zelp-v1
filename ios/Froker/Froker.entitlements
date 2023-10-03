@@ -4,5 +4,17 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:froker.live</string>
+		<string>applinks:froker.test-app.link</string>
+		<string>applinks:froker-alternate.test-app.link</string>
+		<string>applinks:froker.app.link</string>
+		<string>applinks:froker-alternate.app.link</string>
+	</array>
+	<key>com.apple.developer.usernotifications.communication</key>
+	<true/>
+	<key>com.apple.developer.usernotifications.time-sensitive</key>
+	<true/>
 </dict>
 </plist>

@@ -45,13 +45,17 @@ const WalletMoney = props => {
                         type: DialogTypes.WARNING,
                     }),
                 );
-            } else if (remainingMoneyInWallet < config.maxWalletMoneyToUse) {
+            } else if (
+                Number(
+                    cart?.billingDetails &&
+                        cart?.billingDetails?.totalItemsPrice,
+                ) <= Number(config?.minOrderValueForWallet)
+            ) {
                 dispatch(
                     showDialog({
                         isVisible: true,
-                        titleText: `Wallet dosen't have enough amount!`,
-                        subTitleText:
-                            'Earn Wallet money by watching shots and referring the app to your friends and family!',
+                        titleText: 'Wallet Error',
+                        subTitleText: `Cannot apply wallet money for the item total less than or equal to ${config.minOrderValueForWallet}`,
                         buttonText1: 'CLOSE',
                         type: DialogTypes.WARNING,
                     }),
@@ -74,9 +78,7 @@ const WalletMoney = props => {
 
     useEffect(() => {
         if (isActive) {
-            setRemainingMoneyInWallet(
-                Number(moneyInWallet - config.maxWalletMoneyToUse),
-            );
+            setRemainingMoneyInWallet(0);
         } else {
             setRemainingMoneyInWallet(moneyInWallet);
         }
@@ -86,12 +88,12 @@ const WalletMoney = props => {
         <View style={styles.container}>
             <View style={styles.leftContainer}>
                 <Text style={styles.titleText}>Use Wallet Money</Text>
-                <Text style={styles.subtitleText}>
+                {/* <Text style={styles.subtitleText}>
                     Max {config.maxWalletMoneyToUse}/- can be used
-                </Text>
-                <Text style={styles.subtitleText}>
+                </Text> */}
+                {/* <Text style={styles.subtitleText}>
                     ( In Wallet : {remainingMoneyInWallet}/- )
-                </Text>
+                </Text> */}
             </View>
             <View style={[Styles.row, styles.rightContainer]}>
                 <View style={styles.money}>
@@ -99,7 +101,10 @@ const WalletMoney = props => {
                         <Rupee />
                         <Text style={styles.titleText}>
                             {' '}
-                            {config.maxWalletMoneyToUse}{' '}
+                            {cart?.isWalletMoneyUsed
+                                ? config.maxWalletMoneyToUse -
+                                  cart?.billingDetails?.walletMoney
+                                : config.maxWalletMoneyToUse}{' '}
                         </Text>
                     </View>
                 </View>

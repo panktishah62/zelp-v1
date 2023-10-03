@@ -2,8 +2,11 @@ import {
     GET_CART_CONFIG,
     GET_CONFIG,
     GET_CONFIG_ERROR,
+    GET_SHOTS_CONFIG_ERROR,
+    GET_SHOTS_VIEW_REST_SORTING_CONFIG,
     NETWORK_ERROR,
 } from '../constants';
+import { getShotsViewRestSortingConfig_ } from '../services/short';
 import { resetAddressError } from './address';
 import { resetCartError } from './cartActions';
 import { resetFollowedFroker } from './froker';
@@ -20,6 +23,8 @@ export const getConfig = () => {
                 maxWalletMoneyToUse: parameters.maxWalletMoneyToUse.asNumber(),
                 GSTtaxes: parameters.GSTtaxes.asNumber(),
                 minOrderValue: parameters.minOrderValue.asNumber(),
+                minOrderValueForWallet:
+                    parameters.minOrderValueForWallet.asNumber(),
                 deliveryPartnerFees: parameters.deliveryPartnerFees.asNumber(),
                 packagingCharges: parameters.packagingCharges.asNumber(),
                 deliveryTip: parameters.deliveryTip.asNumber(),
@@ -40,6 +45,26 @@ export const getConfig = () => {
         } catch (error) {
             dispatch({
                 type: GET_CONFIG_ERROR,
+                payload: error,
+            });
+        }
+    };
+};
+
+export const getShotsViewRestSortingConfig = data => {
+    return async dispatch => {
+        try {
+            await getShotsViewRestSortingConfig_(data)
+                .then(response => response?.data)
+                .then(data => {
+                    dispatch({
+                        type: GET_SHOTS_VIEW_REST_SORTING_CONFIG,
+                        payload: data?.shotsViewRestSortingConfig,
+                    });
+                });
+        } catch (error) {
+            dispatch({
+                type: GET_SHOTS_CONFIG_ERROR,
                 payload: error,
             });
         }

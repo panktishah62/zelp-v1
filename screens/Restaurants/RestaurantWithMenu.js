@@ -24,7 +24,7 @@ import { getAllFoodItems } from '../../redux/services/foodItemsService';
 
 const RestaurantWithMenu = ({ route, navigation }) => {
     const dispatch = useDispatch();
-    const { restaurant, distance, time } = route.params;
+    const { restaurant } = route.params;
     const [query, setQuery] = useState('');
     const [vegOnly, setVegOnly] = useState(false);
     const [categories, setCategories] = useState([]);
@@ -105,8 +105,6 @@ const RestaurantWithMenu = ({ route, navigation }) => {
                     {restaurant && (
                         <RestaurantCardInfo
                             restaurant={restaurant}
-                            distance={distance}
-                            time={time}
                             navigation={navigation}
                         />
                     )}

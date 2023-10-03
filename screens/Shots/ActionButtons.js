@@ -18,6 +18,7 @@ import { buildLinkForShots } from '../../redux/linking/CreateLinks';
 import Share from 'react-native-share';
 import { hideDialog, showDialog } from '../../redux/actions/dialog';
 import { useDispatch } from 'react-redux';
+import remoteConfig from '@react-native-firebase/remote-config';
 
 const ActionButtons = props => {
     const { item, navigation } = props;
@@ -66,8 +67,11 @@ const ActionButtons = props => {
 
     const onPressShare = async () => {
         const link = await buildLinkForShots(item?.shot?._id);
+        const shareMessage = remoteConfig()
+            .getValue('ShotShareMessage')
+            ?.asString();
         const shareOptions = {
-            message: link,
+            message: `${shareMessage} ${link}`,
         };
         Share.open(shareOptions).catch(err => {
             // throw new Error(err);

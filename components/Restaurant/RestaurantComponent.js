@@ -32,11 +32,9 @@ const RestaurantComponent = ({ restaurant, navigation }) => {
         image,
         title,
         subtitle,
-        distance,
         rating,
         rating_count,
         priceForOne,
-        timeTaken,
         openingTime,
         closingTime,
         cuisines,
@@ -110,7 +108,7 @@ const RestaurantComponent = ({ restaurant, navigation }) => {
                             {openingTime} - {closingTime}
                         </Text>
                     </View>
-                    <View>
+                    {/* <View>
                         <View style={Styles.row}>
                             <LocationIcon />
                             <Text
@@ -129,7 +127,7 @@ const RestaurantComponent = ({ restaurant, navigation }) => {
                             ]}>
                             {timeTaken}
                         </Text>
-                    </View>
+                    </View> */}
                 </View>
             </View>
         </TouchableWithoutFeedback>

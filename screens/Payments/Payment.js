@@ -15,9 +15,6 @@ import {
 } from 'react-native';
 
 import { colors } from '../../styles/colors';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
-import { handlePaymentCallBack } from '../../redux/linking/HandleLinks';
-import { buildLinkForPaymentCallback } from '../../redux/linking/CreateLinks';
 import { checkPaymentStatus } from '../../redux/services/paymentService';
 import {
     PAYMENT_CODES,
@@ -165,8 +162,12 @@ const PaymentsScreen = props => {
     };
 
     const openPaymentGateway = async () => {
-        setIsLoading(true);
-        createLink(merchantTransactionId);
+        if (cart?.billingDetails?.totalAmount === 0) {
+            placeOrderWithCOD();
+        } else {
+            setIsLoading(true);
+            createLink(merchantTransactionId);
+        }
     };
 
     const placeOrderWithCOD = async () => {
@@ -217,7 +218,10 @@ const PaymentsScreen = props => {
                 cart.restaurants,
                 method,
             );
-            if (!isPaymentApplicable) {
+            if (cart?.billingDetails?.totalAmount === 0) {
+                setPaymentMethod(method);
+                return;
+            } else if (!isPaymentApplicable) {
                 dispatch(
                     showDialog({
                         isVisible: true,

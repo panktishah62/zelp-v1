@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
+    Image,
     Linking,
     ScrollView,
     StyleSheet,
@@ -118,3 +119,4 @@ const styles = StyleSheet.create({
 });
 
 export default SubscriptionPage;
+

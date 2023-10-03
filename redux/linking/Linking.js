@@ -4,6 +4,11 @@ const config = {
             screens: {
                 BottomTabNavigation: {
                     path: 'bottomTabNavigation',
+                    screens: {
+                        Shots: {
+                            path: 'shots',
+                        },
+                    },
                 },
                 LogIn: {
                     path: 'logIn',
@@ -25,6 +30,7 @@ const linking = {
         'https://frokerprachi.app.link',
         'https://froker-portal.de',
         'https://www.froker.in',
+        'https://froker.live',
     ],
     config,
 };

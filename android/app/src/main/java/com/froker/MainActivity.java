@@ -6,6 +6,8 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import io.branch.rnbranch.*;
+import android.content.Intent;
 
 public class MainActivity extends ReactActivity {
   @Override
@@ -19,6 +21,20 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "Froker";
+  }
+
+  // Override onStart:
+  @Override
+  protected void onStart() {
+      super.onStart();
+      RNBranchModule.initSession(getIntent().getData(), this);
+  }
+
+  // Override onNewIntent:
+  @Override
+  public void onNewIntent(Intent intent) {
+      super.onNewIntent(intent);
+      RNBranchModule.onNewIntent(intent);
   }
 
   /**

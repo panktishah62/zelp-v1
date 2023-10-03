@@ -24,10 +24,12 @@ import {
 import { useIsFocused } from '@react-navigation/native';
 import VideoItem from './Shot';
 
-import dynamicLinks from '@react-native-firebase/dynamic-links';
-import { handleShotsLinkInShots } from '../../redux/linking/HandleLinks';
-import { dynamicSize } from '../../utils/responsive';
 import { getUserProfile } from '../../redux/actions/user';
+import { showDialog } from '../../redux/actions/dialog';
+import remoteConfig from '@react-native-firebase/remote-config';
+import { getUserWallet } from '../../redux/services/userService';
+import { DialogTypes } from '../../utils';
+import { queryClient } from '../../utils/queryClient';
 
 const ShotClassScreen = props => {
     const { route, navigation } = props;
@@ -38,6 +40,7 @@ const ShotClassScreen = props => {
     const [appStateVisible, setAppStateVisible] = useState(
         appState.current === 'active',
     );
+    const serverData = useSelector(state => state.serverReducer);
     const location = useSelector(state => state.address.location);
     const dispatch = useDispatch();
     const [activeVideoIndex, setActiveVideoIndex] = useState(0);
@@ -48,12 +51,15 @@ const ShotClassScreen = props => {
     const [isFocused, setIsFocused] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [refreshingLogin, setRefreshingLogin] = useState(false);
-    const [visitedShots, setVisitedShots] = useState([]);
+    const [prevLocation, setPrevLocation] = useState(location);
 
     const windowDimensions = Dimensions.get('window');
     const windowHeight = windowDimensions.height;
     const insets = useSafeAreaInsets();
     const screenHeight = windowHeight - insets.bottom;
+    const popupOnNthVideo = remoteConfig()
+        .getValue('popupOnNthVideo')
+        .asNumber();
 
     const {
         isLoading,
@@ -63,7 +69,7 @@ const ShotClassScreen = props => {
         fetchNextPage,
         isFetchingNextPage,
         refetch,
-    } = useInfiniteQuery({
+    } = useInfiniteQuery('shots', {
         queryKey: ['shots'],
         queryFn: async currPage => {
             let data = {};
@@ -72,13 +78,19 @@ const ShotClassScreen = props => {
                     page: currentPage,
                     limit: currentLimit,
                     shotId: shotId,
-                    visitedShots: visitedShots,
+                    latitude: location?.latitude,
+                    longitude: location?.longitude,
+                    shotsViewRestSortingConfig:
+                        serverData?.shotsViewRestSortingConfig,
                 });
             } else {
                 data = await getShort({
                     page: currentPage,
                     limit: currentLimit,
-                    visitedShots: visitedShots,
+                    latitude: location?.latitude,
+                    longitude: location?.longitude,
+                    shotsViewRestSortingConfig:
+                        serverData?.shotsViewRestSortingConfig,
                 });
             }
             setRefreshing(false);
@@ -99,11 +111,13 @@ const ShotClassScreen = props => {
                     .map(page => page?.data?.shots)
                     .flat();
                 setVideoData(shots);
-                const shotsIds = shots.map(shot => shot?.shot?._id);
-                setVisitedShots(shotsIds);
                 setRefreshing(false);
                 setRefreshingLogin(false);
                 setCurrentPage(currentPage + 1);
+
+                if (shots.length > 0 && shots?.length % popupOnNthVideo === 0) {
+                    fetchUserWallet();
+                }
             }
         },
     });
@@ -153,56 +167,23 @@ const ShotClassScreen = props => {
         setActiveVideoIndex(0);
         setRefreshing(true);
         setVideoData([]);
-        const timeoutId = setTimeout(() => {
-            refetch();
-        }, 500);
-
-        return () => clearTimeout(timeoutId);
+        setShotId(undefined);
+        queryClient.invalidateQueries('shots');
+        refetch({ force: true });
     };
 
-    const onRefreshLogin = () => {
-        setCurrentPage(1);
-        setActiveVideoIndex(0);
-        setRefreshingLogin(true);
-        setVideoData([]);
-        const timeoutId = setTimeout(() => {
-            // refetch();
-            loadMore();
-        }, 500);
-
-        return () => clearTimeout(timeoutId);
-    };
-
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const isLoggedIn = async () => {
-        onRefreshLogin();
-    };
     useEffect(() => {
-        isLoggedIn();
-    }, [isAuthenticated, location?.latitude]);
+        if (
+            location?.latitude != undefined &&
+            location?.latitude != prevLocation?.latitude
+        ) {
+            setPrevLocation(location);
+            onRefresh();
+        }
+    }, [location?.latitude, shotId]);
 
     const onViewRef = useRef(({ viewableItems }) => {
         viewableItems.forEach(item => {
-            // if (
-            //     item.index !== 0 &&
-            //     (item.index % 2 === 0 || item.index % 5 === 0)
-            // ) {
-            //     // console.log(item.index);
-            //     setCurrentPage(item.index);
-            // }
-            // if (
-            //     item.index !== 0 &&
-            //     item.index % 2 === 0 &&
-            //     item.index % 5 !== 0
-            // ) {
-            //     loadMore();
-            // }
-            // if (
-            //     item.index > 0 &&
-            //     item.index + 2 == currentLimit * currentPage
-            // ) {
-            //     loadMore();
-            // }
             setActiveVideoIndex(item.index);
         });
     });
@@ -211,37 +192,50 @@ const ShotClassScreen = props => {
         viewAreaCoveragePercentThreshold: 75,
     });
 
-    const handleDynamicLink = link => {
-        if (link && link.url) {
-            // handleShotsLinkInShots(link, setShotId, onRefreshLogin);
-            if (link.url.includes('shotId')) {
-                handleShotsLinkInShots(link, setShotId, onRefreshLogin);
-            }
-        }
+    const fetchUserWallet = async () => {
+        await getUserWallet()
+            .then(response => response?.data)
+            .then(data => {
+                if (
+                    data &&
+                    data?.maxWalletApplicable &&
+                    !data?.shouldIncreaseWallet
+                ) {
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            titleText: 'Your wallet is full!',
+                            subTitleText: `Max ${data?.maxWalletApplicable}Rs can be added to wallet. Please use money from your wallet before earning more!`,
+                            buttonText1: 'CLOSE',
+                            type: DialogTypes.WARNING,
+                        }),
+                    );
+                }
+            });
     };
 
     useEffect(() => {
-        const unsubscribe = dynamicLinks().onLink(handleDynamicLink);
-        // When the component is unmounted, remove the listener
-        return () => unsubscribe();
+        fetchUserWallet();
     }, []);
 
-    useEffect(() => {
-        dynamicLinks()
-            .getInitialLink()
-            .then(link => {
-                if (link && link.url) {
-                    // handleShotsLinkInShots(link, setShotId, onRefreshLogin);
-                    if (link.url.includes('shotId')) {
-                        handleShotsLinkInShots(link, setShotId, onRefreshLogin);
-                    }
-                }
-            });
-    }, []);
+    useEffect(() => {}, [
+        videosData,
+        currentPage,
+        isLoading,
+        refreshingLogin,
+        refreshing,
+        hasNextPage,
+        isFetchingNextPage,
+    ]);
 
     return (
-        <View>
-            {!(isLoading || refreshingLogin || refreshing) ? (
+        <View style={styles.loaderStyle}>
+            {!(
+                isLoading ||
+                refreshingLogin ||
+                refreshing ||
+                videosData.length === 0
+            ) ? (
                 <FlatList
                     // data={data?.pages.map(page => page.data.shots).flat()}
                     snapToAlignment="start"

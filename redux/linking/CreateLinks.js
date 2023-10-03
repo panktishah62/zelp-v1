@@ -1,4 +1,6 @@
 import dynamicLinks from '@react-native-firebase/dynamic-links';
+import remoteConfig from '@react-native-firebase/remote-config';
+import branch from 'react-native-branch';
 
 export async function buildLink() {
     const link = await dynamicLinks().buildLink({
@@ -16,52 +18,34 @@ export async function buildLink() {
 }
 
 export async function buildLinkForShots(shotId) {
-    const link = await dynamicLinks().buildLink(
-        {
-            link: `https://froker.page.link/share?shotId=${shotId}`,
-            // domainUriPrefix is created in your Firebase console
-            domainUriPrefix: 'https://froker.page.link',
-            // optional setup which updates Firebase analytics campaign
-            // "banner". This also needs setting up before hand
-            // analytics: {
-            //   campaign: 'banner',
-            // },
-            android: {
-                packageName: 'com.froker',
-            },
-            ios: {
-                bundleId: 'org.Froker',
-                appStoreId: '6450605438',
-            },
-        },
-        dynamicLinks.ShortLinkType.DEFAULT,
-    );
+    const shotShareTitle = remoteConfig()
+        .getValue('ShotShareTitle')
+        ?.asString();
 
-    return link;
-}
+    const shotsShareMessage = remoteConfig()
+        .getValue('ShotShareMessage')
+        ?.asString();
 
-export async function buildLinkForPaymentCallback(paymentId) {
-    const link = await dynamicLinks().buildShortLink(
-        {
-            link: `https://froker.page.link/share?paymentId=${paymentId}`,
-            // link: `https://froker.page.link/app`,
-            // domainUriPrefix is created in your Firebase console
-            domainUriPrefix: 'https://froker.page.link',
-            // optional setup which updates Firebase analytics campaign
-            // "banner". This also needs setting up before hand
-            // analytics: {
-            //   campaign: 'banner',
-            // },
-            android: {
-                packageName: 'com.froker',
-                // minimumVersion: '14',
-            },
-            navigation: {
-                forcedRedirectEnabled: true,
-            },
-        },
-        dynamicLinks.ShortLinkType.DEFAULT,
-    );
+    const shotsShareImageUrl = remoteConfig()
+        .getValue('shotsShareImageUrl')
+        ?.asString();
 
-    return link;
+    let buo = await branch.createBranchUniversalObject('froker', {
+        title: shotShareTitle,
+        contentDescription: shotsShareMessage,
+        contentImageUrl: shotsShareImageUrl,
+    });
+
+    let linkProperties = {
+        feature: 'sharing',
+        campaign: shotShareTitle,
+    };
+
+    let controlParams = {
+        custom: shotId,
+    };
+
+    let { url } = await buo.generateShortUrl(linkProperties, controlParams);
+
+    return url;
 }

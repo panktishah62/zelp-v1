@@ -34,9 +34,8 @@ import {
 import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
 import { showDialog } from '../redux/actions/dialog';
 import Home from '../screens/SubscriptionModel/Home';
-import RestaurantMenuPage from '../screens/SubscriptionModel/RestaurantMenuPage';
-import Cart from '../screens/SubscriptionModel/Cart';
-import SubscriptionHomePage from '../screens/SubscriptionModel/SubscriptionHomePage';
+import { Linking } from 'react-native';
+import branch from 'react-native-branch';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,6 +45,21 @@ const BottomTabNavigation = ({ navigation }) => {
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const userId = useSelector(state => state.auth.userId);
     const dispatch = useDispatch();
+
+    // Listener
+    branch.subscribe({
+        onOpenStart: ({ uri, cachedInitialEvent }) => {},
+
+        onOpenComplete: ({ error, params, uri }) => {
+            if (error) {
+                return;
+            } else if (params) {
+                if (params?.custom) {
+                    navigation.navigate('Shots', { shotsId: params.custom });
+                }
+            }
+        },
+    });
 
     // Function to navigate to a different screen
     const navigateToScreen = (screenName, data) => {
@@ -119,6 +133,21 @@ const BottomTabNavigation = ({ navigation }) => {
                     }
                 }
             });
+    }, []);
+
+    useEffect(() => {
+        const getUrlAsync = async () => {
+            // Get the deep link used to open the app
+            const initialUrl = await Linking.getInitialURL();
+            const len = initialUrl?.split('/').length;
+            const type = len > 3 ? initialUrl?.split('/')[len - 2] : '';
+            if (type === 'shots') {
+                const shotsId = initialUrl?.split('/')[len - 1];
+                navigation.navigate('Shots', { shotsId: shotsId });
+            }
+        };
+
+        getUrlAsync();
     }, []);
 
     if (isLoading) {
@@ -217,7 +246,7 @@ const BottomTabNavigation = ({ navigation }) => {
                         name="Restaurants"
                         component={RestaurantsScreen}
                     />
-                    <Tab.Screen
+                    {/* <Tab.Screen
                         options={{
                             tabBarIcon: ({ focused, color }) =>
                                 focused ? (
@@ -239,7 +268,7 @@ const BottomTabNavigation = ({ navigation }) => {
                         }}
                         name="Food Affair"
                         component={FoodAffairScreen}
-                    />
+                    /> */}
                 </Tab.Navigator>
             )}
         </ErrorHandler>

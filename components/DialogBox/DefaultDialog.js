@@ -12,6 +12,7 @@ import { hideDialog } from '../../redux/actions/dialog';
 import { colors, theme } from '../../styles/colors';
 import { DialogTypes } from '../../utils';
 import { dimensions } from '../../styles';
+import { dynamicSize } from '../../utils/responsive';
 
 const DefaultDialog = props => {
     const { dialog } = props;
@@ -72,25 +73,59 @@ const DefaultDialog = props => {
 
                     {dialog?.titleText && (
                         <Dialog.Title
-                            style={
+                            style={[
                                 dialog?.type != DialogTypes.DEFAULT
                                     ? styles.textAlignCenter
-                                    : styles.textAlignLeft
-                            }>
-                            {dialog.titleText}
+                                    : styles.textAlignLeft,
+                                dialog?.titleTextStyles,
+                            ]}>
+                            {dialog?.iconAroundTitle && (
+                                <Image
+                                    source={{ uri: dialog?.iconAroundTitle }}
+                                    style={[
+                                        styles.imageIcon,
+                                        dialog?.iconAroundTitleStyles,
+                                    ]}
+                                />
+                            )}
+                            <Text>{dialog.titleText}</Text>
+                            {dialog?.iconAroundTitle && (
+                                <Image
+                                    source={{ uri: dialog?.iconAroundTitle }}
+                                    style={[
+                                        styles.imageIcon,
+                                        dialog?.iconAroundTitleStyles,
+                                    ]}
+                                />
+                            )}
                         </Dialog.Title>
                     )}
-                    {dialog?.subTitleText && (
+                    {(dialog?.subTitleText || dialog?.subTitleTextLine2) && (
                         <Dialog.Content>
-                            <Text
-                                variant="bodyMedium"
-                                style={
-                                    type != DialogTypes.DEFAULT
-                                        ? styles.textAlignCenter
-                                        : styles.textAlignLeft
-                                }>
-                                {dialog.subTitleText}
-                            </Text>
+                            {dialog?.subTitleText && (
+                                <Text
+                                    variant="bodyMedium"
+                                    style={[
+                                        type != DialogTypes.DEFAULT
+                                            ? styles.textAlignCenter
+                                            : styles.textAlignLeft,
+                                        dialog?.subTitleTextStyles,
+                                    ]}>
+                                    {dialog.subTitleText}
+                                </Text>
+                            )}
+                            {dialog?.subTitleTextLine2 && (
+                                <Text
+                                    variant="bodyMedium"
+                                    style={[
+                                        type != DialogTypes.DEFAULT
+                                            ? styles.textAlignCenter
+                                            : styles.textAlignLeft,
+                                        dialog?.subTitleTextLine2Styles,
+                                    ]}>
+                                    {dialog.subTitleTextLine2}
+                                </Text>
+                            )}
                         </Dialog.Content>
                     )}
                     {(dialog?.buttonText1 || dialog?.buttonText2) && (
@@ -216,6 +251,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
     },
     buttonRight: {},
+    imageIcon: {
+        height: dynamicSize(20),
+        width: dynamicSize(20),
+    },
 });
 
 export default DefaultDialog;

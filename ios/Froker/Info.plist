@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -20,6 +24,53 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>branch_universal_link_domains</key>
+	<array>
+		<string>froker.test-app.link</string>
+		<string>froker-alternate.test-app.link</string>
+		<string>froker.app.link</string>
+		<string>froker-alternate.app.link</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.froker</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>Froker</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>org.Froker</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>froker</string>
+			</array>
+		</dict>
+		<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>branchsters</string>
+				</array>
+				<key>CFBundleURLName</key>
+				<string>io.Branch.Branchsters</string>
+			</dict>
+	</array>
+	<key>branch_key</key>
+	<dict>
+		<key>live</key>
+		<string>key_live_dBmprK34lSiVINsxwB6lSeldwqeiuNCD</string>
+		<key>test</key>
+		<string>key_test_jFegqH01nKhJKGtrwxYiJbcczBllESuG</string>
+	</dict>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -41,11 +92,15 @@
 		</dict>
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To access location always when in use</string>
+	<string>Our app requires location access to show available restaurants and provide routes to your delivery partner</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>To access loaction always</string>
+	<string>Our app requires location access to show available restaurants and provide routes to your delivery partner</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Our app requires location access to show available restaurants and provide routes to your delivery partner</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>INSendMessageIntent</string>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter-VariableFont_slnt,wght.ttf</string>
@@ -97,14 +152,13 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>audio</string>
 		<string>fetch</string>
 		<string>location</string>
 		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>LaunchScreen.storyboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -116,8 +170,12 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

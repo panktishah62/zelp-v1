@@ -73,9 +73,9 @@ const CategorisedRestaurant = ({ route, navigation }) => {
                         restaurantData.map((restaurant, index) => {
                             return (
                                 <RestaurantCardLarge
-                                    restaurant={restaurant?.restaurant._id}
-                                    distance={restaurant?.distance}
-                                    time={restaurant?.time}
+                                    restaurantObject={{
+                                        restaurant: restaurant?.restaurant?._id,
+                                    }}
                                     navigation={navigation}
                                     key={index}
                                 />

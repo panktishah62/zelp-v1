@@ -49,7 +49,7 @@ const FollowUnfollowButton = props => {
 
     const text = {
         0: 'Follow',
-        1: 'UnFollow',
+        1: 'Unfollow',
     };
 
     const [variableStyles, setStyles] = useState(

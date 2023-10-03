@@ -129,6 +129,10 @@ export const verifyOTP = (
                         payload: data.userProfile,
                     });
                     dispatch(getUserWallet(data?.userProfile?.wallet));
+                    dispatch({
+                        type: types.UPDATE_MAX_WALLET_MONEY_TO_USE,
+                        payload: data?.userProfile?.wallet,
+                    });
                     if (
                         data?.referralCode &&
                         data?.addToSenderWallet &&

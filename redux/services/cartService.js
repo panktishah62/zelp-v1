@@ -11,6 +11,8 @@ export function calculateTotal(billingData) {
         : 0;
     let coupon = billingData?.discountAmount ? billingData.coupon : null;
     const count = billingData?.count ? billingData?.count : 0;
+    const walletMoney = billingData?.walletMoney;
+    let totalDeliveryCharge = 0;
     if (restaurants) {
         let totalPriceByRestaurant = 0;
         for (const restaurantId in restaurants) {
@@ -29,17 +31,23 @@ export function calculateTotal(billingData) {
             }
             restaurants[restaurantId].restaurantTotal = Number(restaurantTotal);
             totalPriceByRestaurant += Number(restaurantTotal);
+            const maxOrderValueToApplyDeliveryCharge =
+                restaurants[restaurantId]?.restaurant
+                    ?.maxOrderValueToApplyDeliveryCharge;
+            const deliveryCharge =
+                restaurants[restaurantId]?.restaurant?.deliveryCharge;
+
+            if (restaurantTotal <= maxOrderValueToApplyDeliveryCharge) {
+                totalDeliveryCharge += deliveryCharge;
+            }
         }
         const taxes = Math.round(
             Number(totalPriceByRestaurant * config?.GSTtaxes) / 100,
         );
 
-        if (totalPriceByRestaurant < config?.minOrderValue) {
+        if (totalPriceByRestaurant < config?.minOrderValueForWallet) {
             isWalletMoneyUsed = false;
         }
-        const maxWalletMoneyToUse = isWalletMoneyUsed
-            ? config?.maxWalletMoneyToUse
-            : 0;
 
         const canApplyCoupon = isCouponValidForCart(
             restaurants,
@@ -54,7 +62,8 @@ export function calculateTotal(billingData) {
             Number(config?.deliveryPartnerFees) +
             Number(config?.packagingCharges) +
             Number(config?.deliveryTip) +
-            Number(taxes);
+            Number(taxes) +
+            Number(totalDeliveryCharge);
 
         if (!canApplyCoupon) {
             discountAmount = 0;
@@ -66,6 +75,12 @@ export function calculateTotal(billingData) {
             );
         }
 
+        const maxWalletMoneyToUse = isWalletMoneyUsed
+            ? totalAmountBeforeDiscount <= walletMoney
+                ? totalAmountBeforeDiscount
+                : walletMoney
+            : 0;
+
         const totalAmount =
             totalAmountBeforeDiscount -
             Number(maxWalletMoneyToUse) -
@@ -74,13 +89,14 @@ export function calculateTotal(billingData) {
         billingDetails = {
             totalItemsPrice: totalPriceByRestaurant,
             totalAmount: totalAmount,
-            deliveryPartnerFees: config?.deliveryPartnerFees,
+            deliveryPartnerFees: totalDeliveryCharge,
             packagingCharges: config?.packagingCharges,
-            isDeliveryFree: config?.isDeliveryFree,
+            isDeliveryFree: totalDeliveryCharge > 0 ? false : true,
             deliveryTip: config?.deliveryTip,
             taxes: taxes,
-            walletMoney: isWalletMoneyUsed ? config?.maxWalletMoneyToUse : 0,
+            walletMoney: isWalletMoneyUsed ? maxWalletMoneyToUse : 0,
             discountAmount: discountAmount,
+            areChargesApplied: true,
         };
     } else {
         return null;
@@ -97,6 +113,7 @@ export function addItemToRestaurants(_foodItem, _restaurant, state) {
     let count = state?.foodItemsCount;
     const discountAmount = state?.discountAmount;
     const coupon = state.coupon;
+    const walletMoney = Number(state?.walletMoney ? state?.walletMoney : 0);
     if (restaurants && foodItem && restaurant) {
         const restaurantId = restaurant._id;
         const foodItemId = foodItem._id;
@@ -127,6 +144,7 @@ export function addItemToRestaurants(_foodItem, _restaurant, state) {
             discountAmount,
             coupon,
             count,
+            walletMoney,
         };
 
         const billingDetails = calculateTotal(billingData);
@@ -150,6 +168,7 @@ export function addItemToRestaurants(_foodItem, _restaurant, state) {
             discountAmount,
             coupon,
             count,
+            walletMoney,
         };
 
         const billingDetails = calculateTotal(billingData);
@@ -163,6 +182,7 @@ export function addItemToRestaurants(_foodItem, _restaurant, state) {
         discountAmount,
         coupon,
         count,
+        walletMoney,
     };
 
     const billingDetails = calculateTotal(billingData);
@@ -178,6 +198,7 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
     let count = state?.foodItemsCount;
     const discountAmount = state?.discountAmount;
     const coupon = state?.coupon;
+    const walletMoney = Number(state?.walletMoney ? state?.walletMoney : 0);
     if (restaurants && foodItem && restaurant) {
         const restaurantId = restaurant._id;
         const foodItemId = foodItem._id;
@@ -214,10 +235,11 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
             discountAmount,
             coupon,
             count,
+            walletMoney,
         };
 
         const billingDetails = calculateTotal(billingData);
-        if (billingDetails?.totalItemsPrice < config?.minOrderValue) {
+        if (billingDetails?.totalItemsPrice < config?.minOrderValueForWallet) {
             isWalletMoneyUsed = false;
         }
         return { restaurants, count, billingDetails, isWalletMoneyUsed };
@@ -230,10 +252,11 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
         discountAmount,
         coupon,
         count,
+        walletMoney,
     };
 
     const billingDetails = calculateTotal(billingData);
-    if (billingDetails?.totalItemsPrice < config?.minOrderValue) {
+    if (billingDetails?.totalItemsPrice < config?.minOrderValueForWallet) {
         isWalletMoneyUsed = false;
     }
     return { restaurants, count, billingDetails, isWalletMoneyUsed };
@@ -265,40 +288,18 @@ export function canApplyWallet(_state, _showDialog = true) {
     if (
         state?.walletMoney &&
         state?.config &&
-        Number(state?.walletMoney) < Number(state?.config?.maxWalletMoneyToUse)
+        Number(state?.walletMoney) > Number(state?.config?.maxWalletMoneyToUse)
     ) {
-        if (_showDialog) {
-            dispatch(
-                showDialog({
-                    isVisible: true,
-                    titleText: 'Wallet Error',
-                    subTitleText: 'Not Enough money in Wallet',
-                    buttonText1: 'CLOSE',
-                    type: DialogTypes.WARNING,
-                }),
-            );
-        }
         return false;
     }
     if (
         state?.billingDetails &&
         state?.config &&
         Number(state?.billingDetails?.totalItemsPrice) >
-            Number(state?.config?.minOrderValue)
+            Number(state?.config?.minOrderValueForWallet)
     ) {
         return true;
     } else {
-        if (_showDialog) {
-            dispatch(
-                showDialog({
-                    isVisible: true,
-                    titleText: 'Wallet Error',
-                    subTitleText: `Cannot apply wallet money for the item total less than ${state.config.minOrderValue}`,
-                    buttonText1: 'CLOSE',
-                    type: DialogTypes.WARNING,
-                }),
-            );
-        }
         return false;
     }
     return false;
@@ -313,6 +314,7 @@ export function applyCoupon(state, coupon) {
     const typeOfDiscount = coupon?.discount.type;
     const totalAmount = Number(state?.billingDetails?.totalAmount);
     const count = Number(state?.foodItemsCount);
+    const walletMoney = Number(state?.walletMoney ? state?.walletMoney : 0);
     let discountAmount = 0;
     if (typeOfDiscount == 'fixed') {
         discountAmount = Math.min(
@@ -338,6 +340,7 @@ export function applyCoupon(state, coupon) {
         discountAmount,
         coupon,
         count,
+        walletMoney,
     };
     const billingDetails = calculateTotal(billingData);
     return { discountAmount: discountAmount, billingDetails: billingDetails };
@@ -377,6 +380,7 @@ export function removeCoupon(state, coupon) {
     const isWalletMoneyUsed = state?.isWalletMoneyUsed;
     const discountAmount = 0;
     const count = state?.foodItemsCount;
+    const walletMoney = Number(state?.walletMoney ? state?.walletMoney : 0);
     const billingData = {
         restaurants,
         config,
@@ -384,6 +388,7 @@ export function removeCoupon(state, coupon) {
         discountAmount,
         coupon,
         count,
+        walletMoney,
     };
     const billingDetails = calculateTotal(billingData);
     return { discountAmount: discountAmount, billingDetails: billingDetails };
