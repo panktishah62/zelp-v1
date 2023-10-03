@@ -5,6 +5,8 @@ import { dimensions, fonts } from "../../../styles";
 import DeliveryBoy from '../../../assets/images/Subscription/DeliveryBoy.svg';
 import { dynamicSize, normalizeFont } from "../../../utils/responsive";
 const CartDetails=props=>{
+    const {address}=props
+    console.log(address,"address")
     return(
         <View style={styles.container}>
             <View style={styles.firstContainer}>
@@ -13,7 +15,7 @@ const CartDetails=props=>{
                 </View>
                 <View style={styles.textContainer}>
                     <Text style={styles.firstText}>Delivery to <Text style={styles.secondText}>Home</Text></Text>
-                    <Text style={styles.firstText}>123, TK Layout, Bengaluru</Text>
+                    <Text style={styles.firstText}>{address}</Text>
                 </View>
                 <View style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>Change</Text>

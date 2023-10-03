@@ -76,11 +76,11 @@ const orderHandler=async()=>{
         <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
             
-            <CartDetails /> 
+           <CartDetails address={area}/> 
             <DeliveryInstruction/>
            <SimpleHeading text={"Food in your cart"}/>
-          {isReorder && <MealCards isDynamic={true} data={orderData} activeOrangeButton={true} orangeButtonText={"Change"} showCrossButton={true} />}
-          {!isReorder && <MealCards isDynamic={true} data={mealCardData} activeOrangeButton={true} orangeButtonText={"Change"} showCrossButton={true} />}
+          {isReorder && <MealCards navigation={navigation} isCart={true} isDynamic={true} data={orderData}  orangeButtonText={"Change"} showCrossButton={true} />}
+          {!isReorder && <MealCards navigation={navigation} isCart={true} isDynamic={true} data={mealCardData} orangeButtonText={"Change"} showCrossButton={true} />}
             <OrangeButton orderHandler={orderHandler} text="Place Your Order"/> 
           
         </View>

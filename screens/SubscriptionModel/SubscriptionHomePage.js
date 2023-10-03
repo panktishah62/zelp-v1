@@ -97,7 +97,7 @@ const SubscriptionHomePage = props => {
 
     useEffect(() => {
         UserSubscriptionDetails();
-    }, [setSubscriptionOrder, setSubscribedUserDetails, finalPrice, subscriptionplanId]);
+    }, [setSubscriptionOrder, setSubscribedUserDetails,setSubscriptionPlanId]);
 
     useEffect(() => {
 
