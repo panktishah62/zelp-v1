@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { dynamicSize } from '../../../utils/responsive';
@@ -9,9 +9,30 @@ import {
     selectMenu,
     setSubscriptionMealType,
 } from '../../../redux/actions/subscriptionActions';
+import moment from 'moment';
+import { getMealPlansForSubscription } from '../../../redux/services/subscriptionService';
 
 const MealCards = props => {
-    const [mealType, setMealType] = useState('Breakfast');
+    
+    const { planID } = useSelector(state => state.finalSubscriptionPrice);
+    const { mealType } = useSelector(state => state.mealTypeForSubscription);
+
+    const [mealPlans, setMealPlans] = useState([]);
+    const fetchMealPlanType = async () => {
+        const response = await getMealPlansForSubscription(planID);
+        setMealPlans(response.data.data);
+        dispatch(
+            setSubscriptionMealType(
+                response.data.data[0].type,
+                response.data.data[0]._id,
+                '',
+            ),
+        );
+    };
+    useEffect(() => {
+        fetchMealPlanType();
+    }, [planID,mealType,setMealPlans]);
+
     const {
         isButtonVisible,
         isCart,
@@ -21,6 +42,7 @@ const MealCards = props => {
         showInfoText,
         heading,
         data,
+        toggleModal,
         isDynamic,
     } = props;
 
@@ -46,6 +68,11 @@ const MealCards = props => {
         itemAddToCartHandler(index, itemName, itemImage, itemType, foodItemId);
     };
 
+    const handleKnowMore = () => {  
+        toggleModal()
+    }
+
+
     const itemAddToCartHandler = (
         index,
         itemName,
@@ -69,6 +96,9 @@ const MealCards = props => {
         dispatch(removeSubscribedItemFromCart());
         // navigation.navigate('Subscription')
     };
+
+   
+
 
     const filterData = isVegButtonActive
         ? data.filter(item => item.vegText === 'Veg')
@@ -129,14 +159,16 @@ const MealCards = props => {
                                     )}
                                 </View>
                                 {showInfoText && (
+                                    <TouchableOpacity onPress={handleKnowMore}>
                                     <View style={styles.vegContainer}>
                                         <Text style={styles.lastText}>
                                             Know more
-                                        </Text>
+                                        </Text> 
                                         <Image
                                             source={require('../../../assets/images/Subscription/info.png')}
                                         />
                                     </View>
+                                    </TouchableOpacity>
                                 )}
 
                                 {activeOrangeButton && index !== gotIndex && (
@@ -226,9 +258,29 @@ const MealCards = props => {
             ))
         );
     };
+    const formatTimeRange = timing => {
+  if(timing!==undefined){
+    const formattedOpeningTime = moment(timing.openingTime).format(
+        'h:mm A',
+    );
+    const formattedClosingTime = moment(timing.closingTime).format(
+        'h:mm A',
+    );
+    return `${formattedOpeningTime} - ${formattedClosingTime}`;
+    };
+}
+    const findTiming = () => {
+      
+        const timing = mealPlans?.find(item => item.type === mealType);
+        console.log(timing?.timing,"timing")
+        const formattedTiming = formatTimeRange(timing?.timing);
+        console.log(formattedTiming)
+        return formattedTiming; 
+    };
+
 
     const handleMenuType = type => {
-        setMealType(type);
+   
         dispatch(setSubscriptionMealType(type));
     };
 
@@ -236,64 +288,32 @@ const MealCards = props => {
         <View>
             {isButtonVisible && (
                 <View style={buttonStyles.buttonContainer}>
-                    <TouchableOpacity
-                        onPress={() => handleMenuType('Breakfast')}>
-                        <View
-                            style={[
-                                buttonStyles.eachButtonStyle,
-                                mealType === 'Breakfast' &&
-                                    buttonStyles.changeStyle,
-                            ]}>
-                            <Text
-                                style={[
-                                    buttonStyles.textStyle,
-                                    mealType === 'Breakfast' &&
-                                        buttonStyles.changeTextStyle,
-                                ]}>
-                                Breakfast
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleMenuType('Lunch')}>
-                        <View
-                            style={[
-                                buttonStyles.eachButtonStyle,
-                                mealType === 'Lunch' &&
-                                    buttonStyles.changeStyle,
-                            ]}>
-                            <Text
-                                style={[
-                                    buttonStyles.textStyle,
-                                    mealType === 'Lunch' &&
-                                        buttonStyles.changeTextStyle,
-                                ]}>
-                                Lunch
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleMenuType('Dinner')}>
-                        <View
-                            style={[
-                                buttonStyles.eachButtonStyle,
-                                mealType === 'Dinner' &&
-                                    buttonStyles.changeStyle,
-                            ]}>
-                            <Text
-                                style={[
-                                    buttonStyles.textStyle,
-                                    mealType === 'Dinner' &&
-                                        buttonStyles.changeTextStyle,
-                                ]}>
-                                Dinner
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
+               {mealPlans && mealPlans.map((item, index) => ( 
+                 <TouchableOpacity
+                 onPress={() => handleMenuType(item.type)}>
+                 <View
+                     style={[
+                         buttonStyles.eachButtonStyle,
+                         mealType === item.type &&
+                             buttonStyles.changeStyle,
+                     ]}>
+                     <Text
+                         style={[
+                             buttonStyles.textStyle,
+                             mealType === item.type &&
+                                 buttonStyles.changeTextStyle,
+                         ]}>
+                       {item.type}
+                     </Text>
+                 </View>
+             </TouchableOpacity>   
+                )  )}
                 </View>
             )}
             {isHeadingVisible && (
                 <View style={belowButtonStyle.container}>
                     <Text style={belowButtonStyle.textStyle}>
-                        Available from 9:00Am - 11:00 AM{' '}
+                        Available from {findTiming()}
                     </Text>
                 </View>
             )}

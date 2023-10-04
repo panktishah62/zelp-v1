@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://95ae-180-151-107-110.ngrok.io/api/v1';
+export const BASE_URL = 'https://f2c3-180-151-107-110.ngrok.io/api/v1';
 export const GET_CONFIG = 'GET_CONFIG';
 export const GET_SHOTS_VIEW_REST_SORTING_CONFIG =
     'GET_SHOTS_VIEW_REST_SORTING_CONFIG';
@@ -12,7 +12,7 @@ export const TAB_BAR_HEIGHT = 87; // Default tab bar height is 50
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-export const LOGOUT = 'LOGOUT';
+export const LOGOUT = 'LOGOUT'; 
 export const ADD_ADDRESS = 'ADD_ADDRESS';
 export const EDIT_ADDRESS = 'EDIT_ADDRESS';
 export const GET_ALL_ADDRESS = 'GET_ALL_ADDRESS';

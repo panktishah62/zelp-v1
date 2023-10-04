@@ -38,9 +38,10 @@ const CarouselImageAtTop = props => {
             // >
             <View style={[styles.conatiner, styles.shadow]} key={index}>
                 <View style={styles.imageContainer}>
-                    {!isStatic && (
+                {!isStatic && (
                         <Image
                             style={styles.imageStyle}
+                            resizeMode='stretch'
                             source={{
                                 uri: item.image,
                             }}
@@ -51,8 +52,7 @@ const CarouselImageAtTop = props => {
                             style={styles.imageStyle}
                             source={item.caroselImage}
                         />
-                    )}
-                </View>
+                    )}</View>
             </View>
             // </LinearGradient>
         ));
@@ -83,12 +83,12 @@ const styles = StyleSheet.create({
         width: dimensions.fullWidth - 60,
         height: 177.576,
         borderRadius: 7,
-        resizeMode: 'cover',
+  
     },
     imageContainer: {
         width: dimensions.fullWidth - 60,
         height: 177.576,
-        resizeMode: 'cover',
+        // resizeMode: 'cover',
     },
 
     shadow: {

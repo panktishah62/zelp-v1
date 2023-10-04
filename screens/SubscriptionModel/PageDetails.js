@@ -17,6 +17,7 @@ import {
     getOneSubscriptionPlanDetails,
 } from '../../redux/services/subscriptionService';
 import { useSelector } from 'react-redux';
+import KnowMoreModal from '../../components/Modal/Subscription/KnowMoreModal';
 
 const PageDetails = props => {
     const { navigation, route } = props;
@@ -28,6 +29,10 @@ const PageDetails = props => {
     const [bannerImagesArr, setBannerImagesArr] = useState([]);
     const [combosArray, setCombosArray] = useState([]);
     const [benifitComponentArray, setBenifitComponentArray] = useState([]);
+    const [isModalVisible, setModalVisible] = useState(false);
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+      };
 
     const fetchPlanDetails = async () => {
         const response = await getOneSubscriptionPlanDetails(itemId);
@@ -80,12 +85,13 @@ const PageDetails = props => {
                         isDynamic={true}
                     />
                     <AddOnMeals />
-
+ 
                     <HowToStart />
                     <BestMealHeadingWithStars />
 
                     <View style={styles.mealCard}>
                         <MealCards
+                        toggleModal={toggleModal}
                             isDynamic={true}
                             isRatingTextVisible={true}
                             isHeadingVisible={true}
@@ -97,6 +103,7 @@ const PageDetails = props => {
                     </View>
                 </View>
             </ScrollView>
+            <KnowMoreModal isModalVisible={isModalVisible} toggleModal={toggleModal}/>
             <AddOnMealModal
                 itemId={itemId}
                 name={fetchedData?.name}

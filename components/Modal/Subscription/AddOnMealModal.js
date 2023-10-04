@@ -114,7 +114,7 @@ const AddOnMealModal = props => {
 const styles = StyleSheet.create({
   wrapperModalContainer: {
     position: 'absolute',
-    bottom: 32,
+    bottom: -10,
     left: -10,
     right: -10,
 
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     backgroundColor: '#E1740F',
     borderRadius: 5,
-    marginBottom: 5,
+    marginBottom: 20,
   },
   buttonText: {
     color: '#FFF',
@@ -168,7 +168,7 @@ const mealsStyles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: dimensions.fullWidth - 60,
+    width: dimensions.fullWidth - dynamicSize(60),
 
     flexDirection: 'row',
   },
