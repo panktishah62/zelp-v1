@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
-import { dimensions } from "../../../styles";
+import { dimensions, fonts } from "../../../styles";
 import { dynamicSize } from "../../../utils/responsive";
+import { colors } from "../../../styles/colors";
 
 const SubscriptionDetailsHeading = props => {
 
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     },
     offerMeal: {
         color: '#E1740F',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: '700',
@@ -50,8 +51,8 @@ const styles = StyleSheet.create({
         textTransform: 'capitalize',
     },
     planText: {
-        color: '#3D3D3D',
-        fontFamily: 'Poppins',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: dynamicSize(18),
         fontStyle: 'normal',
         fontWeight: '700',
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     },
     validityText: {
         color: '#8C8A9D',
-        fontFamily: 'Poppins',
+        fontFamily:fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '600',
@@ -70,8 +71,8 @@ const styles = StyleSheet.create({
         textTransform: 'capitalize',
     },
     buttonText: {
-        color: '#3D3D3D',
-        fontFamily: 'Poppins',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '700',

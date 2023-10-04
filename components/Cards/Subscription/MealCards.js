@@ -11,6 +11,7 @@ import {
 } from '../../../redux/actions/subscriptionActions';
 import moment from 'moment';
 import { getMealPlansForSubscription } from '../../../redux/services/subscriptionService';
+import { colors } from '../../../styles/colors';
 
 const MealCards = props => {
     
@@ -344,7 +345,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: dynamicSize(10),
         marginVertical: 10,
-        backgroundColor: '#FFFFFF',
+        backgroundColor:colors.WHITE,
         borderRadius: 14,
         elevation: 5,
     },
@@ -401,9 +402,9 @@ const styles = StyleSheet.create({
         marginLeft: dynamicSize(4),
     },
     boldText: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         textAlign: 'center',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: dynamicSize(17),
         fontStyle: 'normal',
         fontWeight: '600',
@@ -411,17 +412,17 @@ const styles = StyleSheet.create({
         marginLeft: dynamicSize(4),
     },
     lastText: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         textAlign: 'center',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: dynamicSize(12),
         fontStyle: 'normal',
         fontWeight: '400',
     },
     firstText: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         textAlign: 'center',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: dynamicSize(12),
         fontStyle: 'normal',
         fontWeight: '400',
@@ -438,8 +439,8 @@ const styles = StyleSheet.create({
         gap: dynamicSize(6),
     },
     vegText: {
-        color: '#3D3D3D',
-        fontFamily: 'Poppins',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '400',
@@ -449,7 +450,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#E1740F',
+        backgroundColor:colors.ORANGE_WHITE,
         borderRadius: 22,
         width: dynamicSize(84),
         height: 25,
@@ -464,14 +465,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#00B16A',
+        backgroundColor: colors.GREEN_SHADE,
         borderRadius: 22,
         width: dynamicSize(84),
         height: 28,
         marginTop: dynamicSize(10),
     },
     selectButtonText: {
-        color: '#FFF',
+        color: colors.WHITE,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
@@ -484,14 +485,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#5D5956',
+        backgroundColor: colors,
         borderRadius: 22,
         width: dynamicSize(84),
         height: 25,
         marginTop: dynamicSize(10),
     },
     selectDisableButtonText: {
-        color: '#FFF',
+        color: colors.WHITE,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
@@ -506,7 +507,7 @@ const buttonStyles = StyleSheet.create({
         display: 'flex',
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: '#E1740F',
+        borderColor: colors.ORANGE_WHITE,
         height: 30,
         margin: dynamicSize(14),
         flexShrink: 0,
@@ -523,12 +524,12 @@ const buttonStyles = StyleSheet.create({
         alignItems: 'center',
     },
     changeStyle: {
-        backgroundColor: '#E1740F',
+        backgroundColor: colors.ORANGE_WHITE,
         borderRadius: 5,
-        color: '#fff',
+        color: colors.WHITE,
     },
     textStyle: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         fontFamily: fonts.NUNITO_500_16.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
@@ -537,7 +538,7 @@ const buttonStyles = StyleSheet.create({
         textTransform: 'capitalize',
     },
     changeTextStyle: {
-        color: '#FFFFFF',
+        color: colors.WHITE,
     },
 });
 
@@ -548,7 +549,7 @@ const belowButtonStyle = StyleSheet.create({
         justifyContent: 'center',
     },
     textStyle: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         textAlign: 'center',
         fontFamily: fonts.NUNITO_500_16.fontFamily,
         fontSize: 14,

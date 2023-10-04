@@ -5,6 +5,7 @@ import { dimensions, fonts } from '../../../styles';
 import { dynamicSize } from '../../../utils/responsive';
 import { useDispatch } from 'react-redux';
 import { menuModal } from '../../../redux/actions/menuModal';
+import { colors } from '../../../styles/colors';
 
 const MenuModal = props => {
     const { active, toggleModal } = props;
@@ -133,10 +134,10 @@ const styles1 = StyleSheet.create({
         marginVertical: 15,
         width: 100,
         borderBottomWidth: 3,
-        borderColor: '#fff'
+        borderColor: colors.WHITE
     },
     topHeadingText: {
-        color: '#FFF',
+        color: colors.WHITE,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 22,
         fontStyle: 'normal',

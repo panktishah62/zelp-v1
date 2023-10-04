@@ -316,8 +316,8 @@ const styles = StyleSheet.create({
         borderRadius: 8,
     },
     dropdownRowStyle: {
-        backgroundColor: '#EFEFEF',
-        borderBottomColor: '#C5C5C5',
+        backgroundColor: colors.WHITE,
+        borderBottomColor: colors.GRAY_30,
     },
     dropdownRowTxtStyle: { color: colors.GREY_MEDIUM, textAlign: 'left' },
     btnPosStyle: {

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { colors } from '../../../styles/colors';
 
 const PaymentSuccessfullCard = props => {
     const { navigation } = props;
@@ -56,15 +57,15 @@ const styles = StyleSheet.create({
         display: 'flex',
         elevation: 5,
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor:colors.WHITE,
         width: 314.916,
         height: 490.239,
         borderTopLeftRadius: 33.308,
         borderTopRightRadius: 33.308,
     },
     headingText: {
-        color: '#EEE',
-        fontFamily: 'Poppins',
+        color: colors.WHITE,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: '500',
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
         left: 50,
     },
     paymentSuccessText: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         fontFamily: fonts.NUNITO_500_16.fontFamily,
         fontSize: 18,
         fontStyle: 'normal',
@@ -89,8 +90,8 @@ const styles = StyleSheet.create({
         letterSpacing: 0.48,
     },
     thirdText: {
-        color: '#333',
-        fontFamily: 'Poppins',
+        color: colors.GRAY_20,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
@@ -105,8 +106,8 @@ const styles1 = StyleSheet.create({
     },
     firstText: {
         textAlign: 'center',
-        color: '#333',
-        fontFamily: 'Poppins',
+        color: colors.GRAY_20,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '400',
@@ -116,8 +117,8 @@ const styles1 = StyleSheet.create({
     secondText: {
         marginVertical: 10,
         textAlign: 'center',
-        color: '#E1740F',
-        fontFamily: 'Poppins',
+        color: colors.ORANGE_WHITE,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 30,
         fontStyle: 'normal',
         fontWeight: '700',
@@ -138,22 +139,22 @@ const belowStyles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 20,
         width: 203.333,
-        backgroundColor: '#E1740F',
+        backgroundColor: colors.ORANGE_WHITE,
         paddingVertical: 10,
         borderRadius: 15,
     },
     buttonText: {
         textAlign: 'center',
-        color: '#FFF',
-        fontFamily: 'Poppins',
+        color: colors.WHITE,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '500',
         textAlign: 'center',
     },
     closeText: {
-        color: '#333',
-        fontFamily: 'Poppins',
+        color:colors.GRAY_20,
+        fontFamily: fonts.POPPINS_500_11.fontFamily ,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '400',

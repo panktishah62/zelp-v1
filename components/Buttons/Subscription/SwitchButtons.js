@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import { dimensions } from '../../../styles';
+import { dimensions, fonts } from '../../../styles';
+import { colors } from '../../../styles/colors';
 
 const SwitchButtons = props => {
     const { firstActive, secondActive, toggleFirst, toggleSecond } = props;
@@ -53,12 +54,12 @@ const buttonStyles = StyleSheet.create({
         paddingVertical: 10,
     },
     belowBorder: {
-        borderBottomColor: '#E1740F',
+        borderBottomColor: colors.ORANGE_WHITE,
         borderBottomWidth: 2,
     },
     text: {
-        color: '#3D3D3D',
-        fontFamily: 'Poppins',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '500',

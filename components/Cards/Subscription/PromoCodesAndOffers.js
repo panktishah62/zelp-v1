@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View,Text,Image } from "react-native";
 import { dimensions, fonts } from "../../../styles";
+import { colors } from "../../../styles/colors";
 
 const PromoCodesAndOffers=props=>{
     const {promoCode,offer}=props;
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     
      },
      leftText:{
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         fontFamily: fonts.NUNITO_500_16.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
@@ -115,7 +116,7 @@ const boxStyle = StyleSheet.create({
     width: dimensions.fullWidth - 60,
     borderRadius: 10,
     height:54.173,
-    borderColor:'#3D3D3D',
+    borderColor:colors.DARKER_GRAY,
     borderStyle:'dashed',
     paddingVertical: 10,
     borderWidth:2,
@@ -149,7 +150,7 @@ const boxStyle = StyleSheet.create({
     borderRadius: 25,
  },
  codeText:{
-    color: '#3D3D3D',
+    color: colors.DARKER_GRAY,
     fontFamily: fonts.NUNITO_500_16.fontFamily,
     fontSize: 14,
     fontStyle: 'normal',

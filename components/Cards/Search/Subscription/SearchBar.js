@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View,Text,Image, ScrollView } from "react-native";
-import { dimensions } from "../../../../styles";
+import { dimensions, fonts } from "../../../../styles";
+import { colors } from "../../../../styles/colors";
 
 const SearchBar=props=>{
     return (
@@ -40,8 +41,8 @@ const styles=StyleSheet.create({
         marginTop:2
     },
     text:{
-        color: '#3D3D3D',
-        fontFamily: 'Poppins',
+        color:colors.DARKER_GRAY,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 13,
         fontStyle: 'normal',
         fontWeight: '400',

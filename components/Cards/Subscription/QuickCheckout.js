@@ -16,6 +16,7 @@ import {
 } from '../../../redux/actions/subscriptionActions';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { colors } from '../../../styles/colors';
 
 const data = [
     {
@@ -304,14 +305,14 @@ const styles1 = StyleSheet.create({
         flexDirection: 'column',
     },
     name: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: normalizeFont(14),
         fontStyle: 'normal',
         fontWeight: '600',
     },
     time: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: normalizeFont(12),
         fontStyle: 'normal',

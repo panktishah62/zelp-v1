@@ -4,6 +4,7 @@ import WhiteLocation from '../../../assets/images/Subscription/WhiteLocation.svg
 import { dimensions, fonts } from '../../../styles';
 import DeliveryBoy from '../../../assets/images/Subscription/DeliveryBoy.svg';
 import { dynamicSize, normalizeFont } from '../../../utils/responsive';
+import { colors } from '../../../styles/colors';
 
 const CartDetails = props => {
     const { address } = props;
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
         height: dynamicSize(100),
         gap: dynamicSize(10),
         width: dimensions.fullWidth - dynamicSize(40),
-        backgroundColor: '#FFF',
+        backgroundColor:colors.WHITE,
         borderRadius: 15,
         elevation: 5,
     },
@@ -64,14 +65,14 @@ const styles = StyleSheet.create({
     buttonContainer: {
         width: dynamicSize(80),
         height: dynamicSize(25),
-        backgroundColor: '#26A65B',
+        backgroundColor:colors.DARK_GREEN,
         borderRadius: 27,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
     },
     firstText: {
-        color: '#000',
+        color: colors.BLACK,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: normalizeFont(14),
         fontStyle: 'normal',
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
         gap: 2,
     },
     secondText: {
-        color: '#26A65B',
+        color: colors.DARK_GREEN,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: normalizeFont(14),
         fontStyle: 'normal',
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
         lineHeight: dynamicSize(14),
     },
     buttonText: {
-        color: '#FFF',
+        color:colors.WHITE,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 12,
         fontStyle: 'normal',
@@ -119,21 +120,21 @@ const styles1 = StyleSheet.create({
         flexDirection: 'row',
     },
     firstText: {
-        color: '#000',
+        color: colors.BLACK,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: normalizeFont(14),
         fontStyle: 'normal',
         fontWeight: '400',
     },
     secondText: {
-        color: '#26A65B',
+        color: colors.DARK_GREEN,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '600',
     },
     thirdText: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: normalizeFont(14),
         fontStyle: 'normal',

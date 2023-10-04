@@ -3,6 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { dynamicSize, normalizeFont } from '../../../utils/responsive';
 import { dimensions } from '../../../styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { colors } from '../../../styles/colors';
 
 const AbsoluteOrangeButton = props => {
     const { navigation } = props;
@@ -32,10 +33,10 @@ const styles = StyleSheet.create({
         marginTop: dynamicSize(20),
         height: dynamicSize(48),
         borderRadius: 12,
-        backgroundColor: '#E1740F',
+        backgroundColor: colors.ORANGE_WHITE,
     },
     text: {
-        color: '#FFF',
+        color: colors.WHITE,
         textAlign: 'center',
         fontFamily: 'Rubik',
         fontSize: normalizeFont(14),

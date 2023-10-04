@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getSubscriptionPlanDetails } from '../../../redux/services/subscriptionService';
 import { useSelector } from 'react-redux';
+import { dynamicSize } from '../../../utils/responsive';
 
 const CaroselComponent = props => {
     const { planID } = useSelector(state => state.finalSubscriptionPrice);
@@ -80,98 +81,79 @@ const CaroselComponent = props => {
         return (
             responseDataArr &&
             responseDataArr?.map((item, index) => (
-                <LinearGradient
-                    colors={[
-                        'rgba(255, 255, 255, 0.80)',
-                        'rgba(255, 255, 255, 0.25)',
-                    ]}
-                    style={styles.gradient}
-                    key={index}>
-                    <View style={[styles.conatiner, styles.shadow]} key={index}>
-                        <View style={styles.imageContainer}>
-                            {item.image && (
-                                <Image
-                                    style={styles.imageStyle}
-                                    source={{ uri: item.image }}
-                                />
-                            )}
-                            {!item.image && (
-                                <Image
-                                    style={styles.imageStyle}
-                                    source={require('../../../assets/images/Subscription/food_item_1.png')}
-                                />
-                            )}
-                        </View>
-                        <View style={styles.iconTextContainer}>
-                            <Text style={styles.iconTextText}>{item.name}</Text>
-                            <Image source={item.iconImage} />
-                        </View>
-                        <View style={styles.simpleTextConatiner}>
-                            <Text style={styles.simpleTextText}>
-                                Starts From
-                            </Text>
-                        </View>
-                        <View style={styles.buttonWrapperContainer}>
-                            {planID === '' || planID !== item?._id ? (
-                                <TouchableOpacity
-                                    onPress={() =>
-                                        navigateHandler(
-                                            item?._id,
-                                            'priceButton',
-                                        )
-                                    }>
-                                    <View style={styles.buttonContainer}>
-                                        <Text style={styles.buttonText}>
-                                            ₹
-                                            {item?.pricePerMeal *
-                                                (1 -
-                                                    item?.appliedDiscount /
-                                                        100)}
-                                            /Meal
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            ) : (
-                                <TouchableOpacity
-                                    onPress={() =>
-                                        navigateHandler(
-                                            item?._id,
-                                            'priceButton',
-                                        )
-                                    }>
-                                    <View
-                                        style={styles.selectedbuttonContainer}>
-                                        <Text style={styles.buttonText}>
-                                            Selected
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            )}
-                        </View>
-                        {!showKnowMore && (
-                            <View style={styles.lastTextContainer}>
-                                <Text style={styles.lastTextText}>
-                                    ₹{item?.pricePerMeal}/Meal
-                                </Text>
-                            </View>
+                <View style={[styles.conatiner, styles.shadow]} key={index}>
+                    <View style={styles.imageContainer}>
+                        {item.image && (
+                            <Image
+                                style={styles.imageStyle}
+                                source={{ uri: item.image }}
+                            />
                         )}
-                        {showKnowMore && (
+                        {!item.image && (
+                            <Image
+                                style={styles.imageStyle}
+                                source={require('../../../assets/images/Subscription/food_item_1.png')}
+                            />
+                        )}
+                    </View>
+                    <View style={styles.iconTextContainer}>
+                        <Text style={styles.iconTextText}>{item.name}</Text>
+                        <Image source={item.iconImage} />
+                    </View>
+                    <View style={styles.simpleTextConatiner}>
+                        <Text style={styles.simpleTextText}>Starts From</Text>
+                    </View>
+                    <View style={styles.buttonWrapperContainer}>
+                        {planID === '' || planID !== item?._id ? (
                             <TouchableOpacity
                                 onPress={() =>
-                                    navigateHandler(item?._id, 'knowMoreButton')
+                                    navigateHandler(item?._id, 'priceButton')
                                 }>
-                                <View style={styles.lastTextContainer}>
-                                    <Text style={styles.knowMoreText}>
-                                        Know More
+                                <View style={styles.buttonContainer}>
+                                    <Text style={styles.buttonText}>
+                                        ₹
+                                        {item?.pricePerMeal *
+                                            (1 - item?.appliedDiscount / 100)}
+                                        /Meal
                                     </Text>
-                                    <Image
-                                        source={require('../../../assets/images/Subscription/info.png')}
-                                    />
+                                </View>
+                            </TouchableOpacity>
+                        ) : (
+                            <TouchableOpacity
+                                onPress={() =>
+                                    navigateHandler(item?._id, 'priceButton')
+                                }>
+                                <View style={styles.selectedbuttonContainer}>
+                                    <Text style={styles.buttonText}>
+                                        Selected
+                                    </Text>
                                 </View>
                             </TouchableOpacity>
                         )}
                     </View>
-                </LinearGradient>
+                    {!showKnowMore && (
+                        <View style={styles.lastTextContainer}>
+                            <Text style={styles.lastTextText}>
+                                ₹{item?.pricePerMeal}/Meal
+                            </Text>
+                        </View>
+                    )}
+                    {showKnowMore && (
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigateHandler(item?._id, 'knowMoreButton')
+                            }>
+                            <View style={styles.lastTextContainer}>
+                                <Text style={styles.knowMoreText}>
+                                    Know More
+                                </Text>
+                                <Image
+                                    source={require('../../../assets/images/Subscription/info.png')}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                </View>
             ))
         );
     };
@@ -196,23 +178,25 @@ const styles = StyleSheet.create({
         flexShrink: 0,
     },
     imageStyle: {
-        width: dimensions.fullWidth / 2 - 20,
+        width: dimensions.fullWidth / 2 - dynamicSize(20),
         height: 120.848,
         borderRadius: 7,
     },
     imageContainer: {
-        width: dimensions.fullWidth / 2 - 20,
+        width: dimensions.fullWidth / 2 - dynamicSize(20),
         height: 123.848,
+        padding: dynamicSize(2),
     },
     iconTextContainer: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+        paddingTop: 5,
         gap: 8,
     },
     knowMoreText: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         fontFamily: fonts.NUNITO_400_14.fontFamily,
         fontSize: 12,
         fontStyle: 'normal',
@@ -220,19 +204,19 @@ const styles = StyleSheet.create({
         letterSpacing: 0.6,
     },
     shadow: {
-        width: dimensions.fullWidth / 2 - 20,
+        width: dimensions.fullWidth / 2 - dynamicSize(15),
         margin: 10,
         height: 250.433,
-        backgroundColor: '#FFF',
+        backgroundColor:colors.WHITE,
         borderRadius: 5,
         elevation: 5, // Apply elevation for shadow
     },
     iconTextText: {
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '700',
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         textAlign: 'justify',
         lineHeight: 20,
         letterSpacing: 0.48,
@@ -249,11 +233,11 @@ const styles = StyleSheet.create({
         marginTop: 8,
     },
     simpleTextText: {
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_600_12.fontFamily,
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '600',
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         textAlign: 'center',
         letterSpacing: 0.6,
     },
@@ -282,11 +266,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     buttonText: {
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_800_12.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '900',
-        color: '#FFF',
+        color: colors.WHITE,
         textAlign: 'center',
         letterSpacing: 0.8,
     },
@@ -299,11 +283,11 @@ const styles = StyleSheet.create({
         gap: 8,
     },
     lastTextText: {
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_500_12.fontFamily,
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '500',
-        color: '#3D3D3D',
+        color:colors.DARKER_GRAY,
         letterSpacing: 0.6,
         textDecorationLine: 'line-through',
     },

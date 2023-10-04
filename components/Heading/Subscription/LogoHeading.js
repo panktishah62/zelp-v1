@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
-import { dimensions } from "../../../styles";
+import { dimensions, fonts } from "../../../styles";
 import { dynamicSize } from "../../../utils/responsive";
 
 const LogoHeading=props=>{
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     },
     logoText:{
         color: '#E1740F',
-    fontFamily: 'Poppins',
+    fontFamily: fonts.POPPINS_500_11.fontFamily,
     fontSize: 18,
     fontStyle: 'normal',
     fontWeight: '700',

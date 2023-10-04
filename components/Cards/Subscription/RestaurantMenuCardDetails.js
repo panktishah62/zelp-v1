@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 import { colors } from '../../../styles/colors';
-import { dimensions } from '../../../styles';
+import { dimensions, fonts } from '../../../styles';
 
 const RestaurantMenuCardDetails = props => {
     const name = props.name;
@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
         gap: 5,
     },
     buttonText: {
-        color: '#3D3D3D',
-        fontFamily: 'Poppins',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '700',
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     },
     rightText: {
         color: '#E1740F',
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: '700',
@@ -102,14 +102,14 @@ const styles1 = StyleSheet.create({
     },
     firstText: {
         color: '#000',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '500',
     },
     secondText: {
         color: '#E1740F',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '700',
@@ -126,7 +126,7 @@ const styles2 = StyleSheet.create({
     },
     firstText: {
         color: '#000',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '500',

@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 import TextSurroundedByLine from './TextSurroundedByLine';
 import { dimensions } from '../../../styles';
 import { dynamicSize } from '../../../utils/responsive';
+import { colors } from '../../../styles/colors';
 
 const PreferedPayment = props => {
     return (
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
 
         width: dimensions.fullWidth - dynamicSize(60),
-        backgroundColor: '#fff',
+        backgroundColor: colors.WHITE,
         borderRadius: 10,
         elevation: 5,
         height: 75,

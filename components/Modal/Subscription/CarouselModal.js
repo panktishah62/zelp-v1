@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { StyleSheet, Image, Text, TouchableOpacity, View, requireNativeComponent } from 'react-native'
 import Modal from 'react-native-modal';
 import CaroselComponent from '../../Cards/Subscription/CaroselComponent';
-import { dimensions } from '../../../styles';
+import { dimensions, fonts } from '../../../styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { mealDetailsDecreased, mealDetailsIncreased } from '../../../redux/actions/subscriptionActions';
+import { colors } from '../../../styles/colors';
 
 
 
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#FFF',
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: '700',
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
     },
     headingText: {
         color: '#E1740F',
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_800_12.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '800',
@@ -157,8 +158,8 @@ const mealsStyles = StyleSheet.create({
 
     },
     firstText: {
-        color: '#3D3D3D',
-        fontFamily: 'Nunito',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.NUNITO_600_12.fontFamily,
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: '600',
@@ -175,7 +176,7 @@ const mealsStyles = StyleSheet.create({
     },
     text: {
         color: '#E1740F',
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_800_12.fontFamily,
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: '800',
@@ -206,8 +207,8 @@ const mealsStyles = StyleSheet.create({
 
     },
     firstText: {
-        color: '#3D3D3D',
-        fontFamily: 'Nunito',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '700',
@@ -215,8 +216,8 @@ const mealsStyles = StyleSheet.create({
         letterSpacing: 0.48,
     },
     secondText: {
-        color: '#3D3D3D',
-        fontFamily: 'Nunito',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.NUNITO_600_12.fontFamily,
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '600',

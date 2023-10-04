@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { dimensions } from '../../../styles';
+import { dimensions, fonts } from '../../../styles';
 import { Linking } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import { subscribeToAPlan } from '../../../redux/services/subscriptionService';
+import { colors } from '../../../styles/colors';
 
 const OrderSummary = props => {
     const subscriptionID = props.subscriptionID;
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: dimensions.fullWidth - 40,
-        backgroundColor: '#FFF',
+        backgroundColor: colors.WHITE,
         borderRadius: 12,
         padding: 10,
         elevation: 5,
@@ -99,23 +100,23 @@ const styles = StyleSheet.create({
         width: dimensions.fullWidth - 60,
     },
     leftText: {
-        color: '#000',
+        color: colors.BLACK,
         fontFamily: 'Inter',
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '400',
     },
     rightText: {
-        color: '#E1740F',
+        color: colors.ORANGE_WHITE,
         textAlign: 'right',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '600',
     },
     headingText: {
-        color: '#3D3D3D',
-        fontFamily: 'Poppins',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '700',
@@ -132,14 +133,14 @@ const buttonStyles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#E1740F',
+        backgroundColor: colors.ORANGE_WHITE,
         borderRadius: 12,
         width: dimensions.fullWidth - 80,
         paddingVertical: 16,
         marginVertical: 10,
     },
     text: {
-        color: '#FFF',
+        color: colors.WHITE,
         fontFamily: 'Rubik',
         fontSize: 14,
         fontStyle: 'normal',
@@ -149,8 +150,8 @@ const buttonStyles = StyleSheet.create({
         textTransform: 'uppercase',
     },
     changeText: {
-        color: '#000',
-        fontFamily: 'Poppins',
+        color: colors.BLACK,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '700',

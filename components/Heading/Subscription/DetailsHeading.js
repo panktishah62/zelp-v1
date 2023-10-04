@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
-import { dimensions } from "../../../styles";
+import { dimensions, fonts } from "../../../styles";
+import { colors } from "../../../styles/colors";
 
 const DetailsHeading=props=>{
     const name = props.name
@@ -72,9 +73,9 @@ const styles = StyleSheet.create({
 
 const textStyels=StyleSheet.create({
     firstText:{
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         textAlign: 'justify',
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_800_12.fontFamily,
         fontSize: 20,
         fontStyle: 'normal',
         fontWeight: '800',
@@ -82,16 +83,16 @@ const textStyels=StyleSheet.create({
         textTransform: 'capitalize',
     },
     secondText:{
-        color: '#3D3D3D',
-    fontFamily: 'Nunito',
+        color: colors.DARKER_GRAY,
+    fontFamily: fonts.NUNITO_600_12.fontFamily,
     fontSize: 16,
     fontStyle: 'normal',
     fontWeight: '600',
     textTransform: 'capitalize',
     },
     thirdText:{
-        color: '#3D3D3D',
-        fontFamily: 'Nunito',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.NUNITO_600_12.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '600',
@@ -100,7 +101,7 @@ const textStyels=StyleSheet.create({
     },
     fourthText:{
         color: '#E1740F',
-    fontFamily: 'Nunito',
+    fontFamily: fonts.NUNITO_800_12.fontFamily,
     fontSize: 16,
     fontStyle: 'normal',
     fontWeight: '800',

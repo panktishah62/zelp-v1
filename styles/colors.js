@@ -5,13 +5,19 @@ export const colors = {
     ORANGE_LIGHT: 'rgba(255, 162, 84, 0.2)',
     BACKGROUND_WHITE: '#D9D9D9',
     BORDER_GREY: '#D9D9D9',
+    WHITE_DARK: '#EBECF0',
     WHITE: '#FFFFFF',
+    GRAY_30:'#C5C5C5',
+    WHITE_GRADIENT: '#FFFFFF60',
     GREY_LIGHT: '#F7F7F7',
     GREY_MEDIUM: '#2E3138',
+    GRAY_20:'#333',
     GREY_ICON: '#595959',
     BLACK: '#000000',
     ORANGE_GRADIENT_DARK: '#FD7A33',
+    ORANGE_WHITE: '#E1740F',
     ORANGE_GRADIENT_LIGHT: '#F6FAFB',
+
     ORANGE_GRADIENT_MEDIUM: 'rgba(253, 122, 51, 0.4)',
     GREY_MEDIUM: '#827C75',
     GREY_DARK: '#666666',
@@ -28,7 +34,10 @@ export const colors = {
     SUCCESS_GREEN: '#5C9E31',
     FAILED_RED: '#DC3B30',
     WHATSAPP_GREEN: '#25D366',
+    GREEN_SHADE:'#00B16A',
+    DARK_GREEN:'#26A65B',
     WARNING_YELLOW: '#FFCC00',
+    DARKER_GRAY: '#3D3D3D',
 };
 
 export const theme = {

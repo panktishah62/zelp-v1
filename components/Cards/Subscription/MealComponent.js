@@ -124,16 +124,16 @@ const styles = StyleSheet.create({
         backgroundColor: colors.ORANGE,
     },
     itemText: {
-        color: '#000',
-        fontFamily: 'Nunito',
+        color: colors.BLACK,
+        fontFamily: fonts.NUNITO_500_12.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '500',
         lineHeight: 24,
     },
     manyMoreText: {
-        color: '#000',
-        fontFamily: 'Nunito',
+        color: colors.BLACK,
+        fontFamily: fonts.NUNITO_500_12.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '500',
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
         backgroundColor: colors.ORANGE,
-        borderColor: '#E1740F',
+        borderColor: colors.ORANGE_WHITE,
     },
     wrapperHowToStart: {
         display: 'flex',
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     },
     howToStartText: {
         color: colors.WHITE,
-        fontFamily: 'Poppins',
+        fontFamily:fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '600',

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text,  TouchableOpacity } from "react-native";
 import { dimensions, fonts } from "../../../styles";
+import { colors } from "../../../styles/colors";
 
 const WhiteButton = props => {
     const {handleNavigation}=props
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
     },
     text: {
-        color: '#E1740F',
+        color: colors.ORANGE_WHITE,
         textAlign: 'center',
         fontFamily: fonts.NUNITO_500_16.fontFamily,
         fontSize: 16,

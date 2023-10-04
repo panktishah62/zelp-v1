@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import { dimensions } from '../../../styles';
 import { ScrollView } from 'react-native-gesture-handler';
+import { colors } from '../../../styles/colors';
 
 //static data
 // const data = [
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
         width: dimensions.fullWidth - 60,
         margin: 10,
         height: 177.576,
-        backgroundColor: '#FFF',
+        backgroundColor: colors.WHITE,
         borderRadius: 5,
         elevation: 5, // Apply elevation for shadow
     },

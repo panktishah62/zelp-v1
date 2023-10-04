@@ -157,7 +157,7 @@ const ProfileMenuItem = ({
                             'Are you sure you want to delete your account?',
                         buttonText: 'No',
                         confirmText: 'Yes',
-                        confirmButtonTextStyle: { color: '#FD7A33' },
+                        confirmButtonTextStyle: { color:colors.ORANGE },
                         timing: 10000,
                         callback: () => {
                             Popup.hide();

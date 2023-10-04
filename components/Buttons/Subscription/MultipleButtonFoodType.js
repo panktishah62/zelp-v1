@@ -16,6 +16,7 @@ import {
     setSubscriptionMealType,
 } from '../../../redux/actions/subscriptionActions';
 import { getMealPlansForSubscription } from '../../../redux/services/subscriptionService';
+import { colors } from '../../../styles/colors';
 
 const MultipleButtonFoodType = props => {
     const { planID } = useSelector(state => state.finalSubscriptionPrice);
@@ -106,7 +107,10 @@ const MultipleButtonFoodType = props => {
                                     active === index && styles.buttonText,
                                     active !== index && styles1.buttonText,
                                 ]}>
-                                {item.type} ({active === index && formatTimeRange(item.timing)})
+                                {item.type} (
+                                {active === index &&
+                                    formatTimeRange(item.timing)}
+                                )
                             </Text>
                         </View>
                     </View>
@@ -121,7 +125,10 @@ const MultipleButtonFoodType = props => {
                     <Text style={vegButtonStyles.vegButtonText}>Veg</Text>
 
                     <Switch
-                        trackColor={{ false: '#3D3D3D', true: '#3D3D3D' }}
+                        trackColor={{
+                            false: colors.DARKER_GRAY,
+                            true: colors.DARKER_GRAY,
+                        }}
                         thumbColor={isEnabled ? '#00AB5E' : '#00AB5E'}
                         ios_backgroundColor="#3e3e3e"
                         onValueChange={toggleSwitch}
@@ -164,14 +171,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         gap: 8,
-        backgroundColor: '#E1740F',
+        backgroundColor: colors.ORANGE_WHITE,
         paddingHorizontal: 10,
         height: 43,
         borderRadius: 44,
     },
     buttonText: {
-        color: '#FFF',
-        fontFamily: 'Poppins',
+        color: colors.WHITE,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '600',
@@ -204,7 +211,7 @@ const vegButtonStyles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         gap: 1,
-        backgroundColor: '#fff',
+        backgroundColor:colors.WHITE,
         paddingHorizontal: 14,
 
         height: 44,
@@ -212,7 +219,7 @@ const vegButtonStyles = StyleSheet.create({
     },
 
     vegButtonText: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         fontFamily: fonts.NUNITO_400_14.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
@@ -250,13 +257,13 @@ const styles1 = StyleSheet.create({
         gap: 8,
         width: 143,
         height: 43,
-        backgroundColor: '#fff',
+        backgroundColor:colors.WHITE,
 
         borderRadius: 44,
     },
     buttonText: {
-        color: '#3D3D3D',
-        fontFamily: 'Poppins',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '600',

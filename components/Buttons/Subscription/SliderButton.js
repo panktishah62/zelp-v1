@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { fonts } from '../../../styles';
+import { colors } from '../../../styles/colors';
 
 const SliderButton = props => {
     const [sliderValue, setSliderValue] = useState(0);
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
         gap: 5,
     },
     text: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         fontFamily: fonts.NUNITO_500_16.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',

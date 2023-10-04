@@ -1,59 +1,80 @@
-import React,{useState} from 'react';
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
-import { dimensions } from '../../../styles';
+import React, { useState } from 'react';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+} from 'react-native';
+import { dimensions, fonts } from '../../../styles';
 import { Touchable } from 'react-native';
 import CarouselModal from '../../Modal/Subscription/CarouselModal';
 import { useSelector } from 'react-redux';
+import { colors } from '../../../styles/colors';
 
 const PlanDetailsHeading = props => {
     const [isModalVisible, setModalVisible] = useState(false);
-    const name = props.name
-    const { mealCount } = useSelector((state) => state.mealDetails)
-    const { finalPrice } = useSelector((state) => state.finalSubscriptionPrice)
+    const name = props.name;
+    const { mealCount } = useSelector(state => state.mealDetails);
+    const { finalPrice } = useSelector(state => state.finalSubscriptionPrice);
     const extraMeal = mealCount - 5;
     const validity = 10 + extraMeal;
     const totalPlanPrice = mealCount * finalPrice;
 
-
-    const { navigation } = props
+    const { navigation } = props;
 
     const toggleModal = () => {
-      setModalVisible(!isModalVisible);
+        setModalVisible(!isModalVisible);
     };
 
     return (
         <View>
-        <View style={styles.wrapperContainer}>
-            <View style={styles.container}>
-                <View style={styles.basicContainer}>
-                    <Text style={styles.basicText}>{name}</Text>
-                    <Image
-                        source={require('../../../assets/images/Subscription/coin_1.png')}
-                    />
+            <View style={styles.wrapperContainer}>
+                <View style={styles.container}>
+                    <View style={styles.basicContainer}>
+                        <Text style={styles.basicText}>{name}</Text>
+                        <Image
+                            source={require('../../../assets/images/Subscription/coin_1.png')}
+                        />
+                    </View>
+                    <TouchableOpacity onPress={toggleModal}>
+                        <View style={styles.modifyContainer}>
+                            <Text style={styles.modifyText}>Modify</Text>
+                            <Image
+                                source={require('../../../assets/images/Subscription/edit.png')}
+                            />
+                        </View>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={toggleModal}>
-                <View style={styles.modifyContainer}>
-                    <Text style={styles.modifyText}>Modify</Text>
-                    <Image
-                        source={require('../../../assets/images/Subscription/edit.png')}
-                    />
+                <View style={styles.textContainer}>
+                    <Text style={styles.secondaryText}>
+                        Froker Subscription Plan
+                    </Text>
                 </View>
-                </TouchableOpacity>
             </View>
-            <View style={styles.textContainer}><Text style={styles.secondaryText}>Froker Subscription Plan</Text></View>
-        </View>
-        <View style={planModelStyles.wrapperContainer}>
-           <View style={planModelStyles.container}>
-           <View style={planModelStyles.leftContainer}>
-                <Text style={planModelStyles.leftTopText}>Plan Model :</Text>
-                <Text style={planModelStyles.leftBottomText}>{mealCount} Meals with {validity} Days validity</Text>
+            <View style={planModelStyles.wrapperContainer}>
+                <View style={planModelStyles.container}>
+                    <View style={planModelStyles.leftContainer}>
+                        <Text style={planModelStyles.leftTopText}>
+                            Plan Model :
+                        </Text>
+                        <Text style={planModelStyles.leftBottomText}>
+                            {mealCount} Meals with {validity} Days validity
+                        </Text>
+                    </View>
+                    <View style={planModelStyles.rightContainer}>
+                        <Text style={planModelStyles.rightContainerText}>
+                            ₹{totalPlanPrice}
+                        </Text>
+                    </View>
+                </View>
             </View>
-            <View style={planModelStyles.rightContainer}>
-                <Text style={planModelStyles.rightContainerText}>₹{totalPlanPrice}</Text>
-            </View>
-           </View>
-        </View>
-        <CarouselModal navigation={navigation} isModalVisible={isModalVisible} toogleModal={toggleModal}/>
+            <CarouselModal
+                navigation={navigation}
+                isModalVisible={isModalVisible}
+                toogleModal={toggleModal}
+            />
         </View>
     );
 };
@@ -64,7 +85,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    textContainer:{
+    textContainer: {
         width: dimensions.fullWidth - 60,
         marginTop: 4,
     },
@@ -84,8 +105,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     basicText: {
-        color: '#3D3D3D',
-        fontFamily: 'Nunito',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.NUNITO_800_12.fontFamily,
         fontSize: 20,
         fontStyle: 'normal',
         fontWeight: '800',
@@ -106,74 +127,72 @@ const styles = StyleSheet.create({
     },
     modifyText: {
         color: '#FFF',
-        fontFamily: 'Poppins',
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '500',
         textTransform: 'capitalize',
     },
-    secondaryText:{
-        color: '#3D3D3D',
-        fontFamily: 'Nunito',
+    secondaryText: {
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '600',
-    
+
         textTransform: 'capitalize',
-    }
+    },
 });
 
-const planModelStyles=StyleSheet.create({
-    wrapperContainer:{
+const planModelStyles = StyleSheet.create({
+    wrapperContainer: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
     },
-    container:{
+    container: {
         marginTop: 20,
         display: 'flex',
         flexDirection: 'row',
         width: dimensions.fullWidth - 60,
-        justifyContent: 'space-between',   
+        justifyContent: 'space-between',
     },
-    leftContainer:{
+    leftContainer: {
         display: 'flex',
         flexDirection: 'column',
         gap: 5,
     },
-    rightContainer:{
+    rightContainer: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
         gap: 3,
     },
-    rightContainerText:{
+    rightContainerText: {
         color: '#E1740F',
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 24,
         fontStyle: 'normal',
         fontWeight: '700',
         textTransform: 'capitalize',
     },
-    leftTopText:{
+    leftTopText: {
         color: '#E1740F',
-    fontFamily: 'Nunito',
-    fontSize: 16,
-    fontStyle: 'normal',
-    fontWeight: '700',
-    textTransform: 'capitalize',
+        fontFamily: fonts.NUNITO_700_12.fontFamily,
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: '700',
+        textTransform: 'capitalize',
     },
-    leftBottomText:{
-        color: '#3D3D3D',
-    fontFamily: 'Nunito',
-    fontSize: 16,
-    fontStyle: 'normal',
-    fontWeight: '700',
-    textTransform: 'capitalize',
-    }
+    leftBottomText: {
+        color:colors.DARKER_GRAY,
+        fontFamily: fonts.NUNITO_700_12.fontFamily,
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: '700',
+        textTransform: 'capitalize',
+    },
 });
-
-
 
 export default PlanDetailsHeading;
