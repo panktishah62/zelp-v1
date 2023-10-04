@@ -62,7 +62,7 @@ const OrderDetail = ({ route, navigation }) => {
                         style={[
                             fonts.NUNITO_700_14,
                             {
-                                color: '#00000050',
+                                color: colors.BLACK,
                                 marginVertical: 10,
                             },
                         ]}>
@@ -110,14 +110,14 @@ const OrderDetail = ({ route, navigation }) => {
                             leftTextStyle={[
                                 fonts.NUNITO_700_14,
                                 {
-                                    color: '#00000065',
+                                    color: colors.BLACK,
                                 },
                             ]}
                             rightText={`₹ ${paymentData?.totalAmount}`}
                             rightTextStyle={[
                                 fonts.NUNITO_800_14,
                                 {
-                                    color: '#00000065',
+                                    color:colors.BLACK,
                                 },
                             ]}
                             pt={17}
@@ -145,7 +145,7 @@ const OrderDetail = ({ route, navigation }) => {
                         style={[
                             fonts.NUNITO_700_16,
                             {
-                                color: '#00000050',
+                                color:colors.BLACK,
                                 marginVertical: 10,
                             },
                         ]}>
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     },
     leftTextStyle: {
         ...fonts.NUNITO_700_14,
-        color: '#00000090',
+        color:colors.BLACK,
     },
     rightTextStyle: {
         ...fonts.NUNITO_800_14,
@@ -196,12 +196,12 @@ const styles = StyleSheet.create({
     sectionHeading: {
         fontSize: 14,
         fontWeight: '700',
-        color: '#00000065',
+        color: colors.BLACK,
     },
     sectionData: {
         fontSize: 12,
         fontWeight: '500',
-        color: '#00000065',
+        color:colors.BLACK,
     },
     billDetailsContainer: {
         backgroundColor: colors.WHITE,

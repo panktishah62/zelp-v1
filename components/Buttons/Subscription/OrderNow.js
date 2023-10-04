@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import { dimensions } from '../../../styles';
+import { dimensions, fonts } from '../../../styles';
+import { colors } from '../../../styles/colors';
 
 const OrderNow = props => {
     const { navigation, name } = props;
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
         height: 45,
         padding: 10.094,
         borderWidth: 1,
-        borderColor: '#E1740F',
+        borderColor: colors.ORANGE_WHITE,
         borderRadius: 7,
         justifyContent: 'center',
         alignItems: 'center',
@@ -38,8 +39,8 @@ const styles = StyleSheet.create({
         flexShrink: 0,
     },
     buttonText: {
-        color: '#E1740F',
-        fontFamily: 'Poppins',
+        color: colors.ORANGE_WHITE,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '500',

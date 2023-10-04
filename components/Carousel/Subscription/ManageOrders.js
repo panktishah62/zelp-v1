@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
-import { dimensions } from "../../../styles";
+import { dimensions, fonts } from "../../../styles";
 import { dynamicSize } from "../../../utils/responsive";
+import { colors } from "../../../styles/colors";
 
 const ManageOrders = props => {
     const data=[
@@ -105,8 +106,8 @@ const styles = StyleSheet.create({
         width:dynamicSize(46),
     },
     manageOrderText:{
-        color: '#3D3D3D',
-        fontFamily: 'Poppins',
+        color:colors.DARKER_GRAY,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: dynamicSize(14),
         fontStyle: 'normal',
         fontWeight: '700',
@@ -115,8 +116,8 @@ const styles = StyleSheet.create({
        
     },
     mealText:{
-        color: '#3D3D3D',
-        fontFamily: 'Poppins',
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: dynamicSize(14),
         fontStyle: 'normal',
         fontWeight: '500',

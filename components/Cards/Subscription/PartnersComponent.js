@@ -1,91 +1,77 @@
-
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Image, Text, ScrollView } from "react-native";
-import TextSurroundedByLine from "./TextSurroundedByLine";
-import { dimensions } from "../../../styles";
-import { getPartnerRestaurants } from "../../../redux/services/subscriptionService";
-
-
-
-
-
-
-
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
+import TextSurroundedByLine from './TextSurroundedByLine';
+import { dimensions, fonts } from '../../../styles';
+import { getPartnerRestaurants } from '../../../redux/services/subscriptionService';
+import { colors } from '../../../styles/colors';
 
 const PartnersComponent = props => {
-
-    const data = [
-        {
-            id: '1',
-            imageSource: require('../../../assets/images/Subscription/up_wala_logo.png'),
-            text: 'Up wala'
-        },
-        {
-            id: '2',
-            imageSource: require('../../../assets/images/Subscription/kfc_logo.png'),
-            text: 'KFC'
-        },
-        {
-            id: '3',
-            imageSource: require('../../../assets/images/Subscription/domino\'s_logo.png'),
-            text: 'Domino\'s Pizza'
-        },
-        {
-            id: '4',
-            imageSource: require('../../../assets/images/Subscription/empire_restaurant_logo.png'),
-            text: 'Empire Restaurant'
-        },
-        {
-            id: '5',
-            imageSource: require('../../../assets/images/Subscription/kfc_logo.png'),
-            text: 'KFC'
-        }
-
-
-        // Add more items as needed
-    ];
-
     const [partnerRestaurants, setPartnerRestaurantsArr] = useState([]);
 
     useEffect(() => {
         fetchData();
-    }
-        , [setPartnerRestaurantsArr])
+    }, [setPartnerRestaurantsArr]);
 
     const fetchData = async () => {
         const response = await getPartnerRestaurants();
         setPartnerRestaurantsArr(response?.data?.data);
-    }
-
-    const renderItems = () => {
-
-
-        return partnerRestaurants && partnerRestaurants.map((item) => (
-            <View key={item.id} style={styles.item}>
-                <View style={styles.imageText}>
-                    <Image style={styles.imageTextImage} source={{
-                        uri: item.restaurantImage,
-                    }} />
-                    <Text style={styles.imageTextText}>{item.restaurantName}</Text>
-                </View>
-            </View>
-        ));
     };
 
+    const renderItems = () => {
+        return (
+            partnerRestaurants &&
+            partnerRestaurants.map(item => (
+                <View key={item.id} style={styles.item}>
+                    <View style={styles.imageText}>
+                        <Image
+                            style={styles.imageTextImage}
+                            source={{
+                                uri: item.restaurantImage,
+                            }}
+                        />
+                        <Text style={styles.imageTextText}>
+                            {item.restaurantName}
+                        </Text>
+                    </View>
+                </View>
+            ))
+        );
+    };
 
     return (
         <View style={{ marginHorizontal: 4 }}>
-            <TextSurroundedByLine text="Partner Restaurants" />
+            <View style={styles.container}>
+                <Text style={styles.innerText}>
+                    Our{" "}
+                    <Text style={styles.changeColor}>
+                        Restaurants Partners
+                    </Text>
+                </Text>
+            </View>
             <ScrollView horizontal showsVerticalScrollIndicator={false}>
                 {renderItems()}
             </ScrollView>
         </View>
-    )
-}
-
-
+    );
+};
 
 const styles = StyleSheet.create({
+    container: {
+        width: dimensions.fullWidth,
+        display: 'flex',
+        alignItems: 'center',
+    },
+    innerText: {
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.NUNITO_600_16.fontFamily,
+        fontSize: 16,
+        fontStyle: 'normal',
+        fontWeight: '600',
+    },
+    changeColor: {
+        color: colors.ORANGE_WHITE,
+        fontWeight: '800',
+    },
     item: {
         display: 'flex',
         width: dimensions.fullWidth / 4,
@@ -101,24 +87,23 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-
     },
     imageTextImage: {
         width: 80,
         height: 80,
         flexShrink: 0,
         borderRadius: 50,
-    },   
+        marginVertical:6
+    },
     imageTextText: {
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         textAlign: 'center',
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '700',
         letterSpacing: 0.6,
-    }
-})
+    },
+});
 
-
-export default PartnersComponent
+export default PartnersComponent;

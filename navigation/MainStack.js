@@ -290,7 +290,7 @@ const MainStack = () => {
                     header: () => (
                         <HeaderWithTitle
                             navigation={navigation}
-                            title={'Subscription Home'}
+                            title={'Subscription'}
                         />
                     ),
                 })}

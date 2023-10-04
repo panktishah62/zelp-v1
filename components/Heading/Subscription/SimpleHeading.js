@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
 import { dynamicSize, normalizeFont } from "../../../utils/responsive";
 import { dimensions, fonts } from "../../../styles";
+import { colors } from "../../../styles/colors";
 
 const SimpleHeading = props=>{
     return(
@@ -21,7 +22,7 @@ const styles=StyleSheet.create({
         width:dimensions.fullWidth-dynamicSize(50)
     },
     text:{
-        color: '#3D3D3D',
+        color: colors.DARKER_GRAY,
         fontFamily: fonts.NUNITO_400_14.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',

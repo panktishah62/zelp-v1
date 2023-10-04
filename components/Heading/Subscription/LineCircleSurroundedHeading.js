@@ -1,76 +1,89 @@
-import React from "react";
-import { StyleSheet, View, Text, Image, ScrollView } from "react-native";
-import { dimensions } from "../../../styles";
+import React from 'react';
+import { StyleSheet, View, Text, Image } from 'react-native';
+import { dimensions, fonts } from '../../../styles';
+import { colors } from '../../../styles/colors';
 
 const LineCircleSurroundedHeading = props => {
     const validity = props.validity || 0;
-    const price =props.price  || 100;
+    const price = props.price || 100;
     const discount = props.discount;
-    const total = price*(1-discount/100) *5;
+    const total = price * (1 - discount / 100) * 5;
 
-    return(
+    return (
         <View style={styles.wrapper}>
             <View style={styles.container}>
-        <View style={styles.firstContainer}>
-            <Image source={require('../../../assets/images/Subscription/line.png')}/>
-            <Image source={require('../../../assets/images/Subscription/circle.png')}/>
-
-        </View>
-        <View style={styles.secondContainer}><Text style={textStyles.firstText}>Just pay <Text style={textStyles.secondText}>₹{total}</Text> for Min. 5 meals - {validity} days validity</Text></View>
-        <View style={styles.thirdContainer}>
-        <Image source={require('../../../assets/images/Subscription/circle.png')}/>
-        <Image style={styles.image} source={require('../../../assets/images/Subscription/line.png')}/>
-        </View>
+                <View style={styles.firstContainer}>
+                    <Image
+                        source={require('../../../assets/images/Subscription/line.png')}
+                    />
+                    <Image
+                        source={require('../../../assets/images/Subscription/circle.png')}
+                    />
+                </View>
+                <View style={styles.secondContainer}>
+                    <Text style={textStyles.firstText}>
+                        Just pay{' '}
+                        <Text style={textStyles.secondText}>₹{total}</Text> for
+                        Min. 5 meals - {validity} days validity
+                    </Text>
+                </View>
+                <View style={styles.thirdContainer}>
+                    <Image
+                        source={require('../../../assets/images/Subscription/circle.png')}
+                    />
+                    <Image
+                        style={styles.image}
+                        source={require('../../../assets/images/Subscription/line.png')}
+                    />
+                </View>
             </View>
         </View>
-    )
-
-}
+    );
+};
 
 const styles = StyleSheet.create({
-    wrapper:{
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center',
-        marginVertical:20,
+    wrapper: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 20,
     },
-    container:{
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center',
+    container: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
         width: dimensions.fullWidth,
-        flexDirection:'row',
+        flexDirection: 'row',
     },
-    firstContainer:{
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center',
-        flexDirection:'row',
-    
+    firstContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
     },
-    secondContainer:{
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center',
-        flexDirection:'row',
-        width:246.73,
-        marginHorizontal:13.96,
+    secondContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        width: 246.73,
+        marginHorizontal: 13.96,
     },
-    thirdContainer:{
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center',
-        flexDirection:'row',
+    thirdContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
     },
-    image:{
+    image: {
         transform: [{ rotate: '180deg' }],
-    }
-})
+    },
+});
 
-const textStyles=StyleSheet.create({
-    firstText:{
-        color: '#3D3D3D',
-        fontFamily: 'Nunito',
+const textStyles = StyleSheet.create({
+    firstText: {
+        color: colors.DARKER_GRAY,
+        fontFamily: fonts.NUNITO_500_12.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '500',
@@ -78,16 +91,15 @@ const textStyles=StyleSheet.create({
         letterSpacing: 0.48,
         textAlign: 'center',
     },
-    secondText:{
+    secondText: {
         color: '#E1740F',
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: '700',
         lineHeight: 18 * 1.458, // Calculate line-height based on font size
         letterSpacing: 0.54,
-    }
-})
-
+    },
+});
 
 export default LineCircleSurroundedHeading;

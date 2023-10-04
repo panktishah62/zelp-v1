@@ -17,6 +17,7 @@ import {
     getOneSubscriptionPlanDetails,
 } from '../../redux/services/subscriptionService';
 import { useSelector } from 'react-redux';
+import { colors } from '../../styles/colors';
 
 const PageDetails = props => {
     const { navigation, route } = props;
@@ -108,7 +109,7 @@ const PageDetails = props => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#F3F4F8',
+        backgroundColor:colors.WHITE,
     },
     mealCard: {
         marginBottom: 100,

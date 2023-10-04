@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, View, Text, Image, ScrollView } from "react-native";
 ;
 import Modal from 'react-native-modal';
-import { dimensions } from "../../../styles";
+import { dimensions, fonts } from "../../../styles";
 import { black } from "react-native-paper/lib/typescript/styles/themes/v2/colors";
 import { dynamicSize } from "../../../utils/responsive";
 import SubscribeNowAddMeal from "../../Buttons/Subscription/SubscribeNowAddMeal";
 import { useDispatch, useSelector } from "react-redux";
 import { finalPlanDetails, mealDetailsDecreased, mealDetailsIncreased } from "../../../redux/actions/subscriptionActions";
+import { colors } from "../../../styles/colors";
 
 
 const AddOnMealModal = props => {
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#FFF',
-    fontFamily: 'Nunito',
+    fontFamily: fonts.NUNITO_700_12.fontFamily,
     fontSize: 18,
     fontStyle: 'normal',
     fontWeight: '700',
@@ -173,8 +174,8 @@ const mealsStyles = StyleSheet.create({
     flexDirection: 'row',
   },
   firstText: {
-    color: '#3D3D3D',
-    fontFamily: 'Nunito',
+    color: colors.DARKER_GRAY,
+    fontFamily: fonts.NUNITO_600_12.fontFamily,
     fontSize: 18,
     fontStyle: 'normal',
     fontWeight: '600',
@@ -191,7 +192,7 @@ const mealsStyles = StyleSheet.create({
   },
   text: {
     color: '#E1740F',
-    fontFamily: 'Nunito',
+    fontFamily:fonts.NUNITO_800_12.fontFamily,
     fontSize: 18,
     fontStyle: 'normal',
     fontWeight: '800',
@@ -252,7 +253,7 @@ const addOnMealStyles = StyleSheet.create({
   text: {
     color: '#E1740F',
     textAlign: 'center',
-    fontFamily: 'Nunito',
+    fontFamily: fonts.NUNITO_800_12.fontFamily,
     fontSize: 18,
     fontStyle: 'normal',
     fontWeight: '800',
@@ -273,17 +274,17 @@ const viewStyles = StyleSheet.create({
     marginBottom: 5,
   },
   text: {
-    color: '#3D3D3D',
-    fontFamily: 'Nunito',
+    color: colors.DARKER_GRAY,
+    fontFamily: fonts.NUNITO_600_12.fontFamily,
     fontSize: 18,
     fontStyle: 'normal',
     fontWeight: '600',
     letterSpacing: 0.54,
   },
   buttonText: {
-    color: '#3D3D3D',
+    color: colors.DARKER_GRAY,
     textAlign: 'center',
-    fontFamily: 'Poppins',
+    fontFamily: fonts.POPPINS_500_11.fontFamily,
     fontSize: 16,
     fontStyle: 'normal',
     fontWeight: '600',
@@ -297,7 +298,7 @@ const viewStyles = StyleSheet.create({
     backgroundColor: '#F4F4F4',
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#3D3D3D',
+    borderColor: colors.DARKER_GRAY,
   }
 })
 

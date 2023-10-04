@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, ScrollView,TouchableOpacity } from "react-native";
-import { dimensions } from "../../../styles";
+import { dimensions, fonts } from "../../../styles";
 import { Touchable } from "react-native";
+import { colors } from "../../../styles/colors";
 
 const TextLogo=props=>{
     return(
@@ -43,8 +44,8 @@ const styles = StyleSheet.create({
         height: 16,
     },
     buttonText:{
-        color: '#FFF',
-        fontFamily: 'Nunito',
+        color: colors.WHITE,
+        fontFamily: fonts.NUNITO_600_12.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '600',

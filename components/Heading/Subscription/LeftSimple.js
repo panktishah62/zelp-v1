@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
-import { dimensions } from '../../../styles';
+import { dimensions, fonts } from '../../../styles';
 import { dynamicSize } from '../../../utils/responsive';
+import { colors } from '../../../styles/colors';
 const LeftSimple = props => { 
     const {text}=props   
     return(
@@ -21,8 +22,8 @@ const styles = StyleSheet.create({
         width:dimensions.fullWidth-dynamicSize(50)
     },
     text:{
-        color: '#3D3D3D',
-    fontFamily: 'Poppins',
+        color: colors.DARKER_GRAY,
+    fontFamily: fonts.POPPINS_500_11.fontFamily,
     fontSize: 18,
     fontStyle: 'normal',
     fontWeight: '500',

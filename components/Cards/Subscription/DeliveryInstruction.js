@@ -3,6 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { dynamicSize } from '../../../utils/responsive';
 import PlusCircle from '../../../assets/images/Subscription/PlusCircle.svg';
+import { colors } from '../../../styles/colors';
 const DeliveryInstruction = props => {
     return (
         <View style={styles.container}>
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     firstContainer: {
         display: 'flex',
         justifyContent: 'space-between',
-        backgroundColor: '#FFF',
+        backgroundColor:colors.WHITE,
         elevation: 8,
         borderRadius: 10,
         width: dimensions.fullWidth - dynamicSize(40),

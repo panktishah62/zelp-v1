@@ -83,7 +83,7 @@ const AddressCard = ({
                         <Text
                             style={[
                                 fonts.NUNITO_600_12,
-                                { color: '#00000050' },
+                                { color: colors.BLACK },
                             ]}>
                             {sliceText(fullAddress, 60)}
                         </Text>
@@ -92,7 +92,7 @@ const AddressCard = ({
                         <Text
                             style={[
                                 fonts.NUNITO_600_12,
-                                { color: '#00000050' },
+                                { color: colors.BLACK},
                             ]}>
                             Phone Number: +91 {phoneNo}
                         </Text>

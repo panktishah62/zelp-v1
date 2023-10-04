@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { dynamicSize } from '../../../utils/responsive';
 import Svg, {  SvgUri } from 'react-native-svg';
+import { fonts } from '../../../styles';
+import { colors } from '../../../styles/colors';
 
 const BenifitComponent = props => {
     const { data, isDynamic } = props;
@@ -48,11 +50,11 @@ const styles = StyleSheet.create({
         flexShrink: 0,
     },
     innerText: {
-        fontFamily: 'Nunito',
+        fontFamily: fonts.NUNITO_800_12.fontFamily,
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '800',
-        color: '#000000',
+        color: colors.BLACK,
         textTransform: 'capitalize',
     },
 });

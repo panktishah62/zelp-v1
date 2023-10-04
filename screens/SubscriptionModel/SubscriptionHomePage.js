@@ -14,6 +14,7 @@ import {
     showSubscriptionDetails,
 } from '../../redux/services/subscriptionService';
 import { finalPlanDetails, setSubscriptionDetails } from '../../redux/actions/subscriptionActions';
+import { colors } from '../../styles/colors';
 
 const SubscriptionHomePage = props => {
     const [firstActive, setFirstActive] = useState(true);
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: colors.WHITE,
     },
 });
 

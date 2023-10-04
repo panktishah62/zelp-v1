@@ -49,14 +49,14 @@ const styles=StyleSheet.create({
         flex: 1,
         height: 1,
 
-        backgroundColor: 'black',
+        backgroundColor: colors.BLACK,
     },
     text: {
         fontFamily: fonts.NUNITO_500_16.fontFamily,
         paddingHorizontal: 14,
         fontSize: fonts.NUNITO_500_16.fontSize,
         fontWeight: fonts.NUNITO_600_16.fontWeight,
-        color: 'black',
+        color:colors.BLACK,
     },
     changeColor: {
         color: colors.ORANGE,

@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Image, TouchableHighlight, TouchableOpacity } f
 import { fonts } from "../../../styles";
 import { dynamicSize, normalizeFont } from "../../../utils/responsive";
 import MenuModal from "./MenuModal";
+import { colors } from "../../../styles/colors";
 
 const RestaurantMenuModal = props => {
 
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
 
         height: 68,
         borderRadius: 64,
-        backgroundColor: 'black',
+        backgroundColor: colors.BLACK,
     },
     innerContainer: {
         display: 'flex',

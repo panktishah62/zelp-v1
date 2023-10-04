@@ -5,6 +5,7 @@ import PromoCodesAndOffers from "../../components/Cards/Subscription/PromoCodesA
 import PreferedPayment from "../../components/Cards/Subscription/PreferedPayment";
 import OrderSummary from "../../components/Cards/Subscription/OrderSummary";
 import BlockImage from "../../components/Block/Subscription/BlockImage";
+import { colors } from "../../styles/colors";
 
 
 const SubscriptionPayment = props => {
@@ -35,7 +36,7 @@ const SubscriptionPayment = props => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F3F4F8'
+    backgroundColor:colors.WHITE
   }
 })
 

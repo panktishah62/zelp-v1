@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
         flexShrink: 0,
         gap: 10,
         borderRadius: 5,
-        backgroundColor: '#3D3D3D',
+        backgroundColor: colors.DARKER_GRAY,
     },
     cheatCodeText: {
         fontFamily: fonts.NUNITO_500_16.fontFamily,
