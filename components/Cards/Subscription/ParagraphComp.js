@@ -6,7 +6,6 @@ import { dimensions } from "../../../styles";
 
 const ParagraphComp = props => {
     const minValidity = props.minValidity
-    console.log(minValidity,"makicghu");
     return (
         <View>
             <View style={[styles.firstContainer, { marginTop: 10 }]}>
