@@ -2,15 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
     View,
     Text,
-    Image,
     StyleSheet,
     TouchableOpacity,
     FlatList,
-    ImageBackground,
-    SafeAreaView,
     Platform,
 } from 'react-native';
-import { dimensions, fonts, Styles } from '../../styles';
+import { dimensions, fonts} from '../../styles';
 import { colors } from '../../styles/colors';
 
 import AppLogo from '../../assets/icons/AppTour/AppLogo.svg';
@@ -215,7 +212,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         flexDirection: 'column',
         height: dimensions.fullHeight,
-        backgroundColor: '#F6FAFB',
+        backgroundColor: colors.ORANGE_GRADIENT_LIGHT,
         alignItems: 'center',
         justifyContent: 'center',
         width: dimensions.fullWidth,
@@ -248,7 +245,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         justifyContent: 'space-between',
-        backgroundColor: '#FFFFFF',
+        backgroundColor:colors.WHITE,
     },
     titleContainer: { alignSelf: 'center', marginTop: dynamicSize(15) },
     title: {
@@ -260,7 +257,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
         ...fonts.NUNITO_700_16,
-        color: '#000000A6',
+        color: colors.BLACK,
     },
     footerLeftText: {
         marginLeft: dynamicSize(10),
