@@ -29,6 +29,9 @@ export const getConfig = () => {
                 packagingCharges: parameters.packagingCharges.asNumber(),
                 deliveryTip: parameters.deliveryTip.asNumber(),
                 isDeliveryFree: parameters.isDeliveryFree.asBoolean(),
+                // maxReferralCoinsToUse: parameters.maxReferralCoinsToUse.asNumber(),
+                maxReferralCoinMoneyToUse:
+                    parameters.maxReferralCoinMoneyToUse.asNumber(),
             };
             dispatch({
                 type: GET_CONFIG,

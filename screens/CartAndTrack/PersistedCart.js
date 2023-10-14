@@ -29,6 +29,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CouponCardForCart from '../../components/Cards/Coupons.js/CouponCardForCart';
 import { useIsFocused } from '@react-navigation/native';
 import { showDialog } from '../../redux/actions/dialog';
+import RefferalCoins from '../../components/Cards/PersistedCart.js/RefferalCoins';
 
 const CartScreen = ({ navigation }) => {
     const insets = useSafeAreaInsets();
@@ -180,12 +181,28 @@ const CartScreen = ({ navigation }) => {
                             <View style={styles.container}>
                                 <View>
                                     {cart && (
-                                        <WalletMoney
-                                            isActive={myCart.isWalletMoneyUsed}
-                                            setIsLoading={setCartLoading}
-                                            moneyInWallet={myCart.walletMoney}
-                                            config={myCart.config}
-                                        />
+                                        <View>
+                                            <WalletMoney
+                                                isActive={
+                                                    myCart.isWalletMoneyUsed
+                                                }
+                                                setIsLoading={setCartLoading}
+                                                moneyInWallet={
+                                                    myCart.walletMoney
+                                                }
+                                                config={myCart.config}
+                                            />
+                                            <RefferalCoins
+                                                isActive={
+                                                    myCart.isReferralCoinsUsed
+                                                }
+                                                setIsLoading={setCartLoading}
+                                                moneyInWallet={
+                                                    myCart.referralCoinsUsed
+                                                }
+                                                config={myCart.config}
+                                            />
+                                        </View>
                                     )}
                                 </View>
                                 <View style={styles.foodItemsContainer}>

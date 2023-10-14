@@ -5,9 +5,14 @@ import {
     FETCH_DATA_FAILURE_USER,
     GET_USER_PROFILE,
     RESET_USER,
+    UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE,
     UPDATE_MAX_WALLET_MONEY_TO_USE,
 } from '../constants';
-import { getUserWallet } from './cartActions';
+import {
+    getUserReferralCoinMoney,
+    getUserWallet,
+    updateReferraMaxMoney,
+} from './cartActions';
 import { editUserProfile_, getUserProfile_ } from '../services/userService';
 
 export const editUserProfile = (userProfile, navigation) => {
@@ -42,10 +47,18 @@ export const getUserProfile = setIsLoading => {
                             payload: data.user,
                         });
                         dispatch(getUserWallet(data.user.wallet));
+
+                        dispatch(
+                            getUserReferralCoinMoney(data.user.referralCoins),
+                        );
+                        dispatch(
+                            updateReferraMaxMoney(data.user.referralCoins),
+                        );
                         dispatch({
                             type: UPDATE_MAX_WALLET_MONEY_TO_USE,
                             payload: data.user.wallet,
                         });
+
                         dispatch({
                             type: CALCULATE_TOTAL,
                         });

@@ -14,28 +14,31 @@ import { colors } from '../../../styles/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import SwitchBtn from '../../Buttons/Switch';
 import {
-    applyWalletMoney,
-    removeWalletMoney,
+    applyReferralCoinMoney,
+    removeRefferalCoinMoney,
 } from '../../../redux/actions/cartActions';
-import { canApplyWallet } from '../../../redux/services/cartService';
+import {
+    canApplyWallet,
+    canApplyReferralCodeMoney,
+} from '../../../redux/services/cartService';
 import { DialogTypes } from '../../../utils';
 import { showDialog } from '../../../redux/actions/dialog';
 
-const WalletMoney = props => {
-    const { setIsLoading, moneyInWallet, config } = props;
+const RefferalCoins = props => {
+    const { setIsLoading, moneyInReferral, config } = props;
     const cart = useSelector(state => state.cartActions);
     const [isActive, setIsActive] = useState(props.isActive);
-    const [remainingMoneyInWallet, setRemainingMoneyInWallet] =
-        useState(moneyInWallet);
+    const [remainingMoneyInReferral, setRemainingMoneyInReferral] =
+        useState(moneyInReferral);
     const dispatch = useDispatch();
     const onClick = () => {
-        if (cart?.isReferralCoinsUsed) {
+        if (cart?.isWalletMoneyUsed) {
             dispatch(
                 showDialog({
                     isVisible: true,
-                    titleText: 'Cannot apply Wallet money!',
+                    titleText: 'Cannot apply Referral coins!',
                     subTitleText:
-                        'Wallet Money cannot be applied along with Referral coins. Remove Referral coins to apply wallet',
+                        'Referral Coins Cannot be applied along with wallet. Remove wallet to apply Referral coins',
                     buttonText1: 'CLOSE',
                     type: DialogTypes.WARNING,
                 }),
@@ -43,45 +46,47 @@ const WalletMoney = props => {
         }
         if (isActive) {
             setIsLoading(true);
-            dispatch(removeWalletMoney(setIsLoading));
+            dispatch(removeRefferalCoinMoney(setIsLoading));
             setIsActive(false);
         } else {
             if (cart?.coupon && cart?.coupon?._id) {
                 dispatch(
                     showDialog({
                         isVisible: true,
-                        titleText: 'Cannot apply wallet!',
+                        titleText: 'Cannot apply Referral coins!',
                         subTitleText:
-                            'Wallet Cannot be applied along with coupon. Remove coupon to apply wallet',
+                            'Referral Coins Cannot be applied along with coupon. Remove coupon to apply wallet',
                         buttonText1: 'CLOSE',
                         type: DialogTypes.WARNING,
                     }),
                 );
-            } else if (
-                Number(
-                    cart?.billingDetails &&
-                        cart?.billingDetails?.totalItemsPrice,
-                ) <= Number(config?.minOrderValueForWallet)
-            ) {
-                dispatch(
-                    showDialog({
-                        isVisible: true,
-                        titleText: 'Wallet Error',
-                        subTitleText: `Cannot apply wallet money for the item total less than or equal to ${config.minOrderValueForWallet}`,
-                        buttonText1: 'CLOSE',
-                        type: DialogTypes.WARNING,
-                    }),
-                );
-            } else {
+            }
+            // else if (
+            //     Number(
+            //         cart?.billingDetails &&
+            //             cart?.billingDetails?.totalItemsPrice,
+            //     ) <= Number(config?.minOrderValueForWallet)
+            // ) {
+            //     dispatch(
+            //         showDialog({
+            //             isVisible: true,
+            //             titleText: 'Wallet Error',
+            //             subTitleText: `Cannot apply wallet money for the item total less than or equal to ${config.minOrderValueForWallet}`,
+            //             buttonText1: 'CLOSE',
+            //             type: DialogTypes.WARNING,
+            //         }),
+            //     );
+            // }
+            else {
                 setIsLoading(true);
-                dispatch(applyWalletMoney(setIsLoading));
+                dispatch(applyReferralCoinMoney(setIsLoading));
                 setIsActive(true);
             }
         }
     };
 
     useEffect(() => {
-        if (cart.isWalletMoneyUsed) {
+        if (cart.isReferralCoinsUsed) {
             setIsActive(true);
         } else {
             setIsActive(false);
@@ -90,22 +95,16 @@ const WalletMoney = props => {
 
     useEffect(() => {
         if (isActive) {
-            setRemainingMoneyInWallet(0);
+            setRemainingMoneyInReferral(0);
         } else {
-            setRemainingMoneyInWallet(moneyInWallet);
+            setRemainingMoneyInReferral(moneyInReferral);
         }
     }, [isActive]);
 
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
-                <Text style={styles.titleText}>Use Wallet Money</Text>
-                {/* <Text style={styles.subtitleText}>
-                    Max {config.maxWalletMoneyToUse}/- can be used
-                </Text> */}
-                {/* <Text style={styles.subtitleText}>
-                    ( In Wallet : {remainingMoneyInWallet}/- )
-                </Text> */}
+                <Text style={styles.titleText}>Use Referral Coins</Text>
             </View>
             <View style={[Styles.row, styles.rightContainer]}>
                 <View style={styles.money}>
@@ -113,10 +112,10 @@ const WalletMoney = props => {
                         <Rupee />
                         <Text style={styles.titleText}>
                             {' '}
-                            {cart?.isWalletMoneyUsed
-                                ? config.maxWalletMoneyToUse -
-                                  cart?.billingDetails?.walletMoney
-                                : config.maxWalletMoneyToUse}{' '}
+                            {cart?.isReferralCoinsUsed
+                                ? config.maxReferralCoinMoneyToUse -
+                                  cart?.billingDetails?.referralCoinsUsed
+                                : config.maxReferralCoinMoneyToUse}
                         </Text>
                     </View>
                 </View>
@@ -173,4 +172,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default WalletMoney;
+export default RefferalCoins;

@@ -5,7 +5,12 @@ import { persistor } from '../store/index';
 import { getDefaultAddress, resetAddress } from './address';
 import { resetCurrentOrder } from './currentOrder';
 import { resetUser } from './user';
-import { getUserWallet, resetCartActions } from './cartActions';
+import {
+    getUserWallet,
+    resetCartActions,
+    getUserReferralCoinMoney,
+    updateReferraMaxMoney,
+} from './cartActions';
 import { resetFollowedFroker } from './froker';
 import {
     generateNewToken,
@@ -129,10 +134,16 @@ export const verifyOTP = (
                         payload: data.userProfile,
                     });
                     dispatch(getUserWallet(data?.userProfile?.wallet));
-                    dispatch({
-                        type: types.UPDATE_MAX_WALLET_MONEY_TO_USE,
-                        payload: data?.userProfile?.wallet,
-                    });
+                    dispatch(
+                        getUserReferralCoinMoney(
+                            data?.userProfile?.referralCoins,
+                        ),
+                    );
+
+                    dispatch(
+                        updateReferraMaxMoney(data?.userProfile?.referralCoins),
+                    );
+
                     if (
                         data?.referralCode &&
                         data?.addToSenderWallet &&

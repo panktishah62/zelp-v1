@@ -3,6 +3,7 @@ import {
     GET_CONFIG_ERROR,
     GET_SHOTS_CONFIG_ERROR,
     GET_SHOTS_VIEW_REST_SORTING_CONFIG,
+    UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE,
     UPDATE_MAX_WALLET_MONEY_TO_USE,
 } from '../constants';
 
@@ -40,6 +41,11 @@ const serverReducer = (state = initialState, action) => {
             return {
                 ...state,
                 maxWalletMoneyToUse: action.payload,
+            };
+        case UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE:
+            return {
+                ...state,
+                maxReferralCoinMoneyToUse: action.payload,
             };
         default:
             return state;

@@ -1,10 +1,14 @@
+import { useDispatch } from 'react-redux';
 import { DialogTypes } from '../../utils';
 import { showDialog } from '../actions/dialog';
+import { store } from '../store';
 
 export function calculateTotal(billingData) {
     const restaurants = billingData?.restaurants;
     let isWalletMoneyUsed = billingData?.isWalletMoneyUsed;
     const config = billingData?.config;
+    let isReferralCoinsUsed = billingData?.isReferralCoinsUsed;
+
     let billingDetails = {};
     let discountAmount = billingData?.discountAmount
         ? billingData?.discountAmount
@@ -80,10 +84,16 @@ export function calculateTotal(billingData) {
                 ? totalAmountBeforeDiscount
                 : walletMoney
             : 0;
+        const maxRefferalCoinToUse = isReferralCoinsUsed
+            ? totalAmountBeforeDiscount <= billingData?.referralCoinsUsed
+                ? totalAmountBeforeDiscount
+                : billingData?.referralCoinsUsed
+            : 0;
 
         const totalAmount =
             totalAmountBeforeDiscount -
             Number(maxWalletMoneyToUse) -
+            Number(maxRefferalCoinToUse) -
             Number(discountAmount);
 
         billingDetails = {
@@ -95,6 +105,7 @@ export function calculateTotal(billingData) {
             deliveryTip: config?.deliveryTip,
             taxes: taxes,
             walletMoney: isWalletMoneyUsed ? maxWalletMoneyToUse : 0,
+            referralCoinsUsed: isReferralCoinsUsed ? maxRefferalCoinToUse : 0,
             discountAmount: discountAmount,
             areChargesApplied: true,
         };
@@ -110,10 +121,14 @@ export function addItemToRestaurants(_foodItem, _restaurant, state) {
     const restaurants = state?.restaurants;
     const config = state?.config;
     const isWalletMoneyUsed = state?.isWalletMoneyUsed;
+    const isReferralCoinsUsed = state?.isReferralCoinsUsed;
     let count = state?.foodItemsCount;
     const discountAmount = state?.discountAmount;
     const coupon = state.coupon;
     const walletMoney = Number(state?.walletMoney ? state?.walletMoney : 0);
+    const referralCoinsUsed = Number(
+        state?.referralCoinsUsed ? state?.referralCoinsUsed : 0,
+    );
     if (restaurants && foodItem && restaurant) {
         const restaurantId = restaurant._id;
         const foodItemId = foodItem._id;
@@ -141,10 +156,12 @@ export function addItemToRestaurants(_foodItem, _restaurant, state) {
             restaurants,
             config,
             isWalletMoneyUsed,
+            isReferralCoinsUsed,
             discountAmount,
             coupon,
             count,
             walletMoney,
+            referralCoinsUsed,
         };
 
         const billingDetails = calculateTotal(billingData);
@@ -165,10 +182,12 @@ export function addItemToRestaurants(_foodItem, _restaurant, state) {
             restaurants: updatedRestaurants,
             config,
             isWalletMoneyUsed,
+            isReferralCoinsUsed,
             discountAmount,
             coupon,
             count,
             walletMoney,
+            referralCoinsUsed,
         };
 
         const billingDetails = calculateTotal(billingData);
@@ -179,10 +198,12 @@ export function addItemToRestaurants(_foodItem, _restaurant, state) {
         restaurants,
         config,
         isWalletMoneyUsed,
+        isReferralCoinsUsed,
         discountAmount,
         coupon,
         count,
         walletMoney,
+        referralCoinsUsed,
     };
 
     const billingDetails = calculateTotal(billingData);
@@ -195,10 +216,14 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
     const restaurants = state?.restaurants;
     const config = state?.config;
     let isWalletMoneyUsed = state?.isWalletMoneyUsed;
+    const isReferralCoinsUsed = state?.isReferralCoinsUsed;
     let count = state?.foodItemsCount;
     const discountAmount = state?.discountAmount;
     const coupon = state?.coupon;
     const walletMoney = Number(state?.walletMoney ? state?.walletMoney : 0);
+    const referralCoinsUsed = Number(
+        state?.referralCoinsUsed ? state?.referralCoinsUsed : 0,
+    );
     if (restaurants && foodItem && restaurant) {
         const restaurantId = restaurant._id;
         const foodItemId = foodItem._id;
@@ -225,6 +250,7 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
                 count: 0,
                 billingDetails: null,
                 isWalletMoneyUsed: false,
+                isReferralCoinsUsed: false,
             };
         }
 
@@ -232,16 +258,19 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
             restaurants,
             config,
             isWalletMoneyUsed,
+            isReferralCoinsUsed,
             discountAmount,
             coupon,
             count,
             walletMoney,
+            referralCoinsUsed,
         };
 
         const billingDetails = calculateTotal(billingData);
         if (billingDetails?.totalItemsPrice < config?.minOrderValueForWallet) {
             isWalletMoneyUsed = false;
         }
+
         return { restaurants, count, billingDetails, isWalletMoneyUsed };
     }
 
@@ -285,11 +314,25 @@ export function reorder(orderData, _state) {
 
 export function canApplyWallet(_state, _showDialog = true) {
     const state = _state;
+    if (state?.isReferralCoinsUsed) {
+        return false;
+    }
     if (
         state?.walletMoney &&
         state?.config &&
         Number(state?.walletMoney) > Number(state?.config?.maxWalletMoneyToUse)
     ) {
+        if (_showDialog) {
+            store.dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Wallet Error',
+                    subTitleText: 'Not Enough money in Wallet',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
+        }
         return false;
     }
     if (
@@ -563,3 +606,29 @@ export function isCouponValidForCart(
     }
     return false;
 }
+
+export const canApplyReferralCodeMoney = (_state, _showDialog = true) => {
+    const state = _state;
+    if (state?.isWalletMoneyUsed) {
+        return false;
+    }
+    if (
+        state?.referralCoinsUsed &&
+        state?.config &&
+        Number(state?.referralCoinsUsed) >
+            Number(state?.config?.maxReferralCoinsToUse)
+    ) {
+        return false;
+    }
+
+    if (
+        state?.billingDetails &&
+        state?.config &&
+        Number(state?.billingDetails?.totalItemsPrice) >
+            Number(state?.config?.minOrderValue)
+    ) {
+        return true;
+    } else {
+        return true;
+    }
+};
