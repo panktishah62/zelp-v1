@@ -30,6 +30,7 @@ import {
     getOffersRestaurants,
     getTopRated,
 } from '../../redux/services/restaurantService';
+import BannerOnHomeScreen from '../../components/Banners/BannerOnHomeScreen';
 
 const Explore = props => {
     const { location, navigation } = props;
@@ -162,6 +163,7 @@ const Explore = props => {
             >
                 {!isLoading && isServableArea && (
                     <View>
+                        <BannerOnHomeScreen navigation={navigation} />
                         {/* Choose from categories */}
                         <View style={styles.container1}>
                             <Text style={styles.title}>
