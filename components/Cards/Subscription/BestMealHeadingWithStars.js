@@ -1,35 +1,32 @@
-import React from "react";
-import { StyleSheet, View,Text,Image, } from "react-native";
-import { colors } from "../../../styles/colors";
-import { fonts } from "../../../styles";
+import React from 'react';
+import { StyleSheet, View, Text, Image } from 'react-native';
+import { colors } from '../../../styles/colors';
+import { fonts } from '../../../styles';
 
+const BestMealHeadingWithStars = props => {
+    return (
+        <View style={styles.wrapperMealText}>
+            <View style={styles.bestMealContainer}>
+                <Image
+                    source={require('../../../assets/images/Subscription/star.png')}
+                />
 
-const BestMealHeadingWithStars=props=>{
- return(  <View style={styles.wrapperMealText}>
-    <View style={styles.bestMealContainer}>
-        <Image
-            source={require('../../../assets/images/Subscription/star.png')}
-        />
+                <Text style={[styles.text, styles.changeColor]}>Best Meal</Text>
+                <View style={styles.horizontalLine} />
+            </View>
+            <View style={styles.bestMealContainer}>
+                <View style={[styles.horizontalLine, styles.changeLineColor]} />
+                <Text style={styles.text}>You can Choose</Text>
 
-        <Text style={[styles.text, styles.changeColor]}>
-            Best Meal
-        </Text>
-        <View style={styles.horizontalLine} />
-    </View>
-    <View style={styles.bestMealContainer}>
-        <View
-            style={[styles.horizontalLine, styles.changeLineColor]}
-        />
-        <Text style={styles.text}>You can Choose</Text>
+                <Image
+                    source={require('../../../assets/images/Subscription/star.png')}
+                />
+            </View>
+        </View>
+    );
+};
 
-        <Image
-            source={require('../../../assets/images/Subscription/star.png')}
-        />
-    </View>
-</View>)
-}
-
-const styles=StyleSheet.create({
+const styles = StyleSheet.create({
     bestMealContainer: {
         display: 'flex',
         flexDirection: 'row',
@@ -56,16 +53,16 @@ const styles=StyleSheet.create({
         paddingHorizontal: 14,
         fontSize: fonts.NUNITO_500_16.fontSize,
         fontWeight: fonts.NUNITO_600_16.fontWeight,
-        color:colors.BLACK,
+        color: colors.BLACK,
     },
     changeColor: {
-        color: colors.ORANGE,
+        color: colors.ORANGE_WHITE,
         fontSize: 22,
         fontWeight: 'bold',
     },
     changeLineColor: {
         backgroundColor: colors.ORANGE,
     },
-})
+});
 
 export default BestMealHeadingWithStars;

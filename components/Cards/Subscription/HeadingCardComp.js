@@ -16,12 +16,9 @@ const HeadingCardComp = props => {
     const [catagorizedData, setCatagorizedData] = useState([]);
 
     const fetchCatagorizedData = async () => {
-        console.log(planID);
         const response = await getCategorizedFoodItems(planID, mealType);
         setCatagorizedData(response?.data);
     };
-
-    console.log('CategorizedData', catagorizedData);
 
     useEffect(() => {
         fetchCatagorizedData();

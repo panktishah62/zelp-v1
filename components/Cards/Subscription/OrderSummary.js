@@ -1,49 +1,59 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+    StyleSheet,
+    View,
+    Text,
+    ActivityIndicator,
+    AppState,
+} from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { Linking } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import { subscribeToAPlan } from '../../../redux/services/subscriptionService';
 import { colors } from '../../../styles/colors';
+import { calculateTotal } from '../../../redux/services/subscriptionCartCalculations';
+import {
+    PAYMENT_CODES,
+    PAYMENT_INITIALIZATION_CODES,
+    paymentMethods,
+} from '../../../redux/constants/paymentConstants';
+import remoteConfig from '@react-native-firebase/remote-config';
+import { checkPaymentStatus } from '../../../redux/services/paymentService';
+import PaymentCallBackScreen from '../../../screens/Payments/PaymentCallBack';
+import { generateUUID } from '../../../utils';
+import { useIsFocused } from '@react-navigation/native';
 
 const OrderSummary = props => {
-    const subscriptionID = props.subscriptionID;
-
+    const route = props?.route;
+    const openPaymentGateway = props?.openPaymentGateway;
+    const navigation = props?.navigation;
+    const subscriptionPlan = props?.data?.subscriptionPlan;
+    const subscriptionID = subscriptionPlan?._id;
     const { mealCount } = useSelector(state => state.mealDetails);
-    const { finalPrice } = useSelector(state => state.finalSubscriptionPrice);
-    const extraMeal = mealCount - 5;
-    const validity = 10 + extraMeal;
-    const total = finalPrice * mealCount;
-    const tax = (finalPrice * mealCount * 5) / 100;
-    const final = total + tax;
+    const validity = props?.data?.validityBasedOnMeals;
+    const total = props?.data?.totalPlanPrice;
+    const GSTTaxes = props?.data?.config?.GSTTaxes;
+    const deliveryFee = props?.data?.config?.deliveryFee;
+    const taxableAmount = props?.data?.taxableAmount;
+    const couponDiscount = props?.data?.couponDiscount;
+    const final = props?.data?.totalAmount;
 
-    const openExternalURL = url => {
-        Linking.openURL(url)
-            .then(supported => {
-                if (!supported) {
-                    console.error(`Cannot open URL: ${url}`);
-                }
-            })
-            .catch(err => console.error('An error occurred', err));
-    };
+    // const subscriptionDetails = async () => {
+    //     const response = await subscribeToAPlan(subscriptionID, {
+    //         validity: [{ meals: mealCount, validity, price: totalAmount }],
+    //         amount: final * 100,
+    //         redirectUrl: 'https://facebook.com',
+    //     });
+    //     const redirectURL =
+    //         response.data.data.data.instrumentResponse.redirectInfo.url;
+    //     openExternalURL(redirectURL);
+    // };
 
-    const subscriptionDetails = async () => {
-        const response = await subscribeToAPlan(subscriptionID, {
-            validity: [{ meals: mealCount, validity, price: finalPrice }],
-            amount: final * 100,
-            redirectUrl: 'https://facebook.com',
-        });
-        const redirectURL =
-            response.data.data.data.instrumentResponse.redirectInfo.url;
-        console.log(redirectURL);
-        openExternalURL(redirectURL);
-    };
-
-    const handlePaymentDetails = () => {
-        subscriptionDetails();
-        // navigation.navigate("SubscribedUserHome")
-    };
+    // const handlePaymentDetails = () => {
+    //     subscriptionDetails();
+    //     // navigation.navigate("SubscribedUserHome")
+    // };
 
     return (
         <View style={styles.wrapperContainer}>
@@ -56,15 +66,25 @@ const OrderSummary = props => {
                     <Text style={styles.rightText}>Rs. {total}</Text>
                 </View>
                 <View style={styles.firstContainer}>
-                    <Text style={styles.leftText}>Government Tax</Text>
-                    <Text style={styles.rightText}>Rs.{tax}</Text>
+                    <Text style={styles.leftText}>Delivery Fee</Text>
+                    <Text style={styles.rightText}>Rs.{deliveryFee}</Text>
+                </View>
+                <View style={styles.firstContainer}>
+                    <Text style={styles.leftText}>Coupon Discount</Text>
+                    <Text style={styles.rightText}>Rs.{couponDiscount}</Text>
+                </View>
+                <View style={styles.firstContainer}>
+                    <Text style={styles.leftText}>
+                        Govt Taxes & Other Charges ({GSTTaxes}%)
+                    </Text>
+                    <Text style={styles.rightText}>Rs.{taxableAmount}</Text>
                 </View>
                 <View style={lineStyles.container}></View>
                 <View style={styles.firstContainer}>
                     <Text style={buttonStyles.changeText}>Total Charge</Text>
                     <Text style={styles.rightText}>Rs. {final}</Text>
                 </View>
-                <TouchableOpacity onPress={handlePaymentDetails}>
+                <TouchableOpacity onPress={openPaymentGateway}>
                     <View style={buttonStyles.container}>
                         <Text style={buttonStyles.text}>Pay Online Now</Text>
                     </View>

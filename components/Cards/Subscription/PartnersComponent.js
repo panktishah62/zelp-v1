@@ -4,6 +4,7 @@ import TextSurroundedByLine from './TextSurroundedByLine';
 import { dimensions, fonts } from '../../../styles';
 import { getPartnerRestaurants } from '../../../redux/services/subscriptionService';
 import { colors } from '../../../styles/colors';
+import { dynamicSize } from '../../../utils/responsive';
 
 const PartnersComponent = props => {
     const [partnerRestaurants, setPartnerRestaurantsArr] = useState([]);
@@ -20,18 +21,22 @@ const PartnersComponent = props => {
     const renderItems = () => {
         return (
             partnerRestaurants &&
-            partnerRestaurants.map(item => (
-                <View key={item.id} style={styles.item}>
+            partnerRestaurants.map((item, index) => (
+                <View key={index} style={styles.item}>
                     <View style={styles.imageText}>
-                        <Image
-                            style={styles.imageTextImage}
-                            source={{
-                                uri: item.restaurantImage,
-                            }}
-                        />
-                        <Text style={styles.imageTextText}>
-                            {item.restaurantName}
-                        </Text>
+                        {item.restaurantImage && (
+                            <Image
+                                style={styles.imageTextImage}
+                                source={{
+                                    uri: item.restaurantImage,
+                                }}
+                            />
+                        )}
+                        {item.restaurantName && (
+                            <Text style={styles.imageTextText}>
+                                {item.restaurantName}
+                            </Text>
+                        )}
                     </View>
                 </View>
             ))
@@ -39,16 +44,14 @@ const PartnersComponent = props => {
     };
 
     return (
-        <View style={{ marginHorizontal: 4 }}>
+        <View style={styles.mainContainer}>
             <View style={styles.container}>
                 <Text style={styles.innerText}>
-                    Our{" "}
-                    <Text style={styles.changeColor}>
-                        Restaurants Partners
-                    </Text>
+                    Our{' '}
+                    <Text style={styles.changeColor}>Restaurants Partners</Text>
                 </Text>
             </View>
-            <ScrollView horizontal showsVerticalScrollIndicator={false}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {renderItems()}
             </ScrollView>
         </View>
@@ -56,6 +59,9 @@ const PartnersComponent = props => {
 };
 
 const styles = StyleSheet.create({
+    mainContainer: {
+        marginVertical: dynamicSize(20),
+    },
     container: {
         width: dimensions.fullWidth,
         display: 'flex',
@@ -93,16 +99,12 @@ const styles = StyleSheet.create({
         height: 80,
         flexShrink: 0,
         borderRadius: 50,
-        marginVertical:6
+        marginVertical: 6,
     },
     imageTextText: {
         color: colors.DARKER_GRAY,
         textAlign: 'center',
         fontFamily: fonts.NUNITO_700_12.fontFamily,
-        fontSize: 12,
-        fontStyle: 'normal',
-        fontWeight: '700',
-        letterSpacing: 0.6,
     },
 });
 

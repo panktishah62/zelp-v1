@@ -2,19 +2,19 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
-
+import ORDER_NOW from '../../../assets/icons/order_now.svg';
 const OrderNow = props => {
-    const { navigation, name } = props;
+    const { navigation, subscriptionDetails } = props;
 
     const handleNavigation = () => {
-        navigation.navigate('SubscriptionRestaurantMenu',{name});
+        navigation.navigate('SubscriptionRestaurantMenu', {
+            subscriptionDetails,
+        });
     };
     return (
         <TouchableOpacity onPress={handleNavigation}>
             <View style={styles.container}>
-                <Image
-                    source={require('../../../assets/images/Subscription/ordernow.png')}
-                />
+                <ORDER_NOW />
                 <Text style={styles.buttonText}>Order Now</Text>
             </View>
         </TouchableOpacity>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { dynamicSize } from '../../../utils/responsive';
-import Svg, {  SvgUri } from 'react-native-svg';
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { dynamicSize, normalizeFont } from '../../../utils/responsive';
+import Svg, { SvgUri } from 'react-native-svg';
 import { fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
 
@@ -9,50 +9,70 @@ const BenifitComponent = props => {
     const { data, isDynamic } = props;
 
     return (
-        <View style={styles.container}>
+        <ScrollView
+            contentContainerStyle={styles.container}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}>
             {data &&
                 data.map((item, index) => (
                     <View style={styles.innerContainer} key={index}>
-                        {!isDynamic && <Image source={item.image} />}
-                        <SvgUri 
-                        style={styles.innerImage}
-                            width="50"
-                            height="50"
-                            uri={item.svg}
-                        />
-                        <Text style={styles.innerText}>{item.text}</Text>
+                        {!isDynamic && item.image && (
+                            <Image source={item.image} />
+                        )}
+                        {item.svg && (
+                            <SvgUri
+                                style={styles.innerImage}
+                                width="50"
+                                height="50"
+                                uri={item.svg}
+                            />
+                        )}
+                        {item.text && (
+                            <Text style={styles.innerText}>
+                                {item.text}
+                                {item.boldText && (
+                                    <Text style={styles.innerBoldText}>
+                                        {item.boldText}
+                                    </Text>
+                                )}
+                            </Text>
+                        )}
                     </View>
                 ))}
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
-        justifyContent: 'space-around',
         gap: dynamicSize(10),
         alignItems: 'flex-start',
-        flexDirection: 'row',
         padding: 10,
     },
     innerContainer: {
         display: 'flex',
         justifyContent: 'space-between',
-        width: dynamicSize(92),
+        width: dynamicSize(95),
         gap: 10,
         flexDirection: 'column',
         padding: 10, // Add padding to mimic gap
     },
     innerImage: {
-        width: 44.5,
-        height: 44.5,
+        width: dynamicSize(45),
+        height: dynamicSize(45),
         flexShrink: 0,
     },
     innerText: {
-        fontFamily: fonts.NUNITO_800_12.fontFamily,
-        fontSize: 12,
-        fontStyle: 'normal',
+        fontFamily: fonts.NUNITO_500_12.fontFamily,
+        fontSize: normalizeFont(12),
+        fontWeight: '500',
+        color: colors.BLACK,
+        textTransform: 'capitalize',
+    },
+    innerBoldText: {
+        fontFamily: fonts.NUNITO_500_12.fontFamily,
+        fontSize: normalizeFont(12),
         fontWeight: '800',
         color: colors.BLACK,
         textTransform: 'capitalize',

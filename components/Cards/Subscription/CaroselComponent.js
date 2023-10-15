@@ -5,19 +5,37 @@ import { colors } from '../../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import { ScrollView } from 'react-native-gesture-handler';
 import { getSubscriptionPlanDetails } from '../../../redux/services/subscriptionService';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { dynamicSize } from '../../../utils/responsive';
+import { SvgUri } from 'react-native-svg';
+import { calculateTotal } from '../../../redux/services/subscriptionCartCalculations';
+import { selectSubscriptionPlan } from '../../../redux/actions/subscriptionActions';
 
 const CaroselComponent = props => {
-    const { planID } = useSelector(state => state.finalSubscriptionPrice);
-
     const { navigation, showKnowMore } = props;
-    const navigateHandler = (id, string) => {
+    const dispatch = useDispatch();
+    const { config, selectedSubscription } = useSelector(
+        state => state.subscriptionDetails,
+    );
+    const navigateHandler = (item, string) => {
         if (string === 'priceButton' && !showKnowMore) {
-            navigation.navigate('PlanDetails', { itemId: id });
+            const resultData = calculateTotal(
+                item,
+                item?.minimunNumOfMeals,
+                config,
+            );
+            dispatch(selectSubscriptionPlan(resultData));
+            navigation.navigate('PlanDetails', { itemId: item?._id });
+        } else if (string === 'priceButton') {
+            const resultData = calculateTotal(
+                item,
+                item?.minimunNumOfMeals,
+                config,
+            );
+            dispatch(selectSubscriptionPlan(resultData));
         }
         if (string === 'knowMoreButton' && showKnowMore) {
-            navigation.navigate('PlanDetails', { itemId: id });
+            navigation.navigate('PlanDetails', { itemId: item?._id });
         } else {
             return;
         }
@@ -27,54 +45,13 @@ const CaroselComponent = props => {
 
     useEffect(() => {
         fetchData();
-    }, [setResponseDataArr]);
+    }, []);
 
     const fetchData = async () => {
         const response = await getSubscriptionPlanDetails();
 
         setResponseDataArr(response?.data?.data);
     };
-
-    //static data for testing
-    // const data = [
-    //     {
-    //         id: '1',
-    //         caroselImage:require('../../../assets/images/Subscription/food_item_1.png'),
-    //         iconImage:require('../../../assets/images/Subscription/coin_1.png'),
-    //         iconText:'Basic',
-    //         simpleText:'Starts From',
-    //         buttonText:'₹89/Meal',
-    //         lastText:'₹99/Meal',
-    //     },
-    //     {
-    //         id: '2',
-    //         caroselImage:require('../../../assets/images/Subscription/food_item_2.png'),
-    //         iconImage:require('../../../assets/images/Subscription/diamond_1.png'),
-    //         iconText:'Standard',
-    //         simpleText:'Starts From',
-    //         buttonText:'₹119/Meal',
-    //         lastText:'₹175/Meal',
-    //     },
-    //     {
-    //         id: '3',
-    //         caroselImage:require('../../../assets/images/Subscription/food_item_1.png'),
-    //         iconImage:require('../../../assets/images/Subscription/coin_1.png'),
-    //         iconText:'Basic',
-    //         simpleText:'Starts From',
-    //         buttonText:'₹89/Meal',
-    //         lastText:'₹99/Meal',
-    //     },
-    //     {
-    //         id: '4',
-    //         caroselImage:require('../../../assets/images/Subscription/food_item_2.png'),
-    //         iconImage:require('../../../assets/images/Subscription/diamond_1.png'),
-    //         iconText:'Standard',
-    //         simpleText:'Starts From',
-    //         buttonText:'₹119/Meal',
-    //         lastText:'₹175/Meal',
-    //     },
-
-    //   ];
 
     const renderItem = () => {
         //make this another component
@@ -98,38 +75,29 @@ const CaroselComponent = props => {
                     </View>
                     <View style={styles.iconTextContainer}>
                         <Text style={styles.iconTextText}>{item.name}</Text>
-                        <Image source={item.iconImage} />
+                        {item.icon && (
+                            <SvgUri
+                                width={dynamicSize(18)}
+                                height={dynamicSize(18)}
+                                uri={item.icon}
+                            />
+                        )}
                     </View>
                     <View style={styles.simpleTextConatiner}>
                         <Text style={styles.simpleTextText}>Starts From</Text>
                     </View>
                     <View style={styles.buttonWrapperContainer}>
-                        {planID === '' || planID !== item?._id ? (
-                            <TouchableOpacity
-                                onPress={() =>
-                                    navigateHandler(item?._id, 'priceButton')
-                                }>
-                                <View style={styles.buttonContainer}>
-                                    <Text style={styles.buttonText}>
-                                        ₹
-                                        {item?.pricePerMeal *
-                                            (1 - item?.appliedDiscount / 100)}
-                                        /Meal
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        ) : (
-                            <TouchableOpacity
-                                onPress={() =>
-                                    navigateHandler(item?._id, 'priceButton')
-                                }>
-                                <View style={styles.selectedbuttonContainer}>
-                                    <Text style={styles.buttonText}>
-                                        Selected
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        )}
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigateHandler(item, 'priceButton')
+                            }>
+                            <View style={[styles.buttonContainer]}>
+                                <Text style={styles.buttonText}>
+                                    ₹{item?.discountedPrice}
+                                    /Meal
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
                     {!showKnowMore && (
                         <View style={styles.lastTextContainer}>
@@ -141,7 +109,7 @@ const CaroselComponent = props => {
                     {showKnowMore && (
                         <TouchableOpacity
                             onPress={() =>
-                                navigateHandler(item?._id, 'knowMoreButton')
+                                navigateHandler(item, 'knowMoreButton')
                             }>
                             <View style={styles.lastTextContainer}>
                                 <Text style={styles.knowMoreText}>
@@ -160,13 +128,16 @@ const CaroselComponent = props => {
 
     return (
         <View style={styles.conatiner}>
-            {responseDataArr && responseDataArr?.length !== 0 && (
-                <ScrollView
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}>
-                    {renderItem()}
-                </ScrollView>
-            )}
+            {responseDataArr &&
+                responseDataArr?.length !== 0 &&
+                selectedSubscription && (
+                    <ScrollView
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        style={styles.scrollView}>
+                        {renderItem()}
+                    </ScrollView>
+                )}
         </View>
     );
 };
@@ -174,17 +145,21 @@ const CaroselComponent = props => {
 const styles = StyleSheet.create({
     conatiner: {
         width: dimensions.fullWidth,
-        height: 270.433,
+        height: dynamicSize(270),
         flexShrink: 0,
+    },
+    scrollView: {
+        height: dynamicSize(270),
+        marginHorizontal: dynamicSize(10),
     },
     imageStyle: {
         width: dimensions.fullWidth / 2 - dynamicSize(20),
-        height: 120.848,
+        height: dynamicSize(120),
         borderRadius: 7,
     },
     imageContainer: {
         width: dimensions.fullWidth / 2 - dynamicSize(20),
-        height: 123.848,
+        height: dynamicSize(124),
         padding: dynamicSize(2),
     },
     iconTextContainer: {
@@ -192,13 +167,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop: 5,
-        gap: 8,
+        paddingTop: dynamicSize(10),
+        gap: dynamicSize(8),
     },
     knowMoreText: {
         color: colors.DARKER_GRAY,
         fontFamily: fonts.NUNITO_400_14.fontFamily,
-        fontSize: 12,
+        fontSize: dynamicSize(12),
         fontStyle: 'normal',
         fontWeight: '700',
         letterSpacing: 0.6,
@@ -206,9 +181,9 @@ const styles = StyleSheet.create({
     shadow: {
         width: dimensions.fullWidth / 2 - dynamicSize(15),
         margin: 10,
-        height: 250.433,
-        backgroundColor:colors.WHITE,
-        borderRadius: 5,
+        height: dynamicSize(250),
+        backgroundColor: colors.WHITE,
+        borderRadius: 10,
         elevation: 5, // Apply elevation for shadow
     },
     iconTextText: {
@@ -218,23 +193,23 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: colors.DARKER_GRAY,
         textAlign: 'justify',
-        lineHeight: 20,
+        lineHeight: dynamicSize(20),
         letterSpacing: 0.48,
         textTransform: 'capitalize',
     },
     iconTextIcon: {
-        width: 18,
-        height: 18,
+        width: dynamicSize(18),
+        height: dynamicSize(18),
     },
     simpleTextConatiner: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 8,
+        marginTop: dynamicSize(8),
     },
     simpleTextText: {
         fontFamily: fonts.NUNITO_600_12.fontFamily,
-        fontSize: 12,
+        fontSize: dynamicSize(12),
         fontStyle: 'normal',
         fontWeight: '600',
         color: colors.DARKER_GRAY,
@@ -252,22 +227,22 @@ const styles = StyleSheet.create({
         paddingTop: 10,
     },
     buttonContainer: {
-        width: 118.937,
-        height: 29.77,
-        padding: 4,
-        backgroundColor: colors.ORANGE,
-        borderRadius: 5,
+        width: dynamicSize(118),
+        height: dynamicSize(30),
+        padding: dynamicSize(4),
+        backgroundColor: colors.ORANGE_WHITE,
+        borderRadius: dynamicSize(5),
     },
     selectedbuttonContainer: {
-        width: 118.937,
-        height: 29.77,
-        padding: 4,
+        width: dynamicSize(118),
+        height: dynamicSize(30),
+        padding: dynamicSize(4),
         backgroundColor: colors.GREEN,
-        borderRadius: 5,
+        borderRadius: dynamicSize(5),
     },
     buttonText: {
         fontFamily: fonts.NUNITO_800_12.fontFamily,
-        fontSize: 16,
+        fontSize: dynamicSize(16),
         fontStyle: 'normal',
         fontWeight: '900',
         color: colors.WHITE,
@@ -279,15 +254,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 8,
-        gap: 8,
+        marginTop: dynamicSize(8),
+        gap: dynamicSize(8),
     },
     lastTextText: {
         fontFamily: fonts.NUNITO_500_12.fontFamily,
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '500',
-        color:colors.DARKER_GRAY,
+        color: colors.DARKER_GRAY,
         letterSpacing: 0.6,
         textDecorationLine: 'line-through',
     },

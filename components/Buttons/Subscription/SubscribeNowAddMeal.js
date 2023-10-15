@@ -9,42 +9,70 @@ import {
 } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { finalPlanDetails } from '../../../redux/actions/subscriptionActions';
+import {
+    finalPlanDetails,
+    selectSubscriptionPlan,
+} from '../../../redux/actions/subscriptionActions';
 import { colors } from '../../../styles/colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { hideDialog, showDialog } from '../../../redux/actions/dialog';
+import { DialogTypes } from '../../../utils';
+import { calculateTotal } from '../../../redux/services/subscriptionCartCalculations';
+import { dynamicSize } from '../../../utils/responsive';
 
 const SubscribeNowAddMeal = props => {
-    const { navigationHandler } = props;
-    const planID = props.itemId;
+    const { navigationHandler, navigationToLogin, data, numOfMealsSelected } =
+        props;
+    // const planID = props.itemId;
 
     const dispatch = useDispatch();
-
+    const { config } = useSelector(state => state.subscriptionDetails);
     const { finalPrice } = useSelector(state => state.finalSubscriptionPrice);
 
-    const handleSubscribe = () => {
-        dispatch(finalPlanDetails({ finalPrice, planID }));
-        toggleModal();
-        navigationHandler();
+    const handleSubscribe = async () => {
+        const token = await AsyncStorage.getItem('token');
+        if (token != null) {
+            const resultData = calculateTotal(data, numOfMealsSelected, config);
+            dispatch(selectSubscriptionPlan(resultData));
+            navigationHandler();
+        } else {
+            toggleModal();
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please LogIn',
+                    subTitleText: 'You are not Logged In!',
+                    buttonText1: 'LOGIN',
+                    buttonFunction1: () => {
+                        navigationToLogin();
+                        dispatch(hideDialog());
+                    },
+                    type: DialogTypes.WARNING,
+                }),
+            );
+        }
     };
 
     const { isModalVisible, toggleModal } = props;
 
     return (
         <View style={buttonStyles.wrapperContainer}>
-            {/* <View style={buttonStyles.container}> */}
-            <TouchableOpacity onPress={handleSubscribe}>
-                <View style={buttonStyles.orangeButton}>
-                    <Text style={buttonStyles.orangeButtonText}>
-                        Subscribe Now
-                    </Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={toggleModal}>
-                <View style={buttonStyles.whiteButton}>
-                    <Text style={buttonStyles.whiteButtonText}>Add Meal</Text>
-                </View>
-            </TouchableOpacity>
-
-            {/* </View> */}
+            <View style={buttonStyles.container}>
+                <TouchableOpacity onPress={handleSubscribe}>
+                    <View style={buttonStyles.orangeButton}>
+                        <Text style={buttonStyles.orangeButtonText}>
+                            Subscribe Now
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={toggleModal}>
+                    <View style={buttonStyles.whiteButton}>
+                        <Text style={buttonStyles.whiteButtonText}>
+                            Add Meal
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -59,11 +87,10 @@ const buttonStyles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 5,
         flexDirection: 'row',
-        height: 87,
-
-        marginTop: 20,
-        backgroundColor: colors.WHITE_DARK, // Background color
-        elevation: 12,
+        height: dynamicSize(87),
+        marginTop: dynamicSize(20),
+        backgroundColor: colors.BACKGROUND_LIGHT, // Background color
+        elevation: dynamicSize(12),
         ...Platform.select({
             ios: {
                 shadowOffset: { width: 0, height: -2 },
@@ -85,21 +112,11 @@ const buttonStyles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 5,
         flexDirection: 'row',
-        height: 87,
-        marginTop: 20,
-        backgroundColor:colors.WHITE_DARK, // Background color
-        elevation: 12,
-        ...Platform.select({
-            ios: {
-                shadowOffset: { width: 0, height: -2 },
-                shadowOpacity: 0.25,
-                shadowRadius: 4,
-                shadowColor: colors.BLACK,
-            },
-            android: {
-                elevation: 12, // Android uses elevation for shadows
-            },
-        }),
+        height: dynamicSize(87),
+        marginTop: dynamicSize(20),
+        borderWidth: dynamicSize(2),
+        borderColor: colors.BORDER_GREY,
+        backgroundColor: colors.BACKGROUND_LIGHT, // Background color
     },
     orangeButton: {
         display: 'flex',
@@ -107,7 +124,7 @@ const buttonStyles = StyleSheet.create({
         justifyContent: 'center',
         width: dimensions.fullWidth / 2 + 10,
         height: 47,
-        backgroundColor:colors.ORANGE_WHITE,
+        backgroundColor: colors.ORANGE_WHITE,
         borderRadius: 5,
         marginHorizontal: 15,
     },
@@ -124,11 +141,8 @@ const buttonStyles = StyleSheet.create({
     },
     orangeButtonText: {
         color: colors.WHITE,
-        fontFamily: fonts.NUNITO_700_12.fontFamily,
+        fontFamily: fonts.NUNITO_700_16.fontFamily,
         fontSize: 18,
-        fontStyle: 'normal',
-        fontWeight: '700',
-
         textTransform: 'capitalize',
     },
     whiteButtonText: {

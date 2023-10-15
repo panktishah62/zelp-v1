@@ -1,7 +1,7 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
-import { dynamicSize } from '../../../utils/responsive';
+import { dynamicSize, normalizeFont } from '../../../utils/responsive';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     addSubscribedItemToCart,
@@ -10,29 +10,44 @@ import {
     setSubscriptionMealType,
 } from '../../../redux/actions/subscriptionActions';
 import moment from 'moment';
-import { getMealPlansForSubscription } from '../../../redux/services/subscriptionService';
+import {
+    getCombos,
+    getMealPlansForSubscription,
+} from '../../../redux/services/subscriptionService';
 import { colors } from '../../../styles/colors';
+import VEGICON from '../../../assets/icons/VegIcon.svg';
+import NONVEGICON from '../../../assets/icons/nonveg.svg';
+import MealItemCard from './MealItemCard';
 
 const MealCards = props => {
-    
-    const { planID } = useSelector(state => state.finalSubscriptionPrice);
-    const { mealType } = useSelector(state => state.mealTypeForSubscription);
-
+    const selectedPlan = props?.data;
+    const planID = selectedPlan?._id;
+    const [selectedMealPlan, setSelectedMealPlan] = useState(null);
     const [mealPlans, setMealPlans] = useState([]);
+    const [combosArray, setCombosArray] = useState([]);
+
     const fetchMealPlanType = async () => {
-        const response = await getMealPlansForSubscription(planID);
-        setMealPlans(response.data.data);
-        dispatch(
-            setSubscriptionMealType(
-                response.data.data[0].type,
-                response.data.data[0]._id,
-                '',
-            ),
-        );
+        if (planID) {
+            const response = await getMealPlansForSubscription(planID);
+            if (response?.data?.data) {
+                const respData = response.data.data;
+                setMealPlans(respData);
+                if (respData.length) {
+                    setSelectedMealPlan(respData[0]);
+                    dispatch(
+                        setSubscriptionMealType(
+                            respData[0].type,
+                            respData[0]._id,
+                            respData[0].timing,
+                        ),
+                    );
+                }
+            }
+        }
     };
     useEffect(() => {
         fetchMealPlanType();
-    }, [planID,mealType,setMealPlans]);
+    }, [planID]);
 
     const {
         isButtonVisible,
@@ -42,7 +57,6 @@ const MealCards = props => {
         showRatingNumber,
         showInfoText,
         heading,
-        data,
         toggleModal,
         isDynamic,
     } = props;
@@ -54,7 +68,6 @@ const MealCards = props => {
         index: gotIndex,
         componentName,
     } = useSelector(state => state.subscriptionSelectMenu);
-    // console.log(isSelectedAny,gotIndex,componentName)
 
     const selectButtonHandler = (
         index,
@@ -64,15 +77,13 @@ const MealCards = props => {
         itemType,
         foodItemId,
     ) => {
-        // dispatch(resetSelectionButton())
         dispatch(selectMenu(index, componentName));
         itemAddToCartHandler(index, itemName, itemImage, itemType, foodItemId);
     };
 
-    const handleKnowMore = () => {  
-        toggleModal()
-    }
-
+    const handleKnowMore = item => {
+        toggleModal(item);
+    };
 
     const itemAddToCartHandler = (
         index,
@@ -95,223 +106,80 @@ const MealCards = props => {
     const { isVegButtonActive } = useSelector(state => state.vegbutton);
     const removeCartHandler = () => {
         dispatch(removeSubscribedItemFromCart());
-        // navigation.navigate('Subscription')
     };
 
-   
-
-
     const filterData = isVegButtonActive
-        ? data.filter(item => item.vegText === 'Veg')
-        : data;
+        ? combosArray.filter(item => item.vegText === 'Veg')
+        : combosArray;
     const renderItem = () => {
         return (
             filterData &&
             filterData?.map((item, index) => (
-                <View key={index} style={styles.wrapperContainer}>
-                    <View style={styles.itemConainer}>
-                        <View style={styles.leftContainer}>
-                            <View style={styles.imageContainer}>
-                                {isDynamic && (
-                                    <Image
-                                        style={{
-                                            height: dynamicSize(100),
-                                            borderRadius: 50,
-                                        }}
-                                        source={{ uri: item.image }}
-                                    />
-                                )}
-                                {!isDynamic && (
-                                    <Image
-                                        style={{ height: dynamicSize(100) }}
-                                        source={item.image}
-                                    />
-                                )}
-                            </View>
-                        </View>
-                        <View style={styles.rightContainer}>
-                            <View style={styles.firstContainer}>
-                                <View style={styles.vegContainer}>
-                                    <Image
-                                        source={require('../../../assets/images/Subscription/veg.png')}
-                                    />
-                                    <Text style={styles.vegText}>
-                                        {item.vegText}
-                                    </Text>
-                                </View>
-                                <View style={styles.middleTextContainer}>
-                                    <Text style={styles.boldText}>
-                                        {item.boldText}
-                                    </Text>
-                                    {showRatingNumber && (
-                                        <Image
-                                            style={styles.nextImage}
-                                            source={require('../../../assets/images/Subscription/golden_star.png')}
-                                        />
-                                    )}
-                                    {showRatingNumber && (
-                                        <Text
-                                            style={[
-                                                styles.firstText,
-                                                { marginLeft: dynamicSize(3) },
-                                            ]}>
-                                            {item.rating}{' '}
-                                        </Text>
-                                    )}
-                                </View>
-                                {showInfoText && (
-                                    <TouchableOpacity onPress={handleKnowMore}>
-                                    <View style={styles.vegContainer}>
-                                        <Text style={styles.lastText}>
-                                            Know more
-                                        </Text> 
-                                        <Image
-                                            source={require('../../../assets/images/Subscription/info.png')}
-                                        />
-                                    </View>
-                                    </TouchableOpacity>
-                                )}
-
-                                {activeOrangeButton && index !== gotIndex && (
-                                    <TouchableOpacity
-                                        onPress={() =>
-                                            selectButtonHandler(
-                                                index,
-                                                heading,
-                                                item.boldText,
-                                                item.image,
-                                                item.vegText,
-                                                item._id,
-                                            )
-                                        }>
-                                        <View
-                                            style={
-                                                styles.selectButtonContainer
-                                            }>
-                                            <Text
-                                                style={styles.selectButtonText}>
-                                                Select
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                )}
-                                {activeOrangeButton &&
-                                    index === gotIndex &&
-                                    componentName !== heading && (
-                                        <TouchableOpacity
-                                            onPress={() =>
-                                                selectButtonHandler(
-                                                    index,
-                                                    heading,
-                                                    item.boldText,
-                                                    item.image,
-                                                    item.vegText,
-                                                    item._id,
-                                                )
-                                            }>
-                                            <View
-                                                style={
-                                                    styles.selectButtonContainer
-                                                }>
-                                                <Text
-                                                    style={
-                                                        styles.selectButtonText
-                                                    }>
-                                                    Select
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    )}
-                                {activeOrangeButton &&
-                                    isSelectedAny &&
-                                    index === gotIndex &&
-                                    componentName === heading && (
-                                        <TouchableOpacity>
-                                            <View
-                                                style={
-                                                    styles.selectedButtonContainer
-                                                }>
-                                                <Image
-                                                    style={styles.tickIcon}
-                                                    source={require('../../../assets/images/Subscription/tick.png')}
-                                                />
-                                            </View>
-                                        </TouchableOpacity>
-                                    )}
-                                {isCart && (
-                                    <TouchableOpacity
-                                        onPress={removeCartHandler}>
-                                        <View
-                                            style={
-                                                styles.selectButtonContainer
-                                            }>
-                                            <Text
-                                                style={styles.selectButtonText}>
-                                                Remove
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                )}
-                            </View>
-                        </View>
-                    </View>
+                <View key={index}>
+                    <MealItemCard
+                        item={item}
+                        isSelectable={false}
+                        handleKnowMore={handleKnowMore}
+                    />
                 </View>
             ))
         );
     };
-    const formatTimeRange = timing => {
-  if(timing!==undefined){
-    const formattedOpeningTime = moment(timing.openingTime).format(
-        'h:mm A',
-    );
-    const formattedClosingTime = moment(timing.closingTime).format(
-        'h:mm A',
-    );
-    return `${formattedOpeningTime} - ${formattedClosingTime}`;
-    };
-}
+
     const findTiming = () => {
-      
-        const timing = mealPlans?.find(item => item.type === mealType);
-        console.log(timing?.timing,"timing")
-        const formattedTiming = formatTimeRange(timing?.timing);
-        console.log(formattedTiming)
-        return formattedTiming; 
+        if (selectedMealPlan) {
+            const timing = selectedMealPlan.timing;
+            return `${timing?.openingTime} - ${timing?.closingTime}`;
+        }
     };
 
-
-    const handleMenuType = type => {
-   
-        dispatch(setSubscriptionMealType(type));
+    const handleMenuType = item => {
+        setSelectedMealPlan(item);
+        dispatch(setSubscriptionMealType(item?.type, item?._id, item?.timing));
     };
+
+    const onSelectMealPlan = async plan => {
+        const response = await getCombos(plan?._id, plan?.type);
+        setCombosArray(response?.data?.data);
+    };
+
+    useEffect(() => {
+        if (selectedMealPlan) {
+            onSelectMealPlan(selectedMealPlan);
+        }
+    }, [selectedMealPlan]);
 
     return (
         <View>
             {isButtonVisible && (
                 <View style={buttonStyles.buttonContainer}>
-               {mealPlans && mealPlans.map((item, index) => ( 
-                 <TouchableOpacity
-                 onPress={() => handleMenuType(item.type)}>
-                 <View
-                     style={[
-                         buttonStyles.eachButtonStyle,
-                         mealType === item.type &&
-                             buttonStyles.changeStyle,
-                     ]}>
-                     <Text
-                         style={[
-                             buttonStyles.textStyle,
-                             mealType === item.type &&
-                                 buttonStyles.changeTextStyle,
-                         ]}>
-                       {item.type}
-                     </Text>
-                 </View>
-             </TouchableOpacity>   
-                )  )}
+                    {mealPlans &&
+                        selectedMealPlan &&
+                        mealPlans.map((item, index) => (
+                            <TouchableOpacity
+                                onPress={() => handleMenuType(item)}
+                                key={index}>
+                                <View
+                                    style={[
+                                        buttonStyles.eachButtonStyle,
+                                        selectedMealPlan.type === item.type &&
+                                            buttonStyles.changeStyle,
+                                    ]}>
+                                    <Text
+                                        style={[
+                                            buttonStyles.textStyle,
+                                            selectedMealPlan.type ===
+                                                item.type &&
+                                                buttonStyles.changeTextStyle,
+                                        ]}>
+                                        {item.type}
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        ))}
                 </View>
             )}
-            {isHeadingVisible && (
+            {isHeadingVisible && mealPlans.length > 0 && (
                 <View style={belowButtonStyle.container}>
                     <Text style={belowButtonStyle.textStyle}>
                         Available from {findTiming()}
@@ -319,7 +187,14 @@ const MealCards = props => {
                 </View>
             )}
 
-            <View>{renderItem()}</View>
+            {combosArray && combosArray.length > 0 && (
+                <View>{renderItem()}</View>
+            )}
+            <View style={styles.bottomTextContainer}>
+                <Text style={styles.bottomText}>
+                    & Lot more meals to choose
+                </Text>
+            </View>
         </View>
     );
 };
@@ -345,7 +220,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: dynamicSize(10),
         marginVertical: 10,
-        backgroundColor:colors.WHITE,
+        backgroundColor: colors.WHITE,
         borderRadius: 14,
         elevation: 5,
     },
@@ -450,7 +325,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor:colors.ORANGE_WHITE,
+        backgroundColor: colors.ORANGE_WHITE,
         borderRadius: 22,
         width: dynamicSize(84),
         height: 25,
@@ -500,41 +375,45 @@ const styles = StyleSheet.create({
         lineHeight: 22,
         letterSpacing: -0.408,
     },
+    bottomTextContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    bottomText: {
+        ...fonts.POPPINS_500_16,
+        color: colors.DARKER_GRAY,
+    },
 });
 
 const buttonStyles = StyleSheet.create({
     buttonContainer: {
         display: 'flex',
-        borderRadius: 5,
+        borderRadius: dynamicSize(5),
         borderWidth: 1,
         borderColor: colors.ORANGE_WHITE,
-        height: 30,
+        height: dynamicSize(30),
         margin: dynamicSize(14),
         flexShrink: 0,
         flexDirection: 'row',
         alignItems: 'center',
     },
     eachButtonStyle: {
-        borderRadius: 5,
+        borderRadius: dynamicSize(5),
 
         width: dimensions.fullWidth / 3 - dynamicSize(10),
-        height: 30,
+        height: dynamicSize(30),
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
     },
     changeStyle: {
         backgroundColor: colors.ORANGE_WHITE,
-        borderRadius: 5,
+        borderRadius: dynamicSize(5),
         color: colors.WHITE,
     },
     textStyle: {
         color: colors.DARKER_GRAY,
-        fontFamily: fonts.NUNITO_500_16.fontFamily,
-        fontSize: 14,
-        fontStyle: 'normal',
-        fontWeight: '700',
-
+        fontFamily: fonts.NUNITO_700_14.fontFamily,
         textTransform: 'capitalize',
     },
     changeTextStyle: {

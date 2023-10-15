@@ -1,99 +1,107 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
-import RestaurantMenuCardDetails from "../../components/Cards/Subscription/RestaurantMenuCardDetails";
-import SearchBar from "../../components/Cards/Search/Subscription/SearchBar";
-import MultipleButtonFoodType from "../../components/Buttons/Subscription/MultipleButtonFoodType";
-import QuickCheckout from "../../components/Cards/Subscription/QuickCheckout";
-import HeadingCardComp from "../../components/Cards/Subscription/HeadingCardComp";
-import RestaurantMenuModal from "../../components/Modal/Subscription/RestaurantMenuModal";
-import LeftSimple from "../../components/Heading/Subscription/LeftSimple";
-import AbsoluteOrangeButton from "../../components/Buttons/Subscription/AbsoluteOrangeButton";
-import { useSelector } from "react-redux";
-import { getBestSellerFoodItems } from "../../redux/services/subscriptionService";
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import RestaurantMenuCardDetails from '../../components/Cards/Subscription/RestaurantMenuCardDetails';
+import SearchBar from '../../components/Cards/Search/Subscription/SearchBar';
+import MultipleButtonFoodType from '../../components/Buttons/Subscription/MultipleButtonFoodType';
+import QuickCheckout from '../../components/Cards/Subscription/QuickCheckout';
+import HeadingCardComp from '../../components/Cards/Subscription/HeadingCardComp';
+import RestaurantMenuModal from '../../components/Modal/Subscription/RestaurantMenuModal';
+import LeftSimple from '../../components/Heading/Subscription/LeftSimple';
+import AbsoluteOrangeButton from '../../components/Buttons/Subscription/AbsoluteOrangeButton';
+import { useSelector } from 'react-redux';
+import { getBestSellerFoodItems } from '../../redux/services/subscriptionService';
+import SubscriptionMeal from '../../components/Cards/Subscription/SubscriptionMeal';
+import KnowMoreModal from '../../components/Modal/Subscription/KnowMoreModal';
+import CategorisedMenu from '../../components/Cards/Subscription/CategorisedMenu';
+import { dimensions } from '../../styles';
+import { dynamicSize } from '../../utils/responsive';
 
 const RestaurantMenuPage = props => {
-    const data = ['menuContent']
-    const { navigation,route } = props
-    const name = route.params.name
-    const mealCardData = [
-        {
-            id: '1',
-            image: require('../../assets/images/Subscription/golgappa.png'),
-            vegImage: require('../../assets/images/Subscription/veg.png'),
-            vegText: 'Veg',
-            boldText: 'Golgappa 1 plate',
-            lastText: 'Made with cauliflower',
-            starImage: require('../../assets/images/Subscription/golden_star.png'),
-            rating: '4.0',
-        },
-        {
-            id: '2',
-            image: require('../../assets/images/Subscription/golgappa.png'),
-            vegImage: require('../../assets/images/Subscription/veg.png'),
-            vegText: 'NonVeg',
-            boldText: 'Golgappa 1 plate',
-            lastText: 'Made with cauliflower',
-            starImage: require('../../assets/images/Subscription/golden_star.png'),
-            rating: '4.0',
-        },
+    const { navigation, route } = props;
+    const { subscriptionDetails } = route?.params;
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [infoData, setInfoData] = useState(null);
+    const [bestSellerItemArray, setBestSellerItemArray] = useState([]);
+    const [menuItems, setMenuItems] = useState([]);
+    const [updatedMenu, setUpdatedMenu] = useState({});
+    const [isVeg, setIsVeg] = useState(false);
+    const scrollViewRef = useRef();
 
-        {
-            id: '3',
-            image: require('../../assets/images/Subscription/golgappa.png'),
-            vegImage: require('../../assets/images/Subscription/veg.png'),
-            vegText: 'NonVeg',
-            boldText: 'Golgappa 1 plate',
-            lastText: 'Made with cauliflower',
-            starImage: require('../../assets/images/Subscription/golden_star.png'),
-            rating: '4.0',
-        },
+    const { selectedItem } = useSelector(state => state.subscriptionCart);
+    useEffect(() => {}, []);
 
-    ]
+    const toggleModal = item => {
+        if (isModalVisible) {
+            setInfoData(null);
+        } else {
+            setInfoData(item);
+        }
+        setModalVisible(!isModalVisible);
+    };
 
-    const [bestSellerItemArray, setBestSellerItemArray] = useState([])
-    const { planID } = useSelector(state => state.finalSubscriptionPrice)
-    const { mealType, mealPlanTime, mealPlanId } = useSelector(state => state.mealTypeForSubscription)
+    const handleKnowMore = item => {
+        toggleModal(item);
+    };
 
-    const fetchBestSellers = async () => {
-        const response = await getBestSellerFoodItems(planID, mealType)
-        setBestSellerItemArray(response.data)
-    }
-    useEffect(() => {
-        fetchBestSellers()
-    }, [setBestSellerItemArray, mealType])
-
-    const { isSelectedAny } = useSelector(state => state.subscriptionSelectMenu)
-    const { itemName, itemId, itemType, itemImage } = useSelector((state) => state.subscriptionCart);
+    const handleScrollTo = index => {
+        scrollViewRef?.current?.scrollTo({
+            y: index,
+            animated: true,
+        });
+    };
 
     return (
         <View>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                {data.map((item, index) => (
-                    <View style={styles.container} key={index}>
-                        <RestaurantMenuCardDetails name={name}/>
-                        <SearchBar />
-                        <MultipleButtonFoodType />
-                        <LeftSimple text={"Best Sellers"} />
-                        <QuickCheckout bestSellerItemCard={bestSellerItemArray} firstActive={true} secondActive={false} />
-                        <HeadingCardComp mealCardData={mealCardData} />
-                    </View>
-                ))}
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                ref={scrollViewRef}>
+                <View style={styles.container} key={1}>
+                    <RestaurantMenuCardDetails
+                        subscriptionPlan={subscriptionDetails?.subscriptionPlan}
+                    />
+                    {/* <SearchBar /> */}
+                    <MultipleButtonFoodType
+                        subscriptionPlan={subscriptionDetails?.subscriptionPlan}
+                        handleKnowMore={handleKnowMore}
+                        setMenuItems={setMenuItems}
+                        setIsVeg={setIsVeg}
+                        setUpdatedMenu={setUpdatedMenu}
+                    />
+                </View>
             </ScrollView>
-            <RestaurantMenuModal />
-            {isSelectedAny && <AbsoluteOrangeButton navigation={navigation} text={"Proceed to checkout"} />}
+            {menuItems && updatedMenu && (
+                <RestaurantMenuModal
+                    menuItems={menuItems}
+                    handleScrollTo={handleScrollTo}
+                    updatedMenu={updatedMenu}
+                    bottomSpace={
+                        selectedItem ? dynamicSize(80) : dynamicSize(20)
+                    }
+                />
+            )}
+            {selectedItem && (
+                <AbsoluteOrangeButton
+                    navigation={navigation}
+                    text={'Proceed to checkout'}
+                />
+            )}
+            <KnowMoreModal
+                isModalVisible={isModalVisible}
+                toggleModal={toggleModal}
+                data={infoData}
+            />
         </View>
-
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 20,
-    }
-})
-
+        // minHeight: dimensions.fullHeight,
+        // marginVertical: 20,
+    },
+});
 
 export default RestaurantMenuPage;

@@ -12,31 +12,39 @@ import { Styles, dimensions, fonts } from '../../../styles';
 import CardIcon from '../../../assets/icons/CreditCardIcon.svg';
 import { useDispatch } from 'react-redux';
 import { redeemCoupon } from '../../../redux/actions/cartActions';
+import { applySubscriptionCoupon } from '../../../redux/actions/subscriptionCoupon';
 
 const CouponCard = props => {
-    const { coupon, isActive = false, navigation } = props;
+    const { coupon, isActive = false, navigation, isSubscription } = props;
     const dispatch = useDispatch();
     const code = coupon.name;
     const typeOfDiscount = coupon.discount.type;
     const type = typeOfDiscount == 'fixed' ? '/-' : '%';
     const typeOf = typeOfDiscount == 'fixed' ? 'FLAT OFF' : 'DISCOUNT';
-    const minOrderValue = coupon.bagConstraints.minOrderAmount;
-    const valueUpto = coupon.commonConstraints.valueUpto;
-    const description = coupon.description;
+    const minOrderValue = coupon?.bagConstraints?.minOrderAmount;
+    const valueUpto = coupon?.commonConstraints?.valueUpto;
+    const description = coupon?.description;
     let applicablePaymentMethods = [
-        coupon.bagConstraints.applicablePaymentMethods.map(item => {
-            return item === 'OTHERS'
-                ? 'Pay using wallet/card'
-                : 'Cash On delivery';
-        }),
+        coupon.bagConstraints
+            ? coupon?.bagConstraints?.applicablePaymentMethods?.map(item => {
+                  return item === 'OTHERS'
+                      ? 'Pay using wallet/card'
+                      : 'Cash On delivery';
+              })
+            : ['OTHERS'],
     ];
     applicablePaymentMethods = applicablePaymentMethods.join(',');
 
     const Touchable = isActive ? TouchableOpacity : View;
 
     const applyCoupon = () => {
-        dispatch(redeemCoupon(coupon));
-        navigation.goBack();
+        if (isSubscription) {
+            dispatch(applySubscriptionCoupon(coupon));
+            navigation.goBack();
+        } else {
+            dispatch(redeemCoupon(coupon));
+            navigation.goBack();
+        }
     };
 
     return (

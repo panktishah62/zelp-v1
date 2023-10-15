@@ -4,10 +4,11 @@ import { dimensions, fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
 
 const LineCircleSurroundedHeading = props => {
-    const validity = props.validity || 0;
-    const price = props.price || 100;
-    const discount = props.discount;
-    const total = price * (1 - discount / 100) * 5;
+    const data = props?.data;
+    // const validity = data?.validityPerMeal || 0;
+    // const price = data?.pricePerMeal || 100;
+    // const discount = data?.appliedDiscount;
+    // const total = price * (1 - discount / 100) * 5;
 
     return (
         <View style={styles.wrapper}>
@@ -23,8 +24,16 @@ const LineCircleSurroundedHeading = props => {
                 <View style={styles.secondContainer}>
                     <Text style={textStyles.firstText}>
                         Just pay{' '}
-                        <Text style={textStyles.secondText}>₹{total}</Text> for
-                        Min. 5 meals - {validity} days validity
+                        <Text style={textStyles.secondText}>
+                            ₹
+                            {data?.discountedPrice *
+                                data?.subscriptionPlan?.minimunNumOfMeals}
+                        </Text>{' '}
+                        for Min. ${data?.subscriptionPlan?.minimunNumOfMeals}{' '}
+                        meals -{' '}
+                        {data?.subscriptionPlan?.minimunNumOfMeals *
+                            data?.subscriptionPlan?.validityPerMeal}{' '}
+                        days validity
                     </Text>
                 </View>
                 <View style={styles.thirdContainer}>
@@ -92,7 +101,7 @@ const textStyles = StyleSheet.create({
         textAlign: 'center',
     },
     secondText: {
-        color: '#E1740F',
+        color: colors.ORANGE_WHITE,
         fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 18,
         fontStyle: 'normal',

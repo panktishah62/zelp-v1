@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import WhiteLocation from '../../../assets/images/Subscription/WhiteLocation.svg';
 import { dimensions, fonts } from '../../../styles';
 import DeliveryBoy from '../../../assets/images/Subscription/DeliveryBoy.svg';
@@ -7,36 +7,43 @@ import { dynamicSize, normalizeFont } from '../../../utils/responsive';
 import { colors } from '../../../styles/colors';
 
 const CartDetails = props => {
-    const { address } = props;
+    const { address, navigation } = props;
+    const onChangeAddress = () => {
+        navigation.navigate('Address');
+    };
     return (
         <View style={styles.container}>
             <View style={styles.firstContainer}>
-                <View style={styles.imageContainer}>
-                    <WhiteLocation />
-                </View>
-                <View style={styles.textContainer}>
-                    <Text style={styles.firstText}>
-                        Delivery to <Text style={styles.secondText}>Home</Text>
+                <View style={styles.topLeftContainer}>
+                    <View style={styles.imageContainer}>
+                        <WhiteLocation />
+                    </View>
+                    <Text
+                        style={styles.firstText}
+                        numberOfLines={2}
+                        ellipsizeMode="tail">
+                        Delivery to{' '}
+                        <Text style={styles.secondText}>
+                            {address?.typeOfAddress}
+                            {'\n'}
+                        </Text>
+                        {address?.address}
                     </Text>
-                    <Text style={styles.firstText}>{address}</Text>
                 </View>
-                <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                    style={styles.buttonContainer}
+                    onPress={onChangeAddress}>
                     <Text style={styles.buttonText}>Change</Text>
-                </View>
+                </TouchableOpacity>
             </View>
-            <View style={styles1.secondContainer}>
-                <View style={styles1.leftContainer}>
-                    <DeliveryBoy />
-                    <Text style={styles1.firstText}>
-                        Distance <Text style={styles1.secondText}>2.4 KM</Text>
-                    </Text>
-                </View>
+            {/* <View style={styles1.secondContainer}>
+                <DeliveryBoy />
                 <View style={styles1.rightContainer}>
                     <Text style={styles1.thirdText}>
-                        Time <Text style={styles1.secondText}>30-35 mins</Text>
+                        Time <Text style={styles1.secondText}>20-30 Mins</Text>
                     </Text>
                 </View>
-            </View>
+            </View> */}
         </View>
     );
 };
@@ -45,27 +52,29 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
-        height: dynamicSize(100),
+        // alignItems: 'center',
+        height: dynamicSize(70),
         gap: dynamicSize(10),
-        width: dimensions.fullWidth - dynamicSize(40),
-        backgroundColor:colors.WHITE,
-        borderRadius: 15,
+        marginTop: dynamicSize(0),
+        marginHorizontal: dynamicSize(20),
+        backgroundColor: colors.WHITE,
+        borderRadius: dynamicSize(15),
         elevation: 5,
     },
     firstContainer: {
+        flex: 1,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
 
-        marginTop: 10,
+        // marginTop: dynamicSize(10),
         flexDirection: 'row',
-        gap: dynamicSize(14),
     },
     buttonContainer: {
         width: dynamicSize(80),
         height: dynamicSize(25),
-        backgroundColor:colors.DARK_GREEN,
+        marginRight: dynamicSize(25),
+        backgroundColor: colors.DARK_GREEN,
         borderRadius: 27,
         display: 'flex',
         justifyContent: 'center',
@@ -78,14 +87,15 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: '500',
         lineHeight: dynamicSize(14),
+        width: '70%',
     },
     textContainer: {
-        display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-start',
         gap: 2,
     },
     secondText: {
+        flex: 1,
         color: colors.DARK_GREEN,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: normalizeFont(14),
@@ -94,23 +104,36 @@ const styles = StyleSheet.create({
         lineHeight: dynamicSize(14),
     },
     buttonText: {
-        color:colors.WHITE,
+        color: colors.WHITE,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 12,
         fontStyle: 'normal',
         fontWeight: '400',
         textAlign: 'right',
     },
+    imageContainer: {
+        width: '20%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    topLeftContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        width: '80%',
+        right: 0,
+    },
 });
 
 const styles1 = StyleSheet.create({
     secondContainer: {
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         gap: dynamicSize(20),
         flexDirection: 'row',
         marginBottom: 10,
+        left: dynamicSize(20),
     },
     leftContainer: {
         display: 'flex',

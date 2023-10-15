@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
+import QUICK_CHECKOUT from '../../../assets/icons/quick_checkout.svg';
+import ORDER_HISTORY from '../../../assets/icons/order_history.svg';
 
 const SwitchButtons = props => {
     const { firstActive, secondActive, toggleFirst, toggleSecond } = props;
@@ -14,9 +16,7 @@ const SwitchButtons = props => {
                         buttonStyles.firstContainer,
                         firstActive && buttonStyles.belowBorder,
                     ]}>
-                    <Image
-                        source={require('../../../assets/images/Subscription/salad_4.png')}
-                    />
+                    <QUICK_CHECKOUT />
                     <Text style={buttonStyles.text}>Quick Checkout</Text>
                 </View>
             </TouchableOpacity>
@@ -26,9 +26,7 @@ const SwitchButtons = props => {
                         buttonStyles.firstContainer,
                         secondActive && buttonStyles.belowBorder,
                     ]}>
-                    <Image
-                        source={require('../../../assets/images/Subscription/checkout.png')}
-                    />
+                    <ORDER_HISTORY />
                     <Text style={buttonStyles.text}>Order History</Text>
                 </View>
             </TouchableOpacity>

@@ -6,6 +6,8 @@ import { dynamicSize } from '../../../utils/responsive';
 
 const ParagraphComp = props => {
     const minValidity = props.minValidity;
+    const specialOfferBanner = props?.specialOfferBanner;
+
     return (
         <View>
             <View style={styles.wrapper}>
@@ -21,8 +23,11 @@ const ParagraphComp = props => {
                     <View style={styles.secondContainer}>
                         <Text style={textStyles.firstText}>
                             Minimum
-                            <Text style={textStyles.secondText}> {minValidity?.meal} Meals</Text>  Per Plan
-                           
+                            <Text style={textStyles.secondText}>
+                                {' '}
+                                {minValidity?.meal} Meals
+                            </Text>{' '}
+                            Per Plan
                         </Text>
                     </View>
                     <View style={styles.thirdContainer}>
@@ -36,12 +41,14 @@ const ParagraphComp = props => {
                     </View>
                 </View>
             </View>
-            <View style={styles.imageContainer}>
-                <Image
-                    style={styles.imageStyle}
-                    source={require('../../../assets/images/Subscription/offer.png')}
-                />
-            </View>
+            {specialOfferBanner && (
+                <View style={styles.imageContainer}>
+                    <Image
+                        style={styles.imageStyle}
+                        source={{ uri: specialOfferBanner }}
+                    />
+                </View>
+            )}
         </View>
     );
 };
@@ -49,10 +56,12 @@ const ParagraphComp = props => {
 const styles = StyleSheet.create({
     imageContainer: {
         width: dimensions.fullWidth,
-        marginTop: 8,
+        marginTop: dynamicSize(8),
     },
     imageStyle: {
         width: dimensions.fullWidth,
+        minHeight: dynamicSize(100),
+        height: 'auto',
     },
     thirdContainer: {
         height: 40,
@@ -85,18 +94,19 @@ const styles = StyleSheet.create({
         fontWeight: '800',
     },
     wrapper: {
+        flex: 1,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 20,
+        marginVertical: dynamicSize(8),
     },
     container: {
+        flex: 1,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         width: dimensions.fullWidth,
         flexDirection: 'row',
-        width:dimensions.fullWidth-dynamicSize(40)
     },
     firstContainer: {
         display: 'flex',
@@ -134,7 +144,7 @@ const textStyles = StyleSheet.create({
         textAlign: 'center',
     },
     secondText: {
-        color: '#E1740F',
+        color: colors.ORANGE_WHITE,
         fontFamily: fonts.NUNITO_800_12.fontFamily,
         fontSize: 18,
         fontStyle: 'normal',
@@ -143,6 +153,5 @@ const textStyles = StyleSheet.create({
         letterSpacing: 0.54,
     },
 });
-
 
 export default ParagraphComp;

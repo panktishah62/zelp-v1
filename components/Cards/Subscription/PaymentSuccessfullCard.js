@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -6,9 +6,22 @@ import { colors } from '../../../styles/colors';
 
 const PaymentSuccessfullCard = props => {
     const { navigation } = props;
+    const data = props?.data;
+
     const navigationHandler = () => {
         navigation.navigate('SubscribedUserHome');
     };
+    const onClose = () => {
+        navigation.navigate('SubscribedUserHome');
+    };
+    useEffect(
+        () =>
+            navigation.addListener('beforeRemove', e => {
+                e.preventDefault();
+                navigation.navigate('SubscribedUserHome');
+            }),
+        [navigation],
+    );
     return (
         <View>
             <Text style={styles.headingText}>Payment Status</Text>
@@ -36,7 +49,7 @@ const PaymentSuccessfullCard = props => {
                 </View>
                 <View style={styles1.container}>
                     <Text style={styles1.firstText}>Total Payment</Text>
-                    <Text style={styles1.secondText}>₹450</Text>
+                    <Text style={styles1.secondText}>₹{data?.totalAmount}</Text>
                 </View>
                 <View style={styles1.line}></View>
                 <TouchableOpacity onPress={navigationHandler}>
@@ -46,7 +59,9 @@ const PaymentSuccessfullCard = props => {
                         </Text>
                     </View>
                 </TouchableOpacity>
-                <Text style={belowStyles.closeText}>Close</Text>
+                <TouchableOpacity onPress={onClose}>
+                    <Text style={belowStyles.closeText}>Close</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -57,7 +72,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         elevation: 5,
         alignItems: 'center',
-        backgroundColor:colors.WHITE,
+        backgroundColor: colors.WHITE,
         width: 314.916,
         height: 490.239,
         borderTopLeftRadius: 33.308,
@@ -153,8 +168,8 @@ const belowStyles = StyleSheet.create({
         textAlign: 'center',
     },
     closeText: {
-        color:colors.GRAY_20,
-        fontFamily: fonts.POPPINS_500_11.fontFamily ,
+        color: colors.GRAY_20,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: '400',

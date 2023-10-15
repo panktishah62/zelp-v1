@@ -3,59 +3,32 @@ import { View, Image, StyleSheet } from 'react-native';
 import { dimensions } from '../../../styles';
 import { ScrollView } from 'react-native-gesture-handler';
 import { colors } from '../../../styles/colors';
-
-//static data
-// const data = [
-//     {
-//         id: '1',
-//         caroselImage:require('../../../assets/images/Subscription/carousel_1.png'),
-//     },
-//     {
-//         id: '2',
-//         caroselImage:require('../../../assets/images/Subscription/carousel_1.png'),
-
-//     },
-//     {
-//         id: '3',
-//         caroselImage:require('../../../assets/images/Subscription/carousel_1.png'),
-
-//     },
-//     {
-//         id: '4',
-//         caroselImage:require('../../../assets/images/Subscription/carousel_1.png'),
-//     },
-
-//   ];
+import { dynamicSize } from '../../../utils/responsive';
 
 const CarouselImageAtTop = props => {
     const { bannerImagesArr, isStatic } = props;
 
     const renderItem = () => {
         return bannerImagesArr?.map((item, index) => (
-            // <LinearGradient
-            //     key={index}
-            //     colors={['rgba(255, 255, 255, 0.80)', 'rgba(255, 255, 255, 0.25)']}
-            //     style={styles.gradient}
-            // >
-            <View style={[styles.conatiner, styles.shadow]} key={index}>
+            <View style={[styles.shadow]} key={index}>
                 <View style={styles.imageContainer}>
-                {!isStatic && (
+                    {!isStatic && item.image && (
                         <Image
                             style={styles.imageStyle}
-                            resizeMode='stretch'
+                            resizeMode="stretch"
                             source={{
                                 uri: item.image,
                             }}
                         />
                     )}
-                    {isStatic && (
+                    {isStatic && item.caroselImage && (
                         <Image
                             style={styles.imageStyle}
-                            source={item.caroselImage}
+                            source={{ uri: item.caroselImage }}
                         />
-                    )}</View>
+                    )}
+                </View>
             </View>
-            // </LinearGradient>
         ));
     };
 
@@ -64,7 +37,8 @@ const CarouselImageAtTop = props => {
             {bannerImagesArr?.length !== 0 && (
                 <ScrollView
                     horizontal={true}
-                    showsHorizontalScrollIndicator={false}>
+                    showsHorizontalScrollIndicator={false}
+                    style={styles.scrollView}>
                     {renderItem()}
                 </ScrollView>
             )}
@@ -75,29 +49,31 @@ const CarouselImageAtTop = props => {
 const styles = StyleSheet.create({
     conatiner: {
         width: dimensions.fullWidth,
-        height: 200.576,
+        height: dynamicSize(200),
         flexShrink: 0,
-        margin: 0,
         padding: 0,
     },
+    scrollView: {
+        height: dynamicSize(200),
+        marginHorizontal: dynamicSize(10),
+    },
     imageStyle: {
-        width: dimensions.fullWidth - 60,
-        height: 177.576,
-        borderRadius: 7,
-  
+        width: dimensions.fullWidth - dynamicSize(60),
+        height: dynamicSize(178),
+        borderRadius: dynamicSize(7),
     },
     imageContainer: {
-        width: dimensions.fullWidth - 60,
-        height: 177.576,
+        width: dimensions.fullWidth - dynamicSize(60),
+        height: dynamicSize(178),
         // resizeMode: 'cover',
     },
 
     shadow: {
-        width: dimensions.fullWidth - 60,
-        margin: 10,
-        height: 177.576,
+        width: dimensions.fullWidth - dynamicSize(60),
+        margin: dynamicSize(10),
+        height: dynamicSize(178),
         backgroundColor: colors.WHITE,
-        borderRadius: 5,
+        borderRadius: dynamicSize(7),
         elevation: 5, // Apply elevation for shadow
     },
 });

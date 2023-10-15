@@ -256,23 +256,6 @@ const HeaderWithLocation = props => {
                     <UserIcon height="35" width="35" />
                 </TouchableOpacity>
             </View>
-            <View style={styles.searchBar}>
-                <TouchableWithoutFeedback
-                    onPress={() => {
-                        navigation.navigate('SearchStack');
-                    }}>
-                    <SearchInput
-                        text={text}
-                        setText={setText}
-                        placeholder="Search Food, Restaurants, Frokers"
-                        keyboardType={keyboardType}
-                        width={dimensions.fullWidth * 0.8}
-                        navigation={navigation}
-                        enableInput={false}
-                    />
-                </TouchableWithoutFeedback>
-                <CartButton navigation={navigation} />
-            </View>
         </View>
     );
 };

@@ -31,6 +31,8 @@ export default {
     //Coupons
     getValidCouponsForUser: 'coupon/getValidCouponsForUserUpdated',
     getSearchedCouponForUser: 'coupon/searchCouponUpdated',
+    getSubscriptionCouponsForUser: 'coupon/getSubscriptionCouponsForUser',
+    getSearchedSubscriptionCouponForUser: 'coupon/searchSubscriptionCoupons',
 
     //subscriptionModel
     getSubscriptionModelData: 'subscriptionModel/getSubscriptionModelData',
@@ -70,16 +72,20 @@ export default {
     getUserReferralCodeDetails: 'referral/getUserReferralCodeDetails',
 
     //Subscription
-    getSubscriptionPlanDetails:'subscriptionPlan/showSubscriptionPlans',
-    getBannerImages:'subscriptionPlan/getBannerImages',
-    getPartnerRestaurants:'subscriptionPlan/getPartnerRestaurants',
-    showOneSubscriptionPlan:'subscriptionPlan/showSubscriptionPlanDetails',
-    showComboForSubscription:`subscriptionPlan/getCombosForSubscriptionPlan`,
-    getBestSellerFoodItems:`subscriptionPlan/getBestSellingFoodItems`,
-    getCategorizedFoodItems:'subscriptionPlan/getCategorizedFoodItems',
-    subscribeToAPlan:"subscriptionPlan/subscribeToAPlan",
-    showSubscriptionDetails:"subscriptionPlan/showSubscriptionDetails",
-    getOneSubscriptionOrder:"subscriptionPlan/getOneSubscriptionOrder",
-    getMealPlansForSubscription:"subscriptionPlan/getMealPlansForSubscriptionPlan",
-    orderUsingSubscription:"subscriptionPlan/orderUsingSubscription"
+    getSubscriptionPlanDetails: 'subscriptionPlan/showSubscriptionPlans',
+    getBannerImages: 'subscriptionPlan/getBannerImages',
+    getPartnerRestaurants: 'subscriptionPlan/getPartnerRestaurants',
+    showOneSubscriptionPlan: 'subscriptionPlan/showSubscriptionPlanDetails',
+    showComboForSubscription: 'subscriptionPlan/getCombosForSubscriptionPlan',
+    getBestSellerFoodItems: 'subscriptionPlan/getBestSellingFoodItems',
+    getQuickCheckoutItems: 'subscriptionPlan/getQuickCheckoutItems',
+    getCategorizedFoodItems: 'subscriptionPlan/getCategorizedFoodItems',
+    subscribeToAPlan: 'subscriptionPlan/subscribeToAPlan',
+    showSubscriptionDetails: 'subscriptionPlan/showSubscriptionDetails',
+    getOneSubscriptionOrder: 'subscriptionPlan/getOneSubscriptionOrder',
+    getMealPlansForSubscription:
+        'subscriptionPlan/getMealPlansForSubscriptionPlan',
+    orderUsingSubscription: 'subscriptionPlan/orderUsingSubscription',
+    getSubscriptionConfig: 'subscriptionPlan/getSubscriptionConfig',
+    getOrderHistory: 'subscriptionPlan/getOrderHistory',
 };

@@ -6,10 +6,15 @@ import { colors } from '../../styles/colors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const HeaderWithTitle = props => {
-    const { navigation, title, onBack, onClick } = props;
+    const { navigation, title, onBack, onClick, containerStyles } = props;
     const insets = useSafeAreaInsets();
     return (
-        <View style={[styles.container, { paddingTop: insets.top }]}>
+        <View
+            style={[
+                styles.container,
+                { paddingTop: insets.top },
+                containerStyles,
+            ]}>
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {

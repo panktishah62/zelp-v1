@@ -12,10 +12,13 @@ import {
     SET_SUBSCRIPTION_MEAL_TYPE,
     RESET_SUBSCRIPTION_MEAL_TYPE,
     SET_SUBSCRIPTION_DETAILS,
+    GET_SUBSCRIPTION_CONFIG,
+    SELECT_SUBSCRIPTION_PLAN,
+    RESET_SUBSCRIPTION_PLAN,
 } from '../constants';
+import { getConfigForSubscription } from '../services/subscriptionService';
 
 export const selectMenu = (index, componentName) => {
-    console.log({ index, componentName });
     return async dispatch => {
         dispatch({
             type: SUBSCRIPTION_SELECT_MENU_ITEM,
@@ -52,82 +55,111 @@ export const selectAllMenu = () => {
 };
 
 export const addSubscribedItemToCart = data => {
-  
     return async dispatch => {
         dispatch({
             type: SUBSCRIPTION_ADD_TO_CART,
-            payload:data
+            payload: data,
         });
-    }
-}
+    };
+};
 
 export const removeSubscribedItemFromCart = () => {
     return async dispatch => {
         dispatch({
             type: SUBSCRIPTION_REMOVE_FROM_CART,
         });
-    }
-}
+    };
+};
 
-
-export const mealDetailsIncreased = (data) => {
+export const mealDetailsIncreased = data => {
     return async dispatch => {
         dispatch({
-            type:  SUBSCRIPTION_MEAL_NUMBER_INCREASED,
-            payload:data,
+            type: SUBSCRIPTION_MEAL_NUMBER_INCREASED,
+            payload: data,
         });
-    }
-}
+    };
+};
 
-export const mealDetailsDecreased = (data) => {
+export const mealDetailsDecreased = data => {
     return async dispatch => {
         dispatch({
-            type:  SUBSCRIPTION_MEAL_NUMBER_DECREASED,
-            payload:data,
+            type: SUBSCRIPTION_MEAL_NUMBER_DECREASED,
+            payload: data,
         });
-    }
-}
+    };
+};
 
-export const finalPlanDetails = (data) => {
+export const finalPlanDetails = data => {
     return async dispatch => {
         dispatch({
-            type:  FINAL_SUBSCRIPTION_MODEL_PRICE,
-            payload:data,
+            type: FINAL_SUBSCRIPTION_MODEL_PRICE,
+            payload: data,
         });
-    }
-}
-export const setSubscriptionMealType=(mealType,mealPlanId,mealPlanTime)=>{
-    return async dispatch=>{
+    };
+};
+export const setSubscriptionMealType = (mealType, mealPlanId, mealPlanTime) => {
+    return async dispatch => {
         dispatch({
-            type:SET_SUBSCRIPTION_MEAL_TYPE,
-            payload:{
-                mealType:mealType,
-                mealPlanId:mealPlanId,
-                mealPlanTime:mealPlanTime
+            type: SET_SUBSCRIPTION_MEAL_TYPE,
+            payload: {
+                mealType: mealType,
+                mealPlanId: mealPlanId,
+                mealPlanTime: mealPlanTime,
+            },
+        });
+    };
+};
 
-            }
-        })
-    }
-}
-
-export const resetSubscriptionMealType=()=>{
-    return async dispatch=>{
+export const resetSubscriptionMealType = () => {
+    return async dispatch => {
         dispatch({
-            type:RESET_SUBSCRIPTION_MEAL_TYPE,
-            payload:{
-                mealType:'Breakfast'
-            }
-        })
-    }
-}
+            type: RESET_SUBSCRIPTION_MEAL_TYPE,
+            payload: {
+                mealType: 'Breakfast',
+            },
+        });
+    };
+};
 
-export const setSubscriptionDetails=(id)=>{
-    return async dispatch=>{
+export const setSubscriptionDetails = id => {
+    return async dispatch => {
         dispatch({
-            type:SET_SUBSCRIPTION_DETAILS,
-            payload:{
-                id
-            }
-        })
-    }
-}
+            type: SET_SUBSCRIPTION_DETAILS,
+            payload: {
+                id,
+            },
+        });
+    };
+};
+
+export const getSubscriptionConfig = config => {
+    return async dispatch => {
+        await getConfigForSubscription()
+            .then(response => response?.data)
+            .then(data => {
+                dispatch({
+                    type: GET_SUBSCRIPTION_CONFIG,
+                    payload: {
+                        config: data.config,
+                    },
+                });
+            });
+    };
+};
+
+export const selectSubscriptionPlan = data => {
+    return dispatch => {
+        dispatch({
+            type: SELECT_SUBSCRIPTION_PLAN,
+            payload: data,
+        });
+    };
+};
+
+export const resetSubscriptionPlan = () => {
+    return dispatch => {
+        dispatch({
+            type: RESET_SUBSCRIPTION_PLAN,
+        });
+    };
+};

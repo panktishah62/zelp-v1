@@ -19,6 +19,11 @@ export const fonts = StyleSheet.create({
         fontWeight: '800',
         fontSize: 12,
     },
+    NUNITO_800_18: {
+        fontFamily: 'Nunito-ExtraBold',
+        fontWeight: '800',
+        fontSize: 18,
+    },
     NUNITO_800_10: {
         fontFamily: 'Nunito-ExtraBold',
         fontWeight: '800',
@@ -58,6 +63,11 @@ export const fonts = StyleSheet.create({
         fontFamily: 'Nunito-Bold',
         fontWeight: '700',
         fontSize: 12,
+    },
+    NUNITO_700_18: {
+        fontFamily: 'Nunito-Bold',
+        fontWeight: '700',
+        fontSize: 18,
     },
     NUNITO_700_12_ITALIC: {
         fontFamily: 'Nunito-BoldItalic',
@@ -189,11 +199,76 @@ export const fonts = StyleSheet.create({
         fontWeight: '400',
         fontSize: 14,
     },
-    POPPINS_500_11:{
+    POPPINS_500_11: {
         fontFamily: 'Poppins-Regular',
         fontWeight: '500',
         fontSize: 11,
-    }
+    },
+    POPPINS_500_12: {
+        fontFamily: 'Poppins-Regular',
+        fontWeight: '500',
+        fontSize: 12,
+    },
+    POPPINS_500_18: {
+        fontFamily: 'Poppins-Regular',
+        fontWeight: '500',
+        fontSize: 18,
+    },
+    POPPINS_400_12: {
+        fontFamily: 'Poppins-Regular',
+        fontWeight: '400',
+        fontSize: 12,
+    },
+    POPPINS_400_16: {
+        fontFamily: 'Poppins-Regular',
+        fontWeight: '400',
+        fontSize: 16,
+    },
+    POPPINS_500_12: {
+        fontFamily: 'Poppins-Regular',
+        fontWeight: '500',
+        fontSize: 12,
+    },
+    POPPINS_500_14: {
+        fontFamily: 'Poppins-Regular',
+        fontWeight: '500',
+        fontSize: 14,
+    },
+    POPPINS_500_16: {
+        fontFamily: 'Poppins-Regular',
+        fontWeight: '500',
+        fontSize: 16,
+    },
+    POPPINS_600_12: {
+        fontFamily: 'Poppins-SemiBold',
+        fontWeight: '600',
+        fontSize: 12,
+    },
+    POPPINS_600_14: {
+        fontFamily: 'Poppins-SemiBold',
+        fontWeight: '600',
+        fontSize: 14,
+    },
+    POPPINS_600_16: {
+        fontFamily: 'Poppins-SemiBold',
+        fontWeight: '600',
+        fontSize: 16,
+    },
+    POPPINS_800_12: {
+        fontFamily: 'Poppins-Medium',
+        fontWeight: '500',
+        fontSize: 16,
+    },
+    POPPINS_700_16: {
+        fontFamily: 'Poppins-Bold',
+        fontWeight: '700',
+        fontSize: 16,
+    },
+    POPPINS_700_18: {
+        fontFamily: 'Poppins-Bold',
+        fontWeight: '700',
+        fontSize: 18,
+    },
 });
 
 export const Styles = StyleSheet.create({

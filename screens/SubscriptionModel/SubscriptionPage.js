@@ -8,34 +8,21 @@ import StarHeadingComponent from '../../components/Cards/Subscription/StarHeadin
 import BenifitHeadingComp from '../../components/Cards/Subscription/BenifitHeadingComp';
 import CarouselImageAtTop from '../../components/Cards/Subscription/CarouselImageAtTop';
 import { getBannerImages } from '../../redux/services/subscriptionService';
-
-const benifitComponentData = [
-    {
-        image: require('../../assets/images/Subscription/salad_3.png'),
-        text: 'Choose your Preferred Meal',
-    },
-    {
-        image: require('../../assets/images/Subscription/clock.png'),
-        text: 'Wide Variety of options',
-    },
-    {
-        image: require('../../assets/images/Subscription/plate.png'),
-        text: 'Delivery at your Door Step',
-    },
-    {
-        image: require('../../assets/images/Subscription/delivery_2.png'),
-        text: 'No Additional costs',
-    },
-];
+import { useSelector } from 'react-redux';
+import VideoModal from '../../components/Modal/Subscription/VideoModal';
 
 const SubscriptionPage = props => {
     const { navigation } = props;
 
     const [bannerImagesArr, setBannerImagesArr] = useState([]);
-    const [benifitItemArr,setBenifitItemArr] = useState([]);
-    const [bestMealArr,setBestMealArr] = useState([])
-    const [minValidity,setMinValidity] = useState(null)
- 
+    const [benifitItemArr, setBenifitItemArr] = useState([]);
+    const [bestMealArr, setBestMealArr] = useState([]);
+    const [minValidity, setMinValidity] = useState(null);
+    const [specialOfferBanner, setSpecialOfferBanner] = useState(null);
+    const { config, selectedSubscription } = useSelector(
+        state => state.subscriptionDetails,
+    );
+    const [isVideoModalVisible, setIsVideoModalVisible] = useState(false);
     useEffect(() => {
         fetchBannerImages();
     }, [setBannerImagesArr]);
@@ -43,46 +30,44 @@ const SubscriptionPage = props => {
     const fetchBannerImages = async () => {
         const response = await getBannerImages();
         setBannerImagesArr(response?.data?.data);
-        setBenifitItemArr(response?.data.benifitComponent)
-        setBestMealArr(response?.data.bestMealArray)
-        setMinValidity(response?.data.minValidity)
-
+        setBenifitItemArr(response?.data?.benifitComponent);
+        setBestMealArr(response?.data?.bestMealArray);
+        setMinValidity(response?.data?.minValidity);
+        setSpecialOfferBanner(response?.data?.specialOfferBanner);
     };
 
-    
+    const toggleVideoModal = () => {
+        setIsVideoModalVisible(!isVideoModalVisible);
+    };
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.container}>
-                <CarouselImageAtTop bannerImagesArr={bannerImagesArr} />
-                <StarHeadingComponent navigation={navigation} />
-                <ParagraphComp minValidity={minValidity}/>
-                <BenifitHeadingComp />
-                <BenifitComponent data={benifitItemArr} isDynamic={true}/>
-                <PartnersComponent />
-                <MealComponent bestMealArr={bestMealArr}/>
-            </View>
+            {selectedSubscription && (
+                <View>
+                    <CarouselImageAtTop bannerImagesArr={bannerImagesArr} />
+                    <StarHeadingComponent navigation={navigation} />
+                    <ParagraphComp
+                        minValidity={minValidity}
+                        specialOfferBanner={specialOfferBanner}
+                    />
+                    <BenifitHeadingComp />
+                    <BenifitComponent data={benifitItemArr} isDynamic={true} />
+
+                    <PartnersComponent />
+
+                    <MealComponent
+                        bestMealArr={bestMealArr}
+                        setIsVideoModalVisible={toggleVideoModal}
+                    />
+                </View>
+            )}
+            <VideoModal
+                visible={isVideoModalVisible}
+                hideModal={toggleVideoModal}
+            />
         </ScrollView>
     );
 };
-const styles = StyleSheet.create({
-    container: {
-        // backgroundColor: colors.WHITE,
-    },
-    // buttonContainer: {
-    //     backgroundColor: colors.WHITE,
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    //     paddingVertical: dynamicSize(25),
-    // },
-    // headerText: {
-    //     ...fonts.NUNITO_500_16,
-    //     textAlign: 'center',
-    //     color: colors.GREY_MEDIUM,
-    // },
-    // whatsappContainer: {
-    //     marginBottom: dynamicSize(10),
-    // },
-});
+const styles = StyleSheet.create({});
 
 export default SubscriptionPage;

@@ -1,18 +1,39 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useState } from 'react';
+import {
+    StyleSheet,
+    View,
+    Text,
+    TouchableOpacity,
+    TextInput,
+} from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { dynamicSize } from '../../../utils/responsive';
 import PlusCircle from '../../../assets/images/Subscription/PlusCircle.svg';
 import { colors } from '../../../styles/colors';
 const DeliveryInstruction = props => {
+    // const [text, setText] = useState('');
+    const { text, setText } = props;
+    const [isTextInputOpen, setIsTextInputOpen] = useState(false);
+    const addInstructions = () => {
+        setIsTextInputOpen(!isTextInputOpen);
+    };
     return (
         <View style={styles.container}>
-            <View style={styles.firstContainer}>
+            <TouchableOpacity
+                style={styles.firstContainer}
+                onPress={addInstructions}>
                 <Text style={styles.firstText}>Add Delivery Instructions</Text>
                 <View style={styles.icon}>
                     <PlusCircle />
                 </View>
-            </View>
+            </TouchableOpacity>
+            {isTextInputOpen && (
+                <TextInput
+                    placeholder={'Add Instructions'}
+                    style={styles.textInput}
+                    onChange={text_ => setText(text_)}
+                />
+            )}
         </View>
     );
 };
@@ -24,17 +45,35 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: dimensions.fullWidth - dynamicSize(40),
         marginTop: dynamicSize(20),
+        backgroundColor: colors.WHITE,
+
+        backgroundColor: colors.WHITE,
+        elevation: dynamicSize(8),
+        borderRadius: dynamicSize(10),
+        width: dimensions.fullWidth - dynamicSize(40),
+        // height: dynamicSize(120),
+        alignItems: 'center',
+        marginHorizontal: dynamicSize(10),
+    },
+    textInput: {
+        borderWidth: dynamicSize(1),
+        marginHorizontal: dynamicSize(10),
+        marginBottom: dynamicSize(10),
+        // padding: dynamicSize(10),
+        borderColor: colors.GREY_BORDER,
+        borderRadius: dynamicSize(10),
+        width: dimensions.fullWidth - dynamicSize(60),
     },
     firstContainer: {
         display: 'flex',
         justifyContent: 'space-between',
-        backgroundColor:colors.WHITE,
-        elevation: 8,
-        borderRadius: 10,
+        // backgroundColor: colors.WHITE,
+        // elevation: dynamicSize(8),
+        // borderRadius: dynamicSize(10),
         width: dimensions.fullWidth - dynamicSize(40),
-        height: 56.808,
+        height: dynamicSize(57),
         alignItems: 'center',
-        marginHorizontal: 10,
+        marginHorizontal: dynamicSize(10),
         flexDirection: 'row',
     },
     firstText: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     StyleSheet,
     View,
@@ -6,6 +6,7 @@ import {
     Image,
     TouchableOpacity,
     ScrollView,
+    ActivityIndicator,
 } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { dynamicSize, normalizeFont } from '../../../utils/responsive';
@@ -17,17 +18,14 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { colors } from '../../../styles/colors';
-
-const data = [
-    {
-        image: require('../../../assets/images/Subscription/salad_3.png'),
-        text: 'Choose your Preferred Meal',
-    },
-    {
-        image: require('../../../assets/images/Subscription/clock.png'),
-        text: 'Wide Variety of options',
-    },
-];
+import ComboCard from './ComboCard';
+import {
+    addItemToCart,
+    removeItemFromCart,
+} from '../../../redux/actions/subscriptionCart';
+import ItemCard from './ItemCard';
+import { showDialog } from '../../../redux/actions/dialog';
+import { DialogTypes } from '../../../utils';
 
 const QuickCheckout = props => {
     const { navigation } = props;
@@ -36,195 +34,54 @@ const QuickCheckout = props => {
         secondActive,
         bestSellerItemCard,
         QuickCheckoutArray,
+        quickCheckoutNotAvailableItems,
+        orderHistory,
+        isLoadingForCheckoutItems,
+        isLoadingForOrderHistory,
+        handleKnowMore,
     } = props;
-    const { mealType, mealPlanTime, mealPlanId } = useSelector(
-        state => state.mealTypeForSubscription,
-    );
 
-    console.log(QuickCheckoutArray, 'QuickCheckoutArray');
-
-    const reorderButtonHandler = (
-        itemName,
-        itemImage,
-        itemType,
-        itemId,
-        foodItemId,
-        mealType,
-        mealPlanId,
-    ) => {
-        const cartObj = {
-            itemName,
-            itemImage,
-            itemType,
-            itemId,
-            foodItemId,
-        };
-        dispatch(addSubscribedItemToCart(cartObj));
-        dispatch(setSubscriptionMealType(mealType, mealPlanId, ''));
-        navigation.navigate('SubscriptionCart', { subscriptionId: '' });
-    };
-
-    const currentDate = moment();
-
-    const { isVegButtonActive } = useSelector(state => state.vegbutton);
     const dispatch = useDispatch();
-    const {
-        isSelectedAny,
-        index: gotIndex,
-        componentName,
-    } = useSelector(state => state.subscriptionSelectMenu);
-    console.log(isSelectedAny, gotIndex, componentName);
-    const BestSellerItemCard = (bestSellerItemCard, isVegButtonActive) => {
-        const selectButtonHandler = (
-            index,
-            componentName,
-            itemName,
-            itemImage,
-            itemType,
-            foodItemId,
-        ) => {
-            // dispatch(resetSelectionButton())
-            dispatch(selectMenu(index, componentName));
-            itemAddToCartHandler(
-                index,
-                itemName,
-                itemImage,
-                itemType,
-                foodItemId,
+
+    const reorderButtonHandler = item => {
+        if (currentOrder && currentOrder?._id) {
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Order in Progress',
+                    subTitleText:
+                        'Your Current Order is in Progress, cannot add item to cart',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
             );
-        };
-
-        const itemAddToCartHandler = (
-            index,
-            itemName,
-            itemImage,
-            itemType,
-            foodItemId,
-        ) => {
-            console.log(foodItemId, 'mohito');
-            const cartObj = {
-                itemName,
-                itemImage,
-                itemType,
-                itemId: index,
-                foodItemId,
-            };
-            dispatch(addSubscribedItemToCart(cartObj));
-        };
-        let filterData;
-        if (bestSellerItemCard) {
-            filterData = isVegButtonActive
-                ? bestSellerItemCard.filter(item => item.iVeg === true)
-                : bestSellerItemCard;
-            console.log(bestSellerItemCard, 'filterData');
+        } else {
+            dispatch(addItemToCart(item));
+            navigation.navigate('SubscriptionCart', { subscriptionId: '' });
         }
-
-        console.log(filterData, 'filterData');
-        return (
-            filterData &&
-            filterData.map((item, index) => (
-                <View key={index} style={styles.container}>
-                    <View style={styles.imageContainer}>
-                        {/* <Image source={require('../../../assets/images/Subscription/dish_image.png')}/> */}
-
-                        <Image
-                            style={styles.dishImage}
-                            source={{ uri: item.image }}
-                        />
-                    </View>
-                    <Text style={styles.dishName}>{item.name}</Text>
-                    <View style={styles.ratingContainer}>
-                        <Image
-                            source={require('../../../assets/images/Subscription/golden_star.png')}
-                            style={styles.starImage}
-                        />
-                        <Text style={styles.ratingValue}>
-                            {item.rating.value}
-                        </Text>
-                    </View>
-                    {isSelectedAny &&
-                        gotIndex === index &&
-                        componentName === 'BestSellerItemCard' && (
-                            <TouchableOpacity style={styles.selectedButton}>
-                                <Image
-                                    style={styles.tickIcon}
-                                    source={require('../../../assets/images/Subscription/tick.png')}
-                                />
-                            </TouchableOpacity>
-                        )}
-
-                    {isSelectedAny &&
-                        gotIndex === index &&
-                        componentName !== 'BestSellerItemCard' && (
-                            <TouchableOpacity
-                                style={styles.selectButton}
-                                onPress={() =>
-                                    selectButtonHandler(
-                                        index,
-                                        'BestSellerItemCard',
-                                        item.name,
-                                        item.image,
-                                        item.isVeg ? 'Veg' : 'Non Veg',
-                                        item._id,
-                                    )
-                                }>
-                                <Text style={styles.selectButtonText}>
-                                    Select
-                                </Text>
-                            </TouchableOpacity>
-                        )}
-                    {isSelectedAny && gotIndex !== index && (
-                        <TouchableOpacity
-                            style={styles.selectButton}
-                            onPress={() =>
-                                selectButtonHandler(
-                                    index,
-                                    'BestSellerItemCard',
-                                    item.name,
-                                    item.image,
-                                    item.isVeg ? 'Veg' : 'Non Veg',
-                                    item._id,
-                                )
-                            }>
-                            <Text style={styles.selectButtonText}>Select</Text>
-                        </TouchableOpacity>
-                    )}
-                    {!isSelectedAny && (
-                        <TouchableOpacity
-                            style={styles.selectButton}
-                            onPress={() =>
-                                selectButtonHandler(
-                                    index,
-                                    'BestSellerItemCard',
-                                    item.name,
-                                    item.image,
-                                    item.isVeg ? 'Veg' : 'Non Veg',
-                                    item._id,
-                                )
-                            }>
-                            <Text style={styles.selectButtonText}>Select</Text>
-                        </TouchableOpacity>
-                    )}
-                </View>
-            ))
-        );
     };
+    const currentOrder = useSelector(state => state.currentOrder.currentOrder);
 
     const OrderHistoryItemCard = () => {
         return (
-            QuickCheckoutArray &&
-            QuickCheckoutArray.map((item, index) => (
+            orderHistory &&
+            orderHistory.map((item, index) => (
                 <View key={index} style={styles1.container}>
                     <View style={styles1.firstContainer}>
                         <View style={styles1.imageContainer}>
-                            <Image
-                                style={styles1.image}
-                                source={require('../../../assets/images/Subscription/dish_image.png')}
-                            />
+                            {item?.combo?.image && (
+                                <Image
+                                    style={styles1.image}
+                                    source={{ uri: item.combo.image }}
+                                />
+                            )}
                         </View>
                         <View style={styles1.textContainer}>
-                            <Text style={styles1.name}>
-                                {item?.foodItem?.name}
+                            <Text
+                                style={styles1.name}
+                                numberOfLines={2}
+                                ellipsizeMode="tail">
+                                {item?.combo?.title}
                             </Text>
                             <Text style={styles1.time}>
                                 {moment(item.createdAt)
@@ -234,17 +91,7 @@ const QuickCheckout = props => {
                         </View>
                     </View>
                     <TouchableOpacity
-                        onPress={() =>
-                            reorderButtonHandler(
-                                item.foodItem.name,
-                                item.foodItem.image,
-                                item.foodItem.isVeg ? 'Veg' : 'NonVeg',
-                                index,
-                                item.foodItem._id,
-                                item.mealPlans.type,
-                                item.mealPlans._id,
-                            )
-                        }>
+                        onPress={() => reorderButtonHandler(item?.combo)}>
                         <View style={styles1.secondContainer}>
                             <View style={styles1.iconContainer}>
                                 <Image
@@ -256,7 +103,7 @@ const QuickCheckout = props => {
                                     source={require('../../../assets/images/Subscription/rightRoundArrow.png')}
                                 />
                             </View>
-                            <View style={styles1.textContainerTwo}>
+                            <View>
                                 <Text style={styles1.buttonText}>Reorder</Text>
                             </View>
                         </View>
@@ -268,21 +115,51 @@ const QuickCheckout = props => {
 
     if (firstActive) {
         return (
-            <View style={styles.wrapperContainer}>
-                <ScrollView horizontal>
-                    <View style={styles.innerContainer}>
-                        {BestSellerItemCard(
-                            bestSellerItemCard,
-                            isVegButtonActive,
-                        )}
+            <View>
+                {!isLoadingForCheckoutItems && (
+                    <View style={styles.wrapperContainer}>
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}>
+                            <View style={styles.innerContainer}>
+                                <ItemCard
+                                    ItemCards={bestSellerItemCard}
+                                    isVegButtonActive={false}
+                                    isAvailable={true}
+                                    handleKnowMore={handleKnowMore}
+                                />
+                                <ItemCard
+                                    ItemCards={quickCheckoutNotAvailableItems}
+                                    isVegButtonActive={false}
+                                    isAvailable={false}
+                                    handleKnowMore={handleKnowMore}
+                                />
+                            </View>
+                        </ScrollView>
                     </View>
-                </ScrollView>
+                )}
+                {isLoadingForCheckoutItems && (
+                    <View style={styles.activityIndicator}>
+                        <ActivityIndicator
+                            color={colors.ORANGE_WHITE}
+                            size={32}
+                        />
+                    </View>
+                )}
             </View>
         );
     } else {
         return (
             <View style={styles1.wrapperContainer}>
-                {OrderHistoryItemCard()}
+                {!isLoadingForOrderHistory && OrderHistoryItemCard()}
+                {isLoadingForOrderHistory && (
+                    <View style={styles.activityIndicator}>
+                        <ActivityIndicator
+                            color={colors.ORANGE_WHITE}
+                            size={32}
+                        />
+                    </View>
+                )}
             </View>
         );
     }
@@ -294,14 +171,14 @@ const styles1 = StyleSheet.create({
         marginTop: dynamicSize(20),
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 10,
+        gap: dynamicSize(10),
         flexDirection: 'column',
         marginBottom: dynamicSize(40),
     },
     innerContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 10,
+        gap: dynamicSize(10),
         flexDirection: 'column',
     },
     name: {
@@ -321,49 +198,52 @@ const styles1 = StyleSheet.create({
     buttonText: {
         color: '#FFF',
         fontFamily: fonts.POPPINS_500_11.fontFamily,
-        fontSize: 12,
+        fontSize: normalizeFont(12),
         fontStyle: 'normal',
         fontWeight: '500',
     },
     container: {
         display: 'flex',
-
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
-        width: dimensions.fullWidth - 60,
+        width: dimensions.fullWidth - dynamicSize(60),
         borderWidth: 1,
-        borderRadius: 10,
-        marginTop: 10,
-        height: 75,
+        borderRadius: dynamicSize(10),
+        marginTop: dynamicSize(10),
+        height: dynamicSize(75),
         flexDirection: 'row',
     },
     firstContainer: {
+        flex: 1,
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        marginLeft: 10,
         flexDirection: 'row',
-        gap: 8,
     },
     secondContainer: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        gap: 6,
+        gap: dynamicSize(6),
         elevation: 5,
-        marginRight: 10,
-        backgroundColor: '#E1740F',
-        borderRadius: 28.5,
-        width: 93.319,
-        height: 26.625,
+        marginRight: dynamicSize(10),
+        backgroundColor: colors.ORANGE_WHITE,
+        borderRadius: dynamicSize(28),
+        width: dynamicSize(94),
+        height: dynamicSize(27),
     },
     image: {
-        width: 51.52,
-        height: 51.52,
+        width: dynamicSize(51),
+        height: dynamicSize(51),
+        marginLeft: dynamicSize(10),
+        marginRight: dynamicSize(10),
     },
     imageContainer: {},
-    textContainer: {},
+    textContainer: {
+        flex: 1,
+        justifyContent: 'center',
+    },
     iconContainer: {
         display: 'flex',
         justifyContent: 'center',
@@ -383,7 +263,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         width: dimensions.fullWidth - dynamicSize(20),
-
         gap: 10,
         marginTop: dynamicSize(20),
     },
@@ -392,7 +271,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         gap: 10,
-        marginTop: dynamicSize(50),
         marginBottom: dynamicSize(20),
         alignItems: 'center',
     },
@@ -404,6 +282,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         elevation: 5,
         alignItems: 'center',
+        width: dynamicSize(128),
+        height: dynamicSize(175),
     },
 
     imageContainer: {
@@ -423,10 +303,14 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: '500',
         lineHeight: dynamicSize(19),
+        height: dynamicSize(40),
+        paddingTop: 10,
+        // textAlign: 'center',
     },
     ratingContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
         marginTop: 5,
         marginHorizontal: 5,
     },
@@ -453,9 +337,10 @@ const styles = StyleSheet.create({
         fontSize: dynamicSize(12),
         fontStyle: 'normal',
         fontWeight: '600',
+        marginTop: dynamicSize(5),
     },
     selectButton: {
-        backgroundColor: '#E1740F',
+        backgroundColor: colors.ORANGE_WHITE,
         borderRadius: 25,
         display: 'flex',
         justifyContent: 'center',
@@ -507,6 +392,9 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         lineHeight: dynamicSize(22), // You can use the exact value provided
         letterSpacing: -0.408,
+    },
+    activityIndicator: {
+        marginTop: dynamicSize(100),
     },
 });
 

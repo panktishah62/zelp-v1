@@ -1,20 +1,31 @@
 import React from 'react';
 
-import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+} from 'react-native';
 import { colors } from '../../../styles/colors';
 import PlayButtonWhite from '../../../assets/images/Subscription/PlayButtonWhite.svg';
-import { fonts } from '../../../styles';
+import { dimensions, fonts } from '../../../styles';
+import { dynamicSize } from '../../../utils/responsive';
 
 const HowToStart = props => {
+    const { setIsVideoModalVisible } = props;
     return (
-        <View style={styles.wrapperHowToStart}>
+        <TouchableOpacity
+            style={styles.wrapperHowToStart}
+            onPress={setIsVideoModalVisible}>
             <View style={styles.howToStartContainer}>
                 <Text style={styles.howToStartText}>
                     How to subscribe & Order
                 </Text>
                 <PlayButtonWhite />
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
@@ -27,10 +38,10 @@ const styles = StyleSheet.create({
     },
     howToStartContainer: {
         display: 'flex',
-        width: 254,
+        width: dimensions.fullWidth - dynamicSize(20),
         height: 41,
         padding: 8,
-        margin: 20,
+        margin: 10,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row', // For horizontal alignment of children
@@ -39,8 +50,8 @@ const styles = StyleSheet.create({
         flexShrink: 0,
         borderRadius: 5,
         borderWidth: 1,
-        backgroundColor: colors.ORANGE,
-        borderColor:colors.ORANGE_WHITE,
+        backgroundColor: colors.ORANGE_WHITE,
+        borderColor: colors.ORANGE_WHITE,
     },
     howToStartText: {
         color: colors.WHITE,

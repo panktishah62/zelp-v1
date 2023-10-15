@@ -15,13 +15,11 @@ import { colors } from '../../../styles/colors';
 
 const PlanDetailsHeading = props => {
     const [isModalVisible, setModalVisible] = useState(false);
-    const name = props.name;
-    const { mealCount } = useSelector(state => state.mealDetails);
-    const { finalPrice } = useSelector(state => state.finalSubscriptionPrice);
-    const extraMeal = mealCount - 5;
-    const validity = 10 + extraMeal;
-    const totalPlanPrice = mealCount * finalPrice;
-
+    const data = props?.data;
+    const name = data?.subscriptionPlan?.name;
+    const mealCount = data?.numOfMealsSelected;
+    const validity = data?.validityBasedOnMeals;
+    const totalPlanPrice = data?.totalPlanPrice;
     const { navigation } = props;
 
     const toggleModal = () => {
@@ -118,7 +116,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 5,
         borderRadius: 24,
-        backgroundColor: '#E1740F',
+        backgroundColor: colors.ORANGE_WHITE,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -170,7 +168,7 @@ const planModelStyles = StyleSheet.create({
         gap: 3,
     },
     rightContainerText: {
-        color: '#E1740F',
+        color: colors.ORANGE_WHITE,
         fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 24,
         fontStyle: 'normal',
@@ -178,7 +176,7 @@ const planModelStyles = StyleSheet.create({
         textTransform: 'capitalize',
     },
     leftTopText: {
-        color: '#E1740F',
+        color: colors.ORANGE_WHITE,
         fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
@@ -186,7 +184,7 @@ const planModelStyles = StyleSheet.create({
         textTransform: 'capitalize',
     },
     leftBottomText: {
-        color:colors.DARKER_GRAY,
+        color: colors.DARKER_GRAY,
         fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',

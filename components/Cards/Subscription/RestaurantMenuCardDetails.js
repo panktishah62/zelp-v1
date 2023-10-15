@@ -2,52 +2,90 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 import { colors } from '../../../styles/colors';
 import { dimensions, fonts } from '../../../styles';
+import { SvgUri } from 'react-native-svg';
+import { dynamicSize } from '../../../utils/responsive';
 
 const RestaurantMenuCardDetails = props => {
-    const name = props.name;
+    const subscriptionPlan = props.subscriptionPlan;
     return (
-        <View style={styles.container}>
-            <View style={styles.firstContainer}>
-                <View style={styles.buttonContainer}>
+        <View style={styles.mainContainer}>
+            <View style={styles.imageContainer}>
+                {subscriptionPlan?.image && (
                     <Image
-                        source={require('../../../assets/images/Subscription/bronze_medal.png')}
+                        source={{ uri: subscriptionPlan?.image }}
+                        style={styles.image}
                     />
-                    <Text style={styles.buttonText}>{name.slice(0, -5)}</Text>
-                </View>
-                <View style={styles.rightTextContainer}>
-                    <Text style={styles.rightText}>Froker Subscription</Text>
-                </View>
+                )}
             </View>
-            <View style={styles1.secondContainer}>
-                <Image
-                    source={require('../../../assets/images/Subscription/cycle.png')}
-                />
-                <Text style={styles1.firstText}>
-                    Delivery time{' '}
-                    <Text style={styles1.secondText}>30-45 Min</Text>
-                </Text>
-            </View>
-            <View style={styles2.thirdContainer}>
-                <Image
-                    source={require('../../../assets/images/Subscription/location.png')}
-                />
-                <Text style={styles2.firstText}>Kundalahalli Gate</Text>
+            <View style={styles.container}>
+                <View style={styles.firstContainer}>
+                    <View style={styles.buttonContainer}>
+                        {!subscriptionPlan.icon && (
+                            <Image
+                                source={require('../../../assets/images/Subscription/bronze_medal.png')}
+                            />
+                        )}
+                        {subscriptionPlan.icon && (
+                            <SvgUri
+                                width={dynamicSize(18)}
+                                height={dynamicSize(18)}
+                                uri={subscriptionPlan.icon}
+                            />
+                        )}
+                        <Text style={styles.buttonText}>
+                            {subscriptionPlan?.name}
+                        </Text>
+                    </View>
+                    <View style={styles.rightTextContainer}>
+                        <Text style={styles.rightText}>
+                            Froker Subscription
+                        </Text>
+                    </View>
+                </View>
+                <View style={styles1.secondContainer}>
+                    <Image
+                        source={require('../../../assets/images/Subscription/cycle.png')}
+                    />
+                    <Text style={styles1.firstText}>
+                        Delivery time{' '}
+                        <Text style={styles1.secondText}>
+                            {subscriptionPlan?.averageDeliveryTime}
+                        </Text>
+                    </Text>
+                </View>
             </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    mainContainer: {
+        display: 'flex',
+        // justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: dynamicSize(50),
+    },
+    imageContainer: {
+        borderBottomEndRadius: dynamicSize(25),
+    },
+    image: {
+        width: dimensions.fullWidth,
+        height: dynamicSize(230),
+        borderBottomLeftRadius: dynamicSize(25),
+        borderBottomRightRadius: dynamicSize(25),
+    },
     container: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-start',
         backgroundColor: '#fff',
-        width: dimensions.fullWidth - 40,
-        gap: 10,
-        height: 138.88,
+        width: dimensions.fullWidth - dynamicSize(40),
+        gap: dynamicSize(10),
+        height: dynamicSize(110),
         elevation: 5,
-        borderRadius: 20,
+        borderRadius: dynamicSize(20),
+        position: 'absolute',
+        bottom: dynamicSize(-50),
     },
     buttonContainer: {
         display: 'flex',
@@ -55,11 +93,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         borderWidth: 1,
-        borderRadius: 30,
-        borderColor: '#E1740F',
-        width: 105,
-        height: 36,
-        gap: 5,
+        borderRadius: dynamicSize(30),
+        borderColor: colors.ORANGE_WHITE,
+        width: dynamicSize(105),
+        height: dynamicSize(36),
+        gap: dynamicSize(5),
     },
     buttonText: {
         color: colors.DARKER_GRAY,
@@ -72,7 +110,7 @@ const styles = StyleSheet.create({
         textTransform: 'capitalize',
     },
     rightText: {
-        color: '#E1740F',
+        color: colors.ORANGE_WHITE,
         fontFamily: fonts.NUNITO_700_12.fontFamily,
         fontSize: 18,
         fontStyle: 'normal',
@@ -82,13 +120,13 @@ const styles = StyleSheet.create({
     },
     firstContainer: {
         display: 'flex',
-        gap: 14,
+        gap: dynamicSize(14),
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        borderRadius: 20,
+        borderRadius: dynamicSize(20),
 
-        marginHorizontal: 20,
+        marginHorizontal: dynamicSize(20),
     },
 });
 const styles1 = StyleSheet.create({
@@ -97,8 +135,8 @@ const styles1 = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        gap: 10,
-        marginHorizontal: 20,
+        gap: dynamicSize(10),
+        marginHorizontal: dynamicSize(20),
     },
     firstText: {
         color: '#000',
@@ -108,28 +146,11 @@ const styles1 = StyleSheet.create({
         fontWeight: '500',
     },
     secondText: {
-        color: '#E1740F',
+        color: colors.ORANGE_WHITE,
         fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '700',
-    },
-});
-const styles2 = StyleSheet.create({
-    thirdContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        flexDirection: 'row',
-        gap: 10,
-        marginHorizontal: 20,
-    },
-    firstText: {
-        color: '#000',
-        fontFamily: fonts.POPPINS_500_11.fontFamily,
-        fontSize: 14,
-        fontStyle: 'normal',
-        fontWeight: '500',
     },
 });
 

@@ -1,60 +1,118 @@
-import React, { useState } from 'react'
-import { StyleSheet, Image, Text, TouchableOpacity, View, requireNativeComponent } from 'react-native'
+import React, { useState } from 'react';
+import {
+    StyleSheet,
+    Image,
+    Text,
+    TouchableOpacity,
+    View,
+    requireNativeComponent,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import CaroselComponent from '../../Cards/Subscription/CaroselComponent';
 import { dimensions, fonts } from '../../../styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { mealDetailsDecreased, mealDetailsIncreased } from '../../../redux/actions/subscriptionActions';
+import {
+    mealDetailsDecreased,
+    mealDetailsIncreased,
+    selectSubscriptionPlan,
+} from '../../../redux/actions/subscriptionActions';
 import { colors } from '../../../styles/colors';
-
-
+import { calculateTotal } from '../../../redux/services/subscriptionCartCalculations';
 
 const CarouselModal = props => {
     const dispatch = useDispatch();
-    const { isModalVisible, toogleModal, navigation } = props;
-    const { planId } = useSelector((state) => state.finalSubscriptionPrice)
-    const { mealCount } = useSelector((state) => state.mealDetails)
+    const {
+        data,
+        isModalVisible,
+        toogleModal,
+        navigation,
+        addMeals,
+        subtractMeals,
+    } = props;
+    const { config, selectedSubscription } = useSelector(
+        state => state.subscriptionDetails,
+    );
+    const mealCount = selectedSubscription?.numOfMealsSelected;
+    const validityPerMeal =
+        selectedSubscription?.subscriptionPlan?.validityPerMeal;
+
+    const calculate = numOfMealsSelected => {
+        if (selectedSubscription && numOfMealsSelected && config) {
+            const resultData = calculateTotal(
+                selectedSubscription?.subscriptionPlan,
+                numOfMealsSelected,
+                config,
+            );
+            dispatch(selectSubscriptionPlan(resultData));
+        }
+    };
 
     const handleAddMeal = () => {
-        dispatch(mealDetailsIncreased({ mealCount: mealCount + 1 }));
-    }
+        if (
+            selectedSubscription &&
+            selectedSubscription?.subscriptionPlan?.minimunNumOfMeals <=
+                selectedSubscription?.numOfMealsSelected
+        ) {
+            calculate(selectedSubscription?.numOfMealsSelected + 1);
+        }
+    };
 
     const handleRemoveMeal = () => {
-        if (mealCount === 5) return;
-        dispatch(mealDetailsDecreased({ mealCount: mealCount - 1 }));
-    }
-
-
+        if (
+            selectedSubscription &&
+            selectedSubscription?.subscriptionPlan?.minimunNumOfMeals <
+                selectedSubscription?.numOfMealsSelected
+        ) {
+            calculate(selectedSubscription?.numOfMealsSelected - 1);
+        }
+    };
 
     return (
         <Modal
             style={styles.wrapperModalContainer}
             animationType="slide"
             transparent={true}
-            visible={isModalVisible}
-        >
+            visible={isModalVisible}>
             <View style={styles.heading}>
                 <Text style={styles.headingText}>Choose your plan</Text>
             </View>
 
             <View>
-
                 <CaroselComponent navigation={navigation} showKnowMore={true} />
-
             </View>
             <View style={mealsStyles.container}>
-                <View><Text style={mealsStyles.firstText}>Add on Meal</Text>
-                    <Text>(Every 1 extra meal- 1 day extra validity)</Text></View>
-                <View style={mealsStyles.buttonContainer}>
-                    <TouchableOpacity onPress={handleRemoveMeal}><View style={[mealsStyles.minusButton, mealCount > 5 && mealsStyles.changeBackground]}><Text>-</Text></View></TouchableOpacity>
-                    <Text style={{ fontWeight: '700', color: 'black' }}>{mealCount}</Text>
-                    <TouchableOpacity onPress={handleAddMeal}><View style={mealsStyles.plusButton}><Text style={{ color: '#fff' }}>+</Text></View></TouchableOpacity>
+                <View>
+                    <Text style={mealsStyles.firstText}>Add on Meal</Text>
+                    <Text>
+                        (Every 1 extra meal-{' '}
+                        {
+                            selectedSubscription?.subscriptionPlan
+                                ?.validityPerMeal
+                        }{' '}
+                        day extra validity)
+                    </Text>
                 </View>
-
+                <View style={mealsStyles.buttonContainer}>
+                    <TouchableOpacity onPress={handleRemoveMeal}>
+                        <View style={[mealsStyles.minusButton]}>
+                            <Text>-</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text style={{ fontWeight: '700', color: 'black' }}>
+                        {selectedSubscription?.numOfMealsSelected}
+                    </Text>
+                    <TouchableOpacity onPress={handleAddMeal}>
+                        <View style={mealsStyles.plusButton}>
+                            <Text style={{ color: '#fff' }}>+</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </View>
             <View style={mealsStyles.crossContainer}>
                 <TouchableOpacity onPress={toogleModal}>
-                    <Image source={require('../../../assets/images/Subscription/cross.png')} />
+                    <Image
+                        source={require('../../../assets/images/Subscription/cross.png')}
+                    />
                 </TouchableOpacity>
             </View>
             <View style={styles.wrapperButton}>
@@ -65,10 +123,8 @@ const CarouselModal = props => {
                 </TouchableOpacity>
             </View>
         </Modal>
-    )
-}
-
-
+    );
+};
 
 const styles = StyleSheet.create({
     wrapperModalContainer: {
@@ -79,10 +135,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        elevation: 5
+        elevation: 5,
     },
     modalContainer: {
-
         justifyContent: 'center',
         alignItems: 'center',
         display: 'flex',
@@ -97,7 +152,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: dimensions.fullWidth - 60,
-        backgroundColor: '#E1740F',
+        backgroundColor: colors.ORANGE_WHITE,
         borderRadius: 12,
         marginVertical: 14,
         height: 48,
@@ -130,7 +185,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     headingText: {
-        color: '#E1740F',
+        color: colors.ORANGE_WHITE,
         fontFamily: fonts.NUNITO_800_12.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
@@ -144,8 +199,8 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
 
         margin: 10,
-    }
-})
+    },
+});
 const mealsStyles = StyleSheet.create({
     container: {
         marginVertical: 8,
@@ -154,8 +209,6 @@ const mealsStyles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         width: dimensions.fullWidth,
-
-
     },
     firstText: {
         color: colors.DARKER_GRAY,
@@ -172,10 +225,9 @@ const mealsStyles = StyleSheet.create({
         alignItems: 'center',
         width: 90,
         justifyContent: 'space-between',
-
     },
     text: {
-        color: '#E1740F',
+        color: colors.ORANGE_WHITE,
         fontFamily: fonts.NUNITO_800_12.fontFamily,
         fontSize: 18,
         fontStyle: 'normal',
@@ -191,10 +243,10 @@ const mealsStyles = StyleSheet.create({
         height: 28.28,
         borderRadius: 28,
 
-        backgroundColor: '#E1740F',
+        backgroundColor: colors.ORANGE_WHITE,
     },
     changeBackground: {
-        borderColor: '#E1740F',
+        borderColor: colors.ORANGE_WHITE,
     },
     minusButton: {
         display: 'flex',
@@ -204,7 +256,6 @@ const mealsStyles = StyleSheet.create({
         height: 28.28,
         borderRadius: 28,
         borderWidth: 1,
-
     },
     firstText: {
         color: colors.DARKER_GRAY,
@@ -227,12 +278,7 @@ const mealsStyles = StyleSheet.create({
         position: 'absolute',
         top: 10,
         right: 16,
-    }
-})
+    },
+});
 
-
-
-
-
-
-export default CarouselModal
+export default CarouselModal;

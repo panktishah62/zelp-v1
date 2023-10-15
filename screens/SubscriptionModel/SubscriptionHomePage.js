@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View,ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
 import LogoHeading from '../../components/Heading/Subscription/LogoHeading';
 import SubscriptionDetailsHeading from '../../components/Heading/Subscription/SubscriptionDetailsHeading';
 import TextLogo from '../../components/Buttons/Subscription/TextLogo';
@@ -11,17 +11,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import AbsoluteOrangeButton from '../../components/Buttons/Subscription/AbsoluteOrangeButton';
 import {
     getBestSellerFoodItems,
+    getOrderHistory,
+    getQuickCheckoutItems,
     showSubscriptionDetails,
 } from '../../redux/services/subscriptionService';
-import { finalPlanDetails, setSubscriptionDetails } from '../../redux/actions/subscriptionActions';
+import {
+    finalPlanDetails,
+    setSubscriptionDetails,
+} from '../../redux/actions/subscriptionActions';
 import { colors } from '../../styles/colors';
+import { dimensions } from '../../styles';
+import { dynamicSize } from '../../utils/responsive';
+import KnowMoreModal from '../../components/Modal/Subscription/KnowMoreModal';
 
 const SubscriptionHomePage = props => {
     const [firstActive, setFirstActive] = useState(true);
     const [secondActive, setSecondActive] = useState(false);
-    const { isSelectedAny } = useSelector(
-        state => state.subscriptionSelectMenu,
-    );
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingForCheckoutItems, setIsLoadingForCheckoutItems] =
+        useState(true);
+    const [isLoadingForOrderHistory, setIsLoadingForOrderHistory] =
+        useState(true);
+    const { selectedItem } = useSelector(state => state.subscriptionCart);
+    const location = useSelector(state => state.address.location);
+    const currentOrder = useSelector(state => state.currentOrder.currentOrder);
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [infoData, setInfoData] = useState(null);
 
     const { navigation } = props;
     const toggleFirst = () => {
@@ -41,94 +56,163 @@ const SubscriptionHomePage = props => {
     };
     const { finalPrice } = useSelector(state => state.finalSubscriptionPrice);
     const dispatch = useDispatch();
-    const [bestSellerItemArray, setBestSellerItemArray] = useState([]);
-    const fetcheBestSellerItems = async () => {
+    const [quickCheckoutItems, setQuickCheckoutItems] = useState([]);
+    const [quickCheckoutNotAvailableItems, setQuickCheckoutNotAvailableItems] =
+        useState([]);
+    const [orderHistory, setOrderHistory] = useState([]);
 
-        if (subscriptionplanId !== '') {
-            const currentTime = new Date();
-            const currentHour = currentTime.getHours();
-            const currentMinutes = currentTime.getMinutes();
+    const getUserOrderHistory = async () => {
+        if (subscriptionplanId && subscriptionplanId !== '') {
+            const response = await getOrderHistory();
+            setOrderHistory(response?.data?.data);
+            setIsLoadingForOrderHistory(false);
+        }
+    };
 
-            let type;
-
-            if (
-                (currentHour === 6 && currentMinutes >= 0 && currentMinutes < 60) ||
-                (currentHour === 7 && currentMinutes >= 0 && currentMinutes < 60) ||
-                (currentHour === 8 && currentMinutes >= 0 && currentMinutes < 60)
-            ) {
-                type = 'Breakfast';
-            } else if (
-                (currentHour === 12 &&
-                    currentMinutes >= 0 &&
-                    currentMinutes < 60) ||
-                (currentHour === 13 &&
-                    currentMinutes >= 0 &&
-                    currentMinutes < 60) ||
-                (currentHour === 14 &&
-                    currentMinutes >= 0 &&
-                    currentMinutes < 60) ||
-                (currentHour === 15 && currentMinutes >= 0 && currentMinutes < 60)
-            ) {
-                type = 'Lunch';
-            } else {
-                type = 'Dinner';
-            }
-            const response = await getBestSellerFoodItems(subscriptionplanId, type);
-            setBestSellerItemArray(response.data);
-            dispatch(finalPlanDetails({ planID: subscriptionplanId, finalPrice }))
+    const fetchQuickCheckoutItems = async (lat, long) => {
+        if (subscriptionplanId && subscriptionplanId !== '') {
+            const response = await getQuickCheckoutItems(
+                subscriptionplanId,
+                lat,
+                long,
+            );
+            setQuickCheckoutItems(response.data.combos);
+            setQuickCheckoutNotAvailableItems(
+                response?.data?.notAvailableCombos,
+            );
+            dispatch(
+                finalPlanDetails({ planID: subscriptionplanId, finalPrice }),
+            );
+            setIsLoadingForCheckoutItems(false);
         }
     };
     const [subscriptionplanId, setSubscriptionPlanId] = useState('');
     const [subscriptionOrder, setSubscriptionOrder] = useState([]);
-    const UserSubscriptionDetails = async () => {
-        const response = await showSubscriptionDetails();
+    const UserSubscriptionDetails = async (lat, long) => {
+        const response = await showSubscriptionDetails(lat, long);
+
         setSubscribedUserDetails(response?.data?.data);
         setSubscriptionOrder(response?.data?.subscriptionOrder);
-        setSubscriptionPlanId(response.data.data.subscriptionPlan._id)
-        dispatch(setSubscriptionDetails(response.data.data._id))
+        setSubscriptionPlanId(response?.data?.data?.subscriptionPlan._id);
+        // dispatch(setSubscriptionDetails(response.data.data._id));
+        setIsLoading(false);
     };
 
     useEffect(() => {
-        UserSubscriptionDetails();
-    }, [setSubscriptionOrder, setSubscribedUserDetails,setSubscriptionPlanId]);
+        if (location?.latitude && location?.longitude) {
+            setIsLoading(true);
+            UserSubscriptionDetails(location?.latitude, location?.longitude);
+        }
+    }, [
+        setSubscriptionOrder,
+        setSubscribedUserDetails,
+        setSubscriptionPlanId,
+        currentOrder,
+        navigation,
+    ]);
 
     useEffect(() => {
+        if (location?.latitude && location?.longitude) {
+            setIsLoadingForCheckoutItems(true);
+            setIsLoadingForOrderHistory(true);
+            fetchQuickCheckoutItems(location?.latitude, location?.longitude);
+            getUserOrderHistory();
+        }
+    }, [
+        setQuickCheckoutItems,
+        subscriptionplanId,
+        location?.latitude,
+        currentOrder,
+        navigation,
+    ]);
 
-        fetcheBestSellerItems();
+    const toggleModal = item => {
+        if (isModalVisible) {
+            setInfoData(null);
+        } else {
+            setInfoData(item);
+        }
+        setModalVisible(!isModalVisible);
+    };
 
-    }, [setBestSellerItemArray, subscriptionplanId]);
+    const handleKnowMore = item => {
+        toggleModal(item);
+    };
 
     return (
-      subscribedUserDetails &&  <View>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.container}>
-                    <LogoHeading text="Froker Subscription" />
-                    <SubscriptionDetailsHeading name={subscribedUserDetails?.subscriptionPlan.name} details={subscribedUserDetails?.validity[0]}/>
-                    <TextLogo />
-                    <ManageOrders orderArray={subscriptionOrder} />
-                    <OrderNow name={subscribedUserDetails?.subscriptionPlan.name} navigation={navigation} />
-                    <SwitchButtons
-                        firstActive={firstActive}
-                        secondActive={secondActive}
-                        toggleFirst={toggleFirst}
-                        toggleSecond={toggleSecond}
-                    />
-                    <QuickCheckout
+        subscribedUserDetails && (
+            <View style={styles.scrollView}>
+                {!isLoading && (
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        <View style={styles.container}>
+                            <LogoHeading
+                                text="Froker Subscription"
+                                navigation={navigation}
+                            />
+                            <SubscriptionDetailsHeading
+                                name={
+                                    subscribedUserDetails?.subscriptionPlan.name
+                                }
+                                details={subscribedUserDetails?.validity}
+                                data={subscribedUserDetails?.subscriptionPlan}
+                            />
+                            <TextLogo />
+                            <ManageOrders
+                                orderArray={subscriptionOrder}
+                                validity={subscribedUserDetails?.validity}
+                            />
+                            <OrderNow
+                                subscriptionDetails={subscribedUserDetails}
+                                navigation={navigation}
+                            />
+                            <SwitchButtons
+                                firstActive={firstActive}
+                                secondActive={secondActive}
+                                toggleFirst={toggleFirst}
+                                toggleSecond={toggleSecond}
+                            />
+                            <QuickCheckout
+                                navigation={navigation}
+                                QuickCheckoutArray={subscriptionOrder}
+                                bestSellerItemCard={quickCheckoutItems}
+                                quickCheckoutNotAvailableItems={
+                                    quickCheckoutNotAvailableItems
+                                }
+                                firstActive={firstActive}
+                                secondActive={secondActive}
+                                orderHistory={orderHistory}
+                                isLoadingForCheckoutItems={
+                                    isLoadingForCheckoutItems
+                                }
+                                isLoadingForOrderHistory={
+                                    isLoadingForOrderHistory
+                                }
+                                handleKnowMore={handleKnowMore}
+                            />
+                        </View>
+                    </ScrollView>
+                )}
+                {isLoading && (
+                    <View style={styles.activityIndicator}>
+                        <ActivityIndicator
+                            color={colors.ORANGE_WHITE}
+                            size={32}
+                        />
+                    </View>
+                )}
+                {!isLoading && selectedItem && (
+                    <AbsoluteOrangeButton
                         navigation={navigation}
-                        QuickCheckoutArray={subscriptionOrder}
-                        bestSellerItemCard={bestSellerItemArray}
-                        firstActive={firstActive}
-                        secondActive={secondActive}
+                        text={'Proceed to checkout'}
                     />
-                </View>
-            </ScrollView>
-            {isSelectedAny && (
-                <AbsoluteOrangeButton
-                    navigation={navigation}
-                    text={'Proceed to checkout'}
+                )}
+                <KnowMoreModal
+                    isModalVisible={isModalVisible}
+                    toggleModal={toggleModal}
+                    data={infoData}
                 />
-            )}
-        </View>
+            </View>
+        )
     );
 };
 
@@ -138,6 +222,13 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: colors.WHITE,
+    },
+    scrollView: {
+        height: dimensions.fullHeight,
+        backgroundColor: colors.WHITE,
+    },
+    activityIndicator: {
+        marginTop: dynamicSize(100),
     },
 });
 

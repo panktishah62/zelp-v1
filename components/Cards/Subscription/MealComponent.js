@@ -6,22 +6,28 @@ import HowToStart from './HowToStart';
 
 const MealComponent = props => {
     const bestMealArr = props.bestMealArr;
-
+    const setIsVideoModalVisible = props?.setIsVideoModalVisible;
     const numRows = Math.ceil(bestMealArr?.length / 3);
 
-    const renderRow = rowData => {
+    const renderRow = (rowData, index) => {
         return (
-           bestMealArr && <View style={styles.row}>
-                {rowData.map(item => (
-                    <View style={styles.box} key={item.id}>
-                        <Image
-                            style={styles.imageStyle}
-                            source={{uri:item.imageSource}}
-                        />
-                        <Text style={styles.itemText}>{item.text}</Text>
-                    </View>
-                ))}
-            </View>
+            bestMealArr && (
+                <View style={styles.row} key={index}>
+                    {rowData.map((item, index) => (
+                        <View style={styles.box} key={index}>
+                            {item.imageSource && (
+                                <Image
+                                    style={styles.imageStyle}
+                                    source={{ uri: item.imageSource }}
+                                />
+                            )}
+                            {item.text && (
+                                <Text style={styles.itemText}>{item.text}</Text>
+                            )}
+                        </View>
+                    ))}
+                </View>
+            )
         );
     };
 
@@ -51,16 +57,20 @@ const MealComponent = props => {
             </View>
             <View>
                 <View style={styles.container}>
-                    {bestMealArr && [...Array(numRows)].map((_, rowIndex) => {
-                        const start = rowIndex * 3;
-                        const end = start + 3;
-                        return renderRow(bestMealArr?.slice(start, end));
-                    })}
+                    {bestMealArr &&
+                        [...Array(numRows)].map((_, rowIndex) => {
+                            const start = rowIndex * 3;
+                            const end = start + 3;
+                            return renderRow(
+                                bestMealArr?.slice(start, end),
+                                rowIndex,
+                            );
+                        })}
                 </View>
-                <View >
+                <View>
                     <Text style={styles.manyMoreText}>& Many More</Text>
                 </View>
-                <HowToStart/>
+                <HowToStart setIsVideoModalVisible={setIsVideoModalVisible} />
             </View>
         </View>
     );
@@ -109,14 +119,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     text: {
-        fontFamily: fonts.NUNITO_500_16.fontFamily,
+        ...fonts.NUNITO_800_18,
         paddingHorizontal: 14,
-        fontSize: fonts.NUNITO_500_16.fontSize,
-        fontWeight: fonts.NUNITO_600_16.fontWeight,
-        color: 'black',
+        // fontSize: fonts.NUNITO_500_16.fontSize,
+        // fontWeight: fonts.NUNITO_600_16.fontWeight,
+        color: colors.DARKER_GRAY,
     },
     changeColor: {
-        color: colors.ORANGE,
+        color: colors.ORANGE_WHITE,
         fontSize: 22,
         fontWeight: 'bold',
     },
@@ -165,13 +175,13 @@ const styles = StyleSheet.create({
     },
     howToStartText: {
         color: colors.WHITE,
-        fontFamily:fonts.POPPINS_500_11.fontFamily,
+        fontFamily: fonts.POPPINS_500_11.fontFamily,
         fontSize: 16,
         fontStyle: 'normal',
         fontWeight: '600',
 
         textTransform: 'capitalize',
-    }
+    },
 });
 
 export default MealComponent;

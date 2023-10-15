@@ -16,6 +16,7 @@ import ShowOrderDetails from '../../components/TrackOrder/ShowOrderDetails';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentOrder } from '../../redux/actions/currentOrder';
 import { colors } from '../../styles/colors';
+import ShowSubscriptionOrderDetails from '../../components/TrackOrder/ShowSubscriptionOrderDetails';
 
 const TrackOrderScreen = ({ route, navigation }) => {
     const { timeToDeliver } = route.params ? route.params : {};
@@ -96,10 +97,18 @@ const TrackOrderScreen = ({ route, navigation }) => {
           <TrackOrderRatingComponent />
         </View> */}
                     <View>
-                        <ShowOrderDetails
-                            navigation={navigation}
-                            orderId={currentOrder?.currentOrder?._id}
-                        />
+                        {!currentOrder?.currentOrder?.subscriptionOrder && (
+                            <ShowOrderDetails
+                                navigation={navigation}
+                                orderId={currentOrder?.currentOrder?._id}
+                            />
+                        )}
+                        {currentOrder?.currentOrder?.subscriptionOrder && (
+                            <ShowSubscriptionOrderDetails
+                                navigation={navigation}
+                                orderId={currentOrder?.currentOrder?._id}
+                            />
+                        )}
                     </View>
                 </ScrollView>
             )}

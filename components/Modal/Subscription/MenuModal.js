@@ -1,5 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native'; // Update the import statement
+import {
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    FlatList,
+    TouchableOpacity,
+} from 'react-native'; // Update the import statement
 import Modal from 'react-native-modal';
 import { dimensions, fonts } from '../../../styles';
 import { dynamicSize } from '../../../utils/responsive';
@@ -8,42 +15,26 @@ import { menuModal } from '../../../redux/actions/menuModal';
 import { colors } from '../../../styles/colors';
 
 const MenuModal = props => {
-    const { active, toggleModal } = props;
+    const { active, toggleModal, menuItems, handleScrollTo, updatedMenu } =
+        props;
 
-    const dispatch = useDispatch();
-    const data = [
-        {
-            id: 1,
-            text: "Starters",
-            number: 3
-        },
-        {
-            id: 2,
-            text: "Rice Items",
-            number: 3
-        },
-        {
-            id: 3,
-            text: "Curries",
-            number: 3
+    const scrollHandler = (index, item) => {
+        if (updatedMenu[item]) {
+            handleScrollTo(updatedMenu[item]);
+            toggleModal();
         }
-    ];
-
-    const scrollHandler = (index, number, text) => {
-        const menuObj = {
-            id: index,
-            text,
-            number
-        };
-        dispatch(menuModal(menuObj));
-        toggleModal();
     };
 
     const renderItem = ({ item, index }) => (
-        <TouchableOpacity onPress={() => scrollHandler(index, item.number, item.text)}>
+        <TouchableOpacity onPress={() => scrollHandler(index, item)}>
+            <Text>{item}</Text>
             <View style={styles.firstContainer}>
-                <Text style={styles.secondText}>{item.text}</Text>
-                <Text style={styles.thirdText}>{item.number}</Text>
+                <Text style={styles.secondText}>{item}</Text>
+                {menuItems[item] && (
+                    <Text style={styles.thirdText}>
+                        {menuItems[item].length}
+                    </Text>
+                )}
             </View>
         </TouchableOpacity>
     );
@@ -57,15 +48,17 @@ const MenuModal = props => {
                     </View>
                 </View>
                 <FlatList
-                    data={data}
+                    data={Object.keys(menuItems)}
                     renderItem={renderItem}
-                    keyExtractor={(item) => item.id.toString()}
+                    keyExtractor={(item, index) => index.toString()}
                     style={styles.scroll}
                 />
                 <View style={styles1.crossButtonContainer}>
                     <TouchableOpacity onPress={toggleModal}>
                         <View>
-                            <Image source={require('../../../assets/images/Subscription/orange_cross.png')} />
+                            <Image
+                                source={require('../../../assets/images/Subscription/orange_cross.png')}
+                            />
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -81,19 +74,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     scroll: {
-        marginVertical: dynamicSize(20)
-
+        marginVertical: dynamicSize(20),
     },
     wrapperModalContainer: {
-
         position: 'absolute',
         bottom: dimensions.fullHeight / 2 - dynamicSize(300),
         left: -10,
         right: -10,
         borderRadius: 20,
         backgroundColor: 'rgba(50, 50, 50, 0.95)',
-        marginVertical: dynamicSize(20)
-
+        marginVertical: dynamicSize(20),
     },
     firstContainer: {
         display: 'flex',
@@ -123,8 +113,7 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: '500',
     },
-
-})
+});
 
 const styles1 = StyleSheet.create({
     topHeading: {
@@ -134,7 +123,7 @@ const styles1 = StyleSheet.create({
         marginVertical: 15,
         width: 100,
         borderBottomWidth: 3,
-        borderColor: colors.WHITE
+        borderColor: colors.WHITE,
     },
     topHeadingText: {
         color: colors.WHITE,
@@ -142,19 +131,18 @@ const styles1 = StyleSheet.create({
         fontSize: 22,
         fontStyle: 'normal',
         fontWeight: '700',
-        paddingBottom: 8
+        paddingBottom: 8,
     },
     headingWrapper: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-
     },
     crossButtonContainer: {
         position: 'absolute',
         top: dynamicSize(16),
         right: 0,
-    }
-})
+    },
+});
 
-export default MenuModal
+export default MenuModal;

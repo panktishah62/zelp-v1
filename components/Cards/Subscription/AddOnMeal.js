@@ -1,20 +1,26 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    ScrollView,
+    TouchableOpacity,
+} from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
+import { dynamicSize } from '../../../utils/responsive';
 
 const AddOnMeals = props => {
+    const toggleModal = props?.toggleModal;
+    const isModalVisible = props?.isModalVisible;
+    const onAddOnMeal = () => {
+        toggleModal();
+    };
     return (
-        <View style={styles.wrapeer}>
-            <LinearGradient
-                colors={[
-                    'rgba(255, 255, 255, 0.90)',
-                    'rgba(255, 255, 255, 0.25)',
-                ]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.container}>
+        <TouchableOpacity style={styles.wrapeer} onPress={onAddOnMeal}>
+            <View style={styles.container}>
                 <View style={styles.textSection}>
                     <Text style={styles.firstText}>ADD ON MEALS</Text>
                     <Text style={styles.secondText}>
@@ -26,8 +32,8 @@ const AddOnMeals = props => {
                         source={require('../../../assets/images/Subscription/rightArrow.png')}
                     />
                 </View>
-            </LinearGradient>
-        </View>
+            </View>
+        </TouchableOpacity>
     );
 };
 
@@ -36,23 +42,20 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        elevation: 5,
+        marginHorizontal: dynamicSize(10),
+        marginVertical: 10,
+        backgroundColor: colors.WHITE,
+        borderRadius: 14,
+        elevation: 5,
     },
     container: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-
         width: dimensions.fullWidth - 34,
-        backgroundColor: 'rgba(255, 255, 255, 0.80)',
-        borderWidth: 2,
-        borderColor: colors.WHITE,
-        shadowColor: 'rgba(0, 0, 0, 0.25)',
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 1,
-        shadowRadius: 10,
-        elevation: 10, // This property adds shadow on Android
-        borderRadius: 12,
+        borderRadius: 14,
         overflow: 'hidden',
     },
     textSection: {

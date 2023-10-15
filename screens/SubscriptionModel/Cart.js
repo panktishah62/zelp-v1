@@ -5,111 +5,96 @@ import DeliveryInstruction from '../../components/Cards/Subscription/DeliveryIns
 import OrangeButton from '../../components/Buttons/Subscription/OrangeButton';
 import SimpleHeading from '../../components/Heading/Subscription/SimpleHeading';
 import MealCards from '../../components/Cards/Subscription/MealCards';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { orderUsingSubscription } from '../../redux/services/subscriptionService';
+import MealItemCard from '../../components/Cards/Subscription/MealItemCard';
+import { colors } from '../../styles/colors';
+import { dynamicSize } from '../../utils/responsive';
+import {
+    addItemToCart,
+    removeItemFromCart,
+} from '../../redux/actions/subscriptionCart';
+import KnowMoreModal from '../../components/Modal/Subscription/KnowMoreModal';
+import { dimensions } from '../../styles';
+import { getRandomInt } from '../../utils';
 
 const Cart = props => {
     const { navigation } = props;
-    const { itemName, itemId, itemImage, itemType, foodItemId } = useSelector(
+    const { selectedItem, address } = useSelector(
         state => state.subscriptionCart,
     );
-    const { mealPlanId: mealPlansId } = useSelector(
-        state => state.mealTypeForSubscription,
-    );
-    const { id: subscriptionId } = useSelector(
-        state => state.subscriptionDetails,
-    );
-
-    const mealCardData = [
-        {
-            id: itemId,
-            image: itemImage,
-            vegImage: require('../../assets/images/Subscription/veg.png'),
-            vegText: itemType,
-            boldText: itemName,
-            lastText: 'Made with cauliflower',
-            starImage: require('../../assets/images/Subscription/golden_star.png'),
-            rating: '4.0',
-        },
-    ];
-    const [isReorder, setIsReorder] = useState(false);
-    const [orderData, setOrderData] = useState([]);
-    //     let subscriptionId;
-    //     if(route.params.subscriptionId){
-    //      subscriptionId=route.params.subscriptionId
-    // }
-
-    // console.log(subscriptionId,"subscriptionId")
-
-    //     const fetchOneOrder=async()=>{
-    //         if(subscriptionId!==''){
-    //         const response =await getOneSubscriptionOrder(subscriptionId)
-    //         console.log(response.data,"response.data")
-    //         setIsReorder(true)
-    //       const data=
-    //         {
-    //             id:response.data.data.foodItem._id,
-    //             image:response.data.data.foodItem.image,
-    //             vegImage:require('../../assets/images/Subscription/veg.png'),
-    //             vegText:response.data.data.foodItem.isVeg?'Veg':'NonVeg',
-    //             boldText:response.data.data.foodItem.name,
-    //             lastText:'Made with cauliflower',
-    //             starImage:require('../../assets/images/Subscription/golden_star.png'),
-    //             rating:'4.0',
-    //         }
-    //       orderData.push(data)
-    //       setOrderData(orderData)
-    //     }
-    // }
-    //     console.log(orderData,"orderData")
-    //     if(route){
-    //     useEffect(()=>{
-    //         fetchOneOrder()
-    //     },[subscriptionId])
-    // }
-    const { area, defaultAddress } = useSelector(state => state.address);
+    const [infoData, setInfoData] = useState(null);
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [text, setText] = useState('');
+    const dispatch = useDispatch();
     const orderHandler = async () => {
-        const response = await orderUsingSubscription(subscriptionId, {
-            foodItemId,
-            mealPlansId,
-            addressId: defaultAddress._id,
-            orderStatus: 'pending',
+        const response = await orderUsingSubscription({
+            selectedItem: selectedItem,
+            address: address,
+            deliveryInstructions: text,
         });
-        navigation.navigate('SubscribedUserHome');
+        dispatch(removeItemFromCart());
+        navigation.navigate('TrackOrder', {
+            timeToDeliver: `${getRandomInt(30, 60)} mins`,
+        });
+    };
+
+    const onSelectItem = item => {
+        dispatch(addItemToCart(item));
+    };
+    const onUnSelectItem = item => {
+        dispatch(removeItemFromCart());
+        navigation.goBack();
+    };
+
+    const toggleModal = item => {
+        if (isModalVisible) {
+            setInfoData(null);
+        } else {
+            setInfoData(item);
+        }
+        setModalVisible(!isModalVisible);
+    };
+
+    const handleKnowMore = item => {
+        toggleModal(item);
     };
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.container}>
-                <CartDetails address={area} />
-                <DeliveryInstruction />
-                <SimpleHeading text={'Food in your cart'} />
-                {isReorder && (
-                    <MealCards
-                        navigation={navigation}
-                        isCart={true}
-                        isDynamic={true}
-                        data={orderData}
-                        orangeButtonText={'Change'}
-                        showCrossButton={true}
+        <View style={{ height: dimensions.fullHeight }}>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={styles.scrollView}>
+                <View style={styles.container}>
+                    {address && selectedItem && (
+                        <CartDetails
+                            address={address}
+                            subscriptionPlan={selectedItem}
+                            navigation={navigation}
+                        />
+                    )}
+                    <DeliveryInstruction text={text} setText={setText} />
+                    <SimpleHeading text={'Food in your cart'} />
+                    <MealItemCard
+                        item={selectedItem}
+                        isSelectable={false}
+                        isRemovable={true}
+                        handleKnowMore={handleKnowMore}
+                        onSelectItem={onSelectItem}
+                        onUnSelectItem={onUnSelectItem}
                     />
-                )}
-                {!isReorder && (
-                    <MealCards
-                        navigation={navigation}
-                        isCart={true}
-                        isDynamic={true}
-                        data={mealCardData}
-                        orangeButtonText={'Change'}
-                        showCrossButton={true}
+                    <OrangeButton
+                        orderHandler={orderHandler}
+                        text="Place Your Order"
                     />
-                )}
-                <OrangeButton
-                    orderHandler={orderHandler}
-                    text="Place Your Order"
-                />
-            </View>
-        </ScrollView>
+                </View>
+            </ScrollView>
+            <KnowMoreModal
+                isModalVisible={isModalVisible}
+                toggleModal={toggleModal}
+                data={infoData}
+            />
+        </View>
     );
 };
 
@@ -118,7 +103,11 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 20,
+        paddingVertical: dynamicSize(20),
+        backgroundColor: colors.WHITE,
+    },
+    scrollView: {
+        backgroundColor: colors.WHITE,
     },
 });
 

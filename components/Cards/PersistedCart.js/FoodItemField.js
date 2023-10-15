@@ -26,7 +26,8 @@ const FoodItemField = props => {
                     </View>
                 </View>
             )}
-            {foodItem &&
+            {restaurant &&
+                foodItem &&
                 foodItem.foodItem &&
                 foodItem.foodItem.price &&
                 foodItem.count > 0 && (

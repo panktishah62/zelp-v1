@@ -34,6 +34,7 @@ axiosRequest.interceptors.response.use(
         return response;
     },
     async function (error) {
+        console.log('error.response', error.response);
         if (error.response.status === 401) {
         } else if (
             error.response.status === 404 ||

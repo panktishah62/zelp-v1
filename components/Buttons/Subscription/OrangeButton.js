@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: dimensions.fullWidth - dynamicSize(60),
+        width: dimensions.fullWidth - dynamicSize(20),
         marginTop: dynamicSize(20),
         height: dynamicSize(48),
         borderRadius: 12,
