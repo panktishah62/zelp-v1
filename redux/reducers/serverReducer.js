@@ -37,16 +37,6 @@ const serverReducer = (state = initialState, action) => {
                 shotsViewRestSortingConfig: null,
                 error: action.payload,
             };
-        case UPDATE_MAX_WALLET_MONEY_TO_USE:
-            return {
-                ...state,
-                maxWalletMoneyToUse: action.payload,
-            };
-        case UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE:
-            return {
-                ...state,
-                maxReferralCoinMoneyToUse: action.payload,
-            };
         default:
             return state;
     }

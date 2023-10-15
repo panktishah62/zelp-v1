@@ -98,9 +98,7 @@ const LevelProgress = props => {
                                 ])}
                                 key={index}
                                 currentCount={currentCount}
-                                incentive={
-                                    index == 0 ? 100 : data[index - 1].incentive
-                                }
+                                incentive={data[index].incentive}
                             />
                             {!(index === data.length - 1) && (
                                 <View style={styles.separation} />

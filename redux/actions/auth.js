@@ -24,6 +24,7 @@ import {
     verifyOtp,
 } from '../services/authService';
 import { hideDialog, showDialog } from './dialog';
+import remoteConfig from '@react-native-firebase/remote-config';
 
 // Action creator to log out the user
 export const logoutUser = () => {
@@ -134,15 +135,50 @@ export const verifyOTP = (
                         payload: data.userProfile,
                     });
                     dispatch(getUserWallet(data?.userProfile?.wallet));
+
+                    const canFullWalletBeUsed = remoteConfig()
+                        .getValue('canFullWalletBeUsed')
+                        .asBoolean();
+
+                    const maxWalletMoneyToUse = remoteConfig()
+                        .getValue('maxWalletMoneyToUse')
+                        .asNumber();
+
+                    if (canFullWalletBeUsed) {
+                        dispatch({
+                            type: types.UPDATE_MAX_WALLET_MONEY_TO_USE,
+                            payload: data?.userProfile?.wallet,
+                        });
+                    } else {
+                        dispatch({
+                            type: types.UPDATE_MAX_WALLET_MONEY_TO_USE,
+                            payload: maxWalletMoneyToUse,
+                        });
+                    }
                     dispatch(
                         getUserReferralCoinMoney(
                             data?.userProfile?.referralCoins,
                         ),
                     );
 
-                    dispatch(
-                        updateReferraMaxMoney(data?.userProfile?.referralCoins),
-                    );
+                    const maxReferralCoinMoneyToUse = remoteConfig()
+                        .getValue('maxReferralCoinMoneyToUse')
+                        .asNumber();
+
+                    const canFullReferralCoinsBeUsed = remoteConfig()
+                        .getValue('canFullReferralCoinsBeUsed')
+                        .asBoolean();
+                    if (canFullReferralCoinsBeUsed) {
+                        dispatch(
+                            updateReferraMaxMoney(
+                                data?.userProfile?.referralCoins,
+                            ),
+                        );
+                    } else {
+                        dispatch(
+                            updateReferraMaxMoney(maxReferralCoinMoneyToUse),
+                        );
+                    }
 
                     if (
                         data?.referralCode &&

@@ -16,6 +16,7 @@ export function calculateTotal(billingData) {
     let coupon = billingData?.discountAmount ? billingData.coupon : null;
     const count = billingData?.count ? billingData?.count : 0;
     const walletMoney = billingData?.walletMoney;
+    const referralCoins = billingData?.referralCoinsUsed;
     let totalDeliveryCharge = 0;
     if (restaurants) {
         let totalPriceByRestaurant = 0;
@@ -79,15 +80,24 @@ export function calculateTotal(billingData) {
             );
         }
 
+        const walletMoneyToDeduct =
+            walletMoney < config?.maxWalletMoneyToUse
+                ? walletMoney
+                : config?.maxWalletMoneyToUse;
         const maxWalletMoneyToUse = isWalletMoneyUsed
-            ? totalAmountBeforeDiscount <= walletMoney
+            ? totalAmountBeforeDiscount <= walletMoneyToDeduct
                 ? totalAmountBeforeDiscount
-                : walletMoney
+                : walletMoneyToDeduct
             : 0;
+
+        const referralCoinsToDeduct =
+            referralCoins < config?.maxReferralCoinMoneyToUse
+                ? referralCoins
+                : config?.maxReferralCoinMoneyToUse;
         const maxRefferalCoinToUse = isReferralCoinsUsed
-            ? totalAmountBeforeDiscount <= billingData?.referralCoinsUsed
+            ? totalAmountBeforeDiscount <= referralCoinsToDeduct
                 ? totalAmountBeforeDiscount
-                : billingData?.referralCoinsUsed
+                : referralCoinsToDeduct
             : 0;
 
         const totalAmount =
@@ -270,8 +280,20 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
         if (billingDetails?.totalItemsPrice < config?.minOrderValueForWallet) {
             isWalletMoneyUsed = false;
         }
+        if (
+            billingDetails?.totalItemsPrice <
+            config?.minOrderValueForReferralCoins
+        ) {
+            isReferralCoinsUsed = false;
+        }
 
-        return { restaurants, count, billingDetails, isWalletMoneyUsed };
+        return {
+            restaurants,
+            count,
+            billingDetails,
+            isWalletMoneyUsed,
+            isReferralCoinsUsed,
+        };
     }
 
     const billingData = {
@@ -288,7 +310,18 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
     if (billingDetails?.totalItemsPrice < config?.minOrderValueForWallet) {
         isWalletMoneyUsed = false;
     }
-    return { restaurants, count, billingDetails, isWalletMoneyUsed };
+    if (
+        billingDetails?.totalItemsPrice < config?.minOrderValueForReferralCoins
+    ) {
+        isReferralCoinsUsed = false;
+    }
+    return {
+        restaurants,
+        count,
+        billingDetails,
+        isWalletMoneyUsed,
+        isReferralCoinsUsed,
+    };
 }
 
 export function reorder(orderData, _state) {
@@ -315,24 +348,6 @@ export function reorder(orderData, _state) {
 export function canApplyWallet(_state, _showDialog = true) {
     const state = _state;
     if (state?.isReferralCoinsUsed) {
-        return false;
-    }
-    if (
-        state?.walletMoney &&
-        state?.config &&
-        Number(state?.walletMoney) > Number(state?.config?.maxWalletMoneyToUse)
-    ) {
-        if (_showDialog) {
-            store.dispatch(
-                showDialog({
-                    isVisible: true,
-                    titleText: 'Wallet Error',
-                    subTitleText: 'Not Enough money in Wallet',
-                    buttonText1: 'CLOSE',
-                    type: DialogTypes.WARNING,
-                }),
-            );
-        }
         return false;
     }
     if (

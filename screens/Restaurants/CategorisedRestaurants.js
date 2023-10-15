@@ -83,14 +83,16 @@ const CategorisedRestaurant = ({ route, navigation }) => {
                         })}
                 </ScrollView>
             )}
-            {(!isServableArea || restaurantData.length === 0) && !isLoading && (
-                <View style={styles.commingSoon}>
-                    <ComingSoon />
-                    <Text style={styles.commingSoonText}>
-                        Sit Tight !! We will be coming soon to your location.
-                    </Text>
-                </View>
-            )}
+            {(!isServableArea || restaurantData?.length === 0) &&
+                !isLoading && (
+                    <View style={styles.commingSoon}>
+                        <ComingSoon />
+                        <Text style={styles.commingSoonText}>
+                            Sit Tight !! We will be coming soon to your
+                            location.
+                        </Text>
+                    </View>
+                )}
             {isLoading && (
                 <View style={[Styles.center, { flex: 1 }]}>
                     <ActivityIndicator size="large" color={colors.ORANGE} />

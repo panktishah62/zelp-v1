@@ -119,6 +119,8 @@ const cartActionsReducer = (state = initialState, action) => {
                     0
                         ? state.coupon
                         : null,
+                isReferralCoinsUsed:
+                    removeFromCartRestaurants.isReferralCoinsUsed,
             };
         case GET_USER_WALLET:
             return {

@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://e31d-49-207-233-121.ngrok.io/api/v1';
+export const BASE_URL = 'http://10.0.2.2:8080/api/v1';
 export const GET_CONFIG = 'GET_CONFIG';
 export const GET_SHOTS_VIEW_REST_SORTING_CONFIG =
     'GET_SHOTS_VIEW_REST_SORTING_CONFIG';

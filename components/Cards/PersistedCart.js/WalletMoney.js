@@ -20,6 +20,7 @@ import {
 import { canApplyWallet } from '../../../redux/services/cartService';
 import { DialogTypes } from '../../../utils';
 import { showDialog } from '../../../redux/actions/dialog';
+import remoteConfig from '@react-native-firebase/remote-config';
 
 const WalletMoney = props => {
     const { setIsLoading, moneyInWallet, config } = props;
@@ -27,6 +28,9 @@ const WalletMoney = props => {
     const [isActive, setIsActive] = useState(props.isActive);
     const [remainingMoneyInWallet, setRemainingMoneyInWallet] =
         useState(moneyInWallet);
+    const canFullWalletBeUsed = remoteConfig()
+        .getValue('canFullWalletBeUsed')
+        .asBoolean();
     const dispatch = useDispatch();
     const onClick = () => {
         if (cart?.isReferralCoinsUsed) {
@@ -90,22 +94,30 @@ const WalletMoney = props => {
 
     useEffect(() => {
         if (isActive) {
-            setRemainingMoneyInWallet(0);
+            setRemainingMoneyInWallet(
+                cart?.isWalletMoneyUsed
+                    ? cart?.walletMoney - cart?.billingDetails?.walletMoney
+                    : config.maxWalletMoneyToUse,
+            );
         } else {
             setRemainingMoneyInWallet(moneyInWallet);
         }
-    }, [isActive]);
+    }, [cart, isActive]);
 
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
                 <Text style={styles.titleText}>Use Wallet Money</Text>
-                {/* <Text style={styles.subtitleText}>
-                    Max {config.maxWalletMoneyToUse}/- can be used
-                </Text> */}
-                {/* <Text style={styles.subtitleText}>
-                    ( In Wallet : {remainingMoneyInWallet}/- )
-                </Text> */}
+                {!canFullWalletBeUsed && (
+                    <Text style={styles.subtitleText}>
+                        Max {config.maxWalletMoneyToUse}/- can be used
+                    </Text>
+                )}
+                {!canFullWalletBeUsed && (
+                    <Text style={styles.subtitleText}>
+                        ( In Wallet : {remainingMoneyInWallet}/- )
+                    </Text>
+                )}
             </View>
             <View style={[Styles.row, styles.rightContainer]}>
                 <View style={styles.money}>
@@ -114,8 +126,9 @@ const WalletMoney = props => {
                         <Text style={styles.titleText}>
                             {' '}
                             {cart?.isWalletMoneyUsed
-                                ? config.maxWalletMoneyToUse -
-                                  cart?.billingDetails?.walletMoney
+                                ? cart?.billingDetails?.walletMoney
+                                : cart?.walletMoney < config.maxWalletMoneyToUse
+                                ? cart?.walletMoney
                                 : config.maxWalletMoneyToUse}{' '}
                         </Text>
                     </View>

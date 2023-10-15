@@ -279,6 +279,15 @@ const ProfileScreen = ({ navigation }) => {
                                                 {user.wallet} ₹
                                             </Text>
                                         )}
+                                        {user && user?.referralCoins >= 0 && (
+                                            <Text
+                                                style={
+                                                    styles.userWalletMoneyText
+                                                }>
+                                                Current Referral Coins:{' '}
+                                                {user.referralCoins} ₹
+                                            </Text>
+                                        )}
                                         {user && user?.referral?.name && (
                                             <Text
                                                 style={

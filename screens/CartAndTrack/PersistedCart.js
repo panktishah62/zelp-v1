@@ -197,7 +197,7 @@ const CartScreen = ({ navigation }) => {
                                                     myCart.isReferralCoinsUsed
                                                 }
                                                 setIsLoading={setCartLoading}
-                                                moneyInWallet={
+                                                moneyInReferral={
                                                     myCart.referralCoinsUsed
                                                 }
                                                 config={myCart.config}

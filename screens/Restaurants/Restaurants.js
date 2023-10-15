@@ -181,7 +181,7 @@ const RestaurantsScreen = props => {
             {locationPermission === GRANTED &&
                 !isLoading &&
                 (!isServableArea ||
-                    (page === 1 && restaurantData.length === 0)) && (
+                    (page === 1 && restaurantData?.length === 0)) && (
                     <View
                         style={[
                             styles.commingSoon,

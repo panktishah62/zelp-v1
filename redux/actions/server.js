@@ -32,6 +32,8 @@ export const getConfig = () => {
                 // maxReferralCoinsToUse: parameters.maxReferralCoinsToUse.asNumber(),
                 maxReferralCoinMoneyToUse:
                     parameters.maxReferralCoinMoneyToUse.asNumber(),
+                minOrderValueForReferralCoins:
+                    parameters.minOrderValueForReferralCoins.asNumber(),
             };
             dispatch({
                 type: GET_CONFIG,

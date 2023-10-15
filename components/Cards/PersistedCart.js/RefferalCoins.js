@@ -23,6 +23,7 @@ import {
 } from '../../../redux/services/cartService';
 import { DialogTypes } from '../../../utils';
 import { showDialog } from '../../../redux/actions/dialog';
+import remoteConfig from '@react-native-firebase/remote-config';
 
 const RefferalCoins = props => {
     const { setIsLoading, moneyInReferral, config } = props;
@@ -30,6 +31,9 @@ const RefferalCoins = props => {
     const [isActive, setIsActive] = useState(props.isActive);
     const [remainingMoneyInReferral, setRemainingMoneyInReferral] =
         useState(moneyInReferral);
+    const canFullReferralCoinsBeUsed = remoteConfig()
+        .getValue('canFullReferralCoinsBeUsed')
+        .asBoolean();
     const dispatch = useDispatch();
     const onClick = () => {
         if (cart?.isWalletMoneyUsed) {
@@ -60,24 +64,22 @@ const RefferalCoins = props => {
                         type: DialogTypes.WARNING,
                     }),
                 );
-            }
-            // else if (
-            //     Number(
-            //         cart?.billingDetails &&
-            //             cart?.billingDetails?.totalItemsPrice,
-            //     ) <= Number(config?.minOrderValueForWallet)
-            // ) {
-            //     dispatch(
-            //         showDialog({
-            //             isVisible: true,
-            //             titleText: 'Wallet Error',
-            //             subTitleText: `Cannot apply wallet money for the item total less than or equal to ${config.minOrderValueForWallet}`,
-            //             buttonText1: 'CLOSE',
-            //             type: DialogTypes.WARNING,
-            //         }),
-            //     );
-            // }
-            else {
+            } else if (
+                Number(
+                    cart?.billingDetails &&
+                        cart?.billingDetails?.totalItemsPrice,
+                ) <= Number(config?.minOrderValueForReferralCoins)
+            ) {
+                dispatch(
+                    showDialog({
+                        isVisible: true,
+                        titleText: 'Wallet Error',
+                        subTitleText: `Cannot apply referral coins for the item total less than or equal to ${config.minOrderValueForReferralCoins}`,
+                        buttonText1: 'CLOSE',
+                        type: DialogTypes.WARNING,
+                    }),
+                );
+            } else {
                 setIsLoading(true);
                 dispatch(applyReferralCoinMoney(setIsLoading));
                 setIsActive(true);
@@ -95,16 +97,33 @@ const RefferalCoins = props => {
 
     useEffect(() => {
         if (isActive) {
-            setRemainingMoneyInReferral(0);
+            setRemainingMoneyInReferral(
+                cart?.isReferralCoinsUsed
+                    ? cart?.referralCoinsUsed -
+                          cart?.billingDetails?.referralCoinsUsed
+                    : config.maxReferralCoinMoneyToUse,
+            );
         } else {
             setRemainingMoneyInReferral(moneyInReferral);
         }
-    }, [isActive]);
+    }, [cart, isActive]);
 
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
                 <Text style={styles.titleText}>Use Referral Coins</Text>
+
+                {!canFullReferralCoinsBeUsed && (
+                    <Text style={styles.subtitleText}>
+                        Max {config.maxReferralCoinMoneyToUse}/- can be used
+                    </Text>
+                )}
+
+                {!canFullReferralCoinsBeUsed && (
+                    <Text style={styles.subtitleText}>
+                        ( In Wallet : {remainingMoneyInReferral}/- )
+                    </Text>
+                )}
             </View>
             <View style={[Styles.row, styles.rightContainer]}>
                 <View style={styles.money}>
@@ -113,8 +132,10 @@ const RefferalCoins = props => {
                         <Text style={styles.titleText}>
                             {' '}
                             {cart?.isReferralCoinsUsed
-                                ? config.maxReferralCoinMoneyToUse -
-                                  cart?.billingDetails?.referralCoinsUsed
+                                ? cart?.billingDetails?.referralCoinsUsed
+                                : cart?.referralCoinsUsed <
+                                  config.maxReferralCoinMoneyToUse
+                                ? cart?.referralCoinsUsed
                                 : config.maxReferralCoinMoneyToUse}
                         </Text>
                     </View>
