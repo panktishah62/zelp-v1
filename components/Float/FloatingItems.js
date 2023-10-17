@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { View, Animated, Easing, Dimensions, AppState } from 'react-native';
+import { dynamicSize } from '../../utils/responsive';
 
 const { height } = Dimensions.get('window');
 
-class FloatingBurgers extends Component {
+class FloatingItems extends Component {
     constructor(props) {
         super(props);
-
+        this.icon = props?.icon;
         this.animatedValue = [];
         for (let i = 0; i < 5; i++) {
             this.animatedValue[i] = new Animated.Value(0);
@@ -75,34 +76,44 @@ class FloatingBurgers extends Component {
 
         return (
             <View style={styles.container}>
-                <Animated.Image
-                    source={require('../../assets/icons/Frame.png')}
-                    style={[
-                        styles.burger,
-                        { transform: [{ translateY: burger1Y }] },
-                    ]}
-                />
-                <Animated.Image
-                    source={require('../../assets/icons/Frame.png')}
-                    style={[
-                        styles.burger,
-                        { transform: [{ translateY: burger1Y }] },
-                    ]}
-                />
-                <Animated.Image
-                    source={require('../../assets/icons/Frame.png')}
-                    style={[
-                        styles.burger,
-                        { transform: [{ translateY: burger1Y }] },
-                    ]}
-                />
-                <Animated.Image
-                    source={require('../../assets/icons/Frame.png')}
-                    style={[
-                        styles.burger,
-                        { transform: [{ translateY: burger1Y }] },
-                    ]}
-                />
+                {this.icon && (
+                    <Animated.Image
+                        source={{ uri: this.icon }}
+                        style={[
+                            styles.burger,
+                            { transform: [{ translateY: burger1Y }] },
+                        ]}
+                    />
+                )}
+                {this.icon && (
+                    <Animated.Image
+                        source={{ uri: this.icon }}
+                        style={[
+                            styles.burger,
+                            { transform: [{ translateY: burger1Y }] },
+                        ]}
+                    />
+                )}
+                {this.icon && (
+                    <Animated.Image
+                        source={{ uri: this.icon }}
+                        style={[
+                            styles.burger,
+                            { transform: [{ translateY: burger1Y }] },
+                        ]}
+                    />
+                )}
+                {this.icon && (
+                    <Animated.Image
+                        source={{
+                            uri: this.icon,
+                        }}
+                        style={[
+                            styles.burger,
+                            { transform: [{ translateY: burger1Y }] },
+                        ]}
+                    />
+                )}
             </View>
         );
     }
@@ -115,12 +126,13 @@ const styles = {
         position: 'relative',
     },
     burger: {
-        width: 50,
-        borderRadius: 25,
+        width: dynamicSize(40),
+        height: dynamicSize(40),
+        borderRadius: dynamicSize(20),
         position: 'absolute',
         justifyContent: 'center',
         alignItems: 'center',
     },
 };
 
-export default FloatingBurgers;
+export default FloatingItems;
