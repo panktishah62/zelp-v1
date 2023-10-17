@@ -36,6 +36,9 @@ import { showDialog } from '../redux/actions/dialog';
 import { Linking } from 'react-native';
 import branch from 'react-native-branch';
 
+import LiveTrackingMap from '../screens/CartAndTrack/LiveTrackingMap';
+import TrackOrderScreen from '../screens/CartAndTrack/TrackOrder';
+
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = ({ navigation }) => {
@@ -197,7 +200,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             ),
                         }}
                         name="Subscription"
-                        component={SubscriptionPage}
+                        component={LiveTrackingMap}
                     />
                     <Tab.Screen
                         options={({ route }) => ({
