@@ -10,6 +10,7 @@ import {
     View,
 } from 'react-native';
 import Lottie from 'lottie-react-native';
+import LottieView from 'lottie-react-native';
 import { dimensions, fonts } from '../styles';
 import { Button_ } from '../components/Buttons/Button';
 import { colors } from '../styles/colors';
@@ -18,6 +19,8 @@ import { dynamicSize } from '../utils/responsive';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { showDialog } from '../redux/actions/dialog';
 import { useDispatch } from 'react-redux';
+
+const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 
 const AppUpdateScreen = () => {
     const dispatch = useDispatch();
@@ -30,7 +33,7 @@ const AppUpdateScreen = () => {
     useEffect(() => {
         Animated.timing(animationProgress.current, {
             toValue: 0,
-            // duration: 1000,
+            duration: 1000,
             easing: Easing.linear,
             useNativeDriver: false,
         }).start();
@@ -62,12 +65,15 @@ const AppUpdateScreen = () => {
                     We have Some New Features For You
                 </Text>
             </View>
-            <Lottie
+            <AnimatedLottieView
                 source={require('../assets/animations/appUpdate.json')}
                 progress={animationProgress.current}
                 autoPlay
                 loop
-                style={{ width: dimensions.fullWidth - 100 }}
+                style={{
+                    width: dimensions.fullWidth - 100,
+                    height: dimensions.fullHeight / 3,
+                }}
             />
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={onUpdate}>

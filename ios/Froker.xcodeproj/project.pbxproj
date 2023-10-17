@@ -892,7 +892,7 @@
 				CODE_SIGN_ENTITLEMENTS = Froker/Froker.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = L665Z3S8F6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Froker/Info.plist;
@@ -926,7 +926,7 @@
 				CODE_SIGN_ENTITLEMENTS = Froker/Froker.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = L665Z3S8F6;
 				INFOPLIST_FILE = Froker/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Froker;
