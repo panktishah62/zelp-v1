@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { colors } from '../../styles/colors';
+import { dynamicSize, normalizeFont } from '../../utils/responsive';
 
 const TimerCircle = ({ minutes }) => {
     const initialTime = minutes * 60;
     const [remainingTime, setRemainingTime] = useState(initialTime);
-    const [circleRadius, setCircleRadius] = useState(40);
+    const [circleRadius, setCircleRadius] = useState(38);
     const [strokeWidth, setStrokeWidth] = useState(4);
     const [initialCircleLength, setInitialCircleLength] = useState(0);
 
@@ -74,20 +75,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: colors.ORANGE,
-        borderRadius: 100,
-        width: 90,
-        height: 90,
+        borderRadius: dynamicSize(100),
+        width: dynamicSize(90),
+        height: dynamicSize(90),
     },
     timeContainer: {
         position: 'absolute',
         alignItems: 'center',
     },
     timeText: {
-        fontSize: 18,
+        fontSize: normalizeFont(22),
         color: 'white',
     },
     minsText: {
-        fontSize: 14,
+        fontSize: normalizeFont(14),
         color: 'white',
     },
 });

@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import TimerCircle from './Timer';
 import { colors } from '../../styles/colors';
 import { fonts } from '../../styles';
+import { dynamicSize, normalizeFont } from '../../utils/responsive';
 
 const EstimatedDeliveryCard = ({ timeToDeliver, orderStatus }) => {
     const now = new Date();
@@ -28,17 +29,18 @@ const EstimatedDeliveryCard = ({ timeToDeliver, orderStatus }) => {
                     Estimated delivery by {formattedDeliveryTime}
                 </Text>
             </View>
+            <View style={styles.gif}></View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: 'row',
         backgroundColor: colors.ORANGE,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
+        borderTopLeftRadius: dynamicSize(20),
+        borderTopRightRadius: dynamicSize(20),
+        alignItems: 'center',
     },
     leftSection: {
         flex: 1,
@@ -47,18 +49,21 @@ const styles = StyleSheet.create({
     },
     rightSection: {
         flex: 2,
-        padding: 16,
+        padding: dynamicSize(16),
     },
     orderStatus: {
-        fontSize: 20,
+        fontSize: normalizeFont(20),
         fontWeight: 'bold',
-        marginBottom: 4,
+        marginBottom: dynamicSize(4),
         color: colors.WHITE,
         fontFamily: fonts.NUNITO_500_16.fontFamily,
     },
     deliveryTime: {
-        fontSize: 18,
+        fontSize: normalizeFont(18),
         color: 'white',
+    },
+    gif: {
+        // flex: 1,
     },
 });
 

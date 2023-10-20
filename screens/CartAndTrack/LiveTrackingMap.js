@@ -1,15 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 import { WebView } from 'react-native-webview';
+import { colors } from '../../styles/colors';
 
-const LiveTrackingMap = ({ isLoading }) => {
-    const TRACKING_URL =
-        'https://porter.in/track_live_order?booking_id=CRN1807306740&customer_uuid=d65fe75e-64f5-4ccb-b6f9-b6f59a96227b';
-
+const LiveTrackingMap = ({ trackingUrl }) => {
+    const [isLoading, setIsLoading] = useState(true);
     const webViewRef = useRef(null);
-    useEffect(() => {
-        runInjectedJavaScript();
-    }, [isLoading, runInjectedJavaScript]);
 
     const injectedJavaScript = `
         // Get the element with class "mobile_scrollable-container__Moo58"
@@ -24,26 +22,49 @@ const LiveTrackingMap = ({ isLoading }) => {
         document.documentElement.innerHTML;
     `;
 
-    const runInjectedJavaScript = useCallback(() => {
+    const runInjectedJavaScript = () => {
         if (webViewRef.current) {
-            setTimeout(
-                () => webViewRef.current.injectJavaScript(injectedJavaScript),
-                1000,
-            );
+            setTimeout(() => {
+                webViewRef.current.injectJavaScript(injectedJavaScript);
+                setIsLoading(false);
+            }, 1000);
         }
-    }, [injectedJavaScript]);
+    };
 
     return (
-        <WebView
-            ref={webViewRef}
-            source={{
-                uri: TRACKING_URL,
-            }}
-            onLoadEnd={runInjectedJavaScript}
-            style={{ flex: 1 }}
-            originWhitelist={['*']}
-        />
+        <View style={styles.container}>
+            {isLoading && (
+                <View style={styles.spinner}>
+                    <ActivityIndicator color={colors.ORANGE} size={32} />
+                </View>
+            )}
+            <WebView
+                ref={webViewRef}
+                source={{
+                    uri: trackingUrl,
+                }}
+                onLoadEnd={runInjectedJavaScript}
+                style={{ flex: 1 }}
+                originWhitelist={['*']}
+            />
+        </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        height: '100%',
+    },
+    spinner: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 5,
+        backgroundColor: colors.WHITE,
+    },
+});
 
 export default LiveTrackingMap;

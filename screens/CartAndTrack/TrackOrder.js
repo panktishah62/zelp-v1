@@ -20,10 +20,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentOrder } from '../../redux/actions/currentOrder';
 import { colors } from '../../styles/colors';
 import LiveTrackingMap from './LiveTrackingMap';
-import { dimensions } from '../../styles';
+import { dimensions, fonts } from '../../styles';
 import EstimatedDeliveryCard from './EstimatedDeliveryCard';
-import { dynamicSize } from '../../utils/responsive';
-import TimerCircle from './Timer';
+import { dynamicSize, normalizeFont } from '../../utils/responsive';
+import LocationCard from './LocationCard';
+// import OrderItemCard from './OrderItemCard';
+import DeliveryBoyCard from './DeliveryBoyCard';
+
+const TRACKING_URL =
+    'https://porter.in/track_live_order?booking_id=CRN1807306740&customer_uuid=d65fe75e-64f5-4ccb-b6f9-b6f59a96227b';
 
 const TrackOrderScreen = ({ route, navigation }) => {
     const { timeToDeliver } = route.params ? route.params : {};
@@ -78,29 +83,31 @@ const TrackOrderScreen = ({ route, navigation }) => {
         onRefresh();
     }, []);
 
+    useEffect(() => setIsLoading(true), []);
+    const onLoadFinish = () => setIsLoading(false);
+
     return (
         <View>
             {!isLoading && (
                 <View style={styles.mapContainer}>
-                    <LiveTrackingMap isLoading={isLoading} />
+                    <LiveTrackingMap trackingUrl={TRACKING_URL} />
                 </View>
             )}
-            <View style={styles.container}>
-                {!isLoading && (
-                    <ScrollView>
-                        <EstimatedDeliveryCard
-                            timeToDeliver={20}
-                            orderStatus={currentOrder.currentOrder.orderStatus}
-                        />
-
-                        <AddressCard
-                            address={
-                                currentOrder.currentOrder.cart.user.address[0]
-                            }
-                        />
-                    </ScrollView>
-                )}
-                {!isLoading && (
+            {!isLoading && (
+                <View style={styles.container}>
+                    <EstimatedDeliveryCard
+                        timeToDeliver={20}
+                        orderStatus={currentOrder.currentOrder.orderStatus}
+                    />
+                    <View style={styles.detailsContainer}>
+                        <LocationCard />
+                        <DeliveryBoyCard />
+                        {/* <Text style={styles.yourOrdersText}>Your Orders</Text>
+                        {orderedItems.map(item => (
+                            <OrderItemCard key={item.itemName} item={item} />
+                        ))} */}
+                    </View>
+                    {/* {!isLoading && (
                     <ScrollView
                         refreshControl={
                             <RefreshControl
@@ -132,17 +139,28 @@ const TrackOrderScreen = ({ route, navigation }) => {
                             />
                         </View>
                     </ScrollView>
-                )}
-                {isLoading && (
-                    <ActivityIndicator size={32} color={colors.ORANGE} />
-                )}
-            </View>
+                    )} */}
+                    {isLoading && (
+                        <ActivityIndicator size={32} color={colors.ORANGE} />
+                    )}
+                </View>
+            )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: { height: dimensions.fullHeight, zIndex: 1, marginTop: 170 },
+    container: {
+        height: dimensions.fullHeight,
+        zIndex: 1,
+        marginTop: 300,
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: colors.ORANGE,
+        borderTopRightRadius: dynamicSize(20),
+        borderTopLeftRadius: dynamicSize(20),
+        paddingTop: dynamicSize(10),
+    },
     addressContainer: {},
     timerContainer: {},
     imageContainer: {},
@@ -154,7 +172,26 @@ const styles = StyleSheet.create({
         top: dynamicSize(-62),
         left: 0,
         width: '100%',
-        height: '50%',
+        height: '70%',
+    },
+    detailsContainer: {
+        backgroundColor: '#EEEEEE',
+        width: dimensions.fullWidth,
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        borderTopRightRadius: dynamicSize(20),
+        borderTopLeftRadius: dynamicSize(20),
+        padding: dynamicSize(20),
+        marginTop: dynamicSize(10),
+    },
+    yourOrdersText: {
+        color: colors.BLACK,
+        fontSize: normalizeFont(22),
+        marginVertical: dynamicSize(10),
+        width: '100%',
+        fontWeight: 'bold',
+        fontFamily: fonts.NUNITO_700_24.fontFamily,
     },
 });
 
