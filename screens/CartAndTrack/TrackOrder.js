@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
+    Image,
     RefreshControl,
     ScrollView,
     StyleSheet,
@@ -24,11 +25,15 @@ import { dimensions, fonts } from '../../styles';
 import EstimatedDeliveryCard from './EstimatedDeliveryCard';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
 import LocationCard from './LocationCard';
-// import OrderItemCard from './OrderItemCard';
+import OrderItemCard from './OrderItemCard';
 import DeliveryBoyCard from './DeliveryBoyCard';
+import CancelOrderCard from './CancelOrderCard';
+import CustomerCareCard from './CustomerCareCard';
+import frokerDeliveryPartnerImg from '../../assets/images/froker-delivery-partner.png';
 
-const TRACKING_URL =
-    'https://porter.in/track_live_order?booking_id=CRN1807306740&customer_uuid=d65fe75e-64f5-4ccb-b6f9-b6f59a96227b';
+// const TRACKING_URL =
+//     'https://porter.in/track_live_order?booking_id=CRN1807306740&customer_uuid=d65fe75e-64f5-4ccb-b6f9-b6f59a96227b';
+const TRACKING_URL = undefined;
 
 const TrackOrderScreen = ({ route, navigation }) => {
     const { timeToDeliver } = route.params ? route.params : {};
@@ -83,29 +88,80 @@ const TrackOrderScreen = ({ route, navigation }) => {
         onRefresh();
     }, []);
 
-    useEffect(() => setIsLoading(true), []);
-    const onLoadFinish = () => setIsLoading(false);
+    const orderedItems = [
+        {
+            restaurantName: 'Tasty Delights',
+            itemName: 'Spaghetti Bolognese',
+            itemImage: 'https://example.com/spaghetti_bolognese.jpg',
+            itemPrice: 12.99,
+            itemDescription:
+                'Delicious spaghetti with a savory Bolognese sauce.',
+        },
+        {
+            restaurantName: 'Burger Haven',
+            itemName: 'Classic Cheeseburger',
+            itemImage: 'https://example.com/cheeseburger.jpg',
+            itemPrice: 6.99,
+            itemDescription: 'A classic cheeseburger with all the fixings.',
+        },
+        {
+            restaurantName: 'Pizza Palace',
+            itemName: 'Margherita Pizza',
+            itemImage: 'https://example.com/margherita_pizza.jpg',
+            itemPrice: 14.99,
+            itemDescription:
+                'Fresh and simple Margherita pizza with tomato and basil.',
+        },
+        {
+            restaurantName: 'Sushi Express',
+            itemName: 'Sashimi Platter',
+            itemImage: 'https://example.com/sashimi_platter.jpg',
+            itemPrice: 18.99,
+            itemDescription:
+                'Assorted sashimi slices with wasabi and soy sauce.',
+        },
+    ];
 
     return (
         <View>
-            {!isLoading && (
-                <View style={styles.mapContainer}>
-                    <LiveTrackingMap trackingUrl={TRACKING_URL} />
-                </View>
-            )}
+            {!isLoading &&
+                (TRACKING_URL ? (
+                    <View style={styles.mapContainer}>
+                        <LiveTrackingMap trackingUrl={TRACKING_URL} />
+                    </View>
+                ) : (
+                    <View style={styles.noTrackingContainer}>
+                        <Image
+                            style={styles.noTrackingImage}
+                            source={frokerDeliveryPartnerImg}
+                        />
+                    </View>
+                ))}
             {!isLoading && (
                 <View style={styles.container}>
                     <EstimatedDeliveryCard
-                        timeToDeliver={20}
+                        timeToDeliver={parseInt(
+                            currentOrder.currentOrder.timeToDeliver.match(
+                                /\d+/,
+                            )[0],
+                            10,
+                        )}
                         orderStatus={currentOrder.currentOrder.orderStatus}
                     />
                     <View style={styles.detailsContainer}>
-                        <LocationCard />
-                        <DeliveryBoyCard />
+                        <LocationCard
+                            address={currentOrder.currentOrder.cart.address}
+                        />
+                        {/* <DeliveryBoyCard /> */}
+                        <CustomerCareCard number={'8260169650'} />
                         {/* <Text style={styles.yourOrdersText}>Your Orders</Text>
                         {orderedItems.map(item => (
                             <OrderItemCard key={item.itemName} item={item} />
                         ))} */}
+                        {/* <CancelOrderCard
+                            duration={3000}
+                            orderId={currentOrder._id}
+                        /> */}
                     </View>
                     {/* {!isLoading && (
                     <ScrollView
@@ -153,7 +209,7 @@ const styles = StyleSheet.create({
     container: {
         height: dimensions.fullHeight,
         zIndex: 1,
-        marginTop: 300,
+        marginTop: dynamicSize(415),
         display: 'flex',
         alignItems: 'center',
         backgroundColor: colors.ORANGE,
@@ -192,6 +248,20 @@ const styles = StyleSheet.create({
         width: '100%',
         fontWeight: 'bold',
         fontFamily: fonts.NUNITO_700_24.fontFamily,
+    },
+    noTrackingContainer: {
+        position: 'absolute',
+        top: dynamicSize(-62),
+        left: 0,
+        width: '100%',
+        height: '70%',
+        display: 'flex',
+        alignItems: 'center',
+        backgroundColor: 'red',
+    },
+    noTrackingImage: {
+        width: dynamicSize(200),
+        height: dynamicSize(200),
     },
 });
 

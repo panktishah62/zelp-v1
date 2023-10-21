@@ -1,14 +1,15 @@
 import React from 'react';
 import { Image, StyleSheet, View, Text } from 'react-native';
-import deliveryBoyImage from '../../assets/images/deliveryBoy.png';
+import customerSupportImg from '../../assets/images/customerSupport.png';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
 import { colors } from '../../styles/colors';
 import CallIcon from '../../assets/icons/call-icon.svg';
 import TextIcon from '../../assets/icons/text-icon.svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Linking } from 'react-native';
+import { fonts } from '../../styles';
 
-const DeliveryBoyCard = props => {
+const CustomerCareCard = ({ number }) => {
     const callNumber = phoneNumber => {
         Linking.openURL(`tel:${phoneNumber}`).catch(error =>
             console.error('Error in opening phone app:', error),
@@ -23,19 +24,19 @@ const DeliveryBoyCard = props => {
 
     return (
         <View style={styles.container}>
-            <Image source={deliveryBoyImage} style={styles.partnerIcon} />
+            <Image source={customerSupportImg} style={styles.partnerIcon} />
             <View style={styles.details}>
                 <View style={styles.detailsText}>
-                    <Text style={styles.title}>Walter White</Text>
-                    <Text style={styles.subtitle}>Delivery Boy</Text>
+                    <Text style={styles.title}>Having Issues?</Text>
+                    <Text style={styles.subtitle}>Contact Us</Text>
                 </View>
                 <View style={styles.icons}>
-                    <TouchableOpacity onPress={() => callNumber('8260169650')}>
+                    <TouchableOpacity onPress={() => callNumber(number)}>
                         <CallIcon />
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() =>
-                            sendWhatsAppMessage('8260169650', 'Hey there!')
+                            sendWhatsAppMessage(number, 'Hey there!')
                         }>
                         <TextIcon />
                     </TouchableOpacity>
@@ -73,19 +74,20 @@ const styles = StyleSheet.create({
     },
     title: {
         color: colors.BLACK,
-        fontWeight: 'bold',
         fontSize: normalizeFont(18),
+        fontFamily: fonts.NUNITO_500_16.fontFamily,
     },
     subtitle: {
         color: colors.BLACK,
-        fontSize: normalizeFont(16),
+        fontSize: normalizeFont(20),
+        fontFamily: fonts.NUNITO_700_24.fontFamily,
     },
     icons: {
         display: 'flex',
         flexDirection: 'row',
-        gap: dynamicSize(20),
+        gap: dynamicSize(16),
         marginRight: dynamicSize(16),
     },
 });
 
-export default DeliveryBoyCard;
+export default CustomerCareCard;

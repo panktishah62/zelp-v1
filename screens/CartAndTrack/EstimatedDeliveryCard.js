@@ -29,7 +29,7 @@ const EstimatedDeliveryCard = ({ timeToDeliver, orderStatus }) => {
                     Estimated delivery by {formattedDeliveryTime}
                 </Text>
             </View>
-            <View style={styles.gif}></View>
+            <View style={styles.gif} />
         </View>
     );
 };

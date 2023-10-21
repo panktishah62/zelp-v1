@@ -228,3 +228,10 @@ export const DialogTypes = {
     WARNING: 'WARNING',
     ERROR: 'ERROR',
 };
+
+export function truncateString(str, limit) {
+    if (str.length < limit) {
+        return str;
+    }
+    return str.slice(0, limit) + '...';
+}

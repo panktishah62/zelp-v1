@@ -14,7 +14,7 @@ const OrderItemCard = ({ item }) => {
             </View>
 
             <View style={styles.food}>
-                {/* <Image source={{ uri: item.itemImage }} /> */}
+                <Image source={{ uri: item.itemImage }} />
             </View>
         </View>
     );
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     },
     restName: {
         color: colors.BLACK,
-        fontSize: normalizeFont(18),
+        fontSize: normalizeFont(20),
         fontFamily: fonts.NUNITO_600_20.fontFamily,
     },
 });

@@ -4,8 +4,9 @@ import BigLocationIcon from '../../assets/icons/location-pin.svg';
 import { colors } from '../../styles/colors';
 import { dimensions, fonts } from '../../styles';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
+import { truncateString } from '../../utils';
 
-const LocationCard = () => {
+const LocationCard = ({ address }) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -14,11 +15,13 @@ const LocationCard = () => {
                     <View>
                         <Text style={styles.homeText}>
                             Delivery to{' '}
-                            <Text style={{ color: colors.ORANGE }}>Home</Text>
+                            <Text style={{ color: colors.ORANGE }}>
+                                {address.name}
+                            </Text>
                         </Text>
 
                         <Text style={styles.address}>
-                            123, TK Layout, Bengaluru
+                            {truncateString(address.address, 40)}
                         </Text>
                     </View>
                 </View>
