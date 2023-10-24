@@ -20,11 +20,11 @@ const CouponCard = props => {
     const typeOfDiscount = coupon.discount.type;
     const type = typeOfDiscount == 'fixed' ? '/-' : '%';
     const typeOf = typeOfDiscount == 'fixed' ? 'FLAT OFF' : 'DISCOUNT';
-    const minOrderValue = coupon.bagConstraints.minOrderAmount;
-    const valueUpto = coupon.commonConstraints.valueUpto;
+    const minOrderValue = coupon?.bagConstraints?.minOrderAmount;
+    const valueUpto = coupon?.commonConstraints?.valueUpto;
     const description = coupon.description;
     let applicablePaymentMethods = [
-        coupon.bagConstraints.applicablePaymentMethods.map(item => {
+        coupon?.bagConstraints?.applicablePaymentMethods.map(item => {
             return item === 'OTHERS'
                 ? 'Pay using wallet/card'
                 : 'Cash On delivery';
@@ -80,12 +80,14 @@ const CouponCard = props => {
                             {description}
                         </Text>
                     </View>
-                    <View style={styles.subTitleContainer}>
-                        <Text style={styles.subtitleText}>
-                            Maximum discount upto {valueUpto}
-                            /- on orders above {minOrderValue}/-
-                        </Text>
-                    </View>
+                    {minOrderValue && valueUpto && (
+                        <View style={styles.subTitleContainer}>
+                            <Text style={styles.subtitleText}>
+                                Maximum discount upto {valueUpto}
+                                /- on orders above {minOrderValue}/-
+                            </Text>
+                        </View>
+                    )}
                     <View style={styles.subTitleContainer}>
                         <Text style={styles.subtitleText}>
                             Applicable on {applicablePaymentMethods} payment

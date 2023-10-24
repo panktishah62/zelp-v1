@@ -16,10 +16,7 @@ import ComingSoon from '../../assets/images/soon.svg';
 import LocationPermission from '../../components/Buttons/LocationPermission';
 import { colors } from '../../styles/colors';
 import { dimensions, fonts, Styles } from '../../styles';
-import {
-    searchFoodItemByRestaurants,
-    searchRestaurants_,
-} from '../../redux/services/restaurantService';
+import { searchbyAlgolia } from '../../redux/services/searchService';
 
 const SearchDishesAndRestaurants = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -33,80 +30,20 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
     const locationPermission = useSelector(
         state => state.permissions.locationPermission,
     );
-    const [searchedFoodItems, setSearchedFoodItems] = useState([]);
-    const [searchedRestaurants, setSearchedRestaurants] = useState([]);
     const locationCoordinates = useSelector(state => state.address.location);
+    const page = 0;
 
-    const SearchFoodItems = async (text_, location) => {
-        try {
-            // perform search for food items with the given query
-            await searchFoodItemByRestaurants(
-                text_,
-                location?.latitude,
-                location?.longitude,
-            )
-                .then(response => response?.data)
-                .then(data => {
-                    if (data.status === 'success') {
-                        setIsLoadingFoodItems(false);
-                        const restaurants = data.restaurants.sort(function (
-                            a,
-                            b,
-                        ) {
-                            return !isTimeInIntervals(a.restaurant._id.timings);
-                        });
-                        setSearchedFoodItems(restaurants);
-                    } else {
-                        setIsLoadingFoodItems(false);
-                        throw new Error(
-                            data.message ? data.message : UNEXPECTED_ERROR,
-                        );
-                    }
-                })
-                .catch(error => {
-                    setIsLoadingFoodItems(false);
-                    throw new Error(error);
-                });
+    const [searchedData, setSearchedData] = useState(null);
+    const searchAlgolia = async (text_, location) => {
+        await searchbyAlgolia(
+            text_,
+            location?.latitude,
+            location?.longitude,
+        ).then(data => {
+            setSearchedData(data);
             setIsLoadingFoodItems(false);
-        } catch (error) {
-            setIsLoadingFoodItems(false);
-            throw new Error(error);
-        }
-    };
-    const SearchRestaurants = async (text_, location) => {
-        try {
-            await searchRestaurants_(
-                text_,
-                location?.latitude,
-                location?.longitude,
-            )
-                .then(response => response?.data)
-                .then(data => {
-                    if (data && data.status === 'success') {
-                        setIsLoadingRestaurants(false);
-                        const restaurants = data.restaurants.sort(function (
-                            a,
-                            b,
-                        ) {
-                            return !isTimeInIntervals(a.restaurant._id.timings);
-                        });
-                        setSearchedRestaurants(restaurants);
-                    } else {
-                        setIsLoadingRestaurants(false);
-                        throw new Error(
-                            data.message ? data.message : UNEXPECTED_ERROR,
-                        );
-                    }
-                })
-                .catch(error => {
-                    setIsLoadingRestaurants(false);
-                    throw new Error(error);
-                });
             setIsLoadingRestaurants(false);
-        } catch (error) {
-            setIsLoadingRestaurants(false);
-            throw new Error(error);
-        }
+        });
     };
 
     const search = async (text_, location) => {
@@ -115,8 +52,7 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
         if (locationPermission === GRANTED && isServableArea) {
             setIsLoadingFoodItems(true);
             setIsLoadingRestaurants(true);
-            SearchFoodItems(text_, location);
-            SearchRestaurants(text_, location);
+            searchAlgolia(text_, location);
         } else if (!isServableArea) {
             setIsLoadingFoodItems(false);
             setIsLoadingRestaurants(false);
@@ -127,8 +63,7 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
         setTextInput(text_);
         setIsFound(true);
         setIsSearched(false);
-        setSearchedFoodItems([]);
-        setSearchedRestaurants([]);
+        setSearchedData(null);
         setIsLoadingFoodItems(false);
         setIsLoadingRestaurants(false);
     };
@@ -137,8 +72,7 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
         setIsSearched(false);
         setText('');
         setIsServableArea(false);
-        setSearchedFoodItems([]);
-        setSearchedRestaurants([]);
+        setSearchedData(null);
         setIsLoadingFoodItems(false);
         setIsLoadingRestaurants(false);
     };
@@ -186,17 +120,12 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
                     !isLoadingFoodItems &&
                     !isLoadingRestaurants && (
                         <SearchTabForAll
-                            searchFoodItems={searchedFoodItems}
-                            searchRestaurants={searchedRestaurants}
+                            searchedData={searchedData}
                             location={location}
                         />
                     )}
                 {isServableArea &&
                     locationPermission === GRANTED &&
-                    searchedFoodItems &&
-                    searchedFoodItems.length == 0 &&
-                    searchedRestaurants &&
-                    searchedRestaurants.length == 0 &&
                     !isLoadingFoodItems &&
                     !isLoadingRestaurants &&
                     !isSearched && (

@@ -38,9 +38,14 @@ const RestaurantCardInfo = ({ restaurant, distance, time, navigation }) => {
                 newCategory.push(cat.name);
             });
             setCuisines(newCategory);
-            if (restaurant.timings) {
-                setIsRestaurantOpen(isTimeInIntervals(restaurant.timings));
-            }
+        } else if (restaurant && restaurant?.tags?.length > 0) {
+            restaurant.tags.map((cat, index) => {
+                newCategory.push(cat);
+            });
+            setCuisines(newCategory);
+        }
+        if (restaurant && restaurant.timings) {
+            setIsRestaurantOpen(isTimeInIntervals(restaurant.timings));
         }
     }, []);
 

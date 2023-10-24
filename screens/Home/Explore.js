@@ -163,7 +163,6 @@ const Explore = props => {
             >
                 {!isLoading && isServableArea && (
                     <View>
-                        <BannerOnHomeScreen navigation={navigation} />
                         {/* Choose from categories */}
                         <View style={styles.container1}>
                             <Text style={styles.title}>
@@ -180,6 +179,8 @@ const Explore = props => {
                                 })}
                             </View>
                         </View>
+
+                        <BannerOnHomeScreen navigation={navigation} />
 
                         {offers.length > 0 && (
                             <View
@@ -228,7 +229,7 @@ const Explore = props => {
                         )}
 
                         {/* Choose from frokers */}
-                        <LinearGradient
+                        {/* <LinearGradient
                             style={styles.container2}
                             colors={[
                                 colors.ORANGE_GRADIENT_LIGHT,
@@ -247,7 +248,7 @@ const Explore = props => {
                                     );
                                 })}
                             </View>
-                        </LinearGradient>
+                        </LinearGradient> */}
 
                         {/* Choose from Posts/reels */}
                         {/* <View style={styles.container3}>

@@ -31,6 +31,9 @@ const WalletMoney = props => {
     const canFullWalletBeUsed = remoteConfig()
         .getValue('canFullWalletBeUsed')
         .asBoolean();
+    const walletInstructions = remoteConfig()
+        .getValue('walletInstructions')
+        .asString();
     const dispatch = useDispatch();
     const onClick = () => {
         if (cart?.isReferralCoinsUsed) {
@@ -116,6 +119,11 @@ const WalletMoney = props => {
                 {!canFullWalletBeUsed && (
                     <Text style={styles.subtitleText}>
                         ( In Wallet : {remainingMoneyInWallet}/- )
+                    </Text>
+                )}
+                {walletInstructions && (
+                    <Text style={styles.subtitleText}>
+                        {walletInstructions}
                     </Text>
                 )}
             </View>

@@ -14,14 +14,14 @@ import ShowMore from '../../../assets/icons/backRight.svg';
 import FoodItems from './FoodItem';
 import { isTimeInIntervals } from '../../../utils';
 
-const RestaurantWithFoodItems = props => {
-    const { restaurant, navigation } = props;
-    const foodItems = restaurant.foodItems;
+const RestaurantWithItems = props => {
+    const { restaurant, items, navigation } = props;
+
     const [isRestaurantOpen, setIsRestaurantOpen] = useState(false);
 
     useEffect(() => {
-        if (restaurant._id && restaurant._id.timings) {
-            setIsRestaurantOpen(isTimeInIntervals(restaurant._id.timings));
+        if (items[0].restaurant._id && items[0].restaurant.timings) {
+            setIsRestaurantOpen(isTimeInIntervals(items[0].restaurant.timings));
         }
     }, []);
 
@@ -33,11 +33,11 @@ const RestaurantWithFoodItems = props => {
                     onPress={() => {
                         if (isRestaurantOpen) {
                             navigation.navigate('RestaurantWithMenu', {
-                                restaurant: restaurant._id,
+                                restaurant: restaurant,
                             });
                         }
                     }}>
-                    <Text style={styles.titleText}>{restaurant._id.name}</Text>
+                    <Text style={styles.titleText}>{restaurant?.name}</Text>
                     {isRestaurantOpen && <ShowMore />}
                     {!isRestaurantOpen && (
                         <View>
@@ -58,12 +58,12 @@ const RestaurantWithFoodItems = props => {
                         </View>
                     )}
                 </TouchableOpacity>
-                {restaurant._id.rating && (
+                {restaurant.rating && (
                     <View style={styles.ratingContainer}>
                         <Star />
                         <Text style={[styles.ratings, Styles.margin_05]}>
-                            {restaurant._id.rating.value} (
-                            {restaurant._id.rating.count} +)
+                            {restaurant.rating.value} ({restaurant.rating.count}{' '}
+                            +)
                         </Text>
                     </View>
                 )}
@@ -72,38 +72,31 @@ const RestaurantWithFoodItems = props => {
                 style={styles.foodItems}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
-                {foodItems &&
-                    foodItems.length > 0 &&
-                    foodItems.map((foodItem, index) => {
+                {items &&
+                    items.length > 0 &&
+                    items.map((foodItem, index) => {
                         return (
                             <FoodItems
                                 foodItem={foodItem}
                                 key={index}
                                 navigation={navigation}
-                                restaurant={restaurant._id}
+                                restaurant={restaurant}
                                 isRestaurantOpen={isRestaurantOpen}
+                                category={foodItem?.category}
                             />
                         );
                     })}
             </ScrollView>
             <View>
-                {restaurant._id && restaurant?._id?.costOfTwo >= 0 && (
+                {items[0].restaurant && items[0]?.restaurant.costOfTwo >= 0 && (
                     <Text
                         style={[
                             fonts.NUNITO_700_12,
                             { color: colors.GREY_MEDIUM },
                         ]}>
-                        {restaurant._id.costOfTwo} for one
+                        {items[0]?.restaurant.costOfTwo} for one
                     </Text>
                 )}
-                {/* {restaurant._id &&
-          restaurant._id.timings &&
-          restaurant._id.timings[0] && (
-            <Text style={[fonts.NUNITO_700_10, { color: colors.GREY_MEDIUM }]}>
-              {restaurant._id.timings[0].openingTime} -{' '}
-              {restaurant._id.timings[0].closingTime}
-            </Text>
-          )} */}
             </View>
         </View>
     );
@@ -147,4 +140,4 @@ const styles = StyleSheet.create({
     foodItems: {},
 });
 
-export default RestaurantWithFoodItems;
+export default RestaurantWithItems;

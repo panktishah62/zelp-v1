@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { isPointInPolygon, isTimeInIntervals } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
 import { getAllCategorisedRestaurants } from '../../redux/services/restaurantService';
+import { searchbyAlgolia } from '../../redux/services/searchService';
 
 const CategorisedRestaurant = ({ route, navigation }) => {
     const { category } = route.params;
@@ -25,23 +26,26 @@ const CategorisedRestaurant = ({ route, navigation }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const getAllRestaurants = async (lat, long) => {
-        await getAllCategorisedRestaurants(category, lat, long)
-            .then(response => response?.data)
-            .then(data => {
-                if (data) {
-                    const restaurants = data?.restaurants?.sort(function (
-                        a,
-                        b,
-                    ) {
-                        return !isTimeInIntervals(a.restaurant._id.timings);
-                    });
-                    setRestaurantData(restaurants);
-                    setIsLoading(false);
-                }
-            })
-            .catch(error => {
-                throw new Error(error);
+        await searchbyAlgolia(
+            category,
+            location?.latitude,
+            location?.longitude,
+        ).then(data => {
+            let restaurants = [];
+            if (data?.data) {
+                Object.keys(data?.data).map(rest => {
+                    if (data.data[rest]?.length > 0) {
+                        restaurants.push(data.data[rest][0]?.restaurant);
+                    }
+                });
+            }
+            restaurants = restaurants?.sort(function (a, b) {
+                return !isTimeInIntervals(a.timings);
             });
+            setRestaurantData(restaurants);
+
+            setIsLoading(false);
+        });
     };
 
     useEffect(() => {
@@ -74,7 +78,10 @@ const CategorisedRestaurant = ({ route, navigation }) => {
                             return (
                                 <RestaurantCardLarge
                                     restaurantObject={{
-                                        restaurant: restaurant?.restaurant?._id,
+                                        restaurant: restaurant,
+                                        isRestaurantOpen: isTimeInIntervals(
+                                            restaurant.timings,
+                                        ),
                                     }}
                                     navigation={navigation}
                                     key={index}

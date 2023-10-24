@@ -20,58 +20,27 @@ import { dynamicSize } from '../../utils/responsive';
 import { searchRestaurants_ } from '../../redux/services/restaurantService';
 
 const SearchAllRestaurants = props => {
-    const { searchRestaurants, searchFoodItems, location } = props;
+    const { searchRestaurants, searchFoodItems, searchedData, location } =
+        props;
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
     const [isLoading, setIsLoading] = useState(false);
     const [updatedSearchedRestaurants, setUpdatedSearchedRestaurants] =
         useState([]);
-    const SearchRestaurants = async text_ => {
-        try {
-            // perform search for food items with the given query
-            await searchRestaurants_(
-                text_,
-                location?.latitude,
-                location?.longitude,
-            )
-                .then(response => response?.data)
-                .then(data => {
-                    if (data.status === 'success') {
-                        setIsLoading(false);
-                        const restaurants = data?.restaurants?.sort(function (
-                            a,
-                            b,
-                        ) {
-                            return !isTimeInIntervals(
-                                a?.restaurant?._id?.timings,
-                            );
-                        });
-                        setUpdatedSearchedRestaurants(restaurants);
-                        setIsLoading(false);
-                    } else {
-                        setIsLoading(false);
-                        throw new Error(
-                            data.message ? data?.message : UNEXPECTED_ERROR,
-                        );
-                    }
-                })
-                .catch(error => {
-                    setIsLoading(false);
-                    throw new Error(error);
-                });
-            setIsLoading(false);
-        } catch (error) {
-            setIsLoading(false);
-            throw new Error(error);
-        }
-    };
 
     useEffect(() => {
-        if (searchRestaurants === undefined || searchRestaurants?.length == 0) {
-            setIsLoading(true);
-            SearchRestaurants();
+        const restaurants = [];
+        if (searchedData?.data) {
+            Object.keys(searchedData?.data).map(restaurant => {
+                if (searchedData?.data[restaurant]?.length > 0) {
+                    restaurants.push(
+                        searchedData?.data[restaurant][0].restaurant,
+                    );
+                }
+            });
+            setUpdatedSearchedRestaurants(restaurants);
         }
-    }, []);
+    }, [searchedData]);
 
     return (
         <ErrorHandler>
@@ -85,29 +54,19 @@ const SearchAllRestaurants = props => {
                 ]}>
                 <ScrollView contentContainerStyle={styles.container}>
                     <View>
-                        {searchRestaurants && searchRestaurants.length > 0 && (
-                            <Text style={styles.selectedItem}>
-                                Suggested Restaurants
-                            </Text>
-                        )}
-                        {searchRestaurants &&
-                            searchRestaurants?.length > 0 &&
-                            searchRestaurants.map((restaurant, index) => {
-                                return (
-                                    <RestaurantCardInfo
-                                        restaurant={restaurant?.restaurant}
-                                        key={index}
-                                        navigation={navigation}
-                                    />
-                                );
-                            })}
+                        {updatedSearchedRestaurants &&
+                            updatedSearchedRestaurants?.length > 0 && (
+                                <Text style={styles.selectedItem}>
+                                    Suggested Restaurants
+                                </Text>
+                            )}
                         {updatedSearchedRestaurants &&
                             updatedSearchedRestaurants?.length > 0 &&
                             updatedSearchedRestaurants.map(
                                 (restaurant, index) => {
                                     return (
                                         <RestaurantCardInfo
-                                            restaurant={restaurant?.restaurant}
+                                            restaurant={restaurant}
                                             key={index}
                                             navigation={navigation}
                                         />
@@ -115,31 +74,10 @@ const SearchAllRestaurants = props => {
                                 },
                             )}
                     </View>
-                    <View>
-                        {searchFoodItems && searchFoodItems?.length > 0 && (
-                            <Text style={styles.selectedItem}>
-                                Suggested Restaurants for searched FoodItem
-                            </Text>
-                        )}
-                        {searchFoodItems &&
-                            searchFoodItems?.length > 0 &&
-                            searchFoodItems.map((restaurant, index) => {
-                                return (
-                                    <RestaurantCardInfo
-                                        restaurant={restaurant?.restaurant._id}
-                                        key={index}
-                                        navigation={navigation}
-                                    />
-                                );
-                            })}
-                    </View>
                 </ScrollView>
                 <View style={styles.indicatorContainer}>
                     {!isLoading &&
-                        searchRestaurants &&
-                        searchRestaurants.length == 0 &&
-                        searchFoodItems &&
-                        searchFoodItems.length == 0 &&
+                        searchedData &&
                         updatedSearchedRestaurants &&
                         updatedSearchedRestaurants.length == 0 && <NotFound />}
                 </View>

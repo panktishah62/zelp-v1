@@ -67,7 +67,6 @@ export function calculateTotal(billingData) {
             Number(config?.deliveryPartnerFees) +
             Number(config?.packagingCharges) +
             Number(config?.deliveryTip) +
-            Number(taxes) +
             Number(totalDeliveryCharge);
 
         if (!canApplyCoupon) {
@@ -104,7 +103,8 @@ export function calculateTotal(billingData) {
             totalAmountBeforeDiscount -
             Number(maxWalletMoneyToUse) -
             Number(maxRefferalCoinToUse) -
-            Number(discountAmount);
+            Number(discountAmount) +
+            Number(taxes);
 
         billingDetails = {
             totalItemsPrice: totalPriceByRestaurant,
@@ -226,7 +226,7 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
     const restaurants = state?.restaurants;
     const config = state?.config;
     let isWalletMoneyUsed = state?.isWalletMoneyUsed;
-    const isReferralCoinsUsed = state?.isReferralCoinsUsed;
+    let isReferralCoinsUsed = state?.isReferralCoinsUsed;
     let count = state?.foodItemsCount;
     const discountAmount = state?.discountAmount;
     const coupon = state?.coupon;

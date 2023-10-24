@@ -28,6 +28,7 @@
         "@react-navigation/native": "^6.1.7",
         "@react-navigation/native-stack": "^6.9.13",
         "@types/react-native-snap-carousel": "^3.8.5",
+        "algoliasearch": "^4.20.0",
         "axios": "^1.4.0",
         "date-fns": "^2.30.0",
         "geolib": "^3.3.4",
