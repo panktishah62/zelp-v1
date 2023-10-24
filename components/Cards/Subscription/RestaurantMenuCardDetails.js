@@ -4,6 +4,7 @@ import { colors } from '../../../styles/colors';
 import { dimensions, fonts } from '../../../styles';
 import { SvgUri } from 'react-native-svg';
 import { dynamicSize } from '../../../utils/responsive';
+import FastImage from 'react-native-fast-image';
 
 const RestaurantMenuCardDetails = props => {
     const subscriptionPlan = props.subscriptionPlan;
@@ -11,7 +12,7 @@ const RestaurantMenuCardDetails = props => {
         <View style={styles.mainContainer}>
             <View style={styles.imageContainer}>
                 {subscriptionPlan?.image && (
-                    <Image
+                    <FastImage
                         source={{ uri: subscriptionPlan?.image }}
                         style={styles.image}
                     />
@@ -21,7 +22,7 @@ const RestaurantMenuCardDetails = props => {
                 <View style={styles.firstContainer}>
                     <View style={styles.buttonContainer}>
                         {!subscriptionPlan.icon && (
-                            <Image
+                            <FastImage
                                 source={require('../../../assets/images/Subscription/bronze_medal.png')}
                             />
                         )}
@@ -43,7 +44,7 @@ const RestaurantMenuCardDetails = props => {
                     </View>
                 </View>
                 <View style={styles1.secondContainer}>
-                    <Image
+                    <FastImage
                         source={require('../../../assets/images/Subscription/cycle.png')}
                     />
                     <Text style={styles1.firstText}>

@@ -4,6 +4,7 @@ import { dimensions, fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
 import { useDispatch } from 'react-redux';
 import { removeSubscriptionCoupon } from '../../../redux/actions/subscriptionCoupon';
+import FastImage from 'react-native-fast-image';
 
 const PromoCodesAndOffers = props => {
     const { promoCode = '', offer = '', navigation, data } = props;
@@ -25,7 +26,7 @@ const PromoCodesAndOffers = props => {
             <View style={styles.container}>
                 <View style={styles.firstContainer}>
                     <View style={styles.leftContainer}>
-                        <Image
+                        <FastImage
                             source={require('../../../assets/images/Subscription/promoCode.png')}
                         />
                         <Text style={styles.leftText}>Promocode & Offers</Text>
@@ -46,7 +47,7 @@ const PromoCodesAndOffers = props => {
                                 <Text style={boxStyle.offerText}>-{offer}</Text>
                             </View>
                             <TouchableOpacity onPress={onRemoveCoupon}>
-                                <Image
+                                <FastImage
                                     source={require('../../../assets/images/Subscription/cross.png')}
                                 />
                             </TouchableOpacity>

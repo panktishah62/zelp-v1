@@ -1,8 +1,9 @@
 import React from 'react';
-import { Image, Text, StyleSheet, View } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
 import { fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
 import HowToStart from './HowToStart';
+import FastImage from 'react-native-fast-image';
 
 const MealComponent = props => {
     const bestMealArr = props.bestMealArr;
@@ -16,7 +17,7 @@ const MealComponent = props => {
                     {rowData.map((item, index) => (
                         <View style={styles.box} key={index}>
                             {item.imageSource && (
-                                <Image
+                                <FastImage
                                     style={styles.imageStyle}
                                     source={{ uri: item.imageSource }}
                                 />
@@ -35,7 +36,7 @@ const MealComponent = props => {
         <View>
             <View style={styles.wrapperMealText}>
                 <View style={styles.bestMealContainer}>
-                    <Image
+                    <FastImage
                         source={require('../../../assets/images/Subscription/star.png')}
                     />
 
@@ -50,7 +51,7 @@ const MealComponent = props => {
                     />
                     <Text style={styles.text}>You can Choose</Text>
 
-                    <Image
+                    <FastImage
                         source={require('../../../assets/images/Subscription/star.png')}
                     />
                 </View>

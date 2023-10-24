@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
 import LinearGradient from 'react-native-linear-gradient';
@@ -10,6 +10,7 @@ import { dynamicSize } from '../../../utils/responsive';
 import { SvgUri } from 'react-native-svg';
 import { calculateTotal } from '../../../redux/services/subscriptionCartCalculations';
 import { selectSubscriptionPlan } from '../../../redux/actions/subscriptionActions';
+import FastImage from 'react-native-fast-image';
 
 const CaroselComponent = props => {
     const { navigation, showKnowMore } = props;
@@ -61,13 +62,13 @@ const CaroselComponent = props => {
                 <View style={[styles.conatiner, styles.shadow]} key={index}>
                     <View style={styles.imageContainer}>
                         {item.image && (
-                            <Image
+                            <FastImage
                                 style={styles.imageStyle}
                                 source={{ uri: item.image }}
                             />
                         )}
                         {!item.image && (
-                            <Image
+                            <FastImage
                                 style={styles.imageStyle}
                                 source={require('../../../assets/images/Subscription/food_item_1.png')}
                             />
@@ -115,7 +116,7 @@ const CaroselComponent = props => {
                                 <Text style={styles.knowMoreText}>
                                     Know More
                                 </Text>
-                                <Image
+                                <FastImage
                                     source={require('../../../assets/images/Subscription/info.png')}
                                 />
                             </View>

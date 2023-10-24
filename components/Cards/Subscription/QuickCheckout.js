@@ -26,6 +26,7 @@ import {
 import ItemCard from './ItemCard';
 import { showDialog } from '../../../redux/actions/dialog';
 import { DialogTypes } from '../../../utils';
+import FastImage from 'react-native-fast-image';
 
 const QuickCheckout = props => {
     const { navigation } = props;
@@ -70,7 +71,7 @@ const QuickCheckout = props => {
                     <View style={styles1.firstContainer}>
                         <View style={styles1.imageContainer}>
                             {item?.combo?.image && (
-                                <Image
+                                <FastImage
                                     style={styles1.image}
                                     source={{ uri: item.combo.image }}
                                 />
@@ -94,11 +95,11 @@ const QuickCheckout = props => {
                         onPress={() => reorderButtonHandler(item?.combo)}>
                         <View style={styles1.secondContainer}>
                             <View style={styles1.iconContainer}>
-                                <Image
+                                <FastImage
                                     style={styles1.icon}
                                     source={require('../../../assets/images/Subscription/leftRoundArrow.png')}
                                 />
-                                <Image
+                                <FastImage
                                     style={styles1.icon}
                                     source={require('../../../assets/images/Subscription/rightRoundArrow.png')}
                                 />

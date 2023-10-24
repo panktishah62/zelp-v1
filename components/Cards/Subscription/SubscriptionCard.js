@@ -4,16 +4,17 @@ import { View } from 'react-native';
 
 import { colors } from '../../../styles/colors';
 import { fonts } from '../../../styles';
+import FastImage from 'react-native-fast-image';
 
 const SubscriptionCard = props => {
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
-                <Image
+                <FastImage
                     style={styles.upImage}
                     source={require('../../../assets/images/Subscription/Intersect.png')}
                 />
-                <Image
+                <FastImage
                     style={styles.downImage}
                     source={require('../../../assets/images/Subscription/delivery_boy.png')}
                 />

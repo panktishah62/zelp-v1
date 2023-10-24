@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../../../styles/colors';
 import { dimensions, fonts } from '../../../styles';
 import { dynamicSize } from '../../../utils/responsive';
+import FastImage from 'react-native-fast-image';
 
 const ParagraphComp = props => {
     const minValidity = props.minValidity;
@@ -13,10 +14,10 @@ const ParagraphComp = props => {
             <View style={styles.wrapper}>
                 <View style={styles.container}>
                     <View style={styles.firstContainer}>
-                        <Image
+                        <FastImage
                             source={require('../../../assets/images/Subscription/line.png')}
                         />
-                        <Image
+                        <FastImage
                             source={require('../../../assets/images/Subscription/circle.png')}
                         />
                     </View>
@@ -31,10 +32,10 @@ const ParagraphComp = props => {
                         </Text>
                     </View>
                     <View style={styles.thirdContainer}>
-                        <Image
+                        <FastImage
                             source={require('../../../assets/images/Subscription/circle.png')}
                         />
-                        <Image
+                        <FastImage
                             style={styles.image}
                             source={require('../../../assets/images/Subscription/line.png')}
                         />
@@ -43,7 +44,7 @@ const ParagraphComp = props => {
             </View>
             {specialOfferBanner && (
                 <View style={styles.imageContainer}>
-                    <Image
+                    <FastImage
                         style={styles.imageStyle}
                         source={{ uri: specialOfferBanner }}
                     />

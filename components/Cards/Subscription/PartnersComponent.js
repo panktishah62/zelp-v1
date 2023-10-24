@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import TextSurroundedByLine from './TextSurroundedByLine';
 import { dimensions, fonts } from '../../../styles';
 import { getPartnerRestaurants } from '../../../redux/services/subscriptionService';
 import { colors } from '../../../styles/colors';
 import { dynamicSize } from '../../../utils/responsive';
+import FastImage from 'react-native-fast-image';
 
 const PartnersComponent = props => {
     const [partnerRestaurants, setPartnerRestaurantsArr] = useState([]);
@@ -25,7 +26,7 @@ const PartnersComponent = props => {
                 <View key={index} style={styles.item}>
                     <View style={styles.imageText}>
                         {item.restaurantImage && (
-                            <Image
+                            <FastImage
                                 style={styles.imageTextImage}
                                 source={{
                                     uri: item.restaurantImage,

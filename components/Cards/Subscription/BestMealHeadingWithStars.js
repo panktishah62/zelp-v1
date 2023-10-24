@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { colors } from '../../../styles/colors';
 import { fonts } from '../../../styles';
+import FastImage from 'react-native-fast-image';
 
 const BestMealHeadingWithStars = props => {
     return (
         <View style={styles.wrapperMealText}>
             <View style={styles.bestMealContainer}>
-                <Image
+                <FastImage
                     source={require('../../../assets/images/Subscription/star.png')}
                 />
 
@@ -18,7 +19,7 @@ const BestMealHeadingWithStars = props => {
                 <View style={[styles.horizontalLine, styles.changeLineColor]} />
                 <Text style={styles.text}>You can Choose</Text>
 
-                <Image
+                <FastImage
                     source={require('../../../assets/images/Subscription/star.png')}
                 />
             </View>

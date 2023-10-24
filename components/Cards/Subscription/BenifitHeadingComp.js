@@ -1,12 +1,13 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { colors } from '../../../styles/colors';
 import { fonts } from '../../../styles';
+import FastImage from 'react-native-fast-image';
 const BenifitHeadingComp = props => {
     return (
         <View style={styles.wrapperMealText}>
             <View style={styles.bestMealContainer}>
-                <Image
+                <FastImage
                     source={require('../../../assets/images/Subscription/star.png')}
                 />
 
@@ -28,7 +29,7 @@ const BenifitHeadingComp = props => {
                     Subscription
                 </Text>
 
-                <Image
+                <FastImage
                     source={require('../../../assets/images/Subscription/star.png')}
                 />
             </View>

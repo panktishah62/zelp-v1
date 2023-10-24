@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
 import { dynamicSize, normalizeFont } from '../../../utils/responsive';
@@ -7,6 +7,7 @@ import STAR_ICON from '../../../assets/icons/starIcon.svg';
 import SELECTED_ICON from '../../../assets/icons/Selected.svg';
 import { useSelector } from 'react-redux';
 import KNOW_MORE from '../../../assets/icons/know_more.svg';
+import FastImage from 'react-native-fast-image';
 
 const ComboCard = props => {
     const {
@@ -35,7 +36,7 @@ const ComboCard = props => {
             <View style={styles.imageContainer}>
                 {item?.image && (
                     <View style={styles.innerImageContainer}>
-                        <Image
+                        <FastImage
                             style={styles.dishImage}
                             source={{ uri: item.image }}
                             resizeMode="cover"

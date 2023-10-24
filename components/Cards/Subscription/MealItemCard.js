@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    Platform,
+} from 'react-native';
 import VEGICON from '../../../assets/icons/VegIcon.svg';
 import NONVEGICON from '../../../assets/icons/nonveg.svg';
 import { dynamicSize, normalizeFont } from '../../../utils/responsive';
@@ -11,6 +17,7 @@ import { dimensions, fonts } from '../../../styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { showDialog } from '../../../redux/actions/dialog';
 import { DialogTypes } from '../../../utils';
+import FastImage from 'react-native-fast-image';
 const MealItemCard = props => {
     const {
         item,
@@ -63,7 +70,7 @@ const MealItemCard = props => {
                 <View style={styles.leftContainer}>
                     {item?.image && (
                         <View style={styles.imageContainer}>
-                            <Image
+                            <FastImage
                                 style={styles.imageStyle}
                                 source={{ uri: item.image }}
                             />
@@ -97,16 +104,6 @@ const MealItemCard = props => {
                                 ellipsizeMode="tail">
                                 {item?.title}
                             </Text>
-                            {item?.rating && (
-                                <Text
-                                    style={[
-                                        styles.firstText,
-                                        { marginLeft: dynamicSize(3) },
-                                    ]}>
-                                    <STAR_ICON style={styles.iconStyle} />
-                                    {item.rating?.value}
-                                </Text>
-                            )}
                         </View>
                         <TouchableOpacity onPress={() => handleKnowMore(item)}>
                             <View style={styles.vegContainer}>
@@ -155,6 +152,18 @@ const MealItemCard = props => {
                         )}
                     </View>
                 </View>
+                <View style={styles.ratingContainer}>
+                    <STAR_ICON style={styles.iconStyle} />
+                    {item?.rating && (
+                        <Text
+                            style={[
+                                styles.firstText,
+                                // { marginLeft: dynamicSize(3) },
+                            ]}>
+                            {item.rating?.value}
+                        </Text>
+                    )}
+                </View>
             </View>
         </View>
     );
@@ -176,6 +185,11 @@ const styles = StyleSheet.create({
     nextImage: {
         marginLeft: dynamicSize(10),
     },
+    ratingContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     wrapperContainer: {
         display: 'flex',
         flexDirection: 'column',
@@ -186,6 +200,17 @@ const styles = StyleSheet.create({
         backgroundColor: colors.WHITE,
         borderRadius: dynamicSize(14),
         elevation: 5,
+        ...Platform.select({
+            ios: {
+                shadowColor: colors.BLACK,
+                shadowOffset: { width: 0, height: 6 },
+                shadowOpacity: 0.2,
+                shadowRadius: 10,
+            },
+            android: {
+                elevation: 5,
+            },
+        }),
     },
     middleTextContainer: {
         flexDirection: 'row',
@@ -204,9 +229,10 @@ const styles = StyleSheet.create({
     },
     leftContainer: {
         flex: 1,
-        width: '40%',
         height: '100%',
         width: '100%',
+        width: dynamicSize(110),
+        height: dynamicSize(130),
         flexShrink: 0,
         justifyContent: 'center',
         alignItems: 'center',
@@ -214,7 +240,7 @@ const styles = StyleSheet.create({
     },
     rightContainer: {
         display: 'flex',
-        width: '60%',
+        width: '45%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -270,6 +296,7 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: '400',
         paddingRight: dynamicSize(10),
+        marginBottom: dynamicSize(4),
     },
     gradient: {
         borderRadius: 14,

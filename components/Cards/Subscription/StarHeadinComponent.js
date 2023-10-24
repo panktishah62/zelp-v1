@@ -4,12 +4,13 @@ import { colors } from '../../../styles/colors';
 import { fonts } from '../../../styles';
 import CaroselComponent from './CaroselComponent';
 import { dynamicSize, normalizeFont } from '../../../utils/responsive';
+import FastImage from 'react-native-fast-image';
 const StarHeadingComponent = props => {
     const navigation = props.navigation;
     return (
         <View style={styles.wrapperMealText}>
             <View style={styles.bestMealContainer}>
-                <Image
+                <FastImage
                     source={require('../../../assets/images/Subscription/star.png')}
                 />
 
@@ -31,7 +32,7 @@ const StarHeadingComponent = props => {
                     for <Text style={styles.changeColor}>you</Text>
                 </Text>
 
-                <Image
+                <FastImage
                     source={require('../../../assets/images/Subscription/star.png')}
                 />
             </View>

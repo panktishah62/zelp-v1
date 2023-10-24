@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../../../styles/colors';
+import FastImage from 'react-native-fast-image';
 
 const PaymentSuccessfullCard = props => {
     const { navigation } = props;
@@ -27,11 +28,11 @@ const PaymentSuccessfullCard = props => {
             <Text style={styles.headingText}>Payment Status</Text>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
-                    <Image
+                    <FastImage
                         source={require('../../../assets/images/Subscription/orange_background.png')}
                     />
                     <View style={styles.tickImage}>
-                        <Image
+                        <FastImage
                             source={require('../../../assets/images/Subscription/tick-circle.png')}
                         />
                     </View>

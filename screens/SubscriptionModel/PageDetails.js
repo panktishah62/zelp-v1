@@ -140,6 +140,7 @@ const PageDetails = props => {
                         <AddOnMeals
                             toggleModal={toggleMealsModel}
                             isModalVisible={isAddOnModalVisible}
+                            navigation={navigation}
                         />
 
                         <HowToStart setIsVideoModalVisible={toggleVideoModal} />

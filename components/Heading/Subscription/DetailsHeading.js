@@ -44,9 +44,13 @@ const Timer = props => {
 
     return (
         secondsLeft > 0 && (
-            <Text style={textStyels.fourthText}>
-                {formatTime(secondsLeft)} Hrs
-            </Text>
+            <View style={styles.secondRight}>
+                <DISCOUNT_SVG />
+                <Text style={textStyels.secondText}>Limited Offer</Text>
+                <Text style={textStyels.fourthText}>
+                    {formatTime(secondsLeft)} Hrs
+                </Text>
+            </View>
         )
     );
 };
@@ -80,13 +84,7 @@ const DetailsHeading = props => {
                         {/* <Image
                             source={require('../../../assets/images/Subscription/discount.png')}
                         /> */}
-                        <DISCOUNT_SVG />
-                        <View style={styles.secondRight}>
-                            <Text style={textStyels.secondText}>
-                                Limited Offer
-                            </Text>
-                            <Timer discountEndDate={item?.discountEndDate} />
-                        </View>
+                        <Timer discountEndDate={item?.discountEndDate} />
                     </View>
                 )}
             </View>

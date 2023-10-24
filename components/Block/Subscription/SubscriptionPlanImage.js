@@ -2,15 +2,16 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, ScrollView } from 'react-native';
 import { dimensions } from '../../../styles';
 import { dynamicSize } from '../../../utils/responsive';
+import FastImage from 'react-native-fast-image';
 
 const SubscriptionPlanImage = props => {
     const uri = props.image;
     return (
         <View style={styles.wrapperContainer}>
             <View style={styles.container}>
-                {uri && <Image style={styles.image} source={{ uri }} />}
+                {uri && <FastImage style={styles.image} source={{ uri }} />}
                 {!uri && (
-                    <Image
+                    <FastImage
                         style={styles.image}
                         source={require('../../../assets/images/Subscription/food_item_3.png')}
                     />

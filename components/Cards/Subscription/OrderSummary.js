@@ -1,59 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-    ActivityIndicator,
-    AppState,
-} from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
-import { Linking } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
-import { subscribeToAPlan } from '../../../redux/services/subscriptionService';
 import { colors } from '../../../styles/colors';
-import { calculateTotal } from '../../../redux/services/subscriptionCartCalculations';
-import {
-    PAYMENT_CODES,
-    PAYMENT_INITIALIZATION_CODES,
-    paymentMethods,
-} from '../../../redux/constants/paymentConstants';
-import remoteConfig from '@react-native-firebase/remote-config';
-import { checkPaymentStatus } from '../../../redux/services/paymentService';
-import PaymentCallBackScreen from '../../../screens/Payments/PaymentCallBack';
-import { generateUUID } from '../../../utils';
-import { useIsFocused } from '@react-navigation/native';
 
 const OrderSummary = props => {
-    const route = props?.route;
     const openPaymentGateway = props?.openPaymentGateway;
-    const navigation = props?.navigation;
-    const subscriptionPlan = props?.data?.subscriptionPlan;
-    const subscriptionID = subscriptionPlan?._id;
-    const { mealCount } = useSelector(state => state.mealDetails);
-    const validity = props?.data?.validityBasedOnMeals;
     const total = props?.data?.totalPlanPrice;
     const GSTTaxes = props?.data?.config?.GSTTaxes;
     const deliveryFee = props?.data?.config?.deliveryFee;
     const taxableAmount = props?.data?.taxableAmount;
     const couponDiscount = props?.data?.couponDiscount;
     const final = props?.data?.totalAmount;
-
-    // const subscriptionDetails = async () => {
-    //     const response = await subscribeToAPlan(subscriptionID, {
-    //         validity: [{ meals: mealCount, validity, price: totalAmount }],
-    //         amount: final * 100,
-    //         redirectUrl: 'https://facebook.com',
-    //     });
-    //     const redirectURL =
-    //         response.data.data.data.instrumentResponse.redirectInfo.url;
-    //     openExternalURL(redirectURL);
-    // };
-
-    // const handlePaymentDetails = () => {
-    //     subscriptionDetails();
-    //     // navigation.navigate("SubscribedUserHome")
-    // };
 
     return (
         <View style={styles.wrapperContainer}>

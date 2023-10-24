@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { dimensions } from '../../../styles';
 import { ScrollView } from 'react-native-gesture-handler';
 import { colors } from '../../../styles/colors';
 import { dynamicSize } from '../../../utils/responsive';
+import FastImage from 'react-native-fast-image';
 
 const CarouselImageAtTop = props => {
     const { bannerImagesArr, isStatic } = props;
@@ -13,7 +14,7 @@ const CarouselImageAtTop = props => {
             <View style={[styles.shadow]} key={index}>
                 <View style={styles.imageContainer}>
                     {!isStatic && item.image && (
-                        <Image
+                        <FastImage
                             style={styles.imageStyle}
                             resizeMode="stretch"
                             source={{
@@ -22,7 +23,7 @@ const CarouselImageAtTop = props => {
                         />
                     )}
                     {isStatic && item.caroselImage && (
-                        <Image
+                        <FastImage
                             style={styles.imageStyle}
                             source={{ uri: item.caroselImage }}
                         />

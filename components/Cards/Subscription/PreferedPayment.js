@@ -4,6 +4,7 @@ import TextSurroundedByLine from './TextSurroundedByLine';
 import { dimensions } from '../../../styles';
 import { dynamicSize } from '../../../utils/responsive';
 import { colors } from '../../../styles/colors';
+import FastImage from 'react-native-fast-image';
 
 const PreferedPayment = props => {
     return (
@@ -14,7 +15,7 @@ const PreferedPayment = props => {
             <View style={styles.wrapperContainer}>
                 <View style={styles.container}>
                     <View style={styles.imageContainer}>
-                        <Image
+                        <FastImage
                             source={require('../../../assets/images/Subscription/phoneCard.png')}
                         />
                     </View>

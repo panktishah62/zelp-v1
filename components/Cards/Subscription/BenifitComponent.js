@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { dynamicSize, normalizeFont } from '../../../utils/responsive';
 import Svg, { SvgUri } from 'react-native-svg';
 import { fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
+import FastImage from 'react-native-fast-image';
 
 const BenifitComponent = props => {
     const { data, isDynamic } = props;
@@ -17,7 +18,7 @@ const BenifitComponent = props => {
                 data.map((item, index) => (
                     <View style={styles.innerContainer} key={index}>
                         {!isDynamic && item.image && (
-                            <Image source={item.image} />
+                            <FastImage source={item.image} />
                         )}
                         {item.svg && (
                             <SvgUri

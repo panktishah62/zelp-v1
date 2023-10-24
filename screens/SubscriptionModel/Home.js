@@ -88,6 +88,8 @@ const Home = props => {
                             ]}>
                             <Image
                                 source={require('../../assets/images/Subscription/home.png')}
+                                resizeMode="contain"
+                                style={styles.image}
                             />
                         </View>
                     </View>
@@ -124,6 +126,8 @@ const styles = StyleSheet.create({
     },
     imageScreen: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: colors.WHITE,
         width: dimensions.fullWidth,
     },
@@ -134,6 +138,9 @@ const styles = StyleSheet.create({
     },
     headerContainerStyles: {
         backgroundColor: 'transparent',
+    },
+    image: {
+        flex: 1,
     },
 });
 

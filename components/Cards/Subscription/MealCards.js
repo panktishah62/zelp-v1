@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { dimensions, fonts } from '../../../styles';
 import { dynamicSize, normalizeFont } from '../../../utils/responsive';
 import { useDispatch, useSelector } from 'react-redux';
