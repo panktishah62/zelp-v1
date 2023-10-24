@@ -1,10 +1,14 @@
+import { useDispatch } from 'react-redux';
 import { DialogTypes } from '../../utils';
 import { showDialog } from '../actions/dialog';
+import { store } from '../store';
 
 export function calculateTotal(billingData) {
     const restaurants = billingData?.restaurants;
     let isWalletMoneyUsed = billingData?.isWalletMoneyUsed;
     const config = billingData?.config;
+    let isReferralCoinsUsed = billingData?.isReferralCoinsUsed;
+
     let billingDetails = {};
     let discountAmount = billingData?.discountAmount
         ? billingData?.discountAmount
@@ -12,6 +16,7 @@ export function calculateTotal(billingData) {
     let coupon = billingData?.discountAmount ? billingData.coupon : null;
     const count = billingData?.count ? billingData?.count : 0;
     const walletMoney = billingData?.walletMoney;
+    const referralCoins = billingData?.referralCoinsUsed;
     let totalDeliveryCharge = 0;
     if (restaurants) {
         let totalPriceByRestaurant = 0;
@@ -62,7 +67,6 @@ export function calculateTotal(billingData) {
             Number(config?.deliveryPartnerFees) +
             Number(config?.packagingCharges) +
             Number(config?.deliveryTip) +
-            Number(taxes) +
             Number(totalDeliveryCharge);
 
         if (!canApplyCoupon) {
@@ -75,16 +79,32 @@ export function calculateTotal(billingData) {
             );
         }
 
+        const walletMoneyToDeduct =
+            walletMoney < config?.maxWalletMoneyToUse
+                ? walletMoney
+                : config?.maxWalletMoneyToUse;
         const maxWalletMoneyToUse = isWalletMoneyUsed
-            ? totalAmountBeforeDiscount <= walletMoney
+            ? totalAmountBeforeDiscount <= walletMoneyToDeduct
                 ? totalAmountBeforeDiscount
-                : walletMoney
+                : walletMoneyToDeduct
+            : 0;
+
+        const referralCoinsToDeduct =
+            referralCoins < config?.maxReferralCoinMoneyToUse
+                ? referralCoins
+                : config?.maxReferralCoinMoneyToUse;
+        const maxRefferalCoinToUse = isReferralCoinsUsed
+            ? totalAmountBeforeDiscount <= referralCoinsToDeduct
+                ? totalAmountBeforeDiscount
+                : referralCoinsToDeduct
             : 0;
 
         const totalAmount =
             totalAmountBeforeDiscount -
             Number(maxWalletMoneyToUse) -
-            Number(discountAmount);
+            Number(maxRefferalCoinToUse) -
+            Number(discountAmount) +
+            Number(taxes);
 
         billingDetails = {
             totalItemsPrice: totalPriceByRestaurant,
@@ -95,6 +115,7 @@ export function calculateTotal(billingData) {
             deliveryTip: config?.deliveryTip,
             taxes: taxes,
             walletMoney: isWalletMoneyUsed ? maxWalletMoneyToUse : 0,
+            referralCoinsUsed: isReferralCoinsUsed ? maxRefferalCoinToUse : 0,
             discountAmount: discountAmount,
             areChargesApplied: true,
         };
@@ -110,10 +131,14 @@ export function addItemToRestaurants(_foodItem, _restaurant, state) {
     const restaurants = state?.restaurants;
     const config = state?.config;
     const isWalletMoneyUsed = state?.isWalletMoneyUsed;
+    const isReferralCoinsUsed = state?.isReferralCoinsUsed;
     let count = state?.foodItemsCount;
     const discountAmount = state?.discountAmount;
     const coupon = state.coupon;
     const walletMoney = Number(state?.walletMoney ? state?.walletMoney : 0);
+    const referralCoinsUsed = Number(
+        state?.referralCoinsUsed ? state?.referralCoinsUsed : 0,
+    );
     if (restaurants && foodItem && restaurant) {
         const restaurantId = restaurant._id;
         const foodItemId = foodItem._id;
@@ -141,10 +166,12 @@ export function addItemToRestaurants(_foodItem, _restaurant, state) {
             restaurants,
             config,
             isWalletMoneyUsed,
+            isReferralCoinsUsed,
             discountAmount,
             coupon,
             count,
             walletMoney,
+            referralCoinsUsed,
         };
 
         const billingDetails = calculateTotal(billingData);
@@ -165,10 +192,12 @@ export function addItemToRestaurants(_foodItem, _restaurant, state) {
             restaurants: updatedRestaurants,
             config,
             isWalletMoneyUsed,
+            isReferralCoinsUsed,
             discountAmount,
             coupon,
             count,
             walletMoney,
+            referralCoinsUsed,
         };
 
         const billingDetails = calculateTotal(billingData);
@@ -179,10 +208,12 @@ export function addItemToRestaurants(_foodItem, _restaurant, state) {
         restaurants,
         config,
         isWalletMoneyUsed,
+        isReferralCoinsUsed,
         discountAmount,
         coupon,
         count,
         walletMoney,
+        referralCoinsUsed,
     };
 
     const billingDetails = calculateTotal(billingData);
@@ -195,10 +226,14 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
     const restaurants = state?.restaurants;
     const config = state?.config;
     let isWalletMoneyUsed = state?.isWalletMoneyUsed;
+    let isReferralCoinsUsed = state?.isReferralCoinsUsed;
     let count = state?.foodItemsCount;
     const discountAmount = state?.discountAmount;
     const coupon = state?.coupon;
     const walletMoney = Number(state?.walletMoney ? state?.walletMoney : 0);
+    const referralCoinsUsed = Number(
+        state?.referralCoinsUsed ? state?.referralCoinsUsed : 0,
+    );
     if (restaurants && foodItem && restaurant) {
         const restaurantId = restaurant._id;
         const foodItemId = foodItem._id;
@@ -225,6 +260,7 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
                 count: 0,
                 billingDetails: null,
                 isWalletMoneyUsed: false,
+                isReferralCoinsUsed: false,
             };
         }
 
@@ -232,17 +268,32 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
             restaurants,
             config,
             isWalletMoneyUsed,
+            isReferralCoinsUsed,
             discountAmount,
             coupon,
             count,
             walletMoney,
+            referralCoinsUsed,
         };
 
         const billingDetails = calculateTotal(billingData);
         if (billingDetails?.totalItemsPrice < config?.minOrderValueForWallet) {
             isWalletMoneyUsed = false;
         }
-        return { restaurants, count, billingDetails, isWalletMoneyUsed };
+        if (
+            billingDetails?.totalItemsPrice <
+            config?.minOrderValueForReferralCoins
+        ) {
+            isReferralCoinsUsed = false;
+        }
+
+        return {
+            restaurants,
+            count,
+            billingDetails,
+            isWalletMoneyUsed,
+            isReferralCoinsUsed,
+        };
     }
 
     const billingData = {
@@ -259,7 +310,18 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
     if (billingDetails?.totalItemsPrice < config?.minOrderValueForWallet) {
         isWalletMoneyUsed = false;
     }
-    return { restaurants, count, billingDetails, isWalletMoneyUsed };
+    if (
+        billingDetails?.totalItemsPrice < config?.minOrderValueForReferralCoins
+    ) {
+        isReferralCoinsUsed = false;
+    }
+    return {
+        restaurants,
+        count,
+        billingDetails,
+        isWalletMoneyUsed,
+        isReferralCoinsUsed,
+    };
 }
 
 export function reorder(orderData, _state) {
@@ -285,11 +347,7 @@ export function reorder(orderData, _state) {
 
 export function canApplyWallet(_state, _showDialog = true) {
     const state = _state;
-    if (
-        state?.walletMoney &&
-        state?.config &&
-        Number(state?.walletMoney) > Number(state?.config?.maxWalletMoneyToUse)
-    ) {
+    if (state?.isReferralCoinsUsed) {
         return false;
     }
     if (
@@ -563,3 +621,29 @@ export function isCouponValidForCart(
     }
     return false;
 }
+
+export const canApplyReferralCodeMoney = (_state, _showDialog = true) => {
+    const state = _state;
+    if (state?.isWalletMoneyUsed) {
+        return false;
+    }
+    if (
+        state?.referralCoinsUsed &&
+        state?.config &&
+        Number(state?.referralCoinsUsed) >
+            Number(state?.config?.maxReferralCoinsToUse)
+    ) {
+        return false;
+    }
+
+    if (
+        state?.billingDetails &&
+        state?.config &&
+        Number(state?.billingDetails?.totalItemsPrice) >
+            Number(state?.config?.minOrderValue)
+    ) {
+        return true;
+    } else {
+        return true;
+    }
+};

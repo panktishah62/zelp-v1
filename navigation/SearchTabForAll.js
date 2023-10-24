@@ -12,7 +12,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const SearchTabForAll = props => {
     const dispatch = useDispatch();
-    const { searchFoodItems, searchRestaurants, location } = props;
+    const { location, searchedData } = props;
 
     return (
         <Tab.Navigator
@@ -29,7 +29,7 @@ const SearchTabForAll = props => {
                 name="Dishes"
                 children={() => (
                     <SearchAllDishes
-                        searchFoodItems={searchFoodItems}
+                        searchedData={searchedData}
                         location={location}
                     />
                 )}
@@ -38,8 +38,7 @@ const SearchTabForAll = props => {
                 name="Restaurants"
                 children={() => (
                     <SearchAllRestaurants
-                        searchRestaurants={searchRestaurants}
-                        searchFoodItems={searchFoodItems}
+                        searchedData={searchedData}
                         location={location}
                     />
                 )}

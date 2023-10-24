@@ -48,6 +48,20 @@ const BillDetails = props => {
                             </View>
                         </View>
                     )}
+                    {cart && (
+                        <View style={styles.innerContainer}>
+                            <Text style={styles.text}>
+                                Money From Referral Coins
+                            </Text>
+                            <View style={styles.amount}>
+                                <Text style={styles.priceText}> - </Text>
+                                <Rupee />
+                                <Text style={styles.priceText}>
+                                    {cart?.referralCoinsUsed}
+                                </Text>
+                            </View>
+                        </View>
+                    )}
                     {cart && cart.couponDiscount >= 0 && (
                         <View style={styles.innerContainer}>
                             <Text style={styles.text}>Coupon Discount</Text>

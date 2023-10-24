@@ -3,87 +3,140 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import Landing from '../../screens/Home/Landing';
 import { dimensions } from '../../styles';
-import { GRANTED, getRandom } from '../../utils';
-import FloatingApples from './FloatingApple';
-import FloatingBaggle from './FloatingBaggle';
-import FloatingBowls from './FloatingBowl';
-import FloatingBurgers from './FloatingBurgers';
-import FloatingCupcakes from './FloatingCupcakes';
+import { getRandom, getRandomInt } from '../../utils';
 import FloatingEllipseLarge from './FloatingEllipseLarge';
 import FloatingEllipseMini from './FloatingEllipseMini';
-import FloatingPinkApple from './FloatingPinkApple';
-import FloatingSandwich from './FloatingSandwich';
-import { colors } from '../../styles/colors';
-import Explore from '../../screens/Home/Explore';
-import { TAB_BAR_HEIGHT } from '../../redux/constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import remoteConfig from '@react-native-firebase/remote-config';
+import FloatingItems from './FloatingItems';
 
 export default function Float({}) {
     const MIN = 0;
     const MAX = 10000;
     const insets = useSafeAreaInsets();
+
+    const floatingIcons = JSON.parse(
+        remoteConfig().getValue('FloatingIcons').asString(),
+    );
+
     return (
         <LinearGradient
             style={styles.mainContainer}
             colors={['#FFFFFF', '#FD7A33']}>
             <View style={styles.container}>
                 <View style={styles.column}>
-                    <FloatingBurgers delay={getRandom(MIN, MAX)} />
                     <FloatingEllipseMini delay={getRandom(MIN, MAX)} />
-                    <FloatingPinkApple delay={getRandom(MIN, MAX)} />
-                    <FloatingCupcakes delay={getRandom(MIN, MAX)} />
-                    <FloatingBaggle delay={getRandom(MIN, MAX)} />
-                    <FloatingBowls delay={getRandom(MIN, MAX)} />
+                    {floatingIcons?.floatingIcons?.length > 0 &&
+                        floatingIcons.floatingIcons.map((item, index) => {
+                            return (
+                                <FloatingItems
+                                    key={index}
+                                    delay={getRandom(MIN, MAX)}
+                                    icon={
+                                        floatingIcons?.floatingIcons[
+                                            getRandomInt(
+                                                MIN,
+                                                floatingIcons.floatingIcons
+                                                    .length,
+                                            )
+                                        ]
+                                    }
+                                />
+                            );
+                        })}
                     <FloatingEllipseLarge delay={getRandom(MIN, MAX)} />
-                    <FloatingEllipseMini delay={getRandom(MIN, MAX)} />
-                    <FloatingApples delay={getRandom(MIN, MAX)} />
                 </View>
                 <View style={styles.column}>
                     <FloatingEllipseLarge delay={getRandom(MIN, MAX)} />
-                    <FloatingSandwich delay={getRandom(MIN, MAX)} />
+                    {floatingIcons?.floatingIcons?.length > 0 &&
+                        floatingIcons.floatingIcons.map((item, index) => {
+                            return (
+                                <FloatingItems
+                                    key={index}
+                                    delay={getRandom(MIN, MAX)}
+                                    icon={
+                                        floatingIcons?.floatingIcons[
+                                            getRandomInt(
+                                                MIN,
+                                                floatingIcons.floatingIcons
+                                                    .length,
+                                            )
+                                        ]
+                                    }
+                                />
+                            );
+                        })}
+
                     <FloatingEllipseMini delay={getRandom(MIN, MAX)} />
-                    <FloatingBurgers delay={getRandom(MIN, MAX)} />
-                    <FloatingCupcakes delay={getRandom(MIN, MAX)} />
-                    <FloatingApples delay={getRandom(MIN, MAX)} />
-                    <FloatingEllipseMini delay={getRandom(MIN, MAX)} />
-                    <FloatingBaggle delay={getRandom(MIN, MAX)} />
-                    <FloatingBowls delay={getRandom(MIN, MAX)} />
                 </View>
                 <View style={styles.column}>
-                    <FloatingBowls delay={getRandom(MIN, MAX)} />
-                    <FloatingCupcakes delay={getRandom(MIN, MAX)} />
-                    <FloatingSandwich delay={getRandom(MIN, MAX)} />
                     <FloatingEllipseMini delay={getRandom(MIN, MAX)} />
+                    {floatingIcons?.floatingIcons?.length > 0 &&
+                        floatingIcons.floatingIcons.map((item, index) => {
+                            return (
+                                <FloatingItems
+                                    key={index}
+                                    delay={getRandom(MIN, MAX)}
+                                    icon={
+                                        floatingIcons?.floatingIcons[
+                                            getRandomInt(
+                                                MIN,
+                                                floatingIcons.floatingIcons
+                                                    .length,
+                                            )
+                                        ]
+                                    }
+                                />
+                            );
+                        })}
+
                     <FloatingEllipseLarge delay={getRandom(MIN, MAX)} />
-                    <FloatingBaggle delay={getRandom(MIN, MAX)} />
-                    <FloatingApples delay={getRandom(MIN, MAX)} />
-                    <FloatingBurgers delay={getRandom(MIN, MAX)} />
-                    <FloatingPinkApple delay={getRandom(MIN, MAX)} />
-                    <FloatingEllipseMini delay={getRandom(MIN, MAX)} />
                 </View>
                 <View style={styles.column}>
-                    <FloatingEllipseMini delay={getRandom(MIN, MAX)} />
-                    <FloatingApples delay={getRandom(MIN, MAX)} />
-                    <FloatingSandwich delay={getRandom()} />
-                    <FloatingBurgers delay={getRandom()} />
-                    <FloatingEllipseLarge delay={getRandom()} />
-                    <FloatingCupcakes delay={getRandom()} />
-                    <FloatingPinkApple delay={getRandom()} />
-                    <FloatingEllipseMini delay={getRandom()} />
-                    <FloatingBaggle delay={getRandom()} />
-                    <FloatingBowls delay={getRandom(MIN, MAX)} />
-                </View>
-                <View style={styles.column}>
-                    <FloatingSandwich delay={getRandom(MIN, MAX)} />
-                    <FloatingCupcakes delay={getRandom(MIN, MAX)} />
-                    <FloatingEllipseMini delay={getRandom(MIN, MAX)} />
-                    <FloatingBaggle delay={getRandom(MIN, MAX)} />
-                    <FloatingEllipseMini delay={getRandom(MIN, MAX)} />
-                    <FloatingBowls delay={getRandom(MIN, MAX)} />
-                    <FloatingApples delay={getRandom(MIN, MAX)} />
                     <FloatingEllipseLarge delay={getRandom(MIN, MAX)} />
-                    <FloatingBurgers delay={getRandom(MIN, MAX)} />
-                    <FloatingPinkApple delay={getRandom(MIN, MAX)} />
+                    {floatingIcons?.floatingIcons?.length > 0 &&
+                        floatingIcons.floatingIcons.map((item, index) => {
+                            return (
+                                <FloatingItems
+                                    key={index}
+                                    delay={getRandom(MIN, MAX)}
+                                    icon={
+                                        floatingIcons?.floatingIcons[
+                                            getRandomInt(
+                                                MIN,
+                                                floatingIcons.floatingIcons
+                                                    .length,
+                                            )
+                                        ]
+                                    }
+                                />
+                            );
+                        })}
+
+                    <FloatingEllipseMini delay={getRandom(MIN, MAX)} />
+                </View>
+                <View style={styles.column}>
+                    <FloatingEllipseMini delay={getRandom(MIN, MAX)} />
+                    {floatingIcons?.floatingIcons?.length > 0 &&
+                        floatingIcons.floatingIcons.map((item, index) => {
+                            return (
+                                <FloatingItems
+                                    key={index}
+                                    delay={getRandom(MIN, MAX)}
+                                    icon={
+                                        floatingIcons?.floatingIcons[
+                                            getRandomInt(
+                                                MIN,
+                                                floatingIcons.floatingIcons
+                                                    .length,
+                                            )
+                                        ]
+                                    }
+                                />
+                            );
+                        })}
+
+                    <FloatingEllipseLarge delay={getRandom(MIN, MAX)} />
                 </View>
             </View>
         </LinearGradient>

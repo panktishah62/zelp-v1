@@ -30,6 +30,17 @@ const CouponCardForCart = props => {
                     type: DialogTypes.WARNING,
                 }),
             );
+        } else if (cart?.isReferralCoinsUsed) {
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Cannot apply coupon!',
+                    subTitleText:
+                        'Coupon Cannot be applied along with referral coins. Remove referral coins to apply coupon',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
         } else {
             navigation.navigate('Coupons');
         }

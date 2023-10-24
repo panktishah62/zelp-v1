@@ -30,6 +30,7 @@ import {
     getOffersRestaurants,
     getTopRated,
 } from '../../redux/services/restaurantService';
+import BannerOnHomeScreen from '../../components/Banners/BannerOnHomeScreen';
 
 const Explore = props => {
     const { location, navigation } = props;
@@ -179,6 +180,8 @@ const Explore = props => {
                             </View>
                         </View>
 
+                        <BannerOnHomeScreen navigation={navigation} />
+
                         {offers.length > 0 && (
                             <View
                                 style={[
@@ -226,7 +229,7 @@ const Explore = props => {
                         )}
 
                         {/* Choose from frokers */}
-                        <LinearGradient
+                        {/* <LinearGradient
                             style={styles.container2}
                             colors={[
                                 colors.ORANGE_GRADIENT_LIGHT,
@@ -245,7 +248,7 @@ const Explore = props => {
                                     );
                                 })}
                             </View>
-                        </LinearGradient>
+                        </LinearGradient> */}
 
                         {/* Choose from Posts/reels */}
                         {/* <View style={styles.container3}>

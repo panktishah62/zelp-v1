@@ -6,6 +6,7 @@ import {
     CART_ACTIONS_ERROR,
     CHANGE_CART_ADDRESS,
     GET_USER_WALLET,
+    GET_USER_REFERRAL_CODE_MONEY,
     NETWORK_ERROR,
     REDEEM_COUPON,
     REMOVE_COUPON,
@@ -13,6 +14,10 @@ import {
     REMOVE_WALLET_MONEY_FROM_CART,
     RESET_CART_ACTIONS,
     RESET_CART_ERROR,
+    APPLY_REFERRAL_CODE_MONEY,
+    REMOVE_REFERRAL_CODE_MONEY,
+    GET_USER_REFERRAL_COIN_MONEY,
+    UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE,
 } from '../constants';
 import { ADD_TO_CART_FOR_REORDER } from '../constants';
 import { DialogTypes } from '../../utils';
@@ -52,6 +57,15 @@ export const getUserWallet = wallet => {
     };
 };
 
+export const getUserReferralCoinMoney = referralCoinsUsed => {
+    return dispatch => {
+        dispatch({
+            type: GET_USER_REFERRAL_COIN_MONEY,
+            payload: referralCoinsUsed,
+        });
+    };
+};
+
 export const applyWalletMoney = setIsLoading => {
     return dispatch => {
         dispatch({
@@ -69,6 +83,32 @@ export const removeWalletMoney = setIsLoading => {
     return dispatch => {
         dispatch({
             type: REMOVE_WALLET_MONEY_FROM_CART,
+            payload: false,
+        });
+        dispatch({
+            type: CALCULATE_TOTAL,
+        });
+        setIsLoading(false);
+    };
+};
+
+export const applyReferralCoinMoney = setIsLoading => {
+    return dispatch => {
+        dispatch({
+            type: APPLY_REFERRAL_CODE_MONEY,
+            payload: true,
+        });
+        dispatch({
+            type: CALCULATE_TOTAL,
+        });
+        setIsLoading(false);
+    };
+};
+
+export const removeRefferalCoinMoney = setIsLoading => {
+    return dispatch => {
+        dispatch({
+            type: REMOVE_REFERRAL_CODE_MONEY,
             payload: false,
         });
         dispatch({
@@ -151,3 +191,12 @@ export const resetCartActions = () => ({
 export const resetCartError = () => ({
     type: RESET_CART_ERROR,
 });
+
+export const updateReferraMaxMoney = maxMoney => {
+    return async dispatch => {
+        dispatch({
+            type: UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE,
+            payload: maxMoney,
+        });
+    };
+};

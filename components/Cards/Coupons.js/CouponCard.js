@@ -88,12 +88,14 @@ const CouponCard = props => {
                             {description}
                         </Text>
                     </View>
-                    <View style={styles.subTitleContainer}>
-                        <Text style={styles.subtitleText}>
-                            Maximum discount upto {valueUpto}
-                            /- on orders above {minOrderValue}/-
-                        </Text>
-                    </View>
+                    {minOrderValue && valueUpto && (
+                        <View style={styles.subTitleContainer}>
+                            <Text style={styles.subtitleText}>
+                                Maximum discount upto {valueUpto}
+                                /- on orders above {minOrderValue}/-
+                            </Text>
+                        </View>
+                    )}
                     <View style={styles.subTitleContainer}>
                         <Text style={styles.subtitleText}>
                             Applicable on {applicablePaymentMethods} payment
