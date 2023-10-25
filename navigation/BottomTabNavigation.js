@@ -33,8 +33,10 @@ import {
 } from '../utils/pushnotification_helper';
 import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
 import { showDialog } from '../redux/actions/dialog';
-import { Linking } from 'react-native';
+import Home from '../screens/SubscriptionModel/Home';
+import { Linking, View } from 'react-native';
 import branch from 'react-native-branch';
+import HeaderWithLocationAndSearch from '../components/Header/HeaderWithLocationAndSearch';
 
 const Tab = createBottomTabNavigator();
 
@@ -176,7 +178,9 @@ const BottomTabNavigation = ({ navigation }) => {
                                 />
                             ),
                             header: () => (
-                                <HeaderWithLocation navigation={navigation} />
+                                <HeaderWithLocationAndSearch
+                                    navigation={navigation}
+                                />
                             ),
                             // unmountOnBlur: true,
                         }}
@@ -193,11 +197,12 @@ const BottomTabNavigation = ({ navigation }) => {
                                 />
                             ),
                             header: () => (
-                                <HeaderWithLocation navigation={navigation} />
+                                <View />
+                                // <HeaderWithLocation navigation={navigation} />
                             ),
                         }}
                         name="Subscription"
-                        component={SubscriptionPage}
+                        component={Home}
                     />
                     <Tab.Screen
                         options={({ route }) => ({
@@ -239,7 +244,9 @@ const BottomTabNavigation = ({ navigation }) => {
                                     />
                                 ),
                             header: () => (
-                                <HeaderWithLocation navigation={navigation} />
+                                <HeaderWithLocationAndSearch
+                                    navigation={navigation}
+                                />
                             ),
                         }}
                         name="Restaurants"

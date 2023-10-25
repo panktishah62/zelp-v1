@@ -64,7 +64,7 @@ const RefundCard = props => {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        backgroundColor: '#fff',
+        backgroundColor: colors.WHITE,
         borderRadius: 10,
         width: dimensions.fullWidth * 0.9,
         alignSelf: 'center',
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
                 elevation: 4,
             },
         }),
-        shadowColor: '#000000',
+        shadowColor: colors.BLACK,
         shadowOffset: { width: -1, height: 0 },
         shadowOpacity: 0.1,
         shadowRadius: 10,

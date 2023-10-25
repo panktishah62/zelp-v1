@@ -16,6 +16,7 @@ import DefaultDialog from '../components/DialogBox/DefaultDialog';
 import { showDialog } from '../redux/actions/dialog';
 import { getShotsViewRestSortingConfig } from '../redux/actions/server';
 import remoteConfig from '@react-native-firebase/remote-config';
+import { getSubscriptionConfig } from '../redux/actions/subscriptionActions';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,7 @@ const RootStack = () => {
     useEffect(() => {
         isFirstLaunch();
         dispatch(getUserProfile());
+        dispatch(getSubscriptionConfig());
     }, []);
 
     useEffect(() => {

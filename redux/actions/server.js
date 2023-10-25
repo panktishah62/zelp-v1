@@ -43,7 +43,6 @@ export const getConfig = () => {
                 type: GET_CART_CONFIG,
                 payload: config,
             });
-            // console.log('data.config', data.config);
             dispatch(resetFollowedFroker());
             dispatch(resetAddressError());
             dispatch(resetCartError());

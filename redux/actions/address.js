@@ -35,6 +35,7 @@ import {
     getDefaultUserAddress,
     setDefaultAddress,
 } from '../services/addressService';
+import { selectAddressForCart } from './subscriptionCart';
 
 export const addAddress = (address, navigation, fun) => {
     return async dispatch => {
@@ -113,6 +114,7 @@ export const setDefaultAddressTo = (addressId, fun) => {
                         },
                     });
                     dispatch(changeCartAddress(data?.defaultAddress));
+                    dispatch(selectAddressForCart(data?.defaultAddress));
                     if (fun) {
                         fun();
                     }
@@ -198,6 +200,9 @@ export const getDefaultAddress = (setIsLoading, navigation) => {
                                 dispatch(
                                     changeCartAddress(data.defaultAddress),
                                 );
+                                dispatch(
+                                    selectAddressForCart(data.defaultAddress),
+                                );
                                 checkLocationMismatch(location);
                                 if (setIsLoading) {
                                     setIsLoading(false);
@@ -215,6 +220,7 @@ export const getDefaultAddress = (setIsLoading, navigation) => {
                                     },
                                 });
                                 dispatch(changeCartAddress(null));
+                                dispatch(selectAddressForCart(null));
                                 dispatch(getUserLocation(setIsLoading));
                             }
                         })

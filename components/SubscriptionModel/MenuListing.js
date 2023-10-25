@@ -7,7 +7,6 @@ import { dynamicSize } from '../../utils/responsive';
 
 const MenuListing = props => {
     const { data, navigation } = props;
-    // console.log('data', data);
 
     const _renderItem = (item, index) => {
         return (

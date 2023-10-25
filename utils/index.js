@@ -228,3 +228,20 @@ export const DialogTypes = {
     WARNING: 'WARNING',
     ERROR: 'ERROR',
 };
+
+export const getTimeDifferenceAsString = (date1, date2) => {
+    const timeDifference = Math.abs(date1 - date2); // Get the time difference in milliseconds
+
+    // Convert the time difference to hours, minutes, and seconds
+    const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+    const minutes = Math.floor(
+        (timeDifference % (1000 * 60 * 60)) / (1000 * 60),
+    );
+
+    // Format the result as 'HH:MM'
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes
+        .toString()
+        .padStart(2, '0')}`;
+
+    return formattedTime;
+};

@@ -97,7 +97,7 @@ const Explore = props => {
                 location.longitude,
             ]);
             setIsServableArea(isServableArea_);
-            if (isServableArea_) {
+            if (isServableArea_ && location?.latitude && location?.longitude) {
                 getAllRestaurants(location.latitude, location.longitude);
                 getAllOffers(location.latitude, location.longitude);
             } else {
@@ -282,7 +282,7 @@ const Explore = props => {
                     <ActivityIndicator size="large" color={colors.ORANGE} />
                 )}
             </View>
-            {!isLoading && (!isServableArea || restaurants.length === 0) && (
+            {!isLoading && (!isServableArea || restaurants?.length === 0) && (
                 <View
                     style={[
                         styles.commingSoon,

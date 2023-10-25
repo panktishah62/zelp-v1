@@ -11,7 +11,9 @@ import { dimensions, fonts } from '../../styles';
 import { useSelector } from 'react-redux';
 import {
     getSearchedCoupon,
+    getSearchedSubscriptionCoupon,
     getValidCouponsForUser,
+    getValidSubscriptionCouponsForUser,
 } from '../../redux/services/couponsService';
 import CouponCard from '../../components/Cards/Coupons.js/CouponCard';
 import { colors } from '../../styles/colors';
@@ -20,6 +22,7 @@ import { dynamicSize } from '../../utils/responsive';
 
 const CouponsScreen = props => {
     const { route, navigation } = props;
+    const { isSubscription = false, subscriptionData = {} } = route?.params;
     const [text, setText] = useState('');
     const cart = useSelector(state => state.cartActions);
     // const [validCoupons, setValidCoupons] = useState([]);
@@ -34,6 +37,7 @@ const CouponsScreen = props => {
                 coupon={item?.coupon}
                 isActive={item?.isApplicableCoupons}
                 navigation={navigation}
+                isSubscription={isSubscription}
             />
         );
     };
@@ -46,18 +50,48 @@ const CouponsScreen = props => {
             setIsLoading(false);
         }
     };
+    const getValidSubscriptionCoupons = async () => {
+        setIsLoading(true);
+        const response = await getValidSubscriptionCouponsForUser(
+            subscriptionData,
+        );
+        if (response && response?.data && response.data?.updatedCoupons) {
+            setCoupons(response.data.updatedCoupons);
+            setIsLoading(false);
+        }
+    };
 
     const search = async (_text, params) => {
         if (text.length) {
             setIsLoading(true);
-            const response = await getSearchedCoupon({
-                couponCode: text,
-                cart: cart,
-            });
-            if (response && response?.data && response.data?.updatedCoupons) {
-                setCoupons(response.data.updatedCoupons);
-                setIsLoading(false);
-                return;
+            if (!isSubscription) {
+                const response = await getSearchedCoupon({
+                    couponCode: text,
+                    cart: cart,
+                });
+                if (
+                    response &&
+                    response?.data &&
+                    response.data?.updatedCoupons
+                ) {
+                    setCoupons(response.data.updatedCoupons);
+                    setIsLoading(false);
+                    return;
+                }
+            } else {
+                const response = await getSearchedSubscriptionCoupon({
+                    couponCode: text,
+                    subscriptionData: subscriptionData,
+                });
+                if (
+                    response &&
+                    response?.data &&
+                    response.data?.updatedCoupons
+                ) {
+                    setCoupons(response.data.updatedCoupons);
+                    setIsLoading(false);
+                    return;
+                }
             }
         }
         setCoupons([]);
@@ -65,14 +99,28 @@ const CouponsScreen = props => {
     };
 
     useEffect(() => {
-        if (!text.length) {
+        if (!text.length && !isSubscription) {
             getValidCoupons();
         }
     }, [text]);
 
     useEffect(() => {
-        getValidCoupons();
+        if (!isSubscription) {
+            getValidCoupons();
+        }
     }, [cart]);
+
+    useEffect(() => {
+        if (!text.length && isSubscription) {
+            getValidSubscriptionCoupons();
+        }
+    }, [text]);
+
+    useEffect(() => {
+        if (subscriptionData) {
+            getValidSubscriptionCoupons();
+        }
+    }, [subscriptionData]);
 
     const insets = useSafeAreaInsets();
 

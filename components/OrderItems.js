@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import FoodItem from './FoodItem.js';
+import { dynamicSize } from '../utils/responsive.js';
+import { colors } from '../styles/colors.js';
 
 const OrderItems = ({ foodItems }) => {
     const [foods, setFoods] = useState([]);
@@ -41,14 +43,14 @@ const OrderItems = ({ foodItems }) => {
 const styles = StyleSheet.create({
     container: {
         height: 240,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: colors.WHITE,
         borderRadius: 5,
         borderWidth: 2,
-        borderColor: '#FFFFFF60',
-        marginHorizontal: 10,
+        borderColor:colors.WHITE_GRADIENT,
+        marginHorizontal: dynamicSize(10),
         marginTop: 10,
         shadowOffset: {
-            width: 5,
+            width: dynamicSize(5),
             height: 5,
         },
         shadowOpacity: 1,
