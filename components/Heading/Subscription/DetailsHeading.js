@@ -81,9 +81,6 @@ const DetailsHeading = props => {
                 </View>
                 {appliedDiscount > 0 && item?.discountEndDate && (
                     <View style={styles.rightContainer}>
-                        {/* <Image
-                            source={require('../../../assets/images/Subscription/discount.png')}
-                        /> */}
                         <Timer discountEndDate={item?.discountEndDate} />
                     </View>
                 )}
