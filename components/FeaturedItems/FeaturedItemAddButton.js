@@ -35,6 +35,7 @@ const FeaturedItemAddButton = props => {
         price = null,
         isServableArea,
         isRestaurantOpen,
+        shotId,
     } = props;
     const currentOrder = useSelector(state => state.currentOrder.currentOrder);
     const cart = useSelector(state => state.cartActions);
@@ -103,6 +104,8 @@ const FeaturedItemAddButton = props => {
                     setNewCount(newCount + 1);
                     if (price) {
                         let updatedFoodItem = foodItem;
+                        updatedFoodItem.isItemFromShots = true;
+                        updatedFoodItem.shotsId = shotId;
                         updatedFoodItem.price = price;
                         dispatch(addItemToCart(updatedFoodItem, restaurant));
                     } else {
@@ -114,6 +117,8 @@ const FeaturedItemAddButton = props => {
                     if (price) {
                         let updatedFoodItem = foodItem;
                         updatedFoodItem.price = price;
+                        updatedFoodItem.isItemFromShots = true;
+                        updatedFoodItem.shotsId = shotId;
                         dispatch(
                             removeItemFromCart(updatedFoodItem, restaurant),
                         );

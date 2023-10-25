@@ -160,6 +160,7 @@ const ActionButtons = props => {
                                     key={key}
                                     item={data}
                                     navigation={navigation}
+                                    shotId={item?.shot?._id}
                                 />
                             );
                         })}
