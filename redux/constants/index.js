@@ -1,5 +1,5 @@
 // export const BASE_URL = 'https://froker.live/api/v1';
-export const BASE_URL = 'https://5cae-180-151-108-91.ngrok-free.app/api/v1';
+export const BASE_URL = 'https://ed4c-180-151-116-238.ngrok-free.app/api/v1';
 export const GET_CONFIG = 'GET_CONFIG';
 export const GET_SHOTS_VIEW_REST_SORTING_CONFIG =
     'GET_SHOTS_VIEW_REST_SORTING_CONFIG';

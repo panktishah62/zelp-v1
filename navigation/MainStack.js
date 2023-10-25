@@ -41,6 +41,7 @@ import { getConfig } from '../redux/actions/server';
 import PaymentsScreen from '../screens/Payments/Payment';
 import RefundOrder from '../screens/Orders/RefundOrders';
 import ReferralScreen from '../screens/User/Referral';
+import NewOrderDetailsScreen from '../screens/CartAndTrack/OrderDetailsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -244,6 +245,10 @@ const MainStack = () => {
             <Stack.Screen name="Cart" component={CartScreen} />
             <Stack.Screen name="OrderPlaced" component={OrderPlaced} />
             <Stack.Screen name="TrackOrder" component={TrackOrderScreen} />
+            <Stack.Screen
+                name="NewOrderDetails"
+                component={NewOrderDetailsScreen}
+            />
             <Stack.Screen
                 name="Coupons"
                 component={CouponsScreen}

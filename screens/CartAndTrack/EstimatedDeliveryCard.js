@@ -5,10 +5,14 @@ import { colors } from '../../styles/colors';
 import { fonts } from '../../styles';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
 
-const EstimatedDeliveryCard = ({ timeToDeliver, orderStatus }) => {
+const EstimatedDeliveryCard = ({
+    timeToDeliver,
+    orderStatus,
+    initialTimeToDeliver,
+}) => {
     const now = new Date();
     const estimatedDeliveryTime = new Date(
-        now.getTime() + timeToDeliver * 60000,
+        now.getTime() + timeToDeliver * 1000,
     );
 
     const formattedDeliveryTime = `${String(
@@ -21,7 +25,10 @@ const EstimatedDeliveryCard = ({ timeToDeliver, orderStatus }) => {
     return (
         <View style={styles.container}>
             <View style={styles.leftSection}>
-                <TimerCircle minutes={timeToDeliver} />
+                <TimerCircle
+                    minutes={timeToDeliver}
+                    initialTimeToDeliver={initialTimeToDeliver}
+                />
             </View>
             <View style={styles.rightSection}>
                 <Text style={styles.orderStatus}>{orderStatus}</Text>

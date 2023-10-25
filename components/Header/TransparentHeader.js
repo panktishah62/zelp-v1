@@ -16,10 +16,7 @@ const TransparentHeader = props => {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                    if (onBack) {
-                        onBack();
-                    }
-                    onClick ? onClick() : navigation.goBack();
+                    navigation.goBack();
                 }}>
                 <BackArrowButton />
             </TouchableOpacity>

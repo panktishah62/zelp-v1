@@ -4,12 +4,16 @@ import Svg, { Circle } from 'react-native-svg';
 import { colors } from '../../styles/colors';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
 
-const TimerCircle = ({ minutes }) => {
-    const initialTime = minutes * 60;
+const TimerCircle = ({ minutes, initialTimeToDeliver }) => {
+    const [initialTime, setInitialTime] = useState(minutes);
     const [remainingTime, setRemainingTime] = useState(initialTime);
     const [circleRadius, setCircleRadius] = useState(38);
     const [strokeWidth, setStrokeWidth] = useState(4);
     const [initialCircleLength, setInitialCircleLength] = useState(0);
+
+    useEffect(() => {
+        setInitialTime(minutes);
+    }, [minutes]);
 
     useEffect(() => {
         setInitialCircleLength(2 * Math.PI * (circleRadius - strokeWidth));
@@ -29,7 +33,10 @@ const TimerCircle = ({ minutes }) => {
     }, [remainingTime]);
 
     const calculateCircleLength = () => {
-        return (remainingTime / initialTime) * initialCircleLength;
+        if (minutes < 0) {
+            return 0;
+        }
+        return (remainingTime / initialTimeToDeliver) * initialCircleLength;
     };
 
     const minutesDisplay = Math.floor(remainingTime / 60);
@@ -63,7 +70,9 @@ const TimerCircle = ({ minutes }) => {
                 />
             </Svg>
             <View style={styles.timeContainer}>
-                <Text style={styles.timeText}>{timeDisplay}</Text>
+                <Text style={styles.timeText}>
+                    {minutes > 0 ? timeDisplay : '00:00'}
+                </Text>
                 <Text style={styles.minsText}>Min</Text>
             </View>
         </View>

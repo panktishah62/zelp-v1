@@ -30,40 +30,44 @@ import DeliveryBoyCard from './DeliveryBoyCard';
 import CancelOrderCard from './CancelOrderCard';
 import CustomerCareCard from './CustomerCareCard';
 import frokerDeliveryPartnerImg from '../../assets/images/froker-delivery-partner.png';
+import DeliveryStages from './DeliveryStages';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-// const TRACKING_URL =
-//     'https://porter.in/track_live_order?booking_id=CRN1807306740&customer_uuid=d65fe75e-64f5-4ccb-b6f9-b6f59a96227b';
-const TRACKING_URL = undefined;
+const TRACKING_URL =
+    'https://porter.in/track_live_order?booking_id=CRN1807306740&customer_uuid=d65fe75e-64f5-4ccb-b6f9-b6f59a96227b';
+// const TRACKING_URL = undefined;
 
 const TrackOrderScreen = ({ route, navigation }) => {
-    const { timeToDeliver } = route.params ? route.params : {};
     const dispatch = useDispatch();
     const [refreshing, setRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const currentOrder = useSelector(state => state.currentOrder);
+    const [timeToDeliver, setTimeToDeliver] = useState(
+        parseInt(
+            currentOrder?.currentOrder?.timeToDeliver?.match(/\d+/)[0],
+            10,
+        ) * 60,
+    );
+
+    console.log(JSON.stringify(currentOrder, null, 4));
 
     useEffect(() => {
         navigation.setOptions({
             header: () => (
-                // <HeaderWithTitle
-                //     navigation={navigation}
-                //     title={'Track Order'}
-                // onClick={() => {
-                //     navigation.navigate('Home');
-                // }}
-                // />
                 <TransparentHeader
                     navigation={navigation}
                     onClick={() => {
-                        navigation.navigate('Home');
+                        navigation.navigate('NewOrderDetails', {
+                            orderDetails: currentOrder,
+                        });
                     }}
                 />
             ),
         });
-        navigation.addListener('beforeRemove', e => {
-            e.preventDefault();
-            navigation.navigate('Home');
-        });
+        // navigation.addListener('beforeRemove', e => {
+        //     e.preventDefault();
+        //     navigation.navigate('Home');
+        // });
     }, [navigation]);
 
     useEffect(() => {
@@ -88,43 +92,30 @@ const TrackOrderScreen = ({ route, navigation }) => {
         onRefresh();
     }, []);
 
-    const orderedItems = [
-        {
-            restaurantName: 'Tasty Delights',
-            itemName: 'Spaghetti Bolognese',
-            itemImage: 'https://example.com/spaghetti_bolognese.jpg',
-            itemPrice: 12.99,
-            itemDescription:
-                'Delicious spaghetti with a savory Bolognese sauce.',
-        },
-        {
-            restaurantName: 'Burger Haven',
-            itemName: 'Classic Cheeseburger',
-            itemImage: 'https://example.com/cheeseburger.jpg',
-            itemPrice: 6.99,
-            itemDescription: 'A classic cheeseburger with all the fixings.',
-        },
-        {
-            restaurantName: 'Pizza Palace',
-            itemName: 'Margherita Pizza',
-            itemImage: 'https://example.com/margherita_pizza.jpg',
-            itemPrice: 14.99,
-            itemDescription:
-                'Fresh and simple Margherita pizza with tomato and basil.',
-        },
-        {
-            restaurantName: 'Sushi Express',
-            itemName: 'Sashimi Platter',
-            itemImage: 'https://example.com/sashimi_platter.jpg',
-            itemPrice: 18.99,
-            itemDescription:
-                'Assorted sashimi slices with wasabi and soy sauce.',
-        },
-    ];
+    useEffect(() => {
+        const initialTimeToDeliver =
+            parseInt(
+                currentOrder?.currentOrder?.timeToDeliver?.match(/\d+/)[0],
+                10,
+            ) * 60;
+        const orderTime = new Date(currentOrder.currentOrder.createdAt);
+        const currentTime = new Date();
+        const timeDiff = currentTime - orderTime;
+        const diff = Math.floor(timeDiff / 1000);
+        setTimeToDeliver(initialTimeToDeliver - diff);
+    }, [currentOrder]);
+
+    const deliveryStagesMap = {
+        Placed: 1,
+        'In Progress': 2,
+        'Out For Delivery': 3,
+        'Driver Reached': 4,
+    };
 
     return (
         <View>
             {!isLoading &&
+                !refreshing &&
                 (TRACKING_URL ? (
                     <View style={styles.mapContainer}>
                         <LiveTrackingMap trackingUrl={TRACKING_URL} />
@@ -135,22 +126,37 @@ const TrackOrderScreen = ({ route, navigation }) => {
                             style={styles.noTrackingImage}
                             source={frokerDeliveryPartnerImg}
                         />
+                        <View>
+                            <DeliveryStages
+                                stage={
+                                    currentOrder?.currentOrder?.orderStatus
+                                        ? deliveryStagesMap[
+                                              currentOrder.currentOrder
+                                                  .orderStatus
+                                          ]
+                                        : -1
+                                }
+                            />
+                        </View>
                     </View>
                 ))}
-            {!isLoading && (
+            {!isLoading && !refreshing && (
                 <View style={styles.container}>
                     <EstimatedDeliveryCard
-                        timeToDeliver={parseInt(
-                            currentOrder.currentOrder.timeToDeliver.match(
-                                /\d+/,
-                            )[0],
-                            10,
-                        )}
-                        orderStatus={currentOrder.currentOrder.orderStatus}
+                        timeToDeliver={timeToDeliver}
+                        orderStatus={currentOrder?.currentOrder?.orderStatus}
+                        initialTimeToDeliver={
+                            parseInt(
+                                currentOrder?.currentOrder?.timeToDeliver?.match(
+                                    /\d+/,
+                                )[0],
+                                10,
+                            ) * 60
+                        }
                     />
                     <View style={styles.detailsContainer}>
                         <LocationCard
-                            address={currentOrder.currentOrder.cart.address}
+                            address={currentOrder?.currentOrder?.cart?.address}
                         />
                         {/* <DeliveryBoyCard /> */}
                         <CustomerCareCard number={'8260169650'} />
@@ -163,6 +169,13 @@ const TrackOrderScreen = ({ route, navigation }) => {
                             orderId={currentOrder._id}
                         /> */}
                     </View>
+
+                    <View style={styles.refreshButton}>
+                        <TouchableOpacity onPress={onRefresh}>
+                            <Text>Refresh</Text>
+                        </TouchableOpacity>
+                    </View>
+
                     {/* {!isLoading && (
                     <ScrollView
                         refreshControl={
@@ -196,7 +209,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
                         </View>
                     </ScrollView>
                     )} */}
-                    {isLoading && (
+                    {(isLoading || refreshing) && (
                         <ActivityIndicator size={32} color={colors.ORANGE} />
                     )}
                 </View>
@@ -251,17 +264,25 @@ const styles = StyleSheet.create({
     },
     noTrackingContainer: {
         position: 'absolute',
-        top: dynamicSize(-62),
+        top: dynamicSize(-64),
         left: 0,
         width: '100%',
-        height: '70%',
+        height: '100%',
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: 'red',
+        zIndex: 1,
     },
     noTrackingImage: {
-        width: dynamicSize(200),
-        height: dynamicSize(200),
+        width: dynamicSize(300),
+        height: dynamicSize(300),
+        objectFit: 'contain',
+        marginTop: dynamicSize(60),
+    },
+    refreshButton: {
+        position: 'absolute',
+        left: dynamicSize(20),
+        top: dynamicSize(-40),
+        backgroundColor: colors.ORANGE,
     },
 });
 
