@@ -37,14 +37,9 @@ const TrackOrderScreen = ({ route, navigation }) => {
         if (isFirstTap.current) {
             isFirstTap.current = false;
         } else {
-            animation.current.play(0, 81);
+            animation?.current?.play(0, 81);
         }
     }, [tapped]);
-
-    console.log(
-        'CURRENTORDER ID',
-        JSON.stringify(currentOrder?.currentOrder?._id, null, 4),
-    );
 
     useEffect(() => {
         navigation.setOptions({
@@ -106,6 +101,23 @@ const TrackOrderScreen = ({ route, navigation }) => {
         'Driver Reached': 4,
     };
 
+    if (
+        currentOrder?.currentOrder?.orderStatus === 'Canceled' ||
+        currentOrder?.currentOrder?.orderStatus === 'Completed'
+    ) {
+        navigation.navigate('Home');
+    }
+
+    if (
+        !isLoading &&
+        !refreshing &&
+        !Object.keys(deliveryStagesMap).includes(
+            currentOrder?.currentOrder?.orderStatus,
+        )
+    ) {
+        navigation.navigate('SomethingWentWrong');
+    }
+
     return (
         <View>
             {!isLoading &&
@@ -125,7 +137,10 @@ const TrackOrderScreen = ({ route, navigation }) => {
                         <View>
                             <DeliveryStages
                                 stage={
-                                    currentOrder?.currentOrder?.orderStatus
+                                    currentOrder?.currentOrder?.orderStatus &&
+                                    deliveryStagesMap[
+                                        currentOrder.currentOrder.orderStatus
+                                    ]
                                         ? deliveryStagesMap[
                                               currentOrder.currentOrder
                                                   .orderStatus

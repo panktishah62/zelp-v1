@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ThreeDotsMenuIcon from '../../assets/icons/three-dots-menu.svg';
 
 const TransparentHeader = props => {
-    const { navigation, onBack, onClick } = props;
+    const { navigation, onBack, onClick, dontShowThreeDots } = props;
     const insets = useSafeAreaInsets();
 
     return (
@@ -19,16 +19,15 @@ const TransparentHeader = props => {
                 }}>
                 <BackArrowButton />
             </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                    if (onBack) {
-                        onBack();
-                    }
-                    onClick ? onClick() : navigation.goBack();
-                }}>
-                <ThreeDotsMenuIcon />
-            </TouchableOpacity>
+            {(!dontShowThreeDots || dontShowThreeDots === false) && (
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {
+                        onClick ? onClick() : navigation.goBack();
+                    }}>
+                    <ThreeDotsMenuIcon />
+                </TouchableOpacity>
+            )}
         </View>
     );
 };

@@ -42,6 +42,7 @@ import PaymentsScreen from '../screens/Payments/Payment';
 import RefundOrder from '../screens/Orders/RefundOrders';
 import ReferralScreen from '../screens/User/Referral';
 import NewOrderDetailsScreen from '../screens/CartAndTrack/OrderDetailsScreen';
+import SomethingWentWrong from '../screens/CartAndTrack/SomethingWentWrong';
 
 const Stack = createNativeStackNavigator();
 
@@ -275,6 +276,10 @@ const MainStack = () => {
             />
             <Stack.Screen name="FrokerSplash" component={FrokerSplashScreen} />
             <Stack.Screen name="Favourites" component={FavouritesScreen} />
+            <Stack.Screen
+                name="SomethingWentWrong"
+                component={SomethingWentWrong}
+            />
         </Stack.Navigator>
     );
 };

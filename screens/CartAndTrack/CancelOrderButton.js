@@ -35,10 +35,13 @@ const CancelOrderButton = ({ orderTime, orderId, timeToCancel }) => {
     const navigation = useNavigation();
 
     const cancelHandler = () => {
-        console.log('Cancelled', orderId);
         dispatch(cancelOrder(orderId));
         navigation.navigate('Home');
     };
+
+    if (timeLeft < 0) {
+        return null;
+    }
 
     return (
         <TouchableOpacity
