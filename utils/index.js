@@ -230,6 +230,10 @@ export const DialogTypes = {
 };
 
 export function truncateString(str, limit) {
+    if (str === undefined || str === null) {
+        return '';
+    }
+
     if (str.length < limit) {
         return str;
     }

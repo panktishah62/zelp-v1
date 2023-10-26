@@ -1,5 +1,4 @@
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable prettier/prettier */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useState, useRef } from 'react';
 import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
@@ -17,6 +16,7 @@ import frokerDeliveryPartnerImg from '../../assets/images/froker-delivery-partne
 import DeliveryStages from './DeliveryStages';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LottieView from 'lottie-react-native';
+import CancelOrderButton from './CancelOrderButton';
 
 const TrackOrderScreen = ({ route, navigation }) => {
     const dispatch = useDispatch();
@@ -176,6 +176,12 @@ const TrackOrderScreen = ({ route, navigation }) => {
                     />
                 </TouchableOpacity>
             </View>
+
+            <CancelOrderButton
+                orderTime={currentOrder?.currentOrder?.createdAt}
+                orderId={currentOrder?.currentOrder?._id}
+                timeToCancel={36}
+            />
         </View>
     );
 };
