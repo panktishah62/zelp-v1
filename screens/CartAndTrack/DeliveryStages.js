@@ -16,22 +16,22 @@ const DeliveryStages = ({ stage }) => {
             return (
                 <View style={styles.container}>
                     <View style={styles.stageContainer}>
-                        <DeliveryStageOneOrange />
+                        <DeliveryStageOneOrange style={styles.iconStyle} />
                         <Text style={styles.stageText}>Food Ordered</Text>
                     </View>
                     <View style={[styles.connector]} />
                     <View style={styles.stageContainer}>
-                        <DeliveryStageTwoBlack />
+                        <DeliveryStageTwoBlack style={styles.iconStyle} />
                         <Text style={styles.stageText}>Food Cooking</Text>
                     </View>
                     <View style={styles.connector} />
                     <View style={styles.stageContainer}>
-                        <DeliveryStageThreeBlack />
+                        <DeliveryStageThreeBlack style={styles.iconStyle} />
                         <Text style={styles.stageText}>Out for Delivery</Text>
                     </View>
                     <View style={styles.connector} />
                     <View style={styles.stageContainer}>
-                        <DeliveryStageFourBlack />
+                        <DeliveryStageFourBlack style={styles.iconStyle} />
                         <Text style={styles.stageText}>
                             Food{'\n'}Delivered
                         </Text>
@@ -42,8 +42,9 @@ const DeliveryStages = ({ stage }) => {
             return (
                 <View style={styles.container}>
                     <View style={styles.stageContainer}>
-                        <DeliveryStageOneOrange />
-                        <Text style={styles.stageText}>Food Ordered</Text>
+                        <DeliveryStageOneOrange style={styles.iconStyle} />
+                        <Text style={styles.stageText}>Food</Text>
+                        <Text style={styles.stageText}>Ordered</Text>
                     </View>
                     <View
                         style={[
@@ -52,18 +53,21 @@ const DeliveryStages = ({ stage }) => {
                         ]}
                     />
                     <View style={styles.stageContainer}>
-                        <DeliveryStageTwoOrange />
-                        <Text style={styles.stageText}>Food Cooking</Text>
+                        <DeliveryStageTwoOrange style={styles.iconStyle} />
+                        <Text style={styles.stageText}>Food</Text>
+                        <Text style={styles.stageText}>Cooking</Text>
                     </View>
                     <View style={styles.connector} />
                     <View style={styles.stageContainer}>
-                        <DeliveryStageThreeBlack />
-                        <Text style={styles.stageText}>Out for Delivery</Text>
+                        <DeliveryStageThreeBlack style={styles.iconStyle} />
+                        <Text style={styles.stageText}>Out for</Text>
+                        <Text style={styles.stageText}>Delivery</Text>
                     </View>
                     <View style={styles.connector} />
                     <View style={styles.stageContainer}>
-                        <DeliveryStageFourBlack />
-                        <Text style={styles.stageText}>Food Delivered</Text>
+                        <DeliveryStageFourBlack style={styles.iconStyle} />
+                        <Text style={styles.stageText}>Food</Text>
+                        <Text style={styles.stageText}>Delivered</Text>
                     </View>
                 </View>
             );
@@ -71,7 +75,7 @@ const DeliveryStages = ({ stage }) => {
             return (
                 <View style={styles.container}>
                     <View style={styles.stageContainer}>
-                        <DeliveryStageOneOrange />
+                        <DeliveryStageOneOrange style={styles.iconStyle} />
                         <Text style={styles.stageText}>Food Ordered</Text>
                     </View>
                     <View
@@ -81,7 +85,7 @@ const DeliveryStages = ({ stage }) => {
                         ]}
                     />
                     <View style={styles.stageContainer}>
-                        <DeliveryStageTwoOrange />
+                        <DeliveryStageTwoOrange style={styles.iconStyle} />
                         <Text style={styles.stageText}>Food Cooking</Text>
                     </View>
                     <View
@@ -91,12 +95,12 @@ const DeliveryStages = ({ stage }) => {
                         ]}
                     />
                     <View style={styles.stageContainer}>
-                        <DeliveryStageThreeOrange />
+                        <DeliveryStageThreeOrange style={styles.iconStyle} />
                         <Text style={styles.stageText}>Out for Delivery</Text>
                     </View>
                     <View style={styles.connector} />
                     <View style={styles.stageContainer}>
-                        <DeliveryStageFourBlack />
+                        <DeliveryStageFourBlack style={styles.iconStyle} />
                         <Text style={styles.stageText}>Food Delivered</Text>
                     </View>
                 </View>
@@ -105,7 +109,7 @@ const DeliveryStages = ({ stage }) => {
             return (
                 <View style={styles.container}>
                     <View style={styles.stageContainer}>
-                        <DeliveryStageOneOrange />
+                        <DeliveryStageOneOrange style={styles.iconStyle} />
                         <Text style={styles.stageText}>Food Ordered</Text>
                     </View>
                     <View
@@ -115,7 +119,7 @@ const DeliveryStages = ({ stage }) => {
                         ]}
                     />
                     <View style={styles.stageContainer}>
-                        <DeliveryStageTwoOrange />
+                        <DeliveryStageTwoOrange style={styles.iconStyle} />
                         <Text style={styles.stageText}>Food Cooking</Text>
                     </View>
                     <View
@@ -125,7 +129,7 @@ const DeliveryStages = ({ stage }) => {
                         ]}
                     />
                     <View style={styles.stageContainer}>
-                        <DeliveryStageThreeOrange />
+                        <DeliveryStageThreeOrange style={styles.iconStyle} />
                         <Text style={styles.stageText}>Out for Delivery</Text>
                     </View>
                     <View
@@ -135,7 +139,7 @@ const DeliveryStages = ({ stage }) => {
                         ]}
                     />
                     <View style={styles.stageContainer}>
-                        <DeliveryStageFourOrange />
+                        <DeliveryStageFourOrange style={styles.iconStyle} />
                         <Text style={styles.stageText}>Food Delivered</Text>
                     </View>
                 </View>
@@ -157,11 +161,10 @@ const styles = StyleSheet.create({
         flex: 1,
         display: 'flex',
         alignItems: 'center',
-        gap: dynamicSize(10),
     },
     stageText: {
         color: colors.BLACK,
-        fontSize: normalizeFont(16),
+        fontSize: normalizeFont(14),
         width: dynamicSize(54),
         textAlign: 'center',
     },
@@ -170,6 +173,9 @@ const styles = StyleSheet.create({
         flex: 0.5,
         borderStyle: 'dashed',
         marginBottom: dynamicSize(40),
+    },
+    iconStyle: {
+        marginBottom: dynamicSize(10),
     },
 });
 

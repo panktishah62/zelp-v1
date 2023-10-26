@@ -1,22 +1,9 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useEffect, useState } from 'react';
-import {
-    ActivityIndicator,
-    Image,
-    RefreshControl,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
-import HeaderWithTitle from '../../components/Header/HeaderWithTitle';
+import React, { useEffect, useState, useRef } from 'react';
+import { ActivityIndicator, Image, StyleSheet, View } from 'react-native';
 import TransparentHeader from '../../components/Header/TransparentHeader';
-import AddressCard from '../../components/TrackOrder/AddressCard';
-import OrderStatusComponent from '../../components/TrackOrder/Track';
-import TrackOrderContactComponent from '../../components/TrackOrder/TrackOrderContactComponent';
-import TrackOrderRatingComponent from '../../components/TrackOrder/TrackOrderRatingComponent';
-import ShowOrderDetails from '../../components/TrackOrder/ShowOrderDetails';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentOrder } from '../../redux/actions/currentOrder';
 import { colors } from '../../styles/colors';
@@ -25,17 +12,11 @@ import { dimensions, fonts } from '../../styles';
 import EstimatedDeliveryCard from './EstimatedDeliveryCard';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
 import LocationCard from './LocationCard';
-import OrderItemCard from './OrderItemCard';
-import DeliveryBoyCard from './DeliveryBoyCard';
-import CancelOrderCard from './CancelOrderCard';
 import CustomerCareCard from './CustomerCareCard';
 import frokerDeliveryPartnerImg from '../../assets/images/froker-delivery-partner.png';
 import DeliveryStages from './DeliveryStages';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
-const TRACKING_URL =
-    'https://porter.in/track_live_order?booking_id=CRN1807306740&customer_uuid=d65fe75e-64f5-4ccb-b6f9-b6f59a96227b';
-// const TRACKING_URL = undefined;
+import LottieView from 'lottie-react-native';
 
 const TrackOrderScreen = ({ route, navigation }) => {
     const dispatch = useDispatch();
@@ -49,7 +30,21 @@ const TrackOrderScreen = ({ route, navigation }) => {
         ) * 60,
     );
 
-    console.log(JSON.stringify(currentOrder, null, 4));
+    const [tapped, setTapped] = useState(true);
+    const animation = useRef(null);
+    const isFirstTap = useRef(null);
+    useEffect(() => {
+        if (isFirstTap.current) {
+            isFirstTap.current = false;
+        } else {
+            animation.current.play(0, 81);
+        }
+    }, [tapped]);
+
+    console.log(
+        'CURRENTORDER ID',
+        JSON.stringify(currentOrder?.currentOrder?._id, null, 4),
+    );
 
     useEffect(() => {
         navigation.setOptions({
@@ -61,14 +56,13 @@ const TrackOrderScreen = ({ route, navigation }) => {
                             orderDetails: currentOrder,
                         });
                     }}
+                    onBack={() => {
+                        navigation.navigate('Home');
+                    }}
                 />
             ),
         });
-        // navigation.addListener('beforeRemove', e => {
-        //     e.preventDefault();
-        //     navigation.navigate('Home');
-        // });
-    }, [navigation]);
+    }, [navigation, currentOrder]);
 
     useEffect(() => {
         setIsLoading(true);
@@ -82,10 +76,10 @@ const TrackOrderScreen = ({ route, navigation }) => {
     }, [currentOrder]);
 
     const onRefresh = () => {
-        // Handle the refresh here
         setRefreshing(true);
         dispatch(getCurrentOrder());
         setRefreshing(false);
+        setTapped(t => !t);
     };
 
     useEffect(() => {
@@ -98,7 +92,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
                 currentOrder?.currentOrder?.timeToDeliver?.match(/\d+/)[0],
                 10,
             ) * 60;
-        const orderTime = new Date(currentOrder.currentOrder.createdAt);
+        const orderTime = new Date(currentOrder?.currentOrder?.createdAt);
         const currentTime = new Date();
         const timeDiff = currentTime - orderTime;
         const diff = Math.floor(timeDiff / 1000);
@@ -116,9 +110,11 @@ const TrackOrderScreen = ({ route, navigation }) => {
         <View>
             {!isLoading &&
                 !refreshing &&
-                (TRACKING_URL ? (
+                (currentOrder?.tracking_url != null ? (
                     <View style={styles.mapContainer}>
-                        <LiveTrackingMap trackingUrl={TRACKING_URL} />
+                        <LiveTrackingMap
+                            trackingUrl={currentOrder?.tracking_url}
+                        />
                     </View>
                 ) : (
                     <View style={styles.noTrackingContainer}>
@@ -158,62 +154,28 @@ const TrackOrderScreen = ({ route, navigation }) => {
                         <LocationCard
                             address={currentOrder?.currentOrder?.cart?.address}
                         />
-                        {/* <DeliveryBoyCard /> */}
                         <CustomerCareCard number={'8260169650'} />
-                        {/* <Text style={styles.yourOrdersText}>Your Orders</Text>
-                        {orderedItems.map(item => (
-                            <OrderItemCard key={item.itemName} item={item} />
-                        ))} */}
-                        {/* <CancelOrderCard
-                            duration={3000}
-                            orderId={currentOrder._id}
-                        /> */}
                     </View>
-
-                    <View style={styles.refreshButton}>
-                        <TouchableOpacity onPress={onRefresh}>
-                            <Text>Refresh</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    {/* {!isLoading && (
-                    <ScrollView
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={() => {
-                                    onRefresh();
-                                }}
-                            />
-                        }>
-                        <View style={styles.trackingContainer}>
-                            <OrderStatusComponent
-                                timeToDeliver={
-                                    timeToDeliver
-                                        ? timeToDeliver
-                                        : currentOrder?.timeToDeliver
-                                }
-                            />
-                        </View>
-                        <View style={styles.customerCareContainer}>
-                            <TrackOrderContactComponent />
-                        </View>
-                        <View style={styles.bottomButtonContainer}>
-                            <TrackOrderRatingComponent />
-                        </View>
-                        <View>
-                            <ShowOrderDetails
-                                navigation={navigation}
-                                orderId={currentOrder?.currentOrder?._id}
-                            />
-                        </View>
-                    </ScrollView>
-                    )} */}
-                    {(isLoading || refreshing) && (
-                        <ActivityIndicator size={32} color={colors.ORANGE} />
-                    )}
                 </View>
             )}
+
+            {(isLoading || refreshing) && (
+                <View style={styles.loadingSpinner}>
+                    <ActivityIndicator size={32} color={colors.ORANGE} />
+                </View>
+            )}
+
+            <View style={styles.refreshButton}>
+                <TouchableOpacity onPress={onRefresh} activeOpacity={1}>
+                    <LottieView
+                        source={require('../../assets/animations/spinning-refresh-button.json')}
+                        style={{ width: 30, height: 30 }}
+                        autoPlay={false}
+                        loop={false}
+                        ref={animation}
+                    />
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -280,9 +242,29 @@ const styles = StyleSheet.create({
     },
     refreshButton: {
         position: 'absolute',
-        left: dynamicSize(20),
-        top: dynamicSize(-40),
-        backgroundColor: colors.ORANGE,
+        right: dynamicSize(16),
+        backgroundColor: colors.GREY_LIGHT,
+        width: dynamicSize(32),
+        height: dynamicSize(32),
+        elevation: 2,
+        borderRadius: 100,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1,
+        marginTop: dynamicSize(10),
+    },
+    loadingSpinner: {
+        zIndex: 2,
+        width: dimensions.fullWidth,
+        height: dimensions.fullHeight,
+        backgroundColor: '#EEEEEE',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 

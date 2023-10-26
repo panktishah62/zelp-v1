@@ -12,7 +12,6 @@ import PaymentSummary from './PaymentSummary';
 import RectangularFullscreenBtn from '../../components/Buttons/RectangularFullscreenBtn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getOrderDetails } from '../../redux/services/orderService';
-import { getPaymentDetailsForUser } from '../../redux/services/paymentService';
 import { ActivityIndicator } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -34,8 +33,8 @@ const NewOrderDetailsScreen = ({ route, navigation }) => {
         });
     }, [navigation]);
 
-    const orderDetails = route.params.orderDetails.currentOrder;
-    // console.log('ORDER DETAILS', JSON.stringify(orderDetails, null, 4));
+    const orderDetails = route?.params?.orderDetails?.currentOrder;
+    // console.log('ORDER DETAILS', JSON.stringify(route.params, null, 4));
 
     const getOrderDetails_ = async orderId => {
         await AsyncStorage.getItem('token').then(async authToken => {
@@ -56,11 +55,10 @@ const NewOrderDetailsScreen = ({ route, navigation }) => {
     };
 
     useEffect(() => {
-        getOrderDetails_(orderDetails._id);
+        getOrderDetails_(orderDetails?._id);
     }, [orderDetails]);
 
     const pressHandler = () => {
-        console.log('going to track order');
         navigation.navigate('TrackOrder');
     };
 

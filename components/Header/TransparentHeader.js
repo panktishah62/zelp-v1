@@ -1,14 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import BackArrowButton from '../../assets/icons/back-arrow.svg';
-import HomeButton from '../../assets/icons/home.svg';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { dimensions, fonts, Styles } from '../../styles';
-import { colors } from '../../styles/colors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import ThreeDotsMenuIcon from '../../assets/icons/three-dots-menu.svg';
 
 const TransparentHeader = props => {
-    const { navigation, title, onBack, onClick } = props;
+    const { navigation, onBack, onClick } = props;
     const insets = useSafeAreaInsets();
 
     return (
@@ -16,7 +15,7 @@ const TransparentHeader = props => {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                    navigation.goBack();
+                    onBack ? onBack() : navigation.goBack();
                 }}>
                 <BackArrowButton />
             </TouchableOpacity>
@@ -28,7 +27,7 @@ const TransparentHeader = props => {
                     }
                     onClick ? onClick() : navigation.goBack();
                 }}>
-                <HomeButton />
+                <ThreeDotsMenuIcon />
             </TouchableOpacity>
         </View>
     );

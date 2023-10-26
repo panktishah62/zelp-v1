@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import BigLocationIcon from '../../assets/icons/location-pin.svg';
 import { colors } from '../../styles/colors';
-import { dimensions, fonts } from '../../styles';
+import { fonts } from '../../styles';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
 import { truncateString } from '../../utils';
 
@@ -16,12 +16,12 @@ const LocationCard = ({ address }) => {
                         <Text style={styles.homeText}>
                             Delivery to{' '}
                             <Text style={{ color: colors.ORANGE }}>
-                                {address.name}
+                                {address?.name}
                             </Text>
                         </Text>
 
                         <Text style={styles.address}>
-                            {truncateString(address.address, 40)}
+                            {truncateString(address?.address, 40)}
                         </Text>
                     </View>
                 </View>
