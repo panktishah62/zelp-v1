@@ -22,10 +22,31 @@ const PaymentSummary = ({
     packagingCharges,
     totalAmount,
     paymentMode,
+    referenceId,
 }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Order Summary</Text>
+            <View
+                style={[
+                    styles.singlePaymentContainer,
+                    { marginBottom: dynamicSize(12) },
+                ]}>
+                <Text
+                    style={[
+                        styles.amountType,
+                        { fontFamily: fonts.NUNITO_700_24.fontFamily },
+                    ]}>
+                    Order Reference Id
+                </Text>
+                <Text
+                    style={[
+                        styles.amount,
+                        { fontFamily: fonts.NUNITO_700_24.fontFamily },
+                    ]}>
+                    {referenceId}
+                </Text>
+            </View>
             <View style={styles.paymentsContainer}>
                 <SinglePaymentDetails
                     amountType={'Order Value'}
@@ -87,8 +108,10 @@ const styles = StyleSheet.create({
         gap: dynamicSize(10),
         borderBottomColor: colors.BLACK,
         borderBottomWidth: dynamicSize(1),
+        borderTopColor: colors.BLACK,
+        borderTopWidth: dynamicSize(1),
         borderStyle: 'dashed',
-        paddingBottom: dynamicSize(12),
+        paddingVertical: dynamicSize(12),
         marginBottom: dynamicSize(12),
     },
 });

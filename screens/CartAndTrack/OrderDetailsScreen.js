@@ -67,24 +67,24 @@ const NewOrderDetailsScreen = ({ route, navigation }) => {
             <ScrollView>
                 <View style={styles.container}>
                     {/* <View style={styles.orderId}>
-                    <Text
-                        style={{
-                            color: '#3D3D3D',
-                            fontSize: normalizeFont(20),
-                            fontFamily: fonts.NUNITO_700_24.fontFamily,
-                            fontWeight: 'bold',
-                        }}>
-                        Order Id:
-                    </Text>
-                    <Text
-                        style={{
-                            color: colors.ORANGE,
-                            fontSize: normalizeFont(20),
-                            fontFamily: fonts.NUNITO_700_24.fontFamily,
-                        }}>
-                        {orderDetails._id}
-                    </Text>
-                </View> */}
+                        <Text
+                            style={{
+                                color: '#3D3D3D',
+                                fontSize: normalizeFont(20),
+                                fontFamily: fonts.NUNITO_700_24.fontFamily,
+                                fontWeight: 'bold',
+                            }}>
+                            Order Id:
+                        </Text>
+                        <Text
+                            style={{
+                                color: colors.ORANGE,
+                                fontSize: normalizeFont(20),
+                                fontFamily: fonts.NUNITO_700_24.fontFamily,
+                            }}>
+                            {orderDetails.referenceId}
+                        </Text>
+                    </View> */}
                     <LocationCard address={orderDetails.cart.address} />
                     <Text
                         style={{
@@ -98,6 +98,7 @@ const NewOrderDetailsScreen = ({ route, navigation }) => {
                     </Text>
                     <OrderItemDetailsCard itemsDetails={order.cart.foodItems} />
                     <PaymentSummary
+                        referenceId={orderDetails?.referenceId}
                         orderValue={orderDetails?.cart?.totalItemsPrice}
                         deliveryCharges={
                             orderDetails?.cart?.deliveryPartnerFees
