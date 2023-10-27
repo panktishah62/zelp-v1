@@ -41,7 +41,7 @@ const ReferralScreen = ({ navigation }) => {
                 <Text style={styles.titleText}>Referral Code!</Text>
                 <Text style={styles.subtitleText}>
                     Share the Referral Code To your friends and family to Earn
-                    Wallet Money!
+                    Coins!
                 </Text>
             </View>
 
@@ -62,7 +62,7 @@ const ReferralScreen = ({ navigation }) => {
                                     color: colors.GREY_DARK,
                                 }}>
                                 Total Amount Earned by referral is{' '}
-                                {referralDetails?.totalAmountEarned}
+                                {referralDetails?.totalAmountEarned} Coins
                             </Text>
                         </View>
                         <View style={styles.listContainer}>
@@ -86,8 +86,8 @@ const ReferralScreen = ({ navigation }) => {
                                     color: colors.GREY_DARK,
                                 }}>
                                 The User who use this referral code will also
-                                earn {referralDetails?.addToReceiverWallet}Rs in
-                                their wallet
+                                earn {referralDetails?.addToReceiverWallet}{' '}
+                                Coins.
                             </Text>
                         </View>
                     </View>

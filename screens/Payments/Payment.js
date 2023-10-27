@@ -257,7 +257,7 @@ const PaymentsScreen = props => {
                     isVisible: true,
                     titleText: 'Cash on delivery not applicable!',
                     subTitleText:
-                        'Cash on delivery is not applicable on orders with wallet money applied. Please try Pay using wallet/card.',
+                        'Cash on delivery is not applicable on orders with Furos applied. Please try Pay using wallet/card.',
                     buttonText1: 'CLOSE',
                     type: DialogTypes.WARNING,
                 }),

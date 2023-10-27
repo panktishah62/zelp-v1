@@ -189,7 +189,7 @@ export const verifyOTP = (
                             showDialog({
                                 isVisible: true,
                                 titleText: `Referral Code: ${data.referralCode}`,
-                                subTitleText: `Earn ${data.addToSenderWallet}Rs in your wallet on every use. Share the above Referral Code with your friends and family to earn money in your wallet.`,
+                                subTitleText: `Earn ${data.addToSenderWallet} Coins on every use. Share the above Referral Code with your friends and family to earn referral coins.`,
                                 buttonText1: 'CLOSE',
                                 buttonText2: 'SHARE',
                                 buttonFunction2: () =>

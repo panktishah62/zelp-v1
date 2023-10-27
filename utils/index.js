@@ -245,3 +245,7 @@ export const getTimeDifferenceAsString = (date1, date2) => {
 
     return formattedTime;
 };
+
+export const getUpto2Decimal = num => {
+    return Number(num.toFixed(2));
+};

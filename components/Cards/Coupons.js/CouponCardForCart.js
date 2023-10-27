@@ -25,7 +25,7 @@ const CouponCardForCart = props => {
                     isVisible: true,
                     titleText: 'Cannot apply coupon!',
                     subTitleText:
-                        'Coupon Cannot be applied along with wallet. Remove wallet to apply coupon',
+                        'Coupon Cannot be applied along with Furos. Remove Furos to apply coupon',
                     buttonText1: 'CLOSE',
                     type: DialogTypes.WARNING,
                 }),
@@ -42,7 +42,10 @@ const CouponCardForCart = props => {
                 }),
             );
         } else {
-            navigation.navigate('Coupons');
+            navigation.navigate('Coupons', {
+                isSubscription: false,
+                subscriptionData: {},
+            });
         }
     };
 
