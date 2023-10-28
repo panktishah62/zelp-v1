@@ -89,6 +89,7 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
                     locationCoordinates.longitude,
                 ]),
             );
+            setLocation(locationCoordinates);
         }
     }, [locationCoordinates]);
 
@@ -132,7 +133,10 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
                         <View style={styles.tapOnSearch}>
                             <TouchableWithoutFeedback
                                 onPress={() => {
-                                    search(text, location);
+                                    search(text, {
+                                        latitude: location?.latitude,
+                                        longitude: location?.longitude,
+                                    });
                                 }}>
                                 <Text style={styles.text}>
                                     Tap on Search after entering text.
