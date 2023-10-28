@@ -4,6 +4,7 @@ import { HIDE_DIALOG, SHOW_DIALOG } from '../constants';
 const initialState = {
     isVisible: false,
     titleText: '',
+    titleContainerStyles: {},
     subTitleText: '',
     subTitleTextLine2: '',
     buttonText1: '',

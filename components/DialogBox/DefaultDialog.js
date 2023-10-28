@@ -70,36 +70,48 @@ const DefaultDialog = props => {
                             <Image source={icon} style={styles.icon} />
                         </Dialog.Content>
                     )}
+                    <View
+                        style={[
+                            type != DialogTypes.DEFAULT &&
+                                styles.titleContainerStyles,
+                            dialog?.titleContainerStyles &&
+                                dialog?.titleContainerStyles,
+                        ]}>
+                        {dialog?.titleText && (
+                            <Dialog.Title
+                                style={[
+                                    dialog?.type != DialogTypes.DEFAULT
+                                        ? styles.textAlignCenter
+                                        : styles.textAlignLeft,
+                                    dialog?.titleTextStyles,
+                                ]}>
+                                {dialog?.iconAroundTitle && (
+                                    <Image
+                                        source={{
+                                            uri: dialog?.iconAroundTitle,
+                                        }}
+                                        style={[
+                                            styles.imageIcon,
+                                            dialog?.iconAroundTitleStyles,
+                                        ]}
+                                    />
+                                )}
+                                <Text>{dialog.titleText}</Text>
+                                {dialog?.iconAroundTitle && (
+                                    <Image
+                                        source={{
+                                            uri: dialog?.iconAroundTitle,
+                                        }}
+                                        style={[
+                                            styles.imageIcon,
+                                            dialog?.iconAroundTitleStyles,
+                                        ]}
+                                    />
+                                )}
+                            </Dialog.Title>
+                        )}
+                    </View>
 
-                    {dialog?.titleText && (
-                        <Dialog.Title
-                            style={[
-                                dialog?.type != DialogTypes.DEFAULT
-                                    ? styles.textAlignCenter
-                                    : styles.textAlignLeft,
-                                dialog?.titleTextStyles,
-                            ]}>
-                            {dialog?.iconAroundTitle && (
-                                <Image
-                                    source={{ uri: dialog?.iconAroundTitle }}
-                                    style={[
-                                        styles.imageIcon,
-                                        dialog?.iconAroundTitleStyles,
-                                    ]}
-                                />
-                            )}
-                            <Text>{dialog.titleText}</Text>
-                            {dialog?.iconAroundTitle && (
-                                <Image
-                                    source={{ uri: dialog?.iconAroundTitle }}
-                                    style={[
-                                        styles.imageIcon,
-                                        dialog?.iconAroundTitleStyles,
-                                    ]}
-                                />
-                            )}
-                        </Dialog.Title>
-                    )}
                     {(dialog?.subTitleText || dialog?.subTitleTextLine2) && (
                         <Dialog.Content>
                             {dialog?.subTitleText && (
@@ -254,6 +266,9 @@ const styles = StyleSheet.create({
     imageIcon: {
         height: dynamicSize(20),
         width: dynamicSize(20),
+    },
+    titleContainerStyles: {
+        alignItems: 'center',
     },
 });
 
