@@ -11,7 +11,7 @@ import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { DialogTypes, isPointInPolygon } from '../../utils';
+import { DialogTypes } from '../../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PlusOrange from '../../assets/icons/PlusOrange.svg';
 import PlusWhite from '../../assets/icons/PlusWhite.svg';

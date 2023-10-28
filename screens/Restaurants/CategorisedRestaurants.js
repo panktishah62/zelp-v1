@@ -11,7 +11,7 @@ import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
 import HeaderWithTitle from '../../components/Header/HeaderWithTitle';
 import { useSelector } from 'react-redux';
-import { isPointInPolygon, isTimeInIntervals } from '../../utils';
+import { isTimeInIntervals } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
 import { getAllCategorisedRestaurants } from '../../redux/services/restaurantService';
 import { searchbyAlgolia } from '../../redux/services/searchService';
@@ -61,16 +61,14 @@ const CategorisedRestaurant = ({ route, navigation }) => {
             setIsLoading(true);
             setLatitude(location.latitude);
             setLongitude(location.longitude);
-            setIsServableArea(
-                isPointInPolygon([location.latitude, location.longitude]),
-            );
+            setIsServableArea(true);
             getAllRestaurants(location.latitude, location.longitude);
         }
     }, [location]);
 
     return (
         <View style={[Styles.center, styles.container]}>
-            {isServableArea && !isLoading && (
+            {isServableArea && !isLoading && restaurantData?.length > 0 && (
                 <ScrollView>
                     {restaurantData &&
                         restaurantData?.length > 0 &&

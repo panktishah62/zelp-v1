@@ -13,7 +13,7 @@ import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
 import { LiveTrackingContainer } from '../../components/TrackOrder/LiveTrackingContainer';
 import { useSelector } from 'react-redux';
-import { GRANTED, isPointInPolygon, isTimeInIntervals } from '../../utils';
+import { GRANTED } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
 import LocationPermission from '../../components/Buttons/LocationPermission';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -76,17 +76,9 @@ const RestaurantsScreen = props => {
         setIsServableArea(false);
         setNextPageLoading(false);
         if (location && location.latitude && location.longitude) {
-            const isServableArea_ = isPointInPolygon([
-                location.latitude,
-                location.longitude,
-            ]);
-            setIsServableArea(isServableArea_);
-            if (isServableArea_) {
-                setIsLoading(true);
-                await fetchData(location.latitude, location.longitude, 1);
-            } else {
-                setIsLoading(false);
-            }
+            setIsServableArea(true);
+            setIsLoading(true);
+            await fetchData(location.latitude, location.longitude, 1);
         }
     };
 

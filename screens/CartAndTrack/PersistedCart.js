@@ -23,7 +23,6 @@ import BillDetails from '../../components/Cards/PersistedCart.js/BillDetails';
 import {
     DialogTypes,
     getCoordinatesFromGoogleMapUrl,
-    isPointInPolygon,
     isTimeInIntervals,
 } from '../../utils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -110,23 +109,6 @@ const CartScreen = ({ navigation }) => {
                         titleText: 'Location not found!',
                         subTitleText:
                             'Can not track location for selected address, please select other address',
-                        buttonText1: 'CLOSE',
-                        type: DialogTypes.WARNING,
-                    }),
-                );
-                return;
-            }
-            const isServableArea = isPointInPolygon([
-                location.latitude,
-                location.longitude,
-            ]);
-            if (!isServableArea) {
-                dispatch(
-                    showDialog({
-                        isVisible: true,
-                        titleText: 'Select Other Address',
-                        subTitleText:
-                            'Area of selected address is not Serviceable, please select other address',
                         buttonText1: 'CLOSE',
                         type: DialogTypes.WARNING,
                     }),

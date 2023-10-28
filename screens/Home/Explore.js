@@ -20,7 +20,7 @@ import FoodItemSlider from '../../components/Sliders/FoodItemSlider';
 import { TAB_BAR_HEIGHT } from '../../redux/constants';
 import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
-import { isPointInPolygon, isTimeInIntervals } from '../../utils';
+import { isTimeInIntervals } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
 import Carousel, { Pagination } from 'react-native-new-snap-carousel';
 import OfferCard from '../../components/Cards/Offers/OfferCard';
@@ -92,16 +92,10 @@ const Explore = props => {
         setIsLoading(true); // set loading to true before fetch
         setIsServableArea(false);
         if (location?.latitude && location?.longitude) {
-            const isServableArea_ = isPointInPolygon([
-                location.latitude,
-                location.longitude,
-            ]);
-            setIsServableArea(isServableArea_);
-            if (isServableArea_ && location?.latitude && location?.longitude) {
+            if (location?.latitude && location?.longitude) {
+                setIsServableArea(true);
                 getAllRestaurants(location.latitude, location.longitude);
                 getAllOffers(location.latitude, location.longitude);
-            } else {
-                setIsLoading(false);
             }
         }
     };
@@ -161,7 +155,7 @@ const Explore = props => {
                 //     />
                 // }
             >
-                {!isLoading && isServableArea && (
+                {!isLoading && isServableArea && restaurants?.length > 0 && (
                     <View>
                         {/* Choose from categories */}
                         <View style={styles.container1}>
