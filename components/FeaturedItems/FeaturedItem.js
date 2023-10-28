@@ -14,7 +14,6 @@ import { Styles, fonts } from '../../styles';
 import { colors } from '../../styles/colors';
 import {
     GreyColorMatrix,
-    isPointInPolygon,
     isPointInRadius,
     isTimeInIntervals,
     sliceText,

@@ -11,7 +11,7 @@ import { ErrorHandler } from '../../components/ErrorHandler/ErrorHandler';
 import HeaderWithTitleAndSearch from '../../components/Header/HeaderWithTitleAndSearch';
 import SearchTabForAll from '../../navigation/SearchTabForAll';
 import { UNEXPECTED_ERROR } from '../../redux/constants';
-import { GRANTED, isPointInPolygon, isTimeInIntervals } from '../../utils';
+import { GRANTED, isTimeInIntervals } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
 import LocationPermission from '../../components/Buttons/LocationPermission';
 import { colors } from '../../styles/colors';
@@ -83,12 +83,7 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
             locationCoordinates.latitude &&
             locationCoordinates.longitude
         ) {
-            setIsServableArea(
-                isPointInPolygon([
-                    locationCoordinates.latitude,
-                    locationCoordinates.longitude,
-                ]),
-            );
+            setIsServableArea(true);
             setLocation(locationCoordinates);
         }
     }, [locationCoordinates]);
