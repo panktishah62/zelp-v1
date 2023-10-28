@@ -16,50 +16,46 @@ import SwitchBtn from '../../Buttons/Switch';
 import {
     applyReferralCoinMoney,
     removeRefferalCoinMoney,
+    removeWalletMoney,
 } from '../../../redux/actions/cartActions';
 import {
     canApplyWallet,
     canApplyReferralCodeMoney,
 } from '../../../redux/services/cartService';
-import { DialogTypes } from '../../../utils';
+import { DialogTypes, getUpto2Decimal } from '../../../utils';
 import { showDialog } from '../../../redux/actions/dialog';
 import remoteConfig from '@react-native-firebase/remote-config';
 
 const RefferalCoins = props => {
     const { setIsLoading, moneyInReferral, config } = props;
     const cart = useSelector(state => state.cartActions);
+    const userProfile = useSelector(state => state.user.userProfile);
+    const [rupeesPerReferralCoin, setRupeesPerReferralCoin] = useState(
+        userProfile?.referralCoinsMultiple > 0
+            ? Number(userProfile.referralCoinsMultiple)
+            : remoteConfig?.getValue('RupeesPerReferralCoin').asNumber(),
+    );
     const [isActive, setIsActive] = useState(props.isActive);
     const [remainingMoneyInReferral, setRemainingMoneyInReferral] =
         useState(moneyInReferral);
     const canFullReferralCoinsBeUsed = remoteConfig()
         .getValue('canFullReferralCoinsBeUsed')
         .asBoolean();
+
     const dispatch = useDispatch();
     const onClick = () => {
-        if (cart?.isWalletMoneyUsed) {
-            dispatch(
-                showDialog({
-                    isVisible: true,
-                    titleText: 'Cannot apply Referral coins!',
-                    subTitleText:
-                        'Referral Coins Cannot be applied along with wallet. Remove wallet to apply Referral coins',
-                    buttonText1: 'CLOSE',
-                    type: DialogTypes.WARNING,
-                }),
-            );
-        }
-        if (isActive) {
+        if (isActive && cart?.referralCoinsUsed > 0) {
             setIsLoading(true);
             dispatch(removeRefferalCoinMoney(setIsLoading));
             setIsActive(false);
-        } else {
+        } else if (cart?.referralCoinsUsed > 0) {
             if (cart?.coupon && cart?.coupon?._id) {
                 dispatch(
                     showDialog({
                         isVisible: true,
                         titleText: 'Cannot apply Referral coins!',
                         subTitleText:
-                            'Referral Coins Cannot be applied along with coupon. Remove coupon to apply wallet',
+                            'Referral Coins Cannot be applied along with coupon. Remove coupon to apply Referral Coins',
                         buttonText1: 'CLOSE',
                         type: DialogTypes.WARNING,
                     }),
@@ -80,7 +76,9 @@ const RefferalCoins = props => {
                     }),
                 );
             } else {
-                setIsLoading(true);
+                if (cart?.isWalletMoneyUsed) {
+                    dispatch(removeWalletMoney(setIsLoading));
+                }
                 dispatch(applyReferralCoinMoney(setIsLoading));
                 setIsActive(true);
             }
@@ -98,45 +96,52 @@ const RefferalCoins = props => {
     useEffect(() => {
         if (isActive) {
             setRemainingMoneyInReferral(
-                cart?.isReferralCoinsUsed
-                    ? cart?.referralCoinsUsed -
-                          cart?.billingDetails?.referralCoinsUsed
-                    : config.maxReferralCoinMoneyToUse,
+                Math.round(
+                    moneyInReferral -
+                        getUpto2Decimal(
+                            cart?.billingDetails?.referralCoinsUsed /
+                                rupeesPerReferralCoin,
+                        ),
+                ),
             );
         } else {
             setRemainingMoneyInReferral(moneyInReferral);
         }
     }, [cart, isActive]);
 
+    useEffect(() => {
+        setRupeesPerReferralCoin(
+            userProfile?.referralCoinsMultiple > 0
+                ? Number(userProfile.referralCoinsMultiple)
+                : remoteConfig?.getValue('RupeesPerReferralCoin').asNumber(),
+        );
+    }, [userProfile]);
+
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
                 <Text style={styles.titleText}>Use Referral Coins</Text>
 
-                {!canFullReferralCoinsBeUsed && (
-                    <Text style={styles.subtitleText}>
-                        Max {config.maxReferralCoinMoneyToUse}/- can be used
-                    </Text>
-                )}
+                <Text style={styles.subtitleText}>
+                    {1 / rupeesPerReferralCoin} Referral Coins = 1 Rs
+                </Text>
 
                 {!canFullReferralCoinsBeUsed && (
                     <Text style={styles.subtitleText}>
-                        ( In Wallet : {remainingMoneyInReferral}/- )
+                        Max {config.maxReferralCoinMoneyToUse} Coins can be used
                     </Text>
                 )}
             </View>
             <View style={[Styles.row, styles.rightContainer]}>
                 <View style={styles.money}>
                     <View style={Styles.row_flex_end}>
-                        <Rupee />
+                        {/* <Rupee /> */}
                         <Text style={styles.titleText}>
                             {' '}
                             {cart?.isReferralCoinsUsed
-                                ? cart?.billingDetails?.referralCoinsUsed
-                                : cart?.referralCoinsUsed <
-                                  config.maxReferralCoinMoneyToUse
-                                ? cart?.referralCoinsUsed
-                                : config.maxReferralCoinMoneyToUse}
+                                ? remainingMoneyInReferral
+                                : moneyInReferral}{' '}
+                            Coins
                         </Text>
                     </View>
                 </View>

@@ -39,7 +39,7 @@ const BillDetails = props => {
                 <View style={styles.subContainer}>
                     {billingDetails && billingDetails.walletMoney >= 0 && (
                         <View style={styles.innerContainer}>
-                            <Text style={styles.text}>Money From Wallet</Text>
+                            <Text style={styles.text}>Money From Furos</Text>
                             <View style={styles.amount}>
                                 <Text style={styles.priceText}> - </Text>
                                 <Rupee />

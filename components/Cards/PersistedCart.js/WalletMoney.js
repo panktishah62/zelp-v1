@@ -15,16 +15,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import SwitchBtn from '../../Buttons/Switch';
 import {
     applyWalletMoney,
+    removeRefferalCoinMoney,
     removeWalletMoney,
 } from '../../../redux/actions/cartActions';
 import { canApplyWallet } from '../../../redux/services/cartService';
-import { DialogTypes } from '../../../utils';
+import { DialogTypes, getUpto2Decimal } from '../../../utils';
 import { showDialog } from '../../../redux/actions/dialog';
 import remoteConfig from '@react-native-firebase/remote-config';
 
 const WalletMoney = props => {
     const { setIsLoading, moneyInWallet, config } = props;
     const cart = useSelector(state => state.cartActions);
+    const userProfile = useSelector(state => state.user.userProfile);
+    const [rupeesPerFuro, setRupeePerFuro] = useState(
+        userProfile?.walletMultiple > 0
+            ? Number(userProfile?.walletMultiple)
+            : remoteConfig()?.getValue('RupeesPerFuro').asNumber(),
+    );
     const [isActive, setIsActive] = useState(props.isActive);
     const [remainingMoneyInWallet, setRemainingMoneyInWallet] =
         useState(moneyInWallet);
@@ -36,30 +43,18 @@ const WalletMoney = props => {
         .asString();
     const dispatch = useDispatch();
     const onClick = () => {
-        if (cart?.isReferralCoinsUsed) {
-            dispatch(
-                showDialog({
-                    isVisible: true,
-                    titleText: 'Cannot apply Wallet money!',
-                    subTitleText:
-                        'Wallet Money cannot be applied along with Referral coins. Remove Referral coins to apply wallet',
-                    buttonText1: 'CLOSE',
-                    type: DialogTypes.WARNING,
-                }),
-            );
-        }
-        if (isActive) {
+        if (isActive && cart?.walletMoney > 0) {
             setIsLoading(true);
             dispatch(removeWalletMoney(setIsLoading));
             setIsActive(false);
-        } else {
+        } else if (cart?.walletMoney > 0) {
             if (cart?.coupon && cart?.coupon?._id) {
                 dispatch(
                     showDialog({
                         isVisible: true,
-                        titleText: 'Cannot apply wallet!',
+                        titleText: 'Cannot apply Furos!',
                         subTitleText:
-                            'Wallet Cannot be applied along with coupon. Remove coupon to apply wallet',
+                            'Furos Cannot be applied along with coupon. Remove coupon to apply Furos',
                         buttonText1: 'CLOSE',
                         type: DialogTypes.WARNING,
                     }),
@@ -73,14 +68,17 @@ const WalletMoney = props => {
                 dispatch(
                     showDialog({
                         isVisible: true,
-                        titleText: 'Wallet Error',
-                        subTitleText: `Cannot apply wallet money for the item total less than or equal to ${config.minOrderValueForWallet}`,
+                        titleText: 'Cannot apply Furos!',
+                        subTitleText: `Cannot apply Furos for the item total less than or equal to ${config.minOrderValueForWallet}`,
                         buttonText1: 'CLOSE',
                         type: DialogTypes.WARNING,
                     }),
                 );
             } else {
                 setIsLoading(true);
+                if (cart?.isReferralCoinsUsed) {
+                    dispatch(removeRefferalCoinMoney(setIsLoading));
+                }
                 dispatch(applyWalletMoney(setIsLoading));
                 setIsActive(true);
             }
@@ -98,29 +96,38 @@ const WalletMoney = props => {
     useEffect(() => {
         if (isActive) {
             setRemainingMoneyInWallet(
-                cart?.isWalletMoneyUsed
-                    ? cart?.walletMoney - cart?.billingDetails?.walletMoney
-                    : config.maxWalletMoneyToUse,
+                getUpto2Decimal(
+                    moneyInWallet -
+                        getUpto2Decimal(
+                            cart?.billingDetails?.walletMoney / rupeesPerFuro,
+                        ),
+                ),
             );
         } else {
             setRemainingMoneyInWallet(moneyInWallet);
         }
     }, [cart, isActive]);
 
+    useEffect(() => {
+        setRupeePerFuro(
+            userProfile?.walletMultiple > 0
+                ? Number(userProfile?.walletMultiple)
+                : remoteConfig()?.getValue('RupeesPerFuro').asNumber(),
+        );
+    }, [userProfile]);
+
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
-                <Text style={styles.titleText}>Use Wallet Money</Text>
+                <Text style={styles.titleText}>Use Furos</Text>
                 {!canFullWalletBeUsed && (
                     <Text style={styles.subtitleText}>
-                        Max {config.maxWalletMoneyToUse}/- can be used
+                        Max {config.maxWalletMoneyToUse} Furos can be used
                     </Text>
                 )}
-                {!canFullWalletBeUsed && (
-                    <Text style={styles.subtitleText}>
-                        ( In Wallet : {remainingMoneyInWallet}/- )
-                    </Text>
-                )}
+                <Text style={styles.subtitleText}>
+                    {1 / rupeesPerFuro} Furo = 1 Rs
+                </Text>
                 {walletInstructions && (
                     <Text style={styles.subtitleText}>
                         {walletInstructions}
@@ -130,14 +137,13 @@ const WalletMoney = props => {
             <View style={[Styles.row, styles.rightContainer]}>
                 <View style={styles.money}>
                     <View style={Styles.row_flex_end}>
-                        <Rupee />
+                        {/* <Rupee /> */}
                         <Text style={styles.titleText}>
                             {' '}
                             {cart?.isWalletMoneyUsed
-                                ? cart?.billingDetails?.walletMoney
-                                : cart?.walletMoney < config.maxWalletMoneyToUse
-                                ? cart?.walletMoney
-                                : config.maxWalletMoneyToUse}{' '}
+                                ? remainingMoneyInWallet
+                                : moneyInWallet}{' '}
+                            Furo
                         </Text>
                     </View>
                 </View>

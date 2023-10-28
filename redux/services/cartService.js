@@ -1,8 +1,4 @@
-import { useDispatch } from 'react-redux';
-import { DialogTypes } from '../../utils';
-import { showDialog } from '../actions/dialog';
-import { store } from '../store';
-
+import { getUpto2Decimal } from '../../utils';
 export function calculateTotal(billingData) {
     const restaurants = billingData?.restaurants;
     let isWalletMoneyUsed = billingData?.isWalletMoneyUsed;
@@ -48,6 +44,7 @@ export function calculateTotal(billingData) {
         }
         const taxes = Math.round(
             Number(totalPriceByRestaurant * config?.GSTtaxes) / 100,
+            2,
         );
 
         if (totalPriceByRestaurant < config?.minOrderValueForWallet) {
@@ -62,12 +59,13 @@ export function calculateTotal(billingData) {
             coupon,
         );
 
-        const totalAmountBeforeDiscount =
+        const totalAmountBeforeDiscount = getUpto2Decimal(
             Number(totalPriceByRestaurant) +
-            Number(config?.deliveryPartnerFees) +
-            Number(config?.packagingCharges) +
-            Number(config?.deliveryTip) +
-            Number(totalDeliveryCharge);
+                Number(config?.deliveryPartnerFees) +
+                Number(config?.packagingCharges) +
+                Number(config?.deliveryTip) +
+                Number(totalDeliveryCharge),
+        );
 
         if (!canApplyCoupon) {
             discountAmount = 0;
@@ -79,10 +77,16 @@ export function calculateTotal(billingData) {
             );
         }
 
+        const rupeesPerFuro = config?.walletMultiple;
+
+        const rupeesPerReferralCoin = config?.referralCoinsMultiple;
+
         const walletMoneyToDeduct =
-            walletMoney < config?.maxWalletMoneyToUse
-                ? walletMoney
-                : config?.maxWalletMoneyToUse;
+            getUpto2Decimal(walletMoney * rupeesPerFuro) <
+            getUpto2Decimal(config?.maxWalletMoneyToUse * rupeesPerFuro)
+                ? getUpto2Decimal(walletMoney * rupeesPerFuro)
+                : getUpto2Decimal(config?.maxWalletMoneyToUse * rupeesPerFuro);
+
         const maxWalletMoneyToUse = isWalletMoneyUsed
             ? totalAmountBeforeDiscount <= walletMoneyToDeduct
                 ? totalAmountBeforeDiscount
@@ -90,21 +94,28 @@ export function calculateTotal(billingData) {
             : 0;
 
         const referralCoinsToDeduct =
-            referralCoins < config?.maxReferralCoinMoneyToUse
-                ? referralCoins
-                : config?.maxReferralCoinMoneyToUse;
+            getUpto2Decimal(referralCoins * rupeesPerReferralCoin) <
+            getUpto2Decimal(
+                config?.maxReferralCoinMoneyToUse * rupeesPerReferralCoin,
+            )
+                ? getUpto2Decimal(referralCoins * rupeesPerReferralCoin)
+                : getUpto2Decimal(
+                      config?.maxReferralCoinMoneyToUse * rupeesPerReferralCoin,
+                  );
+
         const maxRefferalCoinToUse = isReferralCoinsUsed
             ? totalAmountBeforeDiscount <= referralCoinsToDeduct
                 ? totalAmountBeforeDiscount
                 : referralCoinsToDeduct
             : 0;
 
-        const totalAmount =
+        const totalAmount = getUpto2Decimal(
             totalAmountBeforeDiscount -
-            Number(maxWalletMoneyToUse) -
-            Number(maxRefferalCoinToUse) -
-            Number(discountAmount) +
-            Number(taxes);
+                Number(maxWalletMoneyToUse) -
+                Number(maxRefferalCoinToUse) -
+                Number(discountAmount) +
+                Number(taxes),
+        );
 
         billingDetails = {
             totalItemsPrice: totalPriceByRestaurant,
@@ -301,6 +312,7 @@ export function removeItemFromRestaurant(_foodItem, _restaurant, state) {
         config,
         isWalletMoneyUsed,
         discountAmount,
+        isReferralCoinsUsed,
         coupon,
         count,
         walletMoney,
@@ -367,7 +379,7 @@ export function applyCoupon(state, coupon) {
     const restaurants = state?.restaurants;
     const config = state?.config;
     const isWalletMoneyUsed = state?.isWalletMoneyUsed;
-
+    const isReferralCoinsUsed = state?.isReferralCoinsUsed;
     const discountUpto = Number(coupon?.commonConstraints.valueUpto);
     const typeOfDiscount = coupon?.discount.type;
     const totalAmount = Number(state?.billingDetails?.totalAmount);
@@ -385,7 +397,7 @@ export function applyCoupon(state, coupon) {
             Number(
                 Math.max(
                     Math.round((totalAmount * coupon?.discount.value) / 100),
-                    0,
+                    2,
                 ),
             ),
         );
@@ -396,6 +408,7 @@ export function applyCoupon(state, coupon) {
         config,
         isWalletMoneyUsed,
         discountAmount,
+        isReferralCoinsUsed,
         coupon,
         count,
         walletMoney,
@@ -423,7 +436,7 @@ export function calculateCouponDiscount(coupon_, totalAmount_) {
             Number(
                 Math.max(
                     Math.round((totalAmount * coupon?.discount.value) / 100),
-                    0,
+                    2,
                 ),
             ),
         );
@@ -436,6 +449,7 @@ export function removeCoupon(state, coupon) {
     const restaurants = state?.restaurants;
     const config = state?.config;
     const isWalletMoneyUsed = state?.isWalletMoneyUsed;
+    const isReferralCoinsUsed = state?.isReferralCoinsUsed;
     const discountAmount = 0;
     const count = state?.foodItemsCount;
     const walletMoney = Number(state?.walletMoney ? state?.walletMoney : 0);
@@ -444,6 +458,7 @@ export function removeCoupon(state, coupon) {
         config,
         isWalletMoneyUsed,
         discountAmount,
+        isReferralCoinsUsed,
         coupon,
         count,
         walletMoney,

@@ -37,6 +37,7 @@ import Home from '../screens/SubscriptionModel/Home';
 import { Linking, View } from 'react-native';
 import branch from 'react-native-branch';
 import HeaderWithLocationAndSearch from '../components/Header/HeaderWithLocationAndSearch';
+import SubscriptionPageOld from '../screens/SubscriptionModel/SubscriptionPageOld';
 
 const Tab = createBottomTabNavigator();
 
@@ -197,12 +198,14 @@ const BottomTabNavigation = ({ navigation }) => {
                                 />
                             ),
                             header: () => (
-                                <View />
-                                // <HeaderWithLocation navigation={navigation} />
+                                // <View />
+                                <HeaderWithLocationAndSearch
+                                    navigation={navigation}
+                                />
                             ),
                         }}
                         name="Subscription"
-                        component={Home}
+                        component={SubscriptionPageOld}
                     />
                     <Tab.Screen
                         options={({ route }) => ({

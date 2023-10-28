@@ -79,6 +79,7 @@ class FloatingItems extends Component {
                 {this.icon && (
                     <Animated.Image
                         source={{ uri: this.icon }}
+                        resizeMode={'contain'}
                         style={[
                             styles.burger,
                             { transform: [{ translateY: burger1Y }] },
@@ -88,6 +89,7 @@ class FloatingItems extends Component {
                 {this.icon && (
                     <Animated.Image
                         source={{ uri: this.icon }}
+                        resizeMode={'contain'}
                         style={[
                             styles.burger,
                             { transform: [{ translateY: burger1Y }] },
@@ -97,6 +99,7 @@ class FloatingItems extends Component {
                 {this.icon && (
                     <Animated.Image
                         source={{ uri: this.icon }}
+                        resizeMode={'contain'}
                         style={[
                             styles.burger,
                             { transform: [{ translateY: burger1Y }] },
@@ -108,6 +111,7 @@ class FloatingItems extends Component {
                         source={{
                             uri: this.icon,
                         }}
+                        resizeMode={'contain'}
                         style={[
                             styles.burger,
                             { transform: [{ translateY: burger1Y }] },

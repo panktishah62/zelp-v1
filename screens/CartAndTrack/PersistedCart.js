@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
     ActivityIndicator,
     Alert,
+    AppState,
     Platform,
     SafeAreaView,
     ScrollView,
@@ -30,6 +31,7 @@ import CouponCardForCart from '../../components/Cards/Coupons.js/CouponCardForCa
 import { useIsFocused } from '@react-navigation/native';
 import { showDialog } from '../../redux/actions/dialog';
 import RefferalCoins from '../../components/Cards/PersistedCart.js/RefferalCoins';
+import { getUserProfile } from '../../redux/actions/user';
 
 const CartScreen = ({ navigation }) => {
     const insets = useSafeAreaInsets();
@@ -159,6 +161,27 @@ const CartScreen = ({ navigation }) => {
         }
         navigation.navigate('Payments');
     };
+
+    const appState = useRef(AppState.currentState);
+    useEffect(() => {
+        const subscription = AppState.addEventListener(
+            'change',
+            nextAppState => {
+                if (
+                    appState.current.match(/inactive|background/) &&
+                    nextAppState === 'active'
+                ) {
+                    dispatch(getUserProfile(setCartLoading));
+                }
+
+                appState.current = nextAppState;
+            },
+        );
+
+        return () => {
+            subscription.remove();
+        };
+    }, []);
 
     return (
         <View>

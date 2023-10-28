@@ -157,7 +157,7 @@ const ProfileMenuItem = ({
                             'Are you sure you want to delete your account?',
                         buttonText: 'No',
                         confirmText: 'Yes',
-                        confirmButtonTextStyle: { color:colors.ORANGE },
+                        confirmButtonTextStyle: { color: colors.ORANGE },
                         timing: 10000,
                         callback: () => {
                             Popup.hide();
@@ -275,8 +275,8 @@ const ProfileScreen = ({ navigation }) => {
                                                 style={
                                                     styles.userWalletMoneyText
                                                 }>
-                                                Current Wallet Money:{' '}
-                                                {user.wallet} ₹
+                                                Current Furos: {user.wallet}{' '}
+                                                Furos
                                             </Text>
                                         )}
                                         {user && user?.referralCoins >= 0 && (
@@ -285,7 +285,7 @@ const ProfileScreen = ({ navigation }) => {
                                                     styles.userWalletMoneyText
                                                 }>
                                                 Current Referral Coins:{' '}
-                                                {user.referralCoins} ₹
+                                                {user.referralCoins} Coins
                                             </Text>
                                         )}
                                         {user && user?.referral?.name && (

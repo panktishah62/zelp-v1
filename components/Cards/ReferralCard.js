@@ -61,8 +61,8 @@ const ReferralCard = props => {
 
                         <Text style={styles.subTitleText}>
                             Yay! You can earn{' '}
-                            {referralDetails?.addToSenderWallet}Rs in your
-                            wallet on every use. Share it now!
+                            {referralDetails?.addToSenderWallet} Coins on every
+                            use. Share it now!
                         </Text>
                     </View>
                 </View>

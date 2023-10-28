@@ -204,8 +204,8 @@ const ShotClassScreen = props => {
                     dispatch(
                         showDialog({
                             isVisible: true,
-                            titleText: 'Your wallet is full!',
-                            subTitleText: `Max ${data?.maxWalletApplicable}Rs can be added to wallet. Please use money from your wallet before earning more!`,
+                            titleText: 'Your Furos are full!',
+                            subTitleText: `Max ${data?.maxWalletApplicable} Furos can be earned. Please use Furos before earning more!`,
                             buttonText1: 'CLOSE',
                             type: DialogTypes.WARNING,
                         }),
