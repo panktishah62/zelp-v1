@@ -26,6 +26,12 @@ import remoteConfig from '@react-native-firebase/remote-config';
 const WalletMoney = props => {
     const { setIsLoading, moneyInWallet, config } = props;
     const cart = useSelector(state => state.cartActions);
+    const userProfile = useSelector(state => state.user.userProfile);
+    const [rupeesPerFuro, setRupeePerFuro] = useState(
+        userProfile?.walletMultiple > 0
+            ? Number(userProfile?.walletMultiple)
+            : remoteConfig()?.getValue('RupeesPerFuro').asNumber(),
+    );
     const [isActive, setIsActive] = useState(props.isActive);
     const [remainingMoneyInWallet, setRemainingMoneyInWallet] =
         useState(moneyInWallet);
@@ -35,7 +41,6 @@ const WalletMoney = props => {
     const walletInstructions = remoteConfig()
         .getValue('walletInstructions')
         .asString();
-    const rupeesPerFuro = remoteConfig().getValue('RupeesPerFuro').asNumber();
     const dispatch = useDispatch();
     const onClick = () => {
         if (isActive && cart?.walletMoney > 0) {
@@ -103,6 +108,14 @@ const WalletMoney = props => {
         }
     }, [cart, isActive]);
 
+    useEffect(() => {
+        setRupeePerFuro(
+            userProfile?.walletMultiple > 0
+                ? Number(userProfile?.walletMultiple)
+                : remoteConfig()?.getValue('RupeesPerFuro').asNumber(),
+        );
+    }, [userProfile]);
+
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
@@ -115,11 +128,6 @@ const WalletMoney = props => {
                 <Text style={styles.subtitleText}>
                     {1 / rupeesPerFuro} Furo = 1 Rs
                 </Text>
-                {!canFullWalletBeUsed && (
-                    <Text style={styles.subtitleText}>
-                        ( In Account : {remainingMoneyInWallet} Furos )
-                    </Text>
-                )}
                 {walletInstructions && (
                     <Text style={styles.subtitleText}>
                         {walletInstructions}

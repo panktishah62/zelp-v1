@@ -1,9 +1,4 @@
-import { useDispatch } from 'react-redux';
-import { DialogTypes, getUpto2Decimal } from '../../utils';
-import { showDialog } from '../actions/dialog';
-import { store } from '../store';
-import remoteConfig from '@react-native-firebase/remote-config';
-
+import { getUpto2Decimal } from '../../utils';
 export function calculateTotal(billingData) {
     const restaurants = billingData?.restaurants;
     let isWalletMoneyUsed = billingData?.isWalletMoneyUsed;
@@ -82,13 +77,9 @@ export function calculateTotal(billingData) {
             );
         }
 
-        const rupeesPerFuro = remoteConfig()
-            .getValue('RupeesPerFuro')
-            .asNumber();
+        const rupeesPerFuro = config?.walletMultiple;
 
-        const rupeesPerReferralCoin = remoteConfig()
-            .getValue('RupeesPerReferralCoin')
-            .asNumber();
+        const rupeesPerReferralCoin = config?.referralCoinsMultiple;
 
         const walletMoneyToDeduct =
             getUpto2Decimal(walletMoney * rupeesPerFuro) <

@@ -4,9 +4,11 @@ import {
     EDIT_USER_PROFILE,
     FETCH_DATA_FAILURE_USER,
     GET_USER_PROFILE,
+    REFERRAL_COIN_MULTIPLE,
     RESET_USER,
     UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE,
     UPDATE_MAX_WALLET_MONEY_TO_USE,
+    WALLET_MULTIPLE,
 } from '../constants';
 import {
     getUserReferralCoinMoney,
@@ -90,6 +92,14 @@ export const getUserProfile = setIsLoading => {
                                 payload: maxWalletMoneyToUse,
                             });
                         }
+                        dispatch({
+                            type: WALLET_MULTIPLE,
+                            payload: data?.user?.walletMultiple,
+                        });
+                        dispatch({
+                            type: REFERRAL_COIN_MULTIPLE,
+                            payload: data?.user?.referralCoinsMultiple,
+                        });
 
                         dispatch({
                             type: CALCULATE_TOTAL,

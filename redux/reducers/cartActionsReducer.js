@@ -20,6 +20,8 @@ import {
     GET_USER_REFERRAL_CODE_MONEY,
     GET_USER_REFERRAL_COIN_MONEY,
     UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE,
+    WALLET_MULTIPLE,
+    REFERRAL_COIN_MULTIPLE,
 } from '../constants';
 import {
     addItemToRestaurants,
@@ -72,7 +74,22 @@ const cartActionsReducer = (state = initialState, action) => {
                 },
                 isReferralCoinsUsed: false,
             };
-
+        case WALLET_MULTIPLE:
+            return {
+                ...state,
+                config: {
+                    ...state?.config,
+                    walletMultiple: action.payload,
+                },
+            };
+        case REFERRAL_COIN_MULTIPLE:
+            return {
+                ...state,
+                config: {
+                    ...state?.config,
+                    referralCoinsMultiple: action.payload,
+                },
+            };
         case CART_ERROR:
             return {
                 ...initialState,

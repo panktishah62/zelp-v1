@@ -23,6 +23,7 @@ import ReferralProgressCard from '../../components/Cards/ReferralProgressCard';
 
 const ReferralScreen = ({ navigation }) => {
     const [referralDetails, setReferralDetails] = useState();
+    const userProfile = useSelector(state => state.user.userProfile);
     const fetchData = async () => {
         await getUserReferralCodeDetails()
             .then(response => response.data)
@@ -88,6 +89,18 @@ const ReferralScreen = ({ navigation }) => {
                                 The User who use this referral code will also
                                 earn {referralDetails?.addToReceiverWallet}{' '}
                                 Coins.
+                            </Text>
+                        </View>
+                        <View style={styles.listContainer}>
+                            <View style={styles.pointers} />
+                            <Text
+                                style={{
+                                    ...fonts.NUNITO_700_14,
+                                    width: dimensions.fullWidth - 100,
+                                    color: colors.GREY_DARK,
+                                }}>
+                                {1 / userProfile?.referralCoinsMultiple}{' '}
+                                Referral Coins = 1 Rs
                             </Text>
                         </View>
                     </View>

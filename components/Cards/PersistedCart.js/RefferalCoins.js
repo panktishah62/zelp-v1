@@ -29,15 +29,18 @@ import remoteConfig from '@react-native-firebase/remote-config';
 const RefferalCoins = props => {
     const { setIsLoading, moneyInReferral, config } = props;
     const cart = useSelector(state => state.cartActions);
+    const userProfile = useSelector(state => state.user.userProfile);
+    const [rupeesPerReferralCoin, setRupeesPerReferralCoin] = useState(
+        userProfile?.referralCoinsMultiple > 0
+            ? Number(userProfile.referralCoinsMultiple)
+            : remoteConfig?.getValue('RupeesPerReferralCoin').asNumber(),
+    );
     const [isActive, setIsActive] = useState(props.isActive);
     const [remainingMoneyInReferral, setRemainingMoneyInReferral] =
         useState(moneyInReferral);
     const canFullReferralCoinsBeUsed = remoteConfig()
         .getValue('canFullReferralCoinsBeUsed')
         .asBoolean();
-    const rupeesPerReferralCoin = remoteConfig()
-        .getValue('RupeesPerReferralCoin')
-        .asNumber();
 
     const dispatch = useDispatch();
     const onClick = () => {
@@ -106,24 +109,26 @@ const RefferalCoins = props => {
         }
     }, [cart, isActive]);
 
+    useEffect(() => {
+        setRupeesPerReferralCoin(
+            userProfile?.referralCoinsMultiple > 0
+                ? Number(userProfile.referralCoinsMultiple)
+                : remoteConfig?.getValue('RupeesPerReferralCoin').asNumber(),
+        );
+    }, [userProfile]);
+
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
                 <Text style={styles.titleText}>Use Referral Coins</Text>
 
-                {!canFullReferralCoinsBeUsed && (
-                    <Text style={styles.subtitleText}>
-                        Max {config.maxReferralCoinMoneyToUse} Coins can be used
-                    </Text>
-                )}
-
                 <Text style={styles.subtitleText}>
-                    {1 / rupeesPerReferralCoin} Coins = 1 Rs
+                    {1 / rupeesPerReferralCoin} Referral Coins = 1 Rs
                 </Text>
 
                 {!canFullReferralCoinsBeUsed && (
                     <Text style={styles.subtitleText}>
-                        ( In Account : {remainingMoneyInReferral} Coins )
+                        Max {config.maxReferralCoinMoneyToUse} Coins can be used
                     </Text>
                 )}
             </View>

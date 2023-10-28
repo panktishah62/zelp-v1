@@ -155,6 +155,14 @@ export const verifyOTP = (
                             payload: maxWalletMoneyToUse,
                         });
                     }
+                    dispatch({
+                        type: types.WALLET_MULTIPLE,
+                        payload: data?.userProfile?.walletMultiple,
+                    });
+                    dispatch({
+                        type: types.REFERRAL_COIN_MULTIPLE,
+                        payload: data?.userProfile?.referralCoinsMultiple,
+                    });
                     dispatch(
                         getUserReferralCoinMoney(
                             data?.userProfile?.referralCoins,
