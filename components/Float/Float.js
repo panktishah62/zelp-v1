@@ -1,5 +1,5 @@
 import LinearGradient from 'react-native-linear-gradient';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import Landing from '../../screens/Home/Landing';
 import { dimensions } from '../../styles';
@@ -14,10 +14,14 @@ export default function Float({}) {
     const MIN = 0;
     const MAX = 10000;
     const insets = useSafeAreaInsets();
+    const [floatingIcons, setFloatingIcons] = useState({});
 
-    const floatingIcons = JSON.parse(
-        remoteConfig().getValue('FloatingIcons').asString(),
-    );
+    useEffect(() => {
+        const icons = remoteConfig()?.getValue('FloatingIcons')
+            ? JSON.parse(remoteConfig().getValue('FloatingIcons').asString())
+            : {};
+        setFloatingIcons(icons);
+    }, []);
 
     return (
         <LinearGradient
