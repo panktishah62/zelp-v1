@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import {
+    Linking,
+    StyleSheet,
+    Text,
+    TouchableWithoutFeedback,
+    View,
+} from 'react-native';
 import Carousel, { Pagination } from 'react-native-new-snap-carousel';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { dimensions } from '../../styles';
@@ -19,11 +25,14 @@ const BannerOnHomeScreen = props => {
 
     const renderItems = (item, index) => {
         const navigateTo = item?.navigationTo;
+        const openUrl = item?.openUrl;
         const navigationData = item?.navigationData;
 
         const onPress = () => {
             if (navigateTo) {
                 navigation.navigate(navigateTo, navigationData);
+            } else if (openUrl) {
+                Linking.openURL(openUrl);
             }
         };
 
