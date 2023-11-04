@@ -29,6 +29,11 @@ export const getConfig = () => {
                 packagingCharges: parameters.packagingCharges.asNumber(),
                 deliveryTip: parameters.deliveryTip.asNumber(),
                 isDeliveryFree: parameters.isDeliveryFree.asBoolean(),
+                // maxReferralCoinsToUse: parameters.maxReferralCoinsToUse.asNumber(),
+                maxReferralCoinMoneyToUse:
+                    parameters.maxReferralCoinMoneyToUse.asNumber(),
+                minOrderValueForReferralCoins:
+                    parameters.minOrderValueForReferralCoins.asNumber(),
             };
             dispatch({
                 type: GET_CONFIG,
@@ -38,7 +43,6 @@ export const getConfig = () => {
                 type: GET_CART_CONFIG,
                 payload: config,
             });
-            // console.log('data.config', data.config);
             dispatch(resetFollowedFroker());
             dispatch(resetAddressError());
             dispatch(resetCartError());

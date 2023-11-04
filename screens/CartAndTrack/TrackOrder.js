@@ -6,6 +6,7 @@ import TransparentHeader from '../../components/Header/TransparentHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentOrder } from '../../redux/actions/currentOrder';
 import { colors } from '../../styles/colors';
+// import ShowSubscriptionOrderDetails from '../../components/TrackOrder/ShowSubscriptionOrderDetails';
 import LiveTrackingMap from './LiveTrackingMap';
 import { dimensions, fonts } from '../../styles';
 import EstimatedDeliveryCard from './EstimatedDeliveryCard';
@@ -197,6 +198,21 @@ const TrackOrderScreen = ({ route, navigation }) => {
                 orderId={currentOrder?.currentOrder?._id}
                 timeToCancel={36}
             />
+
+            {/* <View>
+                {!currentOrder?.currentOrder?.subscriptionOrder && (
+                    <ShowOrderDetails
+                        navigation={navigation}
+                        orderId={currentOrder?.currentOrder?._id}
+                    />
+                )}
+                {currentOrder?.currentOrder?.subscriptionOrder && (
+                    <ShowSubscriptionOrderDetails
+                        navigation={navigation}
+                        orderId={currentOrder?.currentOrder?._id}
+                    />
+                )}
+            </View> */}
         </View>
     );
 };

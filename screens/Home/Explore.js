@@ -20,7 +20,7 @@ import FoodItemSlider from '../../components/Sliders/FoodItemSlider';
 import { TAB_BAR_HEIGHT } from '../../redux/constants';
 import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
-import { isPointInPolygon, isTimeInIntervals } from '../../utils';
+import { isTimeInIntervals } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
 import Carousel, { Pagination } from 'react-native-new-snap-carousel';
 import OfferCard from '../../components/Cards/Offers/OfferCard';
@@ -30,6 +30,7 @@ import {
     getOffersRestaurants,
     getTopRated,
 } from '../../redux/services/restaurantService';
+import BannerOnHomeScreen from '../../components/Banners/BannerOnHomeScreen';
 
 const Explore = props => {
     const { location, navigation } = props;
@@ -91,16 +92,10 @@ const Explore = props => {
         setIsLoading(true); // set loading to true before fetch
         setIsServableArea(false);
         if (location?.latitude && location?.longitude) {
-            const isServableArea_ = isPointInPolygon([
-                location.latitude,
-                location.longitude,
-            ]);
-            setIsServableArea(isServableArea_);
-            if (isServableArea_) {
+            if (location?.latitude && location?.longitude) {
+                setIsServableArea(true);
                 getAllRestaurants(location.latitude, location.longitude);
                 getAllOffers(location.latitude, location.longitude);
-            } else {
-                setIsLoading(false);
             }
         }
     };
@@ -160,7 +155,7 @@ const Explore = props => {
                 //     />
                 // }
             >
-                {!isLoading && isServableArea && (
+                {!isLoading && isServableArea && restaurants?.length > 0 && (
                     <View>
                         {/* Choose from categories */}
                         <View style={styles.container1}>
@@ -178,6 +173,8 @@ const Explore = props => {
                                 })}
                             </View>
                         </View>
+
+                        <BannerOnHomeScreen navigation={navigation} />
 
                         {offers.length > 0 && (
                             <View
@@ -226,7 +223,7 @@ const Explore = props => {
                         )}
 
                         {/* Choose from frokers */}
-                        <LinearGradient
+                        {/* <LinearGradient
                             style={styles.container2}
                             colors={[
                                 colors.ORANGE_GRADIENT_LIGHT,
@@ -245,7 +242,7 @@ const Explore = props => {
                                     );
                                 })}
                             </View>
-                        </LinearGradient>
+                        </LinearGradient> */}
 
                         {/* Choose from Posts/reels */}
                         {/* <View style={styles.container3}>
@@ -279,7 +276,7 @@ const Explore = props => {
                     <ActivityIndicator size="large" color={colors.ORANGE} />
                 )}
             </View>
-            {!isLoading && (!isServableArea || restaurants.length === 0) && (
+            {!isLoading && (!isServableArea || restaurants?.length === 0) && (
                 <View
                     style={[
                         styles.commingSoon,

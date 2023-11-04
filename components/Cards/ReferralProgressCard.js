@@ -14,7 +14,7 @@ const SuccessIcon = props => {
     return (
         <View style={styles.smallIcons}>
             <SUCCESSICON height={30} />
-            <Text style={styles.incentiveText}>{incentive}Rs</Text>
+            <Text style={styles.incentiveText}>{incentive} Coins</Text>
         </View>
     );
 };
@@ -23,7 +23,7 @@ const CurrentIcon = props => {
     return (
         <View style={styles.smallIcons}>
             <CURRENTICON height={30} />
-            <Text style={styles.incentiveText}>{incentive}Rs</Text>
+            <Text style={styles.incentiveText}>{incentive} Coins</Text>
         </View>
     );
 };
@@ -32,7 +32,7 @@ const PendingIcon = props => {
     return (
         <View style={styles.smallIcons}>
             <PENDINGICON height={30} />
-            <Text style={styles.incentiveText}>{incentive}Rs</Text>
+            <Text style={styles.incentiveText}>{incentive} Coins</Text>
         </View>
     );
 };
@@ -41,7 +41,7 @@ const MilestoneIcon = props => {
     return (
         <View style={styles.smallIcons}>
             <MILESTONEICON height={30} />
-            <Text style={styles.incentiveText}>{incentive}Rs</Text>
+            <Text style={styles.incentiveText}>{incentive} Coins</Text>
         </View>
     );
 };
@@ -98,9 +98,7 @@ const LevelProgress = props => {
                                 ])}
                                 key={index}
                                 currentCount={currentCount}
-                                incentive={
-                                    index == 0 ? 100 : data[index - 1].incentive
-                                }
+                                incentive={data[index].incentive}
                             />
                             {!(index === data.length - 1) && (
                                 <View style={styles.separation} />
@@ -123,7 +121,7 @@ const ReferralProgressCard = props => {
                 <View>
                     <Text style={styles.titleText}>Total Earnings:</Text>
                     <Text style={styles.subTitleText}>
-                        {referralDetails?.totalAmountEarned}Rs
+                        {referralDetails?.totalAmountEarned} Coins
                     </Text>
                 </View>
                 <IMAGEICON width={dimensions.fullWidth / 2} />

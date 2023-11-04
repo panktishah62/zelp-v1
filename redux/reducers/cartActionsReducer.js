@@ -15,11 +15,19 @@ import {
     RESET_CART_ACTIONS,
     RESET_CART_ERROR,
     UPDATE_MAX_WALLET_MONEY_TO_USE,
+    REMOVE_REFERRAL_CODE_MONEY,
+    APPLY_REFERRAL_CODE_MONEY,
+    GET_USER_REFERRAL_CODE_MONEY,
+    GET_USER_REFERRAL_COIN_MONEY,
+    UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE,
+    WALLET_MULTIPLE,
+    REFERRAL_COIN_MULTIPLE,
 } from '../constants';
 import {
     addItemToRestaurants,
     applyCoupon,
     calculateTotal,
+    canApplyReferralCodeMoney,
     canApplyWallet,
     removeCoupon,
     removeItemFromRestaurant,
@@ -37,6 +45,8 @@ const initialState = {
     error: null,
     coupon: null,
     discountAmount: 0,
+    referralCoinsUsed: null,
+    isReferralCoinsUsed: false,
 };
 
 const cartActionsReducer = (state = initialState, action) => {
@@ -54,6 +64,31 @@ const cartActionsReducer = (state = initialState, action) => {
                     maxWalletMoneyToUse: action?.payload,
                 },
                 isWalletMoneyUsed: false,
+            };
+        case UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE:
+            return {
+                ...state,
+                config: {
+                    ...state?.config,
+                    maxReferralCoinMoneyToUse: action?.payload,
+                },
+                isReferralCoinsUsed: false,
+            };
+        case WALLET_MULTIPLE:
+            return {
+                ...state,
+                config: {
+                    ...state?.config,
+                    walletMultiple: action.payload,
+                },
+            };
+        case REFERRAL_COIN_MULTIPLE:
+            return {
+                ...state,
+                config: {
+                    ...state?.config,
+                    referralCoinsMultiple: action.payload,
+                },
             };
         case CART_ERROR:
             return {
@@ -101,14 +136,22 @@ const cartActionsReducer = (state = initialState, action) => {
                     0
                         ? state.coupon
                         : null,
+                isReferralCoinsUsed:
+                    removeFromCartRestaurants.isReferralCoinsUsed,
             };
         case GET_USER_WALLET:
             return {
                 ...state,
                 walletMoney: action.payload,
             };
+        case GET_USER_REFERRAL_CODE_MONEY:
+            return {
+                ...state,
+                referralCoinsUsed: action.payload,
+            };
         case APPLY_WALLET_MONEY:
             const canApply = canApplyWallet(state);
+
             return {
                 ...state,
                 isWalletMoneyUsed: canApply,
@@ -132,6 +175,8 @@ const cartActionsReducer = (state = initialState, action) => {
                 coupon: state?.coupon,
                 count: state?.foodItemsCount,
                 walletMoney: state?.walletMoney,
+                isReferralCoinsUsed: state?.isReferralCoinsUsed,
+                referralCoinsUsed: state?.referralCoinsUsed,
             };
             const billingDetails = calculateTotal(billingData);
             return {
@@ -185,6 +230,23 @@ const cartActionsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: null,
+            };
+        case GET_USER_REFERRAL_COIN_MONEY:
+            return {
+                ...state,
+                referralCoinsUsed: action.payload,
+            };
+        //change the code here
+        case APPLY_REFERRAL_CODE_MONEY:
+            const canApplyReferral = canApplyReferralCodeMoney(state);
+            return {
+                ...state,
+                isReferralCoinsUsed: canApplyReferral,
+            };
+        case REMOVE_REFERRAL_CODE_MONEY:
+            return {
+                ...state,
+                isReferralCoinsUsed: false,
             };
         default:
             return state;

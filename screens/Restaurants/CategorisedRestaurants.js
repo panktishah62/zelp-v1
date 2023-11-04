@@ -11,9 +11,10 @@ import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
 import HeaderWithTitle from '../../components/Header/HeaderWithTitle';
 import { useSelector } from 'react-redux';
-import { isPointInPolygon, isTimeInIntervals } from '../../utils';
+import { isTimeInIntervals } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
 import { getAllCategorisedRestaurants } from '../../redux/services/restaurantService';
+import { searchbyAlgolia } from '../../redux/services/searchService';
 
 const CategorisedRestaurant = ({ route, navigation }) => {
     const { category } = route.params;
@@ -25,23 +26,26 @@ const CategorisedRestaurant = ({ route, navigation }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const getAllRestaurants = async (lat, long) => {
-        await getAllCategorisedRestaurants(category, lat, long)
-            .then(response => response?.data)
-            .then(data => {
-                if (data) {
-                    const restaurants = data?.restaurants?.sort(function (
-                        a,
-                        b,
-                    ) {
-                        return !isTimeInIntervals(a.restaurant._id.timings);
-                    });
-                    setRestaurantData(restaurants);
-                    setIsLoading(false);
-                }
-            })
-            .catch(error => {
-                throw new Error(error);
+        await searchbyAlgolia(
+            category,
+            location?.latitude,
+            location?.longitude,
+        ).then(data => {
+            let restaurants = [];
+            if (data?.data) {
+                Object.keys(data?.data).map(rest => {
+                    if (data.data[rest]?.length > 0) {
+                        restaurants.push(data.data[rest][0]?.restaurant);
+                    }
+                });
+            }
+            restaurants = restaurants?.sort(function (a, b) {
+                return !isTimeInIntervals(a.timings);
             });
+            setRestaurantData(restaurants);
+
+            setIsLoading(false);
+        });
     };
 
     useEffect(() => {
@@ -57,16 +61,14 @@ const CategorisedRestaurant = ({ route, navigation }) => {
             setIsLoading(true);
             setLatitude(location.latitude);
             setLongitude(location.longitude);
-            setIsServableArea(
-                isPointInPolygon([location.latitude, location.longitude]),
-            );
+            setIsServableArea(true);
             getAllRestaurants(location.latitude, location.longitude);
         }
     }, [location]);
 
     return (
         <View style={[Styles.center, styles.container]}>
-            {isServableArea && !isLoading && (
+            {isServableArea && !isLoading && restaurantData?.length > 0 && (
                 <ScrollView>
                     {restaurantData &&
                         restaurantData?.length > 0 &&
@@ -74,7 +76,10 @@ const CategorisedRestaurant = ({ route, navigation }) => {
                             return (
                                 <RestaurantCardLarge
                                     restaurantObject={{
-                                        restaurant: restaurant?.restaurant?._id,
+                                        restaurant: restaurant,
+                                        isRestaurantOpen: isTimeInIntervals(
+                                            restaurant.timings,
+                                        ),
                                     }}
                                     navigation={navigation}
                                     key={index}
@@ -83,14 +88,16 @@ const CategorisedRestaurant = ({ route, navigation }) => {
                         })}
                 </ScrollView>
             )}
-            {(!isServableArea || restaurantData.length === 0) && !isLoading && (
-                <View style={styles.commingSoon}>
-                    <ComingSoon />
-                    <Text style={styles.commingSoonText}>
-                        Sit Tight !! We will be coming soon to your location.
-                    </Text>
-                </View>
-            )}
+            {(!isServableArea || restaurantData?.length === 0) &&
+                !isLoading && (
+                    <View style={styles.commingSoon}>
+                        <ComingSoon />
+                        <Text style={styles.commingSoonText}>
+                            Sit Tight !! We will be coming soon to your
+                            location.
+                        </Text>
+                    </View>
+                )}
             {isLoading && (
                 <View style={[Styles.center, { flex: 1 }]}>
                     <ActivityIndicator size="large" color={colors.ORANGE} />

@@ -13,7 +13,7 @@ import { colors } from '../../styles/colors';
 import FeaturedItem from '../../components/FeaturedItems/FeaturedItem';
 import { likeShorts, unlikeShots } from '../../redux/services/short';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { DialogTypes } from '../../utils';
+import { DialogTypes, getRandomInt } from '../../utils';
 import { buildLinkForShots } from '../../redux/linking/CreateLinks';
 import Share from 'react-native-share';
 import { hideDialog, showDialog } from '../../redux/actions/dialog';
@@ -26,7 +26,13 @@ const ActionButtons = props => {
     const [showItems, setShowItems] = useState(false);
     const [isLiked, setIsLiked] = useState(item.isLiked);
     const [token, setToken] = useState(null);
-    const [likes, setLikes] = useState(item?.likes ? item?.likes : 0);
+    const minShotsLike = remoteConfig().getValue('minShotsLike')?.asNumber();
+    const randomLikes =
+        minShotsLike > 200 ? getRandomInt(minShotsLike - 200, minShotsLike) : 0;
+    // console.log('randomLikes', randomLikes);
+    const [likes, setLikes] = useState(
+        item?.likes ? randomLikes + item?.likes : randomLikes,
+    );
 
     const onPressLogin = () => {
         navigation.navigate('LogIn');
@@ -123,7 +129,9 @@ const ActionButtons = props => {
                             }
                             style={styles.likeButton}
                         />
-                        <Text style={styles.subTitleText}>{likes}</Text>
+                        {likes >= 0 && (
+                            <Text style={styles.subTitleText}>{likes}</Text>
+                        )}
                     </TouchableOpacity>
                     <TouchableOpacity
                         activeOpacity={0.9}
@@ -160,6 +168,7 @@ const ActionButtons = props => {
                                     key={key}
                                     item={data}
                                     navigation={navigation}
+                                    shotId={item?.shot?._id}
                                 />
                             );
                         })}

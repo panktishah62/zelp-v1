@@ -20,7 +20,8 @@ import { useSelector } from 'react-redux';
 import { dynamicSize } from '../../../utils/responsive';
 
 const FoodItems = props => {
-    const { foodItem, restaurant, isRestaurantOpen, navigation } = props;
+    const { foodItem, restaurant, category, isRestaurantOpen, navigation } =
+        props;
 
     const myCart = useSelector(state => state.cartActions);
     const [count, setCount] = useState(0);
@@ -28,13 +29,14 @@ const FoodItems = props => {
 
     useEffect(() => {
         if (myCart.restaurants) {
-            if (restaurant._id in myCart.restaurants) {
+            if (restaurant?._id in myCart.restaurants) {
                 if (
-                    foodItem._id in myCart.restaurants[restaurant._id].foodItems
+                    foodItem._id in
+                    myCart.restaurants[restaurant?._id].foodItems
                 ) {
                     setCount(
-                        myCart.restaurants[restaurant._id].foodItems[
-                            foodItem._id
+                        myCart.restaurants[restaurant?._id].foodItems[
+                            foodItem.objectID
                         ].count,
                     );
                     setIsInCart(true);
@@ -52,62 +54,38 @@ const FoodItems = props => {
                 <View>
                     <Text style={styles.titleText}>
                         {Platform.OS == 'android'
-                            ? sliceText(foodItem.name, 45)
-                            : sliceText(foodItem.name, 25)}
+                            ? sliceText(foodItem?.itemName, 45)
+                            : sliceText(foodItem?.itemName, 25)}
                     </Text>
                 </View>
-                {foodItem.category && (
+                {category && category?.name && (
                     <View>
-                        <Text style={styles.subtitleText}>
-                            {foodItem.category.name}
-                        </Text>
+                        <Text style={styles.subtitleText}>{category.name}</Text>
                     </View>
                 )}
-                {/* <View style={styles.distanceTime}>
-                    {distance && isRestaurantOpen && (
-                        <View style={Styles.row_flex_start}>
-                            <LocationIcon />
-
-                            <Text
-                                style={[
-                                    fonts.NUNITO_700_10,
-                                    { color: colors.ORANGE },
-                                ]}>
-                                {' '}
-                                {distance}
-                            </Text>
-                        </View>
-                    )}
-                    {time && isRestaurantOpen && (
-                        <Text
-                            style={[
-                                fonts.NUNITO_700_10,
-                                { color: colors.ORANGE },
-                            ]}>
-                            {time}
-                        </Text>
-                    )}
-                </View> */}
-                {foodItem.rating && (
+                {foodItem?.item?.rating && (
                     <View style={styles.ratingContainer}>
                         <Star />
                         <Text style={[styles.ratings, Styles.margin_05]}>
-                            {foodItem.rating.value} ({foodItem.rating.count} + )
+                            {foodItem?.item?.rating?.value} (
+                            {foodItem?.item?.rating?.count} + )
                         </Text>
                     </View>
                 )}
-                {foodItem.price && (
-                    <Text style={[styles.priceText]}>₹ {foodItem.price}</Text>
+                {foodItem?.item?.price && (
+                    <Text style={[styles.priceText]}>
+                        ₹ {foodItem?.item?.price}
+                    </Text>
                 )}
             </View>
             <View style={styles.containerRight}>
                 <View style={styles.imageContainer}>
                     {isRestaurantOpen && (
                         <View style={styles.layer}>
-                            {foodItem && foodItem.image ? (
+                            {foodItem && foodItem?.item?.image ? (
                                 <Image
                                     source={{
-                                        uri: foodItem.image,
+                                        uri: foodItem?.item?.image,
                                     }}
                                     style={styles.image}
                                 />
@@ -117,16 +95,15 @@ const FoodItems = props => {
                                     style={styles.image}
                                 />
                             )}
-                            {/* <Heart style={styles.likeButton} /> */}
                         </View>
                     )}
                     {!isRestaurantOpen && (
                         <View style={styles.layer}>
-                            {foodItem && foodItem.image ? (
+                            {foodItem && foodItem?.item?.image ? (
                                 <ColorMatrix matrix={GreyColorMatrix}>
                                     <Image
                                         source={{
-                                            uri: foodItem.image,
+                                            uri: foodItem?.item?.image,
                                         }}
                                         style={styles.image}
                                     />
@@ -139,14 +116,13 @@ const FoodItems = props => {
                                     />
                                 </ColorMatrix>
                             )}
-                            {/* <Heart style={styles.likeButton} /> */}
                         </View>
                     )}
 
                     <View style={styles.buttonStyle}>
                         {foodItem && isInCart && (
                             <AddButton
-                                foodItem={foodItem}
+                                foodItem={foodItem?.item}
                                 count={count}
                                 style={styles.button}
                                 restaurant={restaurant}
@@ -156,7 +132,7 @@ const FoodItems = props => {
                         )}
                         {foodItem && !isInCart && (
                             <AddButton
-                                foodItem={foodItem}
+                                foodItem={foodItem?.item}
                                 count={count}
                                 style={styles.button}
                                 restaurant={restaurant}

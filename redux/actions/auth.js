@@ -5,7 +5,12 @@ import { persistor } from '../store/index';
 import { getDefaultAddress, resetAddress } from './address';
 import { resetCurrentOrder } from './currentOrder';
 import { resetUser } from './user';
-import { getUserWallet, resetCartActions } from './cartActions';
+import {
+    getUserWallet,
+    resetCartActions,
+    getUserReferralCoinMoney,
+    updateReferraMaxMoney,
+} from './cartActions';
 import { resetFollowedFroker } from './froker';
 import {
     generateNewToken,
@@ -19,6 +24,7 @@ import {
     verifyOtp,
 } from '../services/authService';
 import { hideDialog, showDialog } from './dialog';
+import remoteConfig from '@react-native-firebase/remote-config';
 
 // Action creator to log out the user
 export const logoutUser = () => {
@@ -129,10 +135,59 @@ export const verifyOTP = (
                         payload: data.userProfile,
                     });
                     dispatch(getUserWallet(data?.userProfile?.wallet));
+
+                    const canFullWalletBeUsed = remoteConfig()
+                        .getValue('canFullWalletBeUsed')
+                        .asBoolean();
+
+                    const maxWalletMoneyToUse = remoteConfig()
+                        .getValue('maxWalletMoneyToUse')
+                        .asNumber();
+
+                    if (canFullWalletBeUsed) {
+                        dispatch({
+                            type: types.UPDATE_MAX_WALLET_MONEY_TO_USE,
+                            payload: data?.userProfile?.wallet,
+                        });
+                    } else {
+                        dispatch({
+                            type: types.UPDATE_MAX_WALLET_MONEY_TO_USE,
+                            payload: maxWalletMoneyToUse,
+                        });
+                    }
                     dispatch({
-                        type: types.UPDATE_MAX_WALLET_MONEY_TO_USE,
-                        payload: data?.userProfile?.wallet,
+                        type: types.WALLET_MULTIPLE,
+                        payload: data?.userProfile?.walletMultiple,
                     });
+                    dispatch({
+                        type: types.REFERRAL_COIN_MULTIPLE,
+                        payload: data?.userProfile?.referralCoinsMultiple,
+                    });
+                    dispatch(
+                        getUserReferralCoinMoney(
+                            data?.userProfile?.referralCoins,
+                        ),
+                    );
+
+                    const maxReferralCoinMoneyToUse = remoteConfig()
+                        .getValue('maxReferralCoinMoneyToUse')
+                        .asNumber();
+
+                    const canFullReferralCoinsBeUsed = remoteConfig()
+                        .getValue('canFullReferralCoinsBeUsed')
+                        .asBoolean();
+                    if (canFullReferralCoinsBeUsed) {
+                        dispatch(
+                            updateReferraMaxMoney(
+                                data?.userProfile?.referralCoins,
+                            ),
+                        );
+                    } else {
+                        dispatch(
+                            updateReferraMaxMoney(maxReferralCoinMoneyToUse),
+                        );
+                    }
+
                     if (
                         data?.referralCode &&
                         data?.addToSenderWallet &&
@@ -142,7 +197,7 @@ export const verifyOTP = (
                             showDialog({
                                 isVisible: true,
                                 titleText: `Referral Code: ${data.referralCode}`,
-                                subTitleText: `Earn ${data.addToSenderWallet}Rs in your wallet on every use. Share the above Referral Code with your friends and family to earn money in your wallet.`,
+                                subTitleText: `Earn ${data.addToSenderWallet} Coins on every use. Share the above Referral Code with your friends and family to earn referral coins.`,
                                 buttonText1: 'CLOSE',
                                 buttonText2: 'SHARE',
                                 buttonFunction2: () =>

@@ -14,7 +14,6 @@ import { Styles, fonts } from '../../styles';
 import { colors } from '../../styles/colors';
 import {
     GreyColorMatrix,
-    isPointInPolygon,
     isPointInRadius,
     isTimeInIntervals,
     sliceText,
@@ -25,7 +24,7 @@ import { useSelector } from 'react-redux';
 import { ColorMatrix } from 'react-native-color-matrix-image-filters';
 
 const FeaturedItem = props => {
-    const { item, navigation } = props;
+    const { item, shotId, navigation } = props;
 
     const myCart = useSelector(state => state.cartActions);
     const [count, setCount] = useState();
@@ -149,6 +148,7 @@ const FeaturedItem = props => {
                         price={item?.price ? Number(item?.price) : null}
                         isServableArea={isServableArea}
                         isRestaurantOpen={isRestaurantOpen}
+                        shotId={shotId}
                     />
                 )}
                 {foodItem && !isInCart && (
@@ -162,6 +162,7 @@ const FeaturedItem = props => {
                         price={item?.price ? Number(item?.price) : null}
                         isServableArea={isServableArea}
                         isRestaurantOpen={isRestaurantOpen}
+                        shotId={shotId}
                     />
                 )}
             </View>

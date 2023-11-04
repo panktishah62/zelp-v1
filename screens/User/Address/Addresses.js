@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     savedAddressTextStyle: {
-        color: '#00000065',
+        color: colors.BLACK,
         marginVertical: 10,
     },
     btnPosStyle: { position: 'absolute', bottom: 10, left: 0, right: 0 },

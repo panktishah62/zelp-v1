@@ -100,6 +100,13 @@ const AddressCard = props => {
             setAddress(currentOrder.cart.address);
             setInitialTime(new Date(currentOrder.updatedAt));
             setEndTime(initialTime + 60);
+        } else if (
+            currentOrder?.subscriptionOrder &&
+            currentOrder?.subscriptionOrder?.address
+        ) {
+            setAddress(currentOrder?.subscriptionOrder?.address);
+            setInitialTime(new Date(currentOrder.updatedAt));
+            setEndTime(initialTime + 60);
         }
     }, [currentOrder]);
 

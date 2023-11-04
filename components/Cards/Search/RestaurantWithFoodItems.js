@@ -87,7 +87,7 @@ const RestaurantWithFoodItems = props => {
                     })}
             </ScrollView>
             <View>
-                {restaurant._id && restaurant._id.costOfTwo && (
+                {restaurant._id && restaurant?._id?.costOfTwo >= 0 && (
                     <Text
                         style={[
                             fonts.NUNITO_700_12,

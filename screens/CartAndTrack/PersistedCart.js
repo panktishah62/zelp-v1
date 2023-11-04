@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
     ActivityIndicator,
     Alert,
+    AppState,
     Platform,
     SafeAreaView,
     ScrollView,
@@ -22,13 +23,14 @@ import BillDetails from '../../components/Cards/PersistedCart.js/BillDetails';
 import {
     DialogTypes,
     getCoordinatesFromGoogleMapUrl,
-    isPointInPolygon,
     isTimeInIntervals,
 } from '../../utils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CouponCardForCart from '../../components/Cards/Coupons.js/CouponCardForCart';
 import { useIsFocused } from '@react-navigation/native';
 import { showDialog } from '../../redux/actions/dialog';
+import RefferalCoins from '../../components/Cards/PersistedCart.js/RefferalCoins';
+import { getUserProfile } from '../../redux/actions/user';
 
 const CartScreen = ({ navigation }) => {
     const insets = useSafeAreaInsets();
@@ -113,23 +115,6 @@ const CartScreen = ({ navigation }) => {
                 );
                 return;
             }
-            const isServableArea = isPointInPolygon([
-                location.latitude,
-                location.longitude,
-            ]);
-            if (!isServableArea) {
-                dispatch(
-                    showDialog({
-                        isVisible: true,
-                        titleText: 'Select Other Address',
-                        subTitleText:
-                            'Area of selected address is not Serviceable, please select other address',
-                        buttonText1: 'CLOSE',
-                        type: DialogTypes.WARNING,
-                    }),
-                );
-                return;
-            }
         }
         if (closedRestaurants.length) {
             dispatch(
@@ -159,6 +144,27 @@ const CartScreen = ({ navigation }) => {
         navigation.navigate('Payments');
     };
 
+    const appState = useRef(AppState.currentState);
+    useEffect(() => {
+        const subscription = AppState.addEventListener(
+            'change',
+            nextAppState => {
+                if (
+                    appState.current.match(/inactive|background/) &&
+                    nextAppState === 'active'
+                ) {
+                    dispatch(getUserProfile(setCartLoading));
+                }
+
+                appState.current = nextAppState;
+            },
+        );
+
+        return () => {
+            subscription.remove();
+        };
+    }, []);
+
     return (
         <View>
             {cartLoading ? (
@@ -180,12 +186,28 @@ const CartScreen = ({ navigation }) => {
                             <View style={styles.container}>
                                 <View>
                                     {cart && (
-                                        <WalletMoney
-                                            isActive={myCart.isWalletMoneyUsed}
-                                            setIsLoading={setCartLoading}
-                                            moneyInWallet={myCart.walletMoney}
-                                            config={myCart.config}
-                                        />
+                                        <View>
+                                            <WalletMoney
+                                                isActive={
+                                                    myCart.isWalletMoneyUsed
+                                                }
+                                                setIsLoading={setCartLoading}
+                                                moneyInWallet={
+                                                    myCart.walletMoney
+                                                }
+                                                config={myCart.config}
+                                            />
+                                            <RefferalCoins
+                                                isActive={
+                                                    myCart.isReferralCoinsUsed
+                                                }
+                                                setIsLoading={setCartLoading}
+                                                moneyInReferral={
+                                                    myCart.referralCoinsUsed
+                                                }
+                                                config={myCart.config}
+                                            />
+                                        </View>
                                     )}
                                 </View>
                                 <View style={styles.foodItemsContainer}>

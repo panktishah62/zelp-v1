@@ -33,8 +33,11 @@ import {
 } from '../utils/pushnotification_helper';
 import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
 import { showDialog } from '../redux/actions/dialog';
-import { Linking } from 'react-native';
+import Home from '../screens/SubscriptionModel/Home';
+import { Linking, View } from 'react-native';
 import branch from 'react-native-branch';
+import HeaderWithLocationAndSearch from '../components/Header/HeaderWithLocationAndSearch';
+import SubscriptionPageOld from '../screens/SubscriptionModel/SubscriptionPageOld';
 
 import LiveTrackingMap from '../screens/CartAndTrack/LiveTrackingMap';
 import TrackOrderScreen from '../screens/CartAndTrack/TrackOrder';
@@ -179,7 +182,9 @@ const BottomTabNavigation = ({ navigation }) => {
                                 />
                             ),
                             header: () => (
-                                <HeaderWithLocation navigation={navigation} />
+                                <HeaderWithLocationAndSearch
+                                    navigation={navigation}
+                                />
                             ),
                             // unmountOnBlur: true,
                         }}
@@ -196,11 +201,14 @@ const BottomTabNavigation = ({ navigation }) => {
                                 />
                             ),
                             header: () => (
-                                <HeaderWithLocation navigation={navigation} />
+                                // <View />
+                                <HeaderWithLocationAndSearch
+                                    navigation={navigation}
+                                />
                             ),
                         }}
                         name="Subscription"
-                        component={LiveTrackingMap}
+                        component={SubscriptionPageOld}
                     />
                     <Tab.Screen
                         options={({ route }) => ({
@@ -242,7 +250,9 @@ const BottomTabNavigation = ({ navigation }) => {
                                     />
                                 ),
                             header: () => (
-                                <HeaderWithLocation navigation={navigation} />
+                                <HeaderWithLocationAndSearch
+                                    navigation={navigation}
+                                />
                             ),
                         }}
                         name="Restaurants"

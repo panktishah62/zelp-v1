@@ -41,6 +41,17 @@ import { getConfig } from '../redux/actions/server';
 import PaymentsScreen from '../screens/Payments/Payment';
 import RefundOrder from '../screens/Orders/RefundOrders';
 import ReferralScreen from '../screens/User/Referral';
+import Home from '../screens/SubscriptionModel/Home';
+import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
+import PageDetails from '../screens/SubscriptionModel/PageDetails';
+import SubscriptionPayment from '../screens/SubscriptionModel/SubscriptionPayment';
+import PaymentSuccessfull from '../screens/SubscriptionModel/PaymentSuccessfull';
+import SubscriptionHomePage from '../screens/SubscriptionModel/SubscriptionHomePage';
+import HeaderWithCart from '../components/Header/HeaderWithCart';
+import RestaurantMenuPage from '../screens/SubscriptionModel/RestaurantMenuPage';
+import Cart from '../screens/SubscriptionModel/Cart';
+import HeaderWithCartForSubscription from '../components/Header/HeaderWithCartForSubscription';
+import HeaderWithHome from '../components/Header/HeaderWithHome';
 import NewOrderDetailsScreen from '../screens/CartAndTrack/OrderDetailsScreen';
 import SomethingWentWrong from '../screens/CartAndTrack/SomethingWentWrong';
 
@@ -187,6 +198,7 @@ const MainStack = () => {
                     ),
                 })}
             />
+
             <Stack.Screen name="Wallet" component={WalletScreen} />
             <Stack.Screen
                 name="Notifications"
@@ -208,12 +220,7 @@ const MainStack = () => {
                 name="HelpAndSupport"
                 component={HelpAndSupportScreen}
                 options={({ navigation, route }) => ({
-                    header: () => (
-                        <HeaderWithTitle
-                            navigation={navigation}
-                            title={'Help and Support'}
-                        />
-                    ),
+                    header: () => <HeaderWithCart navigation={navigation} />,
                 })}
             />
             <Stack.Screen
@@ -262,6 +269,7 @@ const MainStack = () => {
                     ),
                 })}
             />
+
             <Stack.Screen
                 name="FrokerProfileEditing"
                 component={FrokerProfileEditingScreen}
@@ -276,6 +284,79 @@ const MainStack = () => {
             />
             <Stack.Screen name="FrokerSplash" component={FrokerSplashScreen} />
             <Stack.Screen name="Favourites" component={FavouritesScreen} />
+
+            {/* subscription screen */}
+            <Stack.Screen
+                name="SubscriptionPage"
+                component={SubscriptionPage}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitle
+                            navigation={navigation}
+                            title={'Subscription'}
+                            containerStyles={{ backgroundColor: 'transparent' }}
+                        />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="PlanDetails"
+                component={PageDetails}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithHome
+                            navigation={navigation}
+                            title={'Plan Details'}
+                        />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="SubscriptionPayment"
+                component={SubscriptionPayment}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithHome
+                            navigation={navigation}
+                            title={'Subscription Payment'}
+                        />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="PaymentSuccessfull"
+                component={PaymentSuccessfull}
+                options={({ navigation, route }) => ({
+                    header: () => <View />,
+                })}
+            />
+            <Stack.Screen
+                name="SubscribedUserHome"
+                component={SubscriptionHomePage}
+                options={({ navigation, route }) => ({
+                    header: () => <View />,
+                })}
+            />
+            <Stack.Screen
+                name="SubscriptionRestaurantMenu"
+                component={RestaurantMenuPage}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithCartForSubscription
+                            navigation={navigation}
+                        />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="SubscriptionCart"
+                component={Cart}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitle navigation={navigation} title="Cart" />
+                    ),
+                })}
+            />
             <Stack.Screen
                 name="SomethingWentWrong"
                 component={SomethingWentWrong}

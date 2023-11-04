@@ -17,9 +17,10 @@ import { isTimeInIntervals } from '../../utils';
 import { ErrorHandler } from '../../components/ErrorHandler/ErrorHandler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { dynamicSize } from '../../utils/responsive';
+import RestaurantWithItems from '../../components/Cards/Search/RestaurantWithItems';
 
 const SearchAllDishes = props => {
-    const { searchFoodItems } = props;
+    const { searchedData } = props;
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
     return (
@@ -34,28 +35,39 @@ const SearchAllDishes = props => {
                 ]}>
                 <ScrollView contentContainerStyle={styles.container}>
                     <View>
-                        {searchFoodItems && searchFoodItems.length > 0 && (
-                            <Text style={styles.selectedItem}>
-                                Suggested Food Item
-                            </Text>
-                        )}
-                        {searchFoodItems &&
-                            searchFoodItems?.length > 0 &&
-                            searchFoodItems.map((restaurant, index) => {
-                                return (
-                                    <RestaurantWithFoodItems
-                                        restaurant={restaurant?.restaurant}
-                                        key={index}
-                                        navigation={navigation}
-                                    />
-                                );
-                            })}
+                        {searchedData?.data &&
+                            Object.keys(searchedData?.data).length > 0 && (
+                                <Text style={styles.selectedItem}>
+                                    Suggested Food Item
+                                </Text>
+                            )}
+
+                        {searchedData?.data &&
+                            Object.keys(searchedData?.data).length > 0 &&
+                            Object.keys(searchedData?.data).map(
+                                (item, index) => {
+                                    if (searchedData?.data[item].length > 0) {
+                                        return (
+                                            <RestaurantWithItems
+                                                key={index}
+                                                restaurant={
+                                                    searchedData?.data[item][0]
+                                                        .restaurant
+                                                }
+                                                items={searchedData?.data[item]}
+                                                navigation={navigation}
+                                            />
+                                        );
+                                    }
+                                },
+                            )}
                     </View>
                 </ScrollView>
                 <View style={styles.indicatorContainer}>
-                    {searchFoodItems && searchFoodItems.length == 0 && (
-                        <NotFound />
-                    )}
+                    {searchedData?.data &&
+                        Object.keys(searchedData?.data).length == 0 && (
+                            <NotFound />
+                        )}
                 </View>
             </View>
         </ErrorHandler>

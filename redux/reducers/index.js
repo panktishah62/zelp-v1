@@ -12,6 +12,16 @@ import followedFrokerReducer from './frokerReducer';
 import stylesReducer from './stylesReducer';
 import networkReducer from './networkReducer';
 import dialogReducer from './dialogReducer';
+import menuModalReducer from './menuModalReducer';
+import selectSubscriptionMenuReducer from './selectSubscriptionMenuReducer';
+import vegbuttonActiveReducer from './vegbuttonActiveReducer';
+import subscriptionCartReducer from './subscriptionCartReducer';
+import menuDetailsReducer from './mealDetailsReducer';
+import finalSubscriptionPriceReducer from './finalSubscriptionPriceReducer';
+import mealTypeForSubscriptionReducer from './mealTypeForSubscriptionReducer';
+import subscriptionDetailsReducer from './subscriptionDetailsReducer';
+import subscriptionCouponReducer from './subscriptionCouponReducer';
+import subscriptionCart from './subscriptionCart';
 
 // Define the root reducer
 const rootReducer = combineReducers({
@@ -26,6 +36,16 @@ const rootReducer = combineReducers({
     dynamicStyles: stylesReducer,
     network: networkReducer,
     dialog: dialogReducer,
+    menuModal: menuModalReducer,
+    subscriptionSelectMenu: selectSubscriptionMenuReducer,
+    vegbutton: vegbuttonActiveReducer,
+    subscriptionCart: subscriptionCartReducer,
+    mealDetails: menuDetailsReducer,
+    subscriptionDetails: subscriptionDetailsReducer,
+    finalSubscriptionPrice: finalSubscriptionPriceReducer,
+    mealTypeForSubscription: mealTypeForSubscriptionReducer,
+    subscriptionCouponReducer: subscriptionCouponReducer,
+    subscriptionCart: subscriptionCart,
 });
 
 // Define the persistConfig object

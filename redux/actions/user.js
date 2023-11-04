@@ -4,11 +4,19 @@ import {
     EDIT_USER_PROFILE,
     FETCH_DATA_FAILURE_USER,
     GET_USER_PROFILE,
+    REFERRAL_COIN_MULTIPLE,
     RESET_USER,
+    UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE,
     UPDATE_MAX_WALLET_MONEY_TO_USE,
+    WALLET_MULTIPLE,
 } from '../constants';
-import { getUserWallet } from './cartActions';
+import {
+    getUserReferralCoinMoney,
+    getUserWallet,
+    updateReferraMaxMoney,
+} from './cartActions';
 import { editUserProfile_, getUserProfile_ } from '../services/userService';
+import remoteConfig from '@react-native-firebase/remote-config';
 
 export const editUserProfile = (userProfile, navigation) => {
     return async dispatch => {
@@ -42,10 +50,57 @@ export const getUserProfile = setIsLoading => {
                             payload: data.user,
                         });
                         dispatch(getUserWallet(data.user.wallet));
+
+                        const maxReferralCoinMoneyToUse = remoteConfig()
+                            .getValue('maxReferralCoinMoneyToUse')
+                            .asNumber();
+
+                        dispatch(
+                            getUserReferralCoinMoney(data.user.referralCoins),
+                        );
+                        const canFullReferralCoinsBeUsed = remoteConfig()
+                            .getValue('canFullReferralCoinsBeUsed')
+                            .asBoolean();
+
+                        if (canFullReferralCoinsBeUsed) {
+                            dispatch(
+                                updateReferraMaxMoney(data.user.referralCoins),
+                            );
+                        } else {
+                            dispatch(
+                                updateReferraMaxMoney(
+                                    maxReferralCoinMoneyToUse,
+                                ),
+                            );
+                        }
+
+                        const canFullWalletBeUsed = remoteConfig()
+                            .getValue('canFullWalletBeUsed')
+                            .asBoolean();
+
+                        const maxWalletMoneyToUse = remoteConfig()
+                            .getValue('maxWalletMoneyToUse')
+                            .asNumber();
+                        if (canFullWalletBeUsed) {
+                            dispatch({
+                                type: UPDATE_MAX_WALLET_MONEY_TO_USE,
+                                payload: data.user.wallet,
+                            });
+                        } else {
+                            dispatch({
+                                type: UPDATE_MAX_WALLET_MONEY_TO_USE,
+                                payload: maxWalletMoneyToUse,
+                            });
+                        }
                         dispatch({
-                            type: UPDATE_MAX_WALLET_MONEY_TO_USE,
-                            payload: data.user.wallet,
+                            type: WALLET_MULTIPLE,
+                            payload: data?.user?.walletMultiple,
                         });
+                        dispatch({
+                            type: REFERRAL_COIN_MULTIPLE,
+                            payload: data?.user?.referralCoinsMultiple,
+                        });
+
                         dispatch({
                             type: CALCULATE_TOTAL,
                         });

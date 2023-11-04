@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { colors } from '../../styles/colors';
 import { fonts } from '../../styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { DialogTypes } from '../../utils';
+import { DialogTypes, getRandomInt } from '../../utils';
 import { follow, unfollowFroker } from '../../redux/services/short';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -12,12 +12,25 @@ import {
 } from '../../redux/actions/froker';
 import { dynamicSize } from '../../utils/responsive';
 import { hideDialog, showDialog } from '../../redux/actions/dialog';
+import remoteConfig from '@react-native-firebase/remote-config';
 
 const FollowUnfollowButton = props => {
     const { profile, currentState, followers, onClick, navigation } = props;
     const [isFollowing, setIsFollowing] = useState(currentState);
     const [token, setToken] = useState(null);
-    const [currentFollowers, setCurrentFollowers] = useState(followers);
+
+    const minShotsFollower = remoteConfig()
+        .getValue('minShotsFollower')
+        ?.asNumber();
+
+    const randomFollowers =
+        minShotsFollower > 200
+            ? getRandomInt(minShotsFollower - 200, minShotsFollower)
+            : 0;
+
+    const [currentFollowers, setCurrentFollowers] = useState(
+        followers ? randomFollowers + followers : randomFollowers,
+    );
 
     const dispatch = useDispatch();
     const followedFrokers = useSelector(state => state.followedFroker);

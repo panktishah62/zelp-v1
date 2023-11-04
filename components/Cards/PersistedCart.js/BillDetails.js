@@ -39,7 +39,7 @@ const BillDetails = props => {
                 <View style={styles.subContainer}>
                     {billingDetails && billingDetails.walletMoney >= 0 && (
                         <View style={styles.innerContainer}>
-                            <Text style={styles.text}>Money From Wallet</Text>
+                            <Text style={styles.text}>Money From Furos</Text>
                             <View style={styles.amount}>
                                 <Text style={styles.priceText}> - </Text>
                                 <Rupee />
@@ -49,6 +49,21 @@ const BillDetails = props => {
                             </View>
                         </View>
                     )}
+                    {billingDetails &&
+                        billingDetails.referralCoinsUsed >= 0 && (
+                            <View style={styles.innerContainer}>
+                                <Text style={styles.text}>
+                                    Money From Referral Coins
+                                </Text>
+                                <View style={styles.amount}>
+                                    <Text style={styles.priceText}> - </Text>
+                                    <Rupee />
+                                    <Text style={styles.priceText}>
+                                        {billingDetails.referralCoinsUsed}
+                                    </Text>
+                                </View>
+                            </View>
+                        )}
                     {billingDetails && billingDetails.discountAmount >= 0 && (
                         <View style={styles.innerContainer}>
                             <Text style={styles.text}>Coupon Discount</Text>

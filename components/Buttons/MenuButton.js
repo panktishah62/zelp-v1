@@ -1,12 +1,11 @@
-import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity} from 'react-native';
 import MenuIcon from '../../assets/icons/menu.svg';
 import { fonts } from '../../styles';
 import { colors } from '../../styles/colors';
-import Menu from '../Restaurant/Menu';
 
 const MenuButton = props => {
-    const { showMenu, setShowMenu, setRenderMenu } = props;
+    const {  setShowMenu, setRenderMenu } = props;
     return (
         <TouchableOpacity
             style={styles.menu}
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
         width: 120,
         backgroundColor: colors.ORANGE,
         elevation: 6,
-        shadowColor: '#FD7A33',
+        shadowColor:colors.ORANGE_GRADIENT_DARK,
         shadowOffset: {
             width: 0,
             height: 4,

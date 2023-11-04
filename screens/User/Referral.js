@@ -23,6 +23,7 @@ import ReferralProgressCard from '../../components/Cards/ReferralProgressCard';
 
 const ReferralScreen = ({ navigation }) => {
     const [referralDetails, setReferralDetails] = useState();
+    const userProfile = useSelector(state => state.user.userProfile);
     const fetchData = async () => {
         await getUserReferralCodeDetails()
             .then(response => response.data)
@@ -41,7 +42,7 @@ const ReferralScreen = ({ navigation }) => {
                 <Text style={styles.titleText}>Referral Code!</Text>
                 <Text style={styles.subtitleText}>
                     Share the Referral Code To your friends and family to Earn
-                    Wallet Money!
+                    Coins!
                 </Text>
             </View>
 
@@ -62,7 +63,7 @@ const ReferralScreen = ({ navigation }) => {
                                     color: colors.GREY_DARK,
                                 }}>
                                 Total Amount Earned by referral is{' '}
-                                {referralDetails?.totalAmountEarned}
+                                {referralDetails?.totalAmountEarned} Coins
                             </Text>
                         </View>
                         <View style={styles.listContainer}>
@@ -86,8 +87,20 @@ const ReferralScreen = ({ navigation }) => {
                                     color: colors.GREY_DARK,
                                 }}>
                                 The User who use this referral code will also
-                                earn {referralDetails?.addToReceiverWallet}Rs in
-                                their wallet
+                                earn {referralDetails?.addToReceiverWallet}{' '}
+                                Coins.
+                            </Text>
+                        </View>
+                        <View style={styles.listContainer}>
+                            <View style={styles.pointers} />
+                            <Text
+                                style={{
+                                    ...fonts.NUNITO_700_14,
+                                    width: dimensions.fullWidth - 100,
+                                    color: colors.GREY_DARK,
+                                }}>
+                                {1 / userProfile?.referralCoinsMultiple}{' '}
+                                Referral Coins = 1 Rs
                             </Text>
                         </View>
                     </View>
