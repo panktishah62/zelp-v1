@@ -6,6 +6,7 @@ import {
     GET_SHOTS_VIEW_REST_SORTING_CONFIG,
     NETWORK_ERROR,
 } from '../constants';
+import RemoteConfigService from '../services/remoteConfigService';
 import { getShotsViewRestSortingConfig_ } from '../services/short';
 import { resetAddressError } from './address';
 import { resetCartError } from './cartActions';
@@ -15,25 +16,49 @@ import remoteConfig from '@react-native-firebase/remote-config';
 export const getConfig = () => {
     return async dispatch => {
         try {
-            const parameters = remoteConfig().getAll();
             const config = {
-                orderStatus: parameters.orderStatus.asString().split(','),
-                contactNo: parameters.contactNo.asString(),
-                emailId: parameters.emailId.asString(),
-                maxWalletMoneyToUse: parameters.maxWalletMoneyToUse.asNumber(),
-                GSTtaxes: parameters.GSTtaxes.asNumber(),
-                minOrderValue: parameters.minOrderValue.asNumber(),
-                minOrderValueForWallet:
-                    parameters.minOrderValueForWallet.asNumber(),
-                deliveryPartnerFees: parameters.deliveryPartnerFees.asNumber(),
-                packagingCharges: parameters.packagingCharges.asNumber(),
-                deliveryTip: parameters.deliveryTip.asNumber(),
-                isDeliveryFree: parameters.isDeliveryFree.asBoolean(),
+                orderStatus: RemoteConfigService.getRemoteValue('orderStatus')
+                    .asString()
+                    .split(','),
+                contactNo:
+                    RemoteConfigService.getRemoteValue('contactNo').asString(),
+                emailId:
+                    RemoteConfigService.getRemoteValue('emailId').asString(),
+                maxWalletMoneyToUse: RemoteConfigService.getRemoteValue(
+                    'maxWalletMoneyToUse',
+                ).asNumber(),
+                GSTtaxes:
+                    RemoteConfigService.getRemoteValue('GSTtaxes').asNumber(),
+                minOrderValue:
+                    RemoteConfigService.getRemoteValue(
+                        'minOrderValue',
+                    ).asNumber(),
+                minOrderValueForWallet: RemoteConfigService.getRemoteValue(
+                    'minOrderValueForWallet',
+                ).asNumber(),
+                deliveryPartnerFees: RemoteConfigService.getRemoteValue(
+                    'deliveryPartnerFees',
+                ).asNumber(),
+                packagingCharges:
+                    RemoteConfigService.getRemoteValue(
+                        'packagingCharges',
+                    ).asNumber(),
+                deliveryTip:
+                    RemoteConfigService.getRemoteValue(
+                        'deliveryTip',
+                    ).asNumber(),
+                isDeliveryFree:
+                    RemoteConfigService.getRemoteValue(
+                        'isDeliveryFree',
+                    ).asBoolean(),
                 // maxReferralCoinsToUse: parameters.maxReferralCoinsToUse.asNumber(),
-                maxReferralCoinMoneyToUse:
-                    parameters.maxReferralCoinMoneyToUse.asNumber(),
+                maxReferralCoinMoneyToUse: RemoteConfigService.getRemoteValue(
+                    'maxReferralCoinMoneyToUse',
+                ).asNumber(),
                 minOrderValueForReferralCoins:
-                    parameters.minOrderValueForReferralCoins.asNumber(),
+                    RemoteConfigService.getRemoteValue(
+                        'minOrderValueForReferralCoins',
+                    ).asNumber(),
             };
             dispatch({
                 type: GET_CONFIG,

@@ -30,6 +30,7 @@ import remoteConfig from '@react-native-firebase/remote-config';
 import { getUserWallet } from '../../redux/services/userService';
 import { DialogTypes } from '../../utils';
 import { queryClient } from '../../utils/queryClient';
+import RemoteConfigService from '../../redux/services/remoteConfigService';
 
 const ShotClassScreen = props => {
     const { route, navigation } = props;
@@ -52,14 +53,15 @@ const ShotClassScreen = props => {
     const [refreshing, setRefreshing] = useState(false);
     const [refreshingLogin, setRefreshingLogin] = useState(false);
     const [prevLocation, setPrevLocation] = useState(location);
+    const [showItems, setShowItems] = useState(false);
+    const [mute, setMute] = useState(false);
 
     const windowDimensions = Dimensions.get('window');
     const windowHeight = windowDimensions.height;
     const insets = useSafeAreaInsets();
     const screenHeight = windowHeight - insets.bottom;
-    const popupOnNthVideo = remoteConfig()
-        .getValue('popupOnNthVideo')
-        .asNumber();
+    const popupOnNthVideo =
+        RemoteConfigService.getRemoteValue('popupOnNthVideo').asNumber();
 
     const {
         isLoading,
@@ -254,6 +256,10 @@ const ShotClassScreen = props => {
                                     navigation={navigation}
                                     isFocused={isFocused}
                                     appStateVisible={appStateVisible}
+                                    showItems={showItems}
+                                    setShowItems={setShowItems}
+                                    mute={mute}
+                                    setMute={setMute}
                                 />
                             )
                         );

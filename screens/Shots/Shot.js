@@ -34,6 +34,7 @@ import { updateShotsView } from '../../redux/services/short';
 import { useSelector } from 'react-redux';
 import remoteConfig from '@react-native-firebase/remote-config';
 import axios from 'axios';
+import RemoteConfigService from '../../redux/services/remoteConfigService';
 
 // wrap the `Video` component with Mux functionality
 const MuxVideo = muxReactNativeVideo(Video);
@@ -44,15 +45,19 @@ export default function VideoItem({
     navigation,
     isFocused,
     appStateVisible,
+    showItems,
+    setShowItems,
+    mute,
+    setMute,
 }) {
-    const MUX_ENV_KEY = remoteConfig().getValue('MUX_PROD_ENV_KEY').asString();
+    const MUX_ENV_KEY =
+        RemoteConfigService.getRemoteValue('MUX_PROD_ENV_KEY').asString();
     const windowDimensions = Dimensions.get('window');
     const windowHeight = windowDimensions.height;
     const insets = useSafeAreaInsets();
     const screenHeight = windowHeight - insets.bottom;
 
     const [showIcon, setShowIcon] = useState(false);
-    const [mute, setMute] = useState(false);
 
     const [isBuffering, setIsBuffering] = useState(true);
     const [lastProgress, setLastProgress] = useState();
@@ -173,10 +178,10 @@ export default function VideoItem({
     const debouncedUpdateWallet = debounce(onUpdateShotsView, 100);
 
     const getVideoLength = async () => {
-        const MUX_TOKEN_ID = remoteConfig().getValue('MUX_TOKEN_ID').asString();
-        const MUX_TOKEN_SECRET = remoteConfig()
-            .getValue('MUX_TOKEN_SECRET')
-            .asString();
+        const MUX_TOKEN_ID =
+            RemoteConfigService.getRemoteValue('MUX_TOKEN_ID').asString();
+        const MUX_TOKEN_SECRET =
+            RemoteConfigService.getRemoteValue('MUX_TOKEN_SECRET').asString();
         // Replace with the playback ID of your video asset
         const playbackId = data.shot.fileLocation;
 
@@ -204,13 +209,15 @@ export default function VideoItem({
                         // Extract the video duration from the asset API response
                         const durationInSeconds =
                             assetResponse.data.data.duration;
-                        const watchFullLengthToGetMoney = remoteConfig()
-                            .getValue('watchFullLengthToGetMoney')
-                            .asBoolean();
+                        const watchFullLengthToGetMoney =
+                            RemoteConfigService.getRemoteValue(
+                                'watchFullLengthToGetMoney',
+                            ).asBoolean();
                         if (watchFullLengthToGetMoney) {
-                            const marginToWatchShotsAndGetMoney = remoteConfig()
-                                .getValue('marginToWatchShotsAndGetMoney')
-                                .asNumber();
+                            const marginToWatchShotsAndGetMoney =
+                                RemoteConfigService.getRemoteValue(
+                                    'marginToWatchShotsAndGetMoney',
+                                ).asNumber();
                             const duration =
                                 durationInSeconds -
                                 (durationInSeconds *
@@ -219,9 +226,10 @@ export default function VideoItem({
                             // console.log('duration', duration, data?.shot?._id);
                             setVideoDuration(Math.round(duration * 1000));
                         } else {
-                            const minTimeToAddToWallet = remoteConfig()
-                                .getValue('minTimeToAddToWallet')
-                                .asNumber();
+                            const minTimeToAddToWallet =
+                                RemoteConfigService.getRemoteValue(
+                                    'minTimeToAddToWallet',
+                                ).asNumber();
                             setVideoDuration(minTimeToAddToWallet);
                         }
                     })
@@ -347,7 +355,12 @@ export default function VideoItem({
             </TouchableWithoutFeedback>
             {showIcon && <LoadMuteUnmute />}
             <View style={styles.bottomSection}>
-                <ProfileContainer item={data} navigation={navigation} />
+                <ProfileContainer
+                    item={data}
+                    navigation={navigation}
+                    showItems={showItems}
+                    setShowItems={setShowItems}
+                />
             </View>
         </View>
     );

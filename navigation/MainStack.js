@@ -218,7 +218,12 @@ const MainStack = () => {
                 name="HelpAndSupport"
                 component={HelpAndSupportScreen}
                 options={({ navigation, route }) => ({
-                    header: () => <HeaderWithCart navigation={navigation} />,
+                    header: () => (
+                        <HeaderWithTitle
+                            navigation={navigation}
+                            title={'Help & Support'}
+                        />
+                    ),
                 })}
             />
             <Stack.Screen

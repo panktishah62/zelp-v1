@@ -249,3 +249,13 @@ export const getTimeDifferenceAsString = (date1, date2) => {
 export const getUpto2Decimal = num => {
     return Number(num.toFixed(2));
 };
+
+export const calculateAsciiTotal = str => {
+    let total = 0;
+
+    for (let i = 0; i < str.length; i++) {
+        total += str.charCodeAt(i);
+    }
+
+    return total;
+};

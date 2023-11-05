@@ -267,14 +267,14 @@ const styles = StyleSheet.create({
     addBtnPosStyle: {
         justifyContent: 'center',
         alignItems: 'center',
-        borderBottomRightRadius: dynamicSize(8),
-        borderBottomLeftRadius: dynamicSize(8),
+        borderBottomRightRadius: dynamicSize(10),
+        borderBottomLeftRadius: dynamicSize(10),
     },
     cartBtnPosStyle: {
-        borderBottomRightRadius: dynamicSize(8),
-        borderBottomLeftRadius: dynamicSize(8),
+        borderBottomRightRadius: dynamicSize(10),
+        borderBottomLeftRadius: dynamicSize(10),
         paddingHorizontal: dynamicSize(40),
-        borderWidth: dynamicSize(1),
+        borderWidth: dynamicSize(0),
     },
     cartCountStyle: {
         ...fonts.INTER_700_16,

@@ -22,6 +22,7 @@ import { canApplyWallet } from '../../../redux/services/cartService';
 import { DialogTypes, getUpto2Decimal } from '../../../utils';
 import { showDialog } from '../../../redux/actions/dialog';
 import remoteConfig from '@react-native-firebase/remote-config';
+import RemoteConfigService from '../../../redux/services/remoteConfigService';
 
 const WalletMoney = props => {
     const { setIsLoading, moneyInWallet, config } = props;
@@ -30,17 +31,16 @@ const WalletMoney = props => {
     const [rupeesPerFuro, setRupeePerFuro] = useState(
         userProfile?.walletMultiple > 0
             ? Number(userProfile?.walletMultiple)
-            : remoteConfig()?.getValue('RupeesPerFuro').asNumber(),
+            : RemoteConfigService.getRemoteValue('RupeesPerFuro').asNumber(),
     );
     const [isActive, setIsActive] = useState(props.isActive);
     const [remainingMoneyInWallet, setRemainingMoneyInWallet] =
         useState(moneyInWallet);
-    const canFullWalletBeUsed = remoteConfig()
-        .getValue('canFullWalletBeUsed')
-        .asBoolean();
-    const walletInstructions = remoteConfig()
-        .getValue('walletInstructions')
-        .asString();
+    const canFullWalletBeUsed = RemoteConfigService.getRemoteValue(
+        'canFullWalletBeUsed',
+    ).asBoolean();
+    const walletInstructions =
+        RemoteConfigService.getRemoteValue('walletInstructions').asString();
     const dispatch = useDispatch();
     const onClick = () => {
         if (isActive && cart?.walletMoney > 0) {
@@ -112,7 +112,9 @@ const WalletMoney = props => {
         setRupeePerFuro(
             userProfile?.walletMultiple > 0
                 ? Number(userProfile?.walletMultiple)
-                : remoteConfig()?.getValue('RupeesPerFuro').asNumber(),
+                : RemoteConfigService.getRemoteValue(
+                      'RupeesPerFuro',
+                  ).asNumber(),
         );
     }, [userProfile]);
 

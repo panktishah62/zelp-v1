@@ -275,16 +275,16 @@ const SignUpScreen = ({ navigation }) => {
                                         keyboardType="email-address"
                                         onSubmitEditing={onSubmit}
                                     />
-                                    {showReferralInput && (
-                                        <TextInput_
-                                            text={referralCode}
-                                            setText={setReferralCode}
-                                            label="Have Referral Code?"
-                                            placeholder="Referral Code"
-                                            maxLength={5}
-                                            onSubmitEditing={onSubmit}
-                                        />
-                                    )}
+                                    {/* {showReferralInput && ( */}
+                                    <TextInput_
+                                        text={referralCode}
+                                        setText={setReferralCode}
+                                        label="Have Referral Code?"
+                                        placeholder="Referral Code"
+                                        maxLength={5}
+                                        onSubmitEditing={onSubmit}
+                                    />
+                                    {/* )} */}
                                 </View>
                             </View>
 
@@ -295,7 +295,7 @@ const SignUpScreen = ({ navigation }) => {
                                     Styles.center,
                                     // Styles.height_015,
                                 ]}>
-                                {!showReferralInput && (
+                                {/* {!showReferralInput && (
                                     <View
                                         style={[
                                             Styles.center,
@@ -322,7 +322,7 @@ const SignUpScreen = ({ navigation }) => {
                                             </Text>
                                         </TouchableOpacity>
                                     </View>
-                                )}
+                                )} */}
                                 <View
                                     style={[
                                         Styles.center,

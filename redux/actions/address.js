@@ -36,6 +36,7 @@ import {
     setDefaultAddress,
 } from '../services/addressService';
 import { selectAddressForCart } from './subscriptionCart';
+import RemoteConfigService from '../services/remoteConfigService';
 
 export const addAddress = (address, navigation, fun) => {
     return async dispatch => {
@@ -137,7 +138,9 @@ export const getDefaultAddress = (setIsLoading, navigation) => {
                 );
                 if (
                     distance >
-                    remoteConfig().getValue('UserLocationRadius')?.asNumber()
+                    RemoteConfigService.getRemoteValue(
+                        'UserLocationRadius',
+                    )?.asNumber()
                 ) {
                     if (navigation) {
                         dispatch(

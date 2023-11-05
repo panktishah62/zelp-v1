@@ -25,19 +25,12 @@ const IMAGE_URI = '../../assets/images/restaurant.png';
 
 const RestaurantCard = props => {
     const { restaurantObject, navigation } = props;
-    const { restaurant } = restaurantObject;
+    const { restaurant, isRestaurantOpen = false } = restaurantObject;
     const { image, name, costOfTwo } = restaurant;
     const rating = restaurant?.rating?.value;
     const rating_count = restaurant?.rating?.count;
 
     const dispatch = useDispatch();
-    const [isRestaurantOpen, setIsRestaurantOpen] = useState(false);
-
-    useEffect(() => {
-        if (restaurant.timings) {
-            setIsRestaurantOpen(isTimeInIntervals(restaurant.timings));
-        }
-    }, []);
 
     return (
         <TouchableWithoutFeedback

@@ -1,6 +1,7 @@
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import remoteConfig from '@react-native-firebase/remote-config';
 import branch from 'react-native-branch';
+import RemoteConfigService from '../services/remoteConfigService';
 
 export async function buildLink() {
     const link = await dynamicLinks().buildLink({
@@ -18,17 +19,14 @@ export async function buildLink() {
 }
 
 export async function buildLinkForShots(shotId) {
-    const shotShareTitle = remoteConfig()
-        .getValue('ShotShareTitle')
-        ?.asString();
+    const shotShareTitle =
+        RemoteConfigService.getRemoteValue('ShotShareTitle')?.asString();
 
-    const shotsShareMessage = remoteConfig()
-        .getValue('ShotShareMessage')
-        ?.asString();
+    const shotsShareMessage =
+        RemoteConfigService.getRemoteValue('ShotShareMessage')?.asString();
 
-    const shotsShareImageUrl = remoteConfig()
-        .getValue('shotsShareImageUrl')
-        ?.asString();
+    const shotsShareImageUrl =
+        RemoteConfigService.getRemoteValue('shotsShareImageUrl')?.asString();
 
     let buo = await branch.createBranchUniversalObject('froker', {
         title: shotShareTitle,

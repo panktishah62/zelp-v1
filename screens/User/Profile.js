@@ -312,6 +312,12 @@ const ProfileScreen = ({ navigation }) => {
                                         navigation.navigate('SignUp');
                                     }}
                                 />
+                                <YellowButton
+                                    text="Sign In To Order"
+                                    onClick={() => {
+                                        navigation.navigate('LogIn');
+                                    }}
+                                />
                             </View>
                         </View>
                     )}

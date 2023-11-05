@@ -17,6 +17,7 @@ import {
 } from './cartActions';
 import { editUserProfile_, getUserProfile_ } from '../services/userService';
 import remoteConfig from '@react-native-firebase/remote-config';
+import RemoteConfigService from '../services/remoteConfigService';
 
 export const editUserProfile = (userProfile, navigation) => {
     return async dispatch => {
@@ -51,16 +52,18 @@ export const getUserProfile = setIsLoading => {
                         });
                         dispatch(getUserWallet(data.user.wallet));
 
-                        const maxReferralCoinMoneyToUse = remoteConfig()
-                            .getValue('maxReferralCoinMoneyToUse')
-                            .asNumber();
+                        const maxReferralCoinMoneyToUse =
+                            RemoteConfigService.getRemoteValue(
+                                'maxReferralCoinMoneyToUse',
+                            ).asNumber();
 
                         dispatch(
                             getUserReferralCoinMoney(data.user.referralCoins),
                         );
-                        const canFullReferralCoinsBeUsed = remoteConfig()
-                            .getValue('canFullReferralCoinsBeUsed')
-                            .asBoolean();
+                        const canFullReferralCoinsBeUsed =
+                            RemoteConfigService.getRemoteValue(
+                                'canFullReferralCoinsBeUsed',
+                            ).asBoolean();
 
                         if (canFullReferralCoinsBeUsed) {
                             dispatch(
@@ -74,13 +77,15 @@ export const getUserProfile = setIsLoading => {
                             );
                         }
 
-                        const canFullWalletBeUsed = remoteConfig()
-                            .getValue('canFullWalletBeUsed')
-                            .asBoolean();
+                        const canFullWalletBeUsed =
+                            RemoteConfigService.getRemoteValue(
+                                'canFullWalletBeUsed',
+                            ).asBoolean();
 
-                        const maxWalletMoneyToUse = remoteConfig()
-                            .getValue('maxWalletMoneyToUse')
-                            .asNumber();
+                        const maxWalletMoneyToUse =
+                            RemoteConfigService.getRemoteValue(
+                                'maxWalletMoneyToUse',
+                            ).asNumber();
                         if (canFullWalletBeUsed) {
                             dispatch({
                                 type: UPDATE_MAX_WALLET_MONEY_TO_USE,
