@@ -46,6 +46,11 @@ const RestaurantCardLarge = ({ restaurantObject, navigation }) => {
             restaurant.category.map((cat, index) => {
                 newCategory.push(cat.name);
             });
+        } else if (restaurant && restaurant?.tags?.length > 0) {
+            restaurant.tags.map((cat, index) => {
+                newCategory.push(cat);
+            });
+            setCuisines(newCategory);
         }
         setCuisines(newCategory);
     }, []);

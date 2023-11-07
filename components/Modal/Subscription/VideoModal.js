@@ -18,18 +18,20 @@ import Video from 'react-native-video';
 import { useSelector } from 'react-redux';
 import muxReactNativeVideo from '@mux/mux-data-react-native-video';
 import remoteConfig from '@react-native-firebase/remote-config';
+import RemoteConfigService from '../../../redux/services/remoteConfigService';
 
 // wrap the `Video` component with Mux functionality
 const MuxVideo = muxReactNativeVideo(Video);
 
 const VideoModal = props => {
-    const MUX_ENV_KEY = remoteConfig().getValue('MUX_PROD_ENV_KEY').asString();
-    const videoId = remoteConfig()
-        .getValue('HowToSubscribeVideoPlaybackId')
-        .asString();
-    const videoUrl = remoteConfig()
-        .getValue('HowToSubscribeVideoUrl')
-        .asString();
+    const MUX_ENV_KEY =
+        RemoteConfigService.getRemoteValue('MUX_PROD_ENV_KEY').asString();
+    const videoId = RemoteConfigService.getRemoteValue(
+        'HowToSubscribeVideoPlaybackId',
+    ).asString();
+    const videoUrl = RemoteConfigService.getRemoteValue(
+        'HowToSubscribeVideoUrl',
+    ).asString();
     const { visible, hideModal } = props;
     const player = useRef(null);
     const [isBuffering, setIsBuffering] = useState(true);

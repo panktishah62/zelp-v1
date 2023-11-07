@@ -42,10 +42,13 @@ import { getUserProfile } from '../../redux/actions/user';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { showDialog } from '../../redux/actions/dialog';
+import RemoteConfigService from '../../redux/services/remoteConfigService';
 
 const PaymentsScreen = props => {
     const { navigation, route } = props;
     const dispatch = useDispatch();
+    const isCODAvailable =
+        RemoteConfigService.getRemoteValue('isCODAvailable').asBoolean();
     const [isLoading, setIsLoading] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState(paymentMethods.OTHERS);
     const [merchantTransactionId, setMerchantTransactionId] = useState(
@@ -196,9 +199,9 @@ const PaymentsScreen = props => {
 
     const createLink = async merchantTransactionId_ => {
         if (merchantTransactionId_) {
-            const paymentRedirectLink = remoteConfig()
-                .getValue('PaymentRedirectLink')
-                .asString();
+            const paymentRedirectLink = RemoteConfigService.getRemoteValue(
+                'PaymentRedirectLink',
+            ).asString();
             const redirectUrl = String(paymentRedirectLink);
             getContext(redirectUrl);
         }
@@ -413,7 +416,10 @@ const PaymentsScreen = props => {
                                         <View
                                             style={[
                                                 styles.paymentMode,
-                                                { borderBottomWidth: 1 },
+                                                {
+                                                    borderBottomWidth:
+                                                        isCODAvailable ? 1 : 0,
+                                                },
                                             ]}>
                                             <View style={styles.leftContainer}>
                                                 <Image
@@ -437,35 +443,45 @@ const PaymentsScreen = props => {
                                             </View>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback
-                                        onPress={() => {
-                                            onChangePaymentMethod(
-                                                paymentMethods.COD,
-                                            );
-                                        }}>
-                                        <View style={styles.paymentMode}>
-                                            <View style={styles.leftContainer}>
-                                                <Image
-                                                    source={require('../../assets/icons/COD.png')}
-                                                    style={styles.iconImage}
-                                                />
-                                                <Text
-                                                    style={styles.subtitleText}>
-                                                    Cash On Delivery
-                                                </Text>
-                                            </View>
-                                            <View style={styles.rightContainer}>
-                                                {paymentMethod && (
-                                                    <RadioButton
-                                                        isActive={
-                                                            paymentMethod ==
-                                                            paymentMethods.COD
-                                                        }
+                                    {isCODAvailable && (
+                                        <TouchableWithoutFeedback
+                                            onPress={() => {
+                                                onChangePaymentMethod(
+                                                    paymentMethods.COD,
+                                                );
+                                            }}>
+                                            <View style={styles.paymentMode}>
+                                                <View
+                                                    style={
+                                                        styles.leftContainer
+                                                    }>
+                                                    <Image
+                                                        source={require('../../assets/icons/COD.png')}
+                                                        style={styles.iconImage}
                                                     />
-                                                )}
+                                                    <Text
+                                                        style={
+                                                            styles.subtitleText
+                                                        }>
+                                                        Cash On Delivery
+                                                    </Text>
+                                                </View>
+                                                <View
+                                                    style={
+                                                        styles.rightContainer
+                                                    }>
+                                                    {paymentMethod && (
+                                                        <RadioButton
+                                                            isActive={
+                                                                paymentMethod ==
+                                                                paymentMethods.COD
+                                                            }
+                                                        />
+                                                    )}
+                                                </View>
                                             </View>
-                                        </View>
-                                    </TouchableWithoutFeedback>
+                                        </TouchableWithoutFeedback>
+                                    )}
                                 </View>
                             </View>
                             <View

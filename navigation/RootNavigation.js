@@ -17,6 +17,7 @@ import { showDialog } from '../redux/actions/dialog';
 import { getShotsViewRestSortingConfig } from '../redux/actions/server';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { getSubscriptionConfig } from '../redux/actions/subscriptionActions';
+import RemoteConfigService from '../redux/services/remoteConfigService';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,7 +31,8 @@ const RootStack = () => {
     );
     const isLocationOn = useSelector(state => state.permissions.isLocationOn);
     const isInternetOn = useSelector(state => state.network.isInternetOn);
-    const initialPopup = remoteConfig().getValue('InitialPopup').asString();
+    const initialPopup =
+        RemoteConfigService.getRemoteValue('InitialPopup').asString();
 
     const isFirstLaunch = async () => {
         try {

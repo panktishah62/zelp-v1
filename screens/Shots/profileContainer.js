@@ -7,7 +7,7 @@ import { dimensions } from '../../styles';
 import { dynamicSize } from '../../utils/responsive';
 
 const ProfileContainer = props => {
-    const { item, navigation } = props;
+    const { item, showItems, setShowItems, navigation } = props;
 
     return (
         <View style={styles.container}>
@@ -18,7 +18,12 @@ const ProfileContainer = props => {
                 navigation={navigation}
             />
             <ScrollableText text={item.shot.caption} />
-            <ActionButtons item={item} navigation={navigation} />
+            <ActionButtons
+                item={item}
+                navigation={navigation}
+                showItems={showItems}
+                setShowItems={setShowItems}
+            />
         </View>
     );
 };

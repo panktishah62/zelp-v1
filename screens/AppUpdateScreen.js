@@ -19,6 +19,7 @@ import { dynamicSize } from '../utils/responsive';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { showDialog } from '../redux/actions/dialog';
 import { useDispatch } from 'react-redux';
+import RemoteConfigService from '../redux/services/remoteConfigService';
 
 const AnimatedLottieView = Animated.createAnimatedComponent(LottieView);
 
@@ -27,8 +28,8 @@ const AppUpdateScreen = () => {
     const animationProgress = useRef(new Animated.Value(0));
     const appLink =
         Platform.OS === 'android'
-            ? remoteConfig().getValue('PlayStoreAppLink')?.asString()
-            : remoteConfig().getValue('AppStoreAppLink')?.asString();
+            ? RemoteConfigService.getRemoteValue('PlayStoreAppLink')?.asString()
+            : RemoteConfigService.getRemoteValue('AppStoreAppLink')?.asString();
 
     useEffect(() => {
         Animated.timing(animationProgress.current, {

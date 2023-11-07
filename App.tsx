@@ -6,14 +6,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import {
-  Linking,
-  Platform,
-  StatusBar,
-  StyleSheet,
-
-  View,
-} from 'react-native';
+import { Linking, Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import RootStack from './navigation/RootNavigation';
@@ -30,39 +23,42 @@ import { colors, theme } from './styles/colors';
 import ForegroundHandler from './utils/ForegroundHandler';
 import DeviceInfo from 'react-native-device-info';
 import SplashScreen from 'react-native-splash-screen';
-import { createChannel, requestUserPermission } from './utils/pushnotification_helper';
+import {
+    createChannel,
+    requestUserPermission,
+} from './utils/pushnotification_helper';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { convertedVersionToNumber } from './utils';
 import { PaperProvider } from 'react-native-paper';
 import AppUpdateScreen from './screens/AppUpdateScreen';
 import { toastConfig } from './utils/config';
 import { queryClient } from './utils/queryClient';
+import RemoteConfigService from './redux/services/remoteConfigService';
 
 const useInitialURL = () => {
-  const [url, setUrl] = useState(null);
-  const [processing, setProcessing] = useState(true);
+    const [url, setUrl] = useState(null);
+    const [processing, setProcessing] = useState(true);
 
-  useEffect(() => {
-      const getUrlAsync = async () => {
-          // Get the deep link used to open the app
-          const initialUrl = await Linking.getInitialURL();
+    useEffect(() => {
+        const getUrlAsync = async () => {
+            // Get the deep link used to open the app
+            const initialUrl = await Linking.getInitialURL();
 
-          // The setTimeout is just for testing purpose
-          setTimeout(() => {
-              setUrl(initialUrl);
-              setProcessing(false);
-          }, 1000);
-      };
+            // The setTimeout is just for testing purpose
+            setTimeout(() => {
+                setUrl(initialUrl);
+                setProcessing(false);
+            }, 1000);
+        };
 
-      getUrlAsync();
-  }, []);
+        getUrlAsync();
+    }, []);
 
-  return { url, processing };
+    return { url, processing };
 };
 
 function App(): JSX.Element {
-
-  let appVersion = DeviceInfo.getVersion();
+    let appVersion = DeviceInfo.getVersion();
     const [isStableVersion, setIsStableVersion] = useState(true);
 
     useEffect(() => {
@@ -127,43 +123,49 @@ function App(): JSX.Element {
             });
     }, []);
 
-  return (
-    <Provider store={store}>
-      <Root>
-            <QueryClientProvider client={queryClient}>
-                <PersistGate loading={null} persistor={persistor}>
-                    <GestureHandlerRootView style={{ flex: 1 }}>
-                        <StatusBar hidden />
-                        <NavigationContainer linking={linking}>
-                            <ErrorHandler>
-                                <SafeAreaProvider>
-                                    <SafeAreaView
-                                        style={{
-                                            flex: 1,
-                                            backgroundColor:
-                                                colors.WHITE,
-                                        }}
-                                        edges={['bottom']}>
-                                        <ForegroundHandler/>
-                                        {isStableVersion ? (
-                                            <PaperProvider
-                                                theme={theme}>
-                                                <RootStack />
-                                            </PaperProvider>
-                                        ) : (
-                                            <AppUpdateScreen />
-                                        )}
-                                        <Toast config={toastConfig} />
-                                    </SafeAreaView>
-                                </SafeAreaProvider>
-                            </ErrorHandler>
-                        </NavigationContainer>
-                    </GestureHandlerRootView>
-                </PersistGate>
-            </QueryClientProvider>
-    </Root>
-    </Provider>
-  );
+    const initializeRemoteConfig = async () => {
+        RemoteConfigService.initialize();
+    };
+
+    useEffect(() => {
+        initializeRemoteConfig();
+    }, []);
+
+    return (
+        <Provider store={store}>
+            <Root>
+                <QueryClientProvider client={queryClient}>
+                    <PersistGate loading={null} persistor={persistor}>
+                        <GestureHandlerRootView style={{ flex: 1 }}>
+                            <StatusBar hidden />
+                            <NavigationContainer linking={linking}>
+                                <ErrorHandler>
+                                    <SafeAreaProvider>
+                                        <SafeAreaView
+                                            style={{
+                                                flex: 1,
+                                                backgroundColor: colors.WHITE,
+                                            }}
+                                            edges={['bottom']}>
+                                            <ForegroundHandler />
+                                            {isStableVersion ? (
+                                                <PaperProvider theme={theme}>
+                                                    <RootStack />
+                                                </PaperProvider>
+                                            ) : (
+                                                <AppUpdateScreen />
+                                            )}
+                                            <Toast config={toastConfig} />
+                                        </SafeAreaView>
+                                    </SafeAreaProvider>
+                                </ErrorHandler>
+                            </NavigationContainer>
+                        </GestureHandlerRootView>
+                    </PersistGate>
+                </QueryClientProvider>
+            </Root>
+        </Provider>
+    );
 }
 
 const styles = StyleSheet.create({});

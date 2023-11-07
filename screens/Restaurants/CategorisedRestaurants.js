@@ -39,9 +39,19 @@ const CategorisedRestaurant = ({ route, navigation }) => {
                     }
                 });
             }
-            restaurants = restaurants?.sort(function (a, b) {
-                return !isTimeInIntervals(a.timings);
+            const openRestarants = [];
+            const closedRestaurant = [];
+            restaurants.forEach(rest => {
+                if (
+                    !openRestarants.includes(rest) &&
+                    isTimeInIntervals(rest.timings)
+                ) {
+                    openRestarants.push(rest);
+                } else {
+                    closedRestaurant.push(rest);
+                }
             });
+            restaurants = [...openRestarants, ...closedRestaurant];
             setRestaurantData(restaurants);
 
             setIsLoading(false);

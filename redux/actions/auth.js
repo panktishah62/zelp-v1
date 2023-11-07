@@ -25,6 +25,7 @@ import {
 } from '../services/authService';
 import { hideDialog, showDialog } from './dialog';
 import remoteConfig from '@react-native-firebase/remote-config';
+import RemoteConfigService from '../services/remoteConfigService';
 
 // Action creator to log out the user
 export const logoutUser = () => {
@@ -136,13 +137,15 @@ export const verifyOTP = (
                     });
                     dispatch(getUserWallet(data?.userProfile?.wallet));
 
-                    const canFullWalletBeUsed = remoteConfig()
-                        .getValue('canFullWalletBeUsed')
-                        .asBoolean();
+                    const canFullWalletBeUsed =
+                        RemoteConfigService.getRemoteValue(
+                            'canFullWalletBeUsed',
+                        ).asBoolean();
 
-                    const maxWalletMoneyToUse = remoteConfig()
-                        .getValue('maxWalletMoneyToUse')
-                        .asNumber();
+                    const maxWalletMoneyToUse =
+                        RemoteConfigService.getRemoteValue(
+                            'maxWalletMoneyToUse',
+                        ).asNumber();
 
                     if (canFullWalletBeUsed) {
                         dispatch({
@@ -169,13 +172,15 @@ export const verifyOTP = (
                         ),
                     );
 
-                    const maxReferralCoinMoneyToUse = remoteConfig()
-                        .getValue('maxReferralCoinMoneyToUse')
-                        .asNumber();
+                    const maxReferralCoinMoneyToUse =
+                        RemoteConfigService.getRemoteValue(
+                            'maxReferralCoinMoneyToUse',
+                        ).asNumber();
 
-                    const canFullReferralCoinsBeUsed = remoteConfig()
-                        .getValue('canFullReferralCoinsBeUsed')
-                        .asBoolean();
+                    const canFullReferralCoinsBeUsed =
+                        RemoteConfigService.getRemoteValue(
+                            'canFullReferralCoinsBeUsed',
+                        ).asBoolean();
                     if (canFullReferralCoinsBeUsed) {
                         dispatch(
                             updateReferraMaxMoney(
@@ -197,7 +202,7 @@ export const verifyOTP = (
                             showDialog({
                                 isVisible: true,
                                 titleText: `Referral Code: ${data.referralCode}`,
-                                subTitleText: `Earn ${data.addToSenderWallet} Coins on every use. Share the above Referral Code with your friends and family to earn referral coins.`,
+                                subTitleText: `Earn ${data.addToSenderWallet} Referral Coins when anyone joins using your referral code. Share the above Referral Code with your friends and family to earn referral coins.`,
                                 buttonText1: 'CLOSE',
                                 buttonText2: 'SHARE',
                                 buttonFunction2: () =>

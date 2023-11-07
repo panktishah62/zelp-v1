@@ -1,19 +1,29 @@
 import remoteConfig from '@react-native-firebase/remote-config';
+import RemoteConfigService from './remoteConfigService';
 
-const algoliaSearchApplicationId = remoteConfig()
-    .getValue('AlgoliaSearchApplicationId')
-    .asString();
+const algoliaSearchApplicationId = RemoteConfigService.getRemoteValue(
+    'AlgoliaSearchApplicationId',
+).asString();
 
-const algoliaSearchToken = remoteConfig()
-    .getValue('AlgoliaSearchToken')
-    .asString();
+const algoliaSearchToken =
+    RemoteConfigService.getRemoteValue('AlgoliaSearchToken').asString();
 
 const algoliaSearchIndexSettings = JSON.parse(
-    remoteConfig().getValue('AlgoliaSearchIndexSettings').asString(),
+    RemoteConfigService.getRemoteValue('AlgoliaSearchIndexSettings').asString(),
 );
-const minServicableRadius = remoteConfig()
-    .getValue('minServicableRadius')
-    .asNumber();
+const minServicableRadius = RemoteConfigService.getRemoteValue(
+    'minServicableRadius',
+).asNumber();
+
+const globalSearchQueryConfig = RemoteConfigService.getRemoteValue(
+    'globalSearchQueryConfig',
+)
+    ? JSON.parse(
+          RemoteConfigService.getRemoteValue(
+              'globalSearchQueryConfig',
+          ).asString(),
+      )
+    : {};
 
 const algoliasearch = require('algoliasearch');
 const client = algoliasearch(algoliaSearchApplicationId, algoliaSearchToken);
@@ -27,8 +37,7 @@ export const searchbyAlgolia = async (query, latitude, longitude) => {
             .search(query, {
                 aroundRadius: minServicableRadius * 1000, // 1km
                 aroundLatLng: `${latitude}, ${longitude}`,
-                facets: ['restaurantName'],
-                facetingAfterDistinct: true,
+                ...globalSearchQueryConfig?.globalSearchQueryConfig,
             })
             .then(data => {
                 const facets = data?.facets;

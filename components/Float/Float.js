@@ -9,6 +9,7 @@ import FloatingEllipseMini from './FloatingEllipseMini';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import remoteConfig from '@react-native-firebase/remote-config';
 import FloatingItems from './FloatingItems';
+import RemoteConfigService from '../../redux/services/remoteConfigService';
 
 export default function Float({}) {
     const MIN = 0;
@@ -17,8 +18,12 @@ export default function Float({}) {
     const [floatingIcons, setFloatingIcons] = useState({});
 
     useEffect(() => {
-        const icons = remoteConfig()?.getValue('FloatingIcons')
-            ? JSON.parse(remoteConfig().getValue('FloatingIcons').asString())
+        const icons = RemoteConfigService.getRemoteValue('FloatingIcons')
+            ? JSON.parse(
+                  RemoteConfigService.getRemoteValue(
+                      'FloatingIcons',
+                  ).asString(),
+              )
             : {};
         setFloatingIcons(icons);
     }, []);

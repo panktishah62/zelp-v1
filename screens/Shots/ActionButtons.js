@@ -19,14 +19,15 @@ import Share from 'react-native-share';
 import { hideDialog, showDialog } from '../../redux/actions/dialog';
 import { useDispatch } from 'react-redux';
 import remoteConfig from '@react-native-firebase/remote-config';
+import RemoteConfigService from '../../redux/services/remoteConfigService';
 
 const ActionButtons = props => {
-    const { item, navigation } = props;
+    const { item, showItems, setShowItems, navigation } = props;
     const dispatch = useDispatch();
-    const [showItems, setShowItems] = useState(false);
     const [isLiked, setIsLiked] = useState(item.isLiked);
     const [token, setToken] = useState(null);
-    const minShotsLike = remoteConfig().getValue('minShotsLike')?.asNumber();
+    const minShotsLike =
+        RemoteConfigService.getRemoteValue('minShotsLike')?.asNumber();
     const randomLikes =
         minShotsLike > 200 ? getRandomInt(minShotsLike - 200, minShotsLike) : 0;
     // console.log('randomLikes', randomLikes);
@@ -73,9 +74,8 @@ const ActionButtons = props => {
 
     const onPressShare = async () => {
         const link = await buildLinkForShots(item?.shot?._id);
-        const shareMessage = remoteConfig()
-            .getValue('ShotShareMessage')
-            ?.asString();
+        const shareMessage =
+            RemoteConfigService.getRemoteValue('ShotShareMessage')?.asString();
         const shareOptions = {
             message: `${shareMessage} ${link}`,
         };

@@ -32,6 +32,7 @@ import {
     resetSubscriptionPlan,
     selectSubscriptionPlan,
 } from '../../redux/actions/subscriptionActions';
+import RemoteConfigService from '../../redux/services/remoteConfigService';
 
 const SubscriptionPayment = props => {
     const { navigation, route } = props;
@@ -165,9 +166,9 @@ const SubscriptionPayment = props => {
 
     const createLink = async merchantTransactionId_ => {
         if (merchantTransactionId_) {
-            const paymentRedirectLink = remoteConfig()
-                .getValue('PaymentRedirectLink')
-                .asString();
+            const paymentRedirectLink = RemoteConfigService.getRemoteValue(
+                'PaymentRedirectLink',
+            ).asString();
             const redirectUrl = String(paymentRedirectLink);
             getContext(redirectUrl);
         }

@@ -7,7 +7,7 @@ import {
     FlatList,
     Platform,
 } from 'react-native';
-import { dimensions, fonts} from '../../styles';
+import { dimensions, fonts } from '../../styles';
 import { colors } from '../../styles/colors';
 
 import AppLogo from '../../assets/icons/AppTour/AppLogo.svg';
@@ -45,30 +45,11 @@ const DATA = [
         image: <APP_TOUR2 height={dimensions.fullHeight * 0.2} />,
 
         title: 'Shots',
-        subtitle:
-            'Savor quality food or watch Froker videos while waiting and Get paid for it',
+        subtitle: 'Earn while you watch! Watch, Eat, Repeat',
         frokieImg: <APP_TOUR_FROKIE2 />,
     },
     {
         id: 3,
-        image: <APP_TOUR3 height={dimensions.fullHeight * 0.2} />,
-
-        title: 'Food Affair',
-        subtitle:
-            "Ordering food is as easy as swiping right - we'll always have a match for you!",
-        frokieImg: <APP_TOUR_FROKIE3 />,
-    },
-    {
-        id: 4,
-        image: <APP_TOUR4 height={dimensions.fullHeight * 0.2} />,
-
-        title: 'Switch To Froker',
-        subtitle:
-            'Become a Froker - the perfect place to create content and become a popular food blogger!',
-        frokieImg: <APP_TOUR_FROKIE4 />,
-    },
-    {
-        id: 5,
         image: <APP_TOUR5 height={dimensions.fullHeight * 0.2} />,
 
         title: 'Restaurants',
@@ -77,24 +58,16 @@ const DATA = [
         frokieImg: <APP_TOUR_FROKIE5 />,
     },
     {
-        id: 6,
+        id: 4,
         image: <APP_TOUR6 height={dimensions.fullHeight * 0.2} />,
 
-        title: 'Froker Wallet',
-        subtitle: 'You will be getting a 1000rs signup bonus in your wallet.',
+        title: 'Referral Coins',
+        subtitle:
+            'Get Referral Coins for anyone who joins through your referral code.',
         frokieImg: <APP_TOUR_FROKIE1 />,
     },
     {
-        id: 7,
-        image: <APP_TOUR7 height={dimensions.fullHeight * 0.2} />,
-
-        title: 'Scratch card',
-        subtitle:
-            'Get upto 100/- cash back in the scratch card on your every order.',
-        frokieImg: <APP_TOUR_FROKIE7 />,
-    },
-    {
-        id: 8,
+        id: 5,
         image: <APP_TOUR8 height={dimensions.fullHeight * 0.2} />,
 
         title: 'Order From Multiple Restaurants',
@@ -245,7 +218,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         justifyContent: 'space-between',
-        backgroundColor:colors.WHITE,
+        backgroundColor: colors.WHITE,
     },
     titleContainer: { alignSelf: 'center', marginTop: dynamicSize(15) },
     title: {

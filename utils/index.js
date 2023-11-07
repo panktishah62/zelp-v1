@@ -260,3 +260,13 @@ export function truncateString(str, limit) {
     }
     return str.slice(0, limit) + '...';
 }
+
+export const calculateAsciiTotal = str => {
+    let total = 0;
+
+    for (let i = 0; i < str.length; i++) {
+        total += str.charCodeAt(i);
+    }
+
+    return total;
+};

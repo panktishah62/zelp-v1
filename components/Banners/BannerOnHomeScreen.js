@@ -12,11 +12,12 @@ import { dimensions } from '../../styles';
 import FastImage from 'react-native-fast-image';
 import { dynamicSize } from '../../utils/responsive';
 import { colors } from '../../styles/colors';
+import RemoteConfigService from '../../redux/services/remoteConfigService';
 
 const BannerOnHomeScreen = props => {
     const { navigation } = props;
     const bannerOnHomeScreen = JSON.parse(
-        remoteConfig().getValue('bannerOnHomeScreen').asString(),
+        RemoteConfigService.getRemoteValue('bannerOnHomeScreen').asString(),
     );
     const containerHeight = bannerOnHomeScreen?.containerMaxHeight;
     const [index, setIndex] = useState(0);

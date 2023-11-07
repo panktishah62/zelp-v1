@@ -13,15 +13,32 @@ import ShowMore from '../../../assets/icons/backRight.svg';
 import { dimensions, fonts, Styles } from '../../../styles';
 import { colors } from '../../../styles/colors';
 import AddButton from '../../Buttons/AddButton';
-import { GreyColorMatrix, sliceText } from '../../../utils';
+import { GreyColorMatrix, isTimeInIntervals, sliceText } from '../../../utils';
 import LocationIcon from '../../../assets/icons/Vector.svg';
 import { ColorMatrix } from 'react-native-color-matrix-image-filters';
 import { useSelector } from 'react-redux';
 import { dynamicSize } from '../../../utils/responsive';
 
+const isFoodItemActive = foodItem => {
+    let isItemActive = true;
+    if (foodItem?.itemTimings?.length > 0) {
+        isItemActive = foodItem?.itemTimings[0]?.openingTime
+            ? isTimeInIntervals(foodItem?.itemTimings)
+            : true;
+    }
+    if (foodItem?.itemTimings?.length == 0) {
+        isItemActive = false;
+    }
+    if (!foodItem?.isItemActive || foodItem?.isItemDeprecated) {
+        isItemActive = false;
+    }
+    return isItemActive;
+};
+
 const FoodItems = props => {
     const { foodItem, restaurant, category, isRestaurantOpen, navigation } =
         props;
+    const isFoodItemAvailable = isFoodItemActive(foodItem);
 
     const myCart = useSelector(state => state.cartActions);
     const [count, setCount] = useState(0);
@@ -80,7 +97,7 @@ const FoodItems = props => {
             </View>
             <View style={styles.containerRight}>
                 <View style={styles.imageContainer}>
-                    {isRestaurantOpen && (
+                    {isRestaurantOpen && isFoodItemAvailable && (
                         <View style={styles.layer}>
                             {foodItem && foodItem?.item?.image ? (
                                 <Image
@@ -97,7 +114,7 @@ const FoodItems = props => {
                             )}
                         </View>
                     )}
-                    {!isRestaurantOpen && (
+                    {(!isRestaurantOpen || !isFoodItemAvailable) && (
                         <View style={styles.layer}>
                             {foodItem && foodItem?.item?.image ? (
                                 <ColorMatrix matrix={GreyColorMatrix}>
@@ -126,7 +143,9 @@ const FoodItems = props => {
                                 count={count}
                                 style={styles.button}
                                 restaurant={restaurant}
-                                isEnabled={isRestaurantOpen}
+                                isEnabled={
+                                    isRestaurantOpen && isFoodItemAvailable
+                                }
                                 mode={'light'}
                             />
                         )}
@@ -136,7 +155,9 @@ const FoodItems = props => {
                                 count={count}
                                 style={styles.button}
                                 restaurant={restaurant}
-                                isEnabled={isRestaurantOpen}
+                                isEnabled={
+                                    isRestaurantOpen && isFoodItemAvailable
+                                }
                                 mode={'light'}
                             />
                         )}

@@ -25,6 +25,7 @@ import {
 import { DialogTypes, getUpto2Decimal } from '../../../utils';
 import { showDialog } from '../../../redux/actions/dialog';
 import remoteConfig from '@react-native-firebase/remote-config';
+import RemoteConfigService from '../../../redux/services/remoteConfigService';
 
 const RefferalCoins = props => {
     const { setIsLoading, moneyInReferral, config } = props;
@@ -38,9 +39,9 @@ const RefferalCoins = props => {
     const [isActive, setIsActive] = useState(props.isActive);
     const [remainingMoneyInReferral, setRemainingMoneyInReferral] =
         useState(moneyInReferral);
-    const canFullReferralCoinsBeUsed = remoteConfig()
-        .getValue('canFullReferralCoinsBeUsed')
-        .asBoolean();
+    const canFullReferralCoinsBeUsed = RemoteConfigService.getRemoteValue(
+        'canFullReferralCoinsBeUsed',
+    ).asBoolean();
 
     const dispatch = useDispatch();
     const onClick = () => {
