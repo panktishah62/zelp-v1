@@ -64,27 +64,8 @@ const NewOrderDetailsScreen = ({ route, navigation }) => {
 
     return !isLoadingOrder ? (
         <View style={styles.wrapper}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.container}>
-                    {/* <View style={styles.orderId}>
-                        <Text
-                            style={{
-                                color: '#3D3D3D',
-                                fontSize: normalizeFont(20),
-                                fontFamily: fonts.NUNITO_700_24.fontFamily,
-                                fontWeight: 'bold',
-                            }}>
-                            Order Id:
-                        </Text>
-                        <Text
-                            style={{
-                                color: colors.ORANGE,
-                                fontSize: normalizeFont(20),
-                                fontFamily: fonts.NUNITO_700_24.fontFamily,
-                            }}>
-                            {orderDetails.referenceId}
-                        </Text>
-                    </View> */}
                     <LocationCard address={orderDetails.cart.address} />
                     <Text
                         style={{
@@ -107,6 +88,11 @@ const NewOrderDetailsScreen = ({ route, navigation }) => {
                         packagingCharges={orderDetails?.cart?.packagingCharges}
                         totalAmount={orderDetails?.cart?.totalAmount}
                         paymentMode={orderDetails?.paymentMode}
+                        moneyFromFuro={orderDetails?.cart?.walletMoney}
+                        moneyFromReferralCoins={
+                            orderDetails?.cart?.referralCoinsUsed
+                        }
+                        couponDiscount={orderDetails?.cart?.couponDiscount}
                     />
                     <RectangularFullscreenBtn
                         title="TRACK ORDER"
@@ -124,12 +110,10 @@ const NewOrderDetailsScreen = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
     wrapper: {
-        height: dimensions.fullHeight,
         width: dimensions.fullWidth,
         backgroundColor: colors.ORANGE,
     },
     container: {
-        height: dimensions.fullHeight,
         width: dimensions.fullWidth,
         backgroundColor: '#EEE',
         borderTopLeftRadius: dynamicSize(25),

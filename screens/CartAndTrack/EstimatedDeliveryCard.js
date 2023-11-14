@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: dynamicSize(20),
         borderTopRightRadius: dynamicSize(20),
         alignItems: 'center',
+        paddingVertical: dynamicSize(10),
     },
     leftSection: {
         flex: 1,
@@ -56,7 +57,6 @@ const styles = StyleSheet.create({
     },
     rightSection: {
         flex: 2,
-        padding: dynamicSize(16),
     },
     orderStatus: {
         fontSize: normalizeFont(20),

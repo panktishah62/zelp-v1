@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
 import { colors } from '../../styles/colors';
 import { dimensions, fonts } from '../../styles';
@@ -10,59 +10,78 @@ import SingleItemDetails from './SingleItemDetails';
 import { truncateString } from '../../utils';
 
 const OrderItemDetailsCard = ({ itemsDetails }) => {
+    const [restaurants, setRestaurants] = useState({});
+    useEffect(() => {
+        let restList = {};
+        itemsDetails.forEach(item => {
+            if (!restList[item?.id.restaurant.name]) {
+                restList[item?.id.restaurant.name] = [];
+            }
+            restList[item?.id.restaurant.name].push(item);
+        });
+        setRestaurants(restList);
+    }, [itemsDetails]);
     return (
-        <View style={styles.parentContainer}>
-            <View style={styles.headerContaine}>
-                <View style={styles.hotelDetails}>
-                    <View
-                        style={{
-                            display: 'flex',
-                            gap: dynamicSize(5),
-                            flexDirection: 'row',
-                            justifyContent: 'flex-start',
-                            alignItems: 'center',
-                        }}>
-                        <SteamingCup />
-                        <Text style={styles.detailsText}>
-                            {truncateString(
-                                itemsDetails.length > 0 &&
-                                    itemsDetails[0]?.id.restaurant.name,
-                                20,
-                            )}
-                        </Text>
-                    </View>
-                    <View
-                        style={{
-                            display: 'flex',
-                            gap: dynamicSize(5),
-                            flexDirection: 'row',
-                            justifyContent: 'flex-start',
-                            alignItems: 'center',
-                        }}>
-                        <LocationPinWhite />
-                        <Text style={styles.detailsText}>
-                            {truncateString(
-                                itemsDetails.length > 0 &&
-                                    itemsDetails[0]?.id.restaurant.address.city,
-                                15,
-                            )}
-                        </Text>
-                    </View>
-                </View>
-            </View>
-            <View style={styles.container}>
-                <View style={styles.itemCard}>
-                    {itemsDetails.map(item => (
-                        <SingleItemDetails
-                            key={item.id._id}
-                            name={item.id.name}
-                            isVeg={item.id.isVeg}
-                            quantity={item.count}
-                            price={item.id.price}
-                        />
-                    ))}
-                </View>
-            </View>
+        <View>
+            {restaurants &&
+                Object.keys(restaurants).length > 0 &&
+                Object.keys(restaurants)?.map((rest, index) => {
+                    const restName = restaurants[rest][0]?.id?.restaurant?.name;
+                    const foodItems = restaurants[rest];
+                    return (
+                        <View style={styles.parentContainer} key={index}>
+                            <View style={styles.headerContaine}>
+                                <View style={styles.hotelDetails}>
+                                    <View
+                                        style={{
+                                            display: 'flex',
+                                            gap: dynamicSize(5),
+                                            flexDirection: 'row',
+                                            justifyContent: 'flex-start',
+                                            alignItems: 'center',
+                                        }}>
+                                        <SteamingCup />
+                                        <Text style={styles.detailsText}>
+                                            {truncateString(restName, 20)}
+                                        </Text>
+                                    </View>
+                                    <View
+                                        style={{
+                                            display: 'flex',
+                                            gap: dynamicSize(5),
+                                            flexDirection: 'row',
+                                            justifyContent: 'flex-start',
+                                            alignItems: 'center',
+                                        }}>
+                                        <LocationPinWhite />
+                                        <Text style={styles.detailsText}>
+                                            {truncateString(
+                                                itemsDetails.length > 0 &&
+                                                    itemsDetails[0]?.id
+                                                        .restaurant.address
+                                                        .city,
+                                                15,
+                                            )}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                            <View style={styles.container}>
+                                <View style={styles.itemCard}>
+                                    {foodItems.map(item => (
+                                        <SingleItemDetails
+                                            key={item.id._id}
+                                            name={item.id.name}
+                                            isVeg={item.id.isVeg}
+                                            quantity={item.count}
+                                            price={item.id.price}
+                                        />
+                                    ))}
+                                </View>
+                            </View>
+                        </View>
+                    );
+                })}
         </View>
     );
 };

@@ -8,8 +8,12 @@ import TextIcon from '../../assets/icons/text-icon.svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Linking } from 'react-native';
 import { fonts } from '../../styles';
+import { useDispatch } from 'react-redux';
+import { showDialog } from '../../redux/actions/dialog';
+import { DialogTypes } from '../../utils';
 
-const CustomerCareCard = ({ number }) => {
+const CustomerCareCard = ({ number, order = null }) => {
+    const dispatch = useDispatch();
     const callNumber = phoneNumber => {
         Linking.openURL(`tel:${phoneNumber}`).catch(error =>
             console.error('Error in opening phone app:', error),
@@ -19,8 +23,24 @@ const CustomerCareCard = ({ number }) => {
     const sendWhatsAppMessage = (phoneNumber, message) => {
         Linking.openURL(
             `whatsapp://send?phone=${phoneNumber}&text=${message}`,
-        ).catch(error => console.error('Error in opening WhatsApp:', error));
+        ).catch(error => {
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Cannot open WhatsApp!',
+                    subTitleText:
+                        'Please install WhatsApp or try again after sometime.',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
+        });
     };
+    const messageText = order?.referenceId
+        ? `Hi there! I wanted to talk about my order: ${order?.referenceId}`
+        : order?._id
+        ? `Hi there! I wanted to talk about my order: ${order?._id}`
+        : 'Hey there!';
 
     return (
         <View style={styles.container}>
@@ -36,7 +56,7 @@ const CustomerCareCard = ({ number }) => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() =>
-                            sendWhatsAppMessage(number, 'Hey there!')
+                            sendWhatsAppMessage(number, messageText)
                         }>
                         <TextIcon />
                     </TouchableOpacity>

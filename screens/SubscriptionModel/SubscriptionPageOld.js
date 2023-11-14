@@ -66,21 +66,6 @@ const SubscriptionPageOld = props => {
         <ScrollView
             showsVerticalScrollIndicator={false}
             style={styles.container}>
-            {subscriptionPlans && flexiPayPlan && (
-                <SubscriptionModel
-                    subscriptionPlans={subscriptionPlans}
-                    flexiPayPlan={flexiPayPlan}
-                />
-            )}
-            <View>
-                <View style={styles.whatsappContainer}>
-                    <Text style={styles.headerText}>
-                        We Have All What You Want!
-                    </Text>
-                </View>
-                {menu && <MenuListing data={menu[0]} />}
-                {menu && <MenuListing data={menu[1]} />}
-            </View>
             <View style={styles.buttonContainer}>
                 <View style={styles.whatsappContainer}>
                     <Image
@@ -98,6 +83,21 @@ const SubscriptionPageOld = props => {
                     {/* <Text style={styles.headerText}>Get Started Now!</Text> */}
                 </View>
                 {/* <IconButton text="Join On Whatsapp" onClick={openLink} /> */}
+            </View>
+            {subscriptionPlans && flexiPayPlan && (
+                <SubscriptionModel
+                    subscriptionPlans={subscriptionPlans}
+                    flexiPayPlan={flexiPayPlan}
+                />
+            )}
+            <View>
+                <View style={styles.whatsappContainer}>
+                    <Text style={styles.headerText}>
+                        We Have All What You Want!
+                    </Text>
+                </View>
+                {menu && <MenuListing data={menu[0]} />}
+                {menu && <MenuListing data={menu[1]} />}
             </View>
         </ScrollView>
     ) : (

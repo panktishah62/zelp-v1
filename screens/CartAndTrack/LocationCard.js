@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // elevation: 0,
         gap: dynamicSize(10),
-        marginBottom: dynamicSize(20),
+        marginBottom: dynamicSize(10),
     },
     header: {
         display: 'flex',

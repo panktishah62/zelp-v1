@@ -5,6 +5,7 @@ import { dynamicSize } from '../../utils/responsive';
 import { cancelOrder } from '../../redux/actions/currentOrder';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { Popup } from 'react-native-popup-confirm-toast';
 
 const CancelOrderButton = ({ orderTime, orderId, timeToCancel }) => {
     const [timeLeft, setTimeLeft] = useState(
@@ -35,8 +36,23 @@ const CancelOrderButton = ({ orderTime, orderId, timeToCancel }) => {
     const navigation = useNavigation();
 
     const cancelHandler = () => {
-        dispatch(cancelOrder(orderId));
-        navigation.navigate('Home');
+        Popup.show({
+            type: 'confirm',
+            title: 'Cancel Order',
+            textBody: 'Are you sure you want to cancel this order?',
+            buttonText: 'No',
+            confirmText: 'Yes',
+            confirmButtonTextStyle: { color: '#FD7A33' },
+            timing: 10000,
+            callback: () => {
+                Popup.hide();
+            },
+            cancelCallback: () => {
+                dispatch(cancelOrder(orderId));
+                navigation.popToTop();
+                Popup.hide();
+            },
+        });
     };
 
     if (timeLeft < 0) {

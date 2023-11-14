@@ -7,8 +7,12 @@ import CallIcon from '../../assets/icons/call-icon.svg';
 import TextIcon from '../../assets/icons/text-icon.svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Linking } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { showDialog } from '../../redux/actions/dialog';
+import { DialogTypes } from '../../utils';
 
 const DeliveryBoyCard = props => {
+    const dispatch = useDispatch();
     const callNumber = phoneNumber => {
         Linking.openURL(`tel:${phoneNumber}`).catch(error =>
             console.error('Error in opening phone app:', error),
@@ -18,8 +22,21 @@ const DeliveryBoyCard = props => {
     const sendWhatsAppMessage = (phoneNumber, message) => {
         Linking.openURL(
             `whatsapp://send?phone=${phoneNumber}&text=${message}`,
-        ).catch(error => console.error('Error in opening WhatsApp:', error));
+        ).catch(error => {
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Cannot open WhatsApp!',
+                    subTitleText:
+                        'Please install WhatsApp or try again after sometime.',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
+        });
     };
+
+    const serverData = useSelector(state => state.serverReducer);
 
     return (
         <View style={styles.container}>
@@ -30,12 +47,18 @@ const DeliveryBoyCard = props => {
                     <Text style={styles.subtitle}>Delivery Boy</Text>
                 </View>
                 <View style={styles.icons}>
-                    <TouchableOpacity onPress={() => callNumber('8260169650')}>
+                    <TouchableOpacity
+                        onPress={() =>
+                            callNumber(serverData?.config?.contactNo)
+                        }>
                         <CallIcon />
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() =>
-                            sendWhatsAppMessage('8260169650', 'Hey there!')
+                            sendWhatsAppMessage(
+                                serverData?.config?.contactNo,
+                                'Hey there!',
+                            )
                         }>
                         <TextIcon />
                     </TouchableOpacity>

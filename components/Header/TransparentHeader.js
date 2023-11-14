@@ -4,7 +4,9 @@ import BackArrowButton from '../../assets/icons/back-arrow.svg';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { dimensions, fonts, Styles } from '../../styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import ThreeDotsMenuIcon from '../../assets/icons/three-dots-menu.svg';
+import ThreeDotsMenuIcon from '../../assets/icons/infoIcon.svg';
+import { dynamicSize } from '../../utils/responsive';
+import { colors } from '../../styles/colors';
 
 const TransparentHeader = props => {
     const { navigation, onBack, onClick, dontShowThreeDots } = props;
@@ -20,13 +22,15 @@ const TransparentHeader = props => {
                 <BackArrowButton />
             </TouchableOpacity>
             {(!dontShowThreeDots || dontShowThreeDots === false) && (
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {
-                        onClick ? onClick() : navigation.goBack();
-                    }}>
-                    <ThreeDotsMenuIcon />
-                </TouchableOpacity>
+                <View style={styles.iconContainer}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            onClick ? onClick() : navigation.goBack();
+                        }}>
+                        <ThreeDotsMenuIcon height={30} width={30} />
+                    </TouchableOpacity>
+                </View>
             )}
         </View>
     );
@@ -39,9 +43,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: dimensions.fullWidth,
         backgroundColor: 'rgba(0, 0, 0, 0)',
+        position: 'absolute',
     },
     button: {
         padding: 10,
+    },
+    iconContainer: {
+        marginTop: dynamicSize(8),
+        right: dynamicSize(16),
+        backgroundColor: colors.GREY_LIGHT,
+        width: dynamicSize(32),
+        height: dynamicSize(32),
+        elevation: 2,
+        borderRadius: 100,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1,
     },
 });
 

@@ -8,9 +8,7 @@ const SinglePaymentDetails = ({ amountType, amount }) => {
     return (
         <View style={styles.singlePaymentContainer}>
             <Text style={styles.amountType}>{amountType}</Text>
-            <Text style={styles.amount}>
-                {amount > 0 ? `₹${amount}` : 'Free'}
-            </Text>
+            <Text style={styles.amount}>{`₹${amount}`}</Text>
         </View>
     );
 };
@@ -23,6 +21,9 @@ const PaymentSummary = ({
     totalAmount,
     paymentMode,
     referenceId,
+    moneyFromFuro,
+    moneyFromReferralCoins,
+    couponDiscount,
 }) => {
     return (
         <View style={styles.container}>
@@ -59,6 +60,18 @@ const PaymentSummary = ({
                 <SinglePaymentDetails
                     amountType={'Delivery Charges'}
                     amount={deliveryCharges}
+                />
+                <SinglePaymentDetails
+                    amountType={'Money From Furos'}
+                    amount={moneyFromFuro}
+                />
+                <SinglePaymentDetails
+                    amountType={'Money From Referral Coins'}
+                    amount={moneyFromReferralCoins}
+                />
+                <SinglePaymentDetails
+                    amountType={'Coupon Discount'}
+                    amount={couponDiscount}
                 />
                 <SinglePaymentDetails amountType={'Taxes'} amount={taxes} />
             </View>

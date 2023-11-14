@@ -8,8 +8,10 @@ import { dimensions, fonts } from '../../styles';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
 import { colors } from '../../styles/colors';
 import TransparentHeader from '../../components/Header/TransparentHeader';
+import { useSelector } from 'react-redux';
 
 const SomethingWentWrong = ({ navigation }) => {
+    const serverData = useSelector(state => state.serverReducer);
     useEffect(() => {
         navigation.setOptions({
             header: () => (
@@ -37,7 +39,7 @@ const SomethingWentWrong = ({ navigation }) => {
             <Text style={styles.normalText}>
                 We are currently facing challenges in tracking your order.
             </Text>
-            <CustomerCareCard number={'8260169650'} />
+            <CustomerCareCard number={serverData?.config?.contactNo} />
         </View>
     );
 };

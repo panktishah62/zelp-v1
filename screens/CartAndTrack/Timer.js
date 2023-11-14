@@ -7,7 +7,7 @@ import { dynamicSize, normalizeFont } from '../../utils/responsive';
 const TimerCircle = ({ minutes, initialTimeToDeliver }) => {
     const [initialTime, setInitialTime] = useState(minutes);
     const [remainingTime, setRemainingTime] = useState(initialTime);
-    const [circleRadius, setCircleRadius] = useState(38);
+    const [circleRadius, setCircleRadius] = useState(dynamicSize(38));
     const [strokeWidth, setStrokeWidth] = useState(4);
     const [initialCircleLength, setInitialCircleLength] = useState(0);
 
@@ -53,7 +53,7 @@ const TimerCircle = ({ minutes, initialTimeToDeliver }) => {
                     cy={circleRadius}
                     r={circleRadius - strokeWidth}
                     fill="transparent"
-                    stroke="lightgrey"
+                    stroke="rgba(255, 255, 255, 0.455) 0%"
                     strokeWidth={strokeWidth}
                 />
                 <Circle
@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.ORANGE,
         borderRadius: dynamicSize(100),
         width: dynamicSize(90),
-        height: dynamicSize(90),
     },
     timeContainer: {
         position: 'absolute',

@@ -60,7 +60,6 @@ const ShowOrderDetails = props => {
             getOrderDetails_(orderId);
             getPaymentDetails(orderId);
         }
-        console.log(order);
     }, [orderId]);
 
     useEffect(() => {

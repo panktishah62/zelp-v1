@@ -30,6 +30,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
             10,
         ) * 60,
     );
+    const serverData = useSelector(state => state.serverReducer);
 
     const [tapped, setTapped] = useState(true);
     const animation = useRef(null);
@@ -170,7 +171,10 @@ const TrackOrderScreen = ({ route, navigation }) => {
                         <LocationCard
                             address={currentOrder?.currentOrder?.cart?.address}
                         />
-                        <CustomerCareCard number={'8260169650'} />
+                        <CustomerCareCard
+                            number={serverData?.config?.contactNo}
+                            order={currentOrder?.currentOrder}
+                        />
                     </View>
                 </View>
             )}
@@ -193,26 +197,13 @@ const TrackOrderScreen = ({ route, navigation }) => {
                 </TouchableOpacity>
             </View>
 
-            <CancelOrderButton
-                orderTime={currentOrder?.currentOrder?.createdAt}
-                orderId={currentOrder?.currentOrder?._id}
-                timeToCancel={36}
-            />
-
-            {/* <View>
-                {!currentOrder?.currentOrder?.subscriptionOrder && (
-                    <ShowOrderDetails
-                        navigation={navigation}
-                        orderId={currentOrder?.currentOrder?._id}
-                    />
-                )}
-                {currentOrder?.currentOrder?.subscriptionOrder && (
-                    <ShowSubscriptionOrderDetails
-                        navigation={navigation}
-                        orderId={currentOrder?.currentOrder?._id}
-                    />
-                )}
-            </View> */}
+            {currentOrder?.currentOrder?.orderStatus === 'Placed' && (
+                <CancelOrderButton
+                    orderTime={currentOrder?.currentOrder?.updatedAt}
+                    orderId={currentOrder?.currentOrder?._id}
+                    timeToCancel={60}
+                />
+            )}
         </View>
     );
 };
@@ -289,7 +280,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 1,
-        marginTop: dynamicSize(10),
+        marginTop: dynamicSize(50),
     },
     loadingSpinner: {
         zIndex: 2,

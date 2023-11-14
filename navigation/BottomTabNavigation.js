@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Styles } from '../styles';
 import { colors } from '../styles/colors';
-import HomeIcon from '../assets/icons/Home.svg';
+import HomeIcon from '../assets/icons/home.svg';
 import FrokerIcon from '../assets/icons/Froker.svg';
 import FoodAffairIcon from '../assets/icons/FoodAffair.svg';
 import FoodAffairFocusedIcon from '../assets/icons/FoodAffairFocused.svg';
