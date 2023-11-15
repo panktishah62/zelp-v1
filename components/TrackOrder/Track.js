@@ -405,7 +405,11 @@ const styles = StyleSheet.create({
     dash: {
         backgroundColor: 'rgba(0, 0, 0, 0.65)',
         borderColor: 'rgba(0, 0, 0, 0.65)',
-        borderStyle: 'dashed',
+        ...Platform.select({
+            android: {
+                borderStyle: 'dashed',
+            },
+        }),
         borderWidth: 0.5,
         height: 20,
         width: 0,

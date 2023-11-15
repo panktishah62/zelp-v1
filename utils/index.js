@@ -250,6 +250,17 @@ export const getUpto2Decimal = num => {
     return Number(num.toFixed(2));
 };
 
+export function truncateString(str, limit) {
+    if (str === undefined || str === null) {
+        return '';
+    }
+
+    if (str.length < limit) {
+        return str;
+    }
+    return str.slice(0, limit) + '...';
+}
+
 export const calculateAsciiTotal = str => {
     let total = 0;
 

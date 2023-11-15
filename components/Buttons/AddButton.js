@@ -15,6 +15,7 @@ import {
     removeItemFromCart,
 } from '../../redux/actions/cartActions';
 import { hideDialog, showDialog } from '../../redux/actions/dialog';
+import { dynamicSize } from '../../utils/responsive';
 
 const AddButton = props => {
     const dispatch = useDispatch();
@@ -173,6 +174,12 @@ const AddButton = props => {
                                         setCart('SUB');
                                     }
                                 }
+                            }}
+                            hitSlop={{
+                                top: dynamicSize(15),
+                                bottom: dynamicSize(15),
+                                left: dynamicSize(15),
+                                right: dynamicSize(15),
                             }}>
                             {colorStyles.secondary === colors.ORANGE ? (
                                 <MinusOrange />
@@ -193,6 +200,12 @@ const AddButton = props => {
                                 if (isEnabled) {
                                     setCart('ADD');
                                 }
+                            }}
+                            hitSlop={{
+                                top: dynamicSize(15),
+                                bottom: dynamicSize(15),
+                                left: dynamicSize(15),
+                                right: dynamicSize(15),
                             }}>
                             {colorStyles.secondary === colors.ORANGE ? (
                                 <PlusOrange />

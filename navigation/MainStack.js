@@ -52,6 +52,8 @@ import RestaurantMenuPage from '../screens/SubscriptionModel/RestaurantMenuPage'
 import Cart from '../screens/SubscriptionModel/Cart';
 import HeaderWithCartForSubscription from '../components/Header/HeaderWithCartForSubscription';
 import HeaderWithHome from '../components/Header/HeaderWithHome';
+import NewOrderDetailsScreen from '../screens/CartAndTrack/OrderDetailsScreen';
+import SomethingWentWrong from '../screens/CartAndTrack/SomethingWentWrong';
 
 const Stack = createNativeStackNavigator();
 
@@ -257,6 +259,10 @@ const MainStack = () => {
             <Stack.Screen name="OrderPlaced" component={OrderPlaced} />
             <Stack.Screen name="TrackOrder" component={TrackOrderScreen} />
             <Stack.Screen
+                name="NewOrderDetails"
+                component={NewOrderDetailsScreen}
+            />
+            <Stack.Screen
                 name="Coupons"
                 component={CouponsScreen}
                 options={({ navigation, route }) => ({
@@ -355,6 +361,10 @@ const MainStack = () => {
                         <HeaderWithTitle navigation={navigation} title="Cart" />
                     ),
                 })}
+            />
+            <Stack.Screen
+                name="SomethingWentWrong"
+                component={SomethingWentWrong}
             />
         </Stack.Navigator>
     );

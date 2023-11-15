@@ -46,6 +46,9 @@ export const getCurrentOrder = () => {
                                     isOrderPaid: data?.isOrderPaid
                                         ? data?.isOrderPaid
                                         : false,
+                                    tracking_url: data?.tracking_url
+                                        ? data?.tracking_url
+                                        : null,
                                 },
                             });
                         } else {

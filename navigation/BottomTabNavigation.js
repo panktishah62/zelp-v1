@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Styles } from '../styles';
 import { colors } from '../styles/colors';
-import HomeIcon from '../assets/icons/Home.svg';
+import HomeIcon from '../assets/icons/home.svg';
 import FrokerIcon from '../assets/icons/Froker.svg';
 import FoodAffairIcon from '../assets/icons/FoodAffair.svg';
 import FoodAffairFocusedIcon from '../assets/icons/FoodAffairFocused.svg';
@@ -38,6 +38,9 @@ import { Linking, View } from 'react-native';
 import branch from 'react-native-branch';
 import HeaderWithLocationAndSearch from '../components/Header/HeaderWithLocationAndSearch';
 import SubscriptionPageOld from '../screens/SubscriptionModel/SubscriptionPageOld';
+
+import LiveTrackingMap from '../screens/CartAndTrack/LiveTrackingMap';
+import TrackOrderScreen from '../screens/CartAndTrack/TrackOrder';
 
 const Tab = createBottomTabNavigator();
 

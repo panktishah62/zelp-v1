@@ -22,6 +22,7 @@ const currentOrderReducer = (state = initialState, action) => {
                 currentOrder: action.payload.currentOrder,
                 error: '',
                 isOrderPaid: action.payload.isOrderPaid,
+                tracking_url: action.payload.tracking_url,
             };
         case PLACE_ORDER_BY_USER:
             return {

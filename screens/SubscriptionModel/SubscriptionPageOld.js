@@ -66,21 +66,6 @@ const SubscriptionPageOld = props => {
         <ScrollView
             showsVerticalScrollIndicator={false}
             style={styles.container}>
-            {subscriptionPlans && flexiPayPlan && (
-                <SubscriptionModel
-                    subscriptionPlans={subscriptionPlans}
-                    flexiPayPlan={flexiPayPlan}
-                />
-            )}
-            <View>
-                <View style={styles.whatsappContainer}>
-                    <Text style={styles.headerText}>
-                        We Have All What You Want!
-                    </Text>
-                </View>
-                {menu && <MenuListing data={menu[0]} />}
-                {menu && <MenuListing data={menu[1]} />}
-            </View>
             <View style={styles.buttonContainer}>
                 <View style={styles.whatsappContainer}>
                     <Image
@@ -99,6 +84,21 @@ const SubscriptionPageOld = props => {
                 </View>
                 {/* <IconButton text="Join On Whatsapp" onClick={openLink} /> */}
             </View>
+            {subscriptionPlans && flexiPayPlan && (
+                <SubscriptionModel
+                    subscriptionPlans={subscriptionPlans}
+                    flexiPayPlan={flexiPayPlan}
+                />
+            )}
+            <View>
+                <View style={styles.whatsappContainer}>
+                    <Text style={styles.headerText}>
+                        We Have All What You Want!
+                    </Text>
+                </View>
+                {menu && <MenuListing data={menu[0]} />}
+                {menu && <MenuListing data={menu[1]} />}
+            </View>
         </ScrollView>
     ) : (
         <ActivityIndicator color={colors.ORANGE} size={32} />
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: dynamicSize(25),
+        paddingHorizontal: dynamicSize(5),
     },
     headerText: {
         ...fonts.NUNITO_500_16,

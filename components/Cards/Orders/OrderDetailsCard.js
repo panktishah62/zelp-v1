@@ -9,6 +9,14 @@ const OrderDetailsCard = props => {
         <View>
             <Text style={styles.title}>Order Details</Text>
             <View style={styles.container}>
+                {order?.referenceId && (
+                    <View style={styles.innerContainer}>
+                        <Text style={styles.titleText}>Order Reference Id</Text>
+                        <Text style={styles.subtitleText}>
+                            {order?.referenceId}
+                        </Text>
+                    </View>
+                )}
                 {order._id && (
                     <View style={styles.innerContainer}>
                         <Text style={styles.titleText}>Order Number</Text>
