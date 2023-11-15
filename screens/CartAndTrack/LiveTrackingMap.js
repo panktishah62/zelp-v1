@@ -10,6 +10,7 @@ const LiveTrackingMap = ({ trackingUrl }) => {
     const webViewRef = useRef(null);
 
     const injectedJavaScript = `
+    setTimeout(() => {
         // Get the element with class "mobile_scrollable-container__Moo58"
         const elementToHide = document.querySelector('.mobile_scrollable-container__Moo58');
     
@@ -20,6 +21,7 @@ const LiveTrackingMap = ({ trackingUrl }) => {
     
         // Return the inner HTML of the entire document
         document.documentElement.innerHTML;
+    }, 100);
     `;
 
     const runInjectedJavaScript = () => {

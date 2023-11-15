@@ -42,7 +42,7 @@ const OrderItemDetailsCard = ({ itemsDetails }) => {
                                         }}>
                                         <SteamingCup />
                                         <Text style={styles.detailsText}>
-                                            {truncateString(restName, 20)}
+                                            {truncateString(restName, 13)}
                                         </Text>
                                     </View>
                                     <View
@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
         paddingVertical: dynamicSize(20),
         borderRadius: dynamicSize(18),
         width: '100%',
-        display: 'flex',
         gap: dynamicSize(25),
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -139,7 +138,7 @@ const styles = StyleSheet.create({
     itemCard: {
         width: '95%',
         paddingHorizontal: dynamicSize(10),
-        display: 'flex',
+        flex: 1,
         gap: dynamicSize(16),
     },
 });

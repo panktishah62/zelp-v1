@@ -31,13 +31,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: dimensions.fullWidth,
         backgroundColor: colors.ORANGE,
-        // padding: dynamicSize(10),
-        height: dynamicSize(50),
     },
     button: {
         padding: 10,
         position: 'absolute',
         left: dynamicSize(16),
+        bottom: dynamicSize(0),
         zIndex: 1,
     },
     title: {
@@ -46,6 +45,7 @@ const styles = StyleSheet.create({
         fontSize: normalizeFont(20),
         width: '100%',
         textAlign: 'center',
+        margin: dynamicSize(10),
     },
 });
 

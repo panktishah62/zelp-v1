@@ -30,11 +30,9 @@ const SingleItemDetails = ({ name, isVeg, price, quantity }) => {
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
         flexDirection: 'row',
         alignItems: 'flex-start',
         width: '100%',
-        marginBottom: dynamicSize(10),
     },
     text: {
         color: colors.BLACK,
@@ -50,7 +48,6 @@ const styles = StyleSheet.create({
     nameContainer: {
         display: 'flex',
         justifyContent: 'center',
-        position: 'absolute',
         left: '8%',
         width: '56%',
     },

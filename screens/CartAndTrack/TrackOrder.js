@@ -18,6 +18,7 @@ import DeliveryStages from './DeliveryStages';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LottieView from 'lottie-react-native';
 import CancelOrderButton from './CancelOrderButton';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const TrackOrderScreen = ({ route, navigation }) => {
     const dispatch = useDispatch();
@@ -120,6 +121,8 @@ const TrackOrderScreen = ({ route, navigation }) => {
         navigation.navigate('SomethingWentWrong');
     }
 
+    const insets = useSafeAreaInsets();
+
     return (
         <View>
             {!isLoading &&
@@ -185,7 +188,11 @@ const TrackOrderScreen = ({ route, navigation }) => {
                 </View>
             )}
 
-            <View style={styles.refreshButton}>
+            <View
+                style={[
+                    styles.refreshButton,
+                    { marginTop: dynamicSize(50) + insets.top },
+                ]}>
                 <TouchableOpacity onPress={onRefresh} activeOpacity={1}>
                     <LottieView
                         source={require('../../assets/animations/spinning-refresh-button.json')}
@@ -275,6 +282,10 @@ const styles = StyleSheet.create({
         width: dynamicSize(32),
         height: dynamicSize(32),
         elevation: 2,
+        shadowColor: colors.BLACK,
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
         borderRadius: 100,
         display: 'flex',
         justifyContent: 'center',

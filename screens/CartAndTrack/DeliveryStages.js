@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Platform } from 'react-native';
 import DeliveryStageOneOrange from '../../assets/icons/delivery-stage1-orange';
 import DeliveryStageTwoOrange from '../../assets/icons/delivery-stage2-orange';
 import DeliveryStageTwoBlack from '../../assets/icons/delivery-stage2-black';
@@ -181,7 +181,11 @@ const styles = StyleSheet.create({
     connector: {
         borderBottomWidth: dynamicSize(2),
         flex: 0.5,
-        borderStyle: 'dashed',
+        ...Platform.select({
+            android: {
+                borderStyle: 'dashed',
+            },
+        }),
         marginBottom: dynamicSize(40),
     },
     iconStyle: {

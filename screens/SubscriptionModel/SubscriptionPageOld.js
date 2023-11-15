@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: dynamicSize(25),
+        paddingHorizontal: dynamicSize(5),
     },
     headerText: {
         ...fonts.NUNITO_500_16,

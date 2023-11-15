@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Platform } from 'react-native';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
 import { dimensions, fonts } from '../../styles';
 import { colors } from '../../styles/colors';
@@ -123,7 +123,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: dynamicSize(1),
         borderTopColor: colors.BLACK,
         borderTopWidth: dynamicSize(1),
-        borderStyle: 'dashed',
+        ...Platform.select({
+            android: {
+                borderStyle: 'dashed',
+            },
+        }),
         paddingVertical: dynamicSize(12),
         marginBottom: dynamicSize(12),
     },

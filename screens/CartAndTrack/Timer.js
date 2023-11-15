@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { colors } from '../../styles/colors';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
@@ -85,14 +85,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: colors.ORANGE,
         borderRadius: dynamicSize(100),
-        width: dynamicSize(90),
     },
     timeContainer: {
         position: 'absolute',
         alignItems: 'center',
     },
     timeText: {
-        fontSize: normalizeFont(22),
+        ...Platform.select({
+            android: {
+                fontSize: normalizeFont(22),
+            },
+            ios: {
+                fontSize: normalizeFont(18),
+            },
+        }),
         color: 'white',
     },
     minsText: {
