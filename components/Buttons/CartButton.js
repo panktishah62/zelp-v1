@@ -13,6 +13,7 @@ import { fonts } from '../../styles';
 import { colors } from '../../styles/colors';
 import { DialogTypes } from '../../utils';
 import { showDialog } from '../../redux/actions/dialog';
+import { dynamicSize } from '../../utils/responsive';
 
 const CartButton = props => {
     const foodItemsCount = useSelector(
@@ -61,19 +62,19 @@ const CartButton = props => {
 
 const styles = StyleSheet.create({
     container: {
-        height: 45,
-        width: 25,
+        height: dynamicSize(45),
+        width: dynamicSize(25),
         justifyContent: 'center',
         alignItems: 'center',
     },
     count: {
         position: 'absolute',
         top: 0,
-        right: -6,
+        right: dynamicSize(-6),
         backgroundColor: colors.RED,
-        height: 20,
-        width: 20,
-        borderRadius: 10,
+        height: dynamicSize(20),
+        width: dynamicSize(20),
+        borderRadius: dynamicSize(10),
         justifyContent: 'center',
         alignItems: 'center',
     },
