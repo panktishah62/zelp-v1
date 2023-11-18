@@ -175,7 +175,9 @@ export default function VideoItem({
             })
                 .then(response => response.data)
                 .then(data => {
-                    dispatch(getUserWallet(data?.userWallet));
+                    if (data?.userWallet) {
+                        dispatch(getUserWallet(data?.userWallet));
+                    }
                 });
         }
     };

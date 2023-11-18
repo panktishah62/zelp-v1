@@ -31,6 +31,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { showDialog } from '../../redux/actions/dialog';
 import RefferalCoins from '../../components/Cards/PersistedCart.js/RefferalCoins';
 import { getUserProfile } from '../../redux/actions/user';
+import RedeemFuro from '../../components/Cards/PersistedCart.js/RedeemFuro';
 
 const CartScreen = ({ navigation }) => {
     const insets = useSafeAreaInsets();
@@ -184,10 +185,18 @@ const CartScreen = ({ navigation }) => {
                             contentContainerStyle={styles.scrollContainer}
                             showsVerticalScrollIndicator={false}>
                             <View style={styles.container}>
+                                <View style={styles.foodItemsContainer}>
+                                    {myCart && myCart.restaurants && (
+                                        <FoodItemsCard
+                                            restaurants={myCart.restaurants}
+                                            navigation={navigation}
+                                        />
+                                    )}
+                                </View>
                                 <View>
                                     {cart && (
                                         <View>
-                                            <WalletMoney
+                                            <RedeemFuro
                                                 isActive={
                                                     myCart.isWalletMoneyUsed
                                                 }
@@ -196,7 +205,22 @@ const CartScreen = ({ navigation }) => {
                                                     myCart.walletMoney
                                                 }
                                                 config={myCart.config}
+                                                navigation={navigation}
                                             />
+                                            {cart?.billingDetails
+                                                ?.discountAmount > 0 &&
+                                                cart?.coupon && (
+                                                    <View>
+                                                        <CouponCardForCart
+                                                            navigation={
+                                                                navigation
+                                                            }
+                                                            coupon={
+                                                                myCart.coupon
+                                                            }
+                                                        />
+                                                    </View>
+                                                )}
                                             <RefferalCoins
                                                 isActive={
                                                     myCart.isReferralCoinsUsed
@@ -209,20 +233,6 @@ const CartScreen = ({ navigation }) => {
                                             />
                                         </View>
                                     )}
-                                </View>
-                                <View style={styles.foodItemsContainer}>
-                                    {myCart && myCart.restaurants && (
-                                        <FoodItemsCard
-                                            restaurants={myCart.restaurants}
-                                            navigation={navigation}
-                                        />
-                                    )}
-                                </View>
-                                <View>
-                                    <CouponCardForCart
-                                        navigation={navigation}
-                                        coupon={myCart.coupon}
-                                    />
                                 </View>
                                 {/* <View>
                                     <PaymentsCard />

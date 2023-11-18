@@ -15,21 +15,31 @@ import { useSelector } from 'react-redux';
 
 const ShotsCoinAnimation = props => {
     const cart = useSelector(state => state.cartActions);
+    const userProfile = useSelector(state => state?.user?.userProfile);
     const [userWalletMoney, setUserWalletMoney] = useState(
         cart?.walletMoney ? cart?.walletMoney : 0,
+    );
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(
+        userProfile ? true : false,
     );
     const [text, setText] = useState(0);
     const [animation] = useState(new Animated.Value(0));
     const animationRef = useRef(null);
+    const shotsView = useSelector(state => state.shotsView);
+    const [swiped, setSwiped] = useState(shotsView?.swiped);
 
     useEffect(() => {
-        animationRef.current?.play();
-    }, []);
+        if (shotsView?.swiped != swiped) {
+            animationRef.current?.play();
+            startAnimation();
+            setSwiped(shotsView?.swiped);
+        }
+    }, [shotsView]);
 
     const startAnimation = () => {
         if (
-            cart?.walletMoney > 0 &&
-            (cart?.walletMoney - userWalletMoney).toFixed(1) > 0
+            cart?.walletMoney >= 0 &&
+            (cart?.walletMoney - userWalletMoney).toFixed(1) >= 0
         ) {
             setText((cart?.walletMoney - userWalletMoney).toFixed(1));
         }
@@ -39,19 +49,24 @@ const ShotsCoinAnimation = props => {
             easing: Easing.linear,
             useNativeDriver: false,
         }).start(() => {
-            setUserWalletMoney(cart?.walletMoney);
+            if (cart?.walletMoney && cart?.walletMoney >= 0) {
+                setUserWalletMoney(cart?.walletMoney);
+            } else {
+                setUserWalletMoney(0);
+            }
             animation.setValue(0);
         });
     };
 
     useEffect(() => {
-        if (
-            cart?.walletMoney > 0 &&
-            (cart?.walletMoney - userWalletMoney).toFixed(1) > 0
-        ) {
-            startAnimation();
+        if (userProfile && userProfile?.wallet >= 0) {
+            setIsUserLoggedIn(true);
+            setUserWalletMoney(userProfile?.wallet);
+        } else {
+            setIsUserLoggedIn(false);
+            setUserWalletMoney(0);
         }
-    }, [cart]);
+    }, [userProfile]);
 
     return (
         <View>
@@ -64,21 +79,38 @@ const ShotsCoinAnimation = props => {
                         width: dynamicSize(38),
                         zIndex: 1,
                     }}
+                    loop={false}
+                    duration={2000}
                 />
-                <View style={styles.textContainer}>
-                    <Text style={styles.text}>{userWalletMoney} Furos</Text>
-                </View>
+                {userWalletMoney >= 0 && (
+                    <View style={styles.textContainer}>
+                        <Text style={styles.text}>{userWalletMoney} Furos</Text>
+                    </View>
+                )}
             </View>
-            <Animated.Text
-                style={[
-                    {
-                        opacity: animation,
-                        transform: [{ scale: animation }],
-                    },
-                    styles.animatedText,
-                ]}>
-                +{text} Furos credited
-            </Animated.Text>
+            {isUserLoggedIn ? (
+                <Animated.Text
+                    style={[
+                        {
+                            opacity: animation,
+                            transform: [{ scale: animation }],
+                        },
+                        styles.animatedText,
+                    ]}>
+                    +{text} Furos credited
+                </Animated.Text>
+            ) : (
+                <Animated.Text
+                    style={[
+                        {
+                            opacity: animation,
+                            transform: [{ scale: animation }],
+                        },
+                        styles.animatedText,
+                    ]}>
+                    Sign In To Earn Furos
+                </Animated.Text>
+            )}
         </View>
     );
 };

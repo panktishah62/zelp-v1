@@ -64,7 +64,7 @@ const BillDetails = props => {
                                 </View>
                             </View>
                         )}
-                    {billingDetails && billingDetails.discountAmount >= 0 && (
+                    {billingDetails && billingDetails.discountAmount > 0 && (
                         <View style={styles.innerContainer}>
                             <Text style={styles.text}>Coupon Discount</Text>
                             <View style={styles.amount}>

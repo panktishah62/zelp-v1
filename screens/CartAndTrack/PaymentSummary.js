@@ -69,10 +69,12 @@ const PaymentSummary = ({
                     amountType={'Money From Referral Coins'}
                     amount={moneyFromReferralCoins}
                 />
-                <SinglePaymentDetails
-                    amountType={'Coupon Discount'}
-                    amount={couponDiscount}
-                />
+                {couponDiscount > 0 && (
+                    <SinglePaymentDetails
+                        amountType={'Coupon Discount'}
+                        amount={couponDiscount}
+                    />
+                )}
                 <SinglePaymentDetails amountType={'Taxes'} amount={taxes} />
             </View>
             <SinglePaymentDetails

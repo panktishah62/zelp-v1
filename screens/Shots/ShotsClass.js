@@ -31,6 +31,7 @@ import { getUserWallet } from '../../redux/services/userService';
 import { DialogTypes } from '../../utils';
 import { queryClient } from '../../utils/queryClient';
 import RemoteConfigService from '../../redux/services/remoteConfigService';
+import { isSwiped } from '../../redux/actions/shotsView';
 
 const ShotClassScreen = props => {
     const { route, navigation } = props;
@@ -62,6 +63,7 @@ const ShotClassScreen = props => {
     const screenHeight = windowHeight - insets.bottom;
     const popupOnNthVideo =
         RemoteConfigService.getRemoteValue('popupOnNthVideo').asNumber();
+    const shotsView = useSelector(state => state.shotsView);
 
     const {
         isLoading,
@@ -229,6 +231,10 @@ const ShotClassScreen = props => {
         hasNextPage,
         isFetchingNextPage,
     ]);
+
+    useEffect(() => {
+        dispatch(isSwiped(!shotsView?.swiped));
+    }, [activeVideoIndex]);
 
     return (
         <View style={styles.loaderStyle}>

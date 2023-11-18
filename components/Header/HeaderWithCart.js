@@ -6,10 +6,12 @@ import { colors } from '../../styles/colors';
 import CartButton from '../Buttons/CartButton';
 import ShotsCoinAnimation from '../Animations/ShotsCoinAnimation';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 const HeaderWithCart = props => {
-    const { navigation, onBack, onClick } = props;
+    const { onBack, onClick } = props;
     const insets = useSafeAreaInsets();
+    const navigation = useNavigation();
 
     return (
         <View style={[styles.container, { paddingTop: insets.top }]}>
