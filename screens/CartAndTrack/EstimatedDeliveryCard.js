@@ -24,18 +24,22 @@ const EstimatedDeliveryCard = ({
 
     return (
         <View style={styles.container}>
-            <View style={styles.leftSection}>
-                <TimerCircle
-                    minutes={timeToDeliver}
-                    initialTimeToDeliver={initialTimeToDeliver}
-                />
-            </View>
-            <View style={styles.rightSection}>
-                <Text style={styles.orderStatus}>{orderStatus}</Text>
-                <Text style={styles.deliveryTime}>
-                    Estimated delivery by {formattedDeliveryTime}
-                </Text>
-            </View>
+            {formattedDeliveryTime && (
+                <View style={styles.leftSection}>
+                    <TimerCircle
+                        minutes={timeToDeliver}
+                        initialTimeToDeliver={initialTimeToDeliver}
+                    />
+                </View>
+            )}
+            {formattedDeliveryTime && (
+                <View style={styles.rightSection}>
+                    <Text style={styles.orderStatus}>{orderStatus}</Text>
+                    <Text style={styles.deliveryTime}>
+                        Estimated delivery by {formattedDeliveryTime}
+                    </Text>
+                </View>
+            )}
             <View style={styles.gif} />
         </View>
     );
