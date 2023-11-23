@@ -40,8 +40,8 @@ const Explore = props => {
     const [foodItems, setFoodItems] = useState([]);
     const [restaurants, setRestaurants] = useState([]);
     const [offers, setOffers] = useState([]);
-    const [isLoading, setIsLoading] = useState(false); // new state variable for loading
-    const [isServableArea, setIsServableArea] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); // new state variable for loading
+    const [isServableArea, setIsServableArea] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const [index, setIndex] = React.useState(0);
 
@@ -63,6 +63,13 @@ const Explore = props => {
                     } else {
                         setRestaurants(data?.restaurants);
                     }
+                    if (data?.restaurants?.length > 0) {
+                        setIsServableArea(true);
+                    } else {
+                        setIsServableArea(false);
+                    }
+                } else {
+                    setIsServableArea(false);
                 }
                 setIsLoading(false); // set loading to false after fetch
             })
@@ -90,10 +97,9 @@ const Explore = props => {
 
     const getRefreshedRestaurants = () => {
         setIsLoading(true); // set loading to true before fetch
-        setIsServableArea(false);
+        setIsServableArea(true);
         if (location?.latitude && location?.longitude) {
             if (location?.latitude && location?.longitude) {
-                setIsServableArea(true);
                 getAllRestaurants(location.latitude, location.longitude);
                 getAllOffers(location.latitude, location.longitude);
             }
@@ -276,7 +282,7 @@ const Explore = props => {
                     <ActivityIndicator size="large" color={colors.ORANGE} />
                 )}
             </View>
-            {!isLoading && (!isServableArea || restaurants?.length === 0) && (
+            {!isServableArea && (
                 <View
                     style={[
                         styles.commingSoon,

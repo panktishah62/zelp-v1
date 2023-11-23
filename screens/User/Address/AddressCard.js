@@ -31,6 +31,8 @@ const AddressCard = ({
     city,
     state,
     phoneNo,
+    countryCode,
+    callingCode,
     geoLocation,
     geoLocationSearch,
     navigation,
@@ -92,9 +94,9 @@ const AddressCard = ({
                         <Text
                             style={[
                                 fonts.NUNITO_600_12,
-                                { color: colors.BLACK},
+                                { color: colors.BLACK },
                             ]}>
-                            Phone Number: +91 {phoneNo}
+                            Phone Number: +{callingCode} {phoneNo}
                         </Text>
                     )}
                 </View>
@@ -118,6 +120,8 @@ const AddressCard = ({
                                 instruction: 'Some Instruction',
                                 type: addressType,
                                 phoneNo: phoneNo,
+                                countryCode: countryCode,
+                                callingCode: callingCode,
                                 geoLocation: geoLocation,
                                 geoLocationSearch: geoLocationSearch,
                                 action: 'EDIT',

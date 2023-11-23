@@ -21,6 +21,7 @@ import { signup } from '../../redux/actions/auth';
 import { phoneRegex, emailRegex, DialogTypes } from '../../utils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { showDialog } from '../../redux/actions/dialog';
+import CustomPhoneNumberInput from '../../components/Inputs/CustomPhoneNumberInput';
 
 const SignUpScreen = ({ navigation }) => {
     const insets = useSafeAreaInsets();
@@ -32,6 +33,9 @@ const SignUpScreen = ({ navigation }) => {
     const [isOTPSent, setIsOTPSent] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [showReferralInput, setShowReferralInput] = useState(false);
+    const [countryCode, setCountryCode] = useState('IN');
+    const [callingCode, setCallingCode] = useState('91');
+    const [isNumberValid, setIsNumberValid] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -54,6 +58,8 @@ const SignUpScreen = ({ navigation }) => {
             signup(
                 name,
                 phonenumber,
+                countryCode,
+                callingCode,
                 email,
                 referralCode,
                 setIsOTPSent,
@@ -93,7 +99,7 @@ const SignUpScreen = ({ navigation }) => {
                     type: DialogTypes.WARNING,
                 }),
             );
-        } else if (!phoneRegex.test(phonenumber)) {
+        } else if (!isNumberValid) {
             dispatch(
                 showDialog({
                     isVisible: true,
@@ -258,13 +264,15 @@ const SignUpScreen = ({ navigation }) => {
                                         keyboardType="default"
                                         onSubmitEditing={onSubmit}
                                     />
-                                    <TextInput_
-                                        text={phonenumber}
-                                        setText={setPhonenumber}
-                                        maxLength={10}
+                                    <CustomPhoneNumberInput
                                         label="Enter Your Mobile Number *"
-                                        keyboardType={'numeric'}
-                                        placeholder={'Phone Number'}
+                                        value={phonenumber}
+                                        setValue={setPhonenumber}
+                                        countryCode={countryCode}
+                                        setCountryCode={setCountryCode}
+                                        callingCode={callingCode}
+                                        setCallingCode={setCallingCode}
+                                        setIsNumberValid={setIsNumberValid}
                                         onSubmitEditing={onSubmit}
                                     />
                                     <TextInput_
