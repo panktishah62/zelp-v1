@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import TimerCircle from './Timer';
 import { colors } from '../../styles/colors';
@@ -9,6 +9,7 @@ const EstimatedDeliveryCard = ({
     timeToDeliver,
     orderStatus,
     initialTimeToDeliver,
+    refreshing,
 }) => {
     const now = new Date();
     const estimatedDeliveryTime = new Date(
@@ -24,23 +25,34 @@ const EstimatedDeliveryCard = ({
 
     return (
         <View style={styles.container}>
-            {formattedDeliveryTime && (
-                <View style={styles.leftSection}>
-                    <TimerCircle
-                        minutes={timeToDeliver}
-                        initialTimeToDeliver={initialTimeToDeliver}
-                    />
+            {!refreshing && (
+                <View style={styles.innerContainer}>
+                    {estimatedDeliveryTime && formattedDeliveryTime && (
+                        <View style={styles.leftSection}>
+                            <TimerCircle
+                                minutes={timeToDeliver}
+                                initialTimeToDeliver={initialTimeToDeliver}
+                            />
+                        </View>
+                    )}
+                    {formattedDeliveryTime && (
+                        <View style={styles.rightSection}>
+                            <Text style={styles.orderStatus}>
+                                {orderStatus}
+                            </Text>
+                            <Text style={styles.deliveryTime}>
+                                Estimated delivery by {formattedDeliveryTime}
+                            </Text>
+                        </View>
+                    )}
+                    <View style={styles.gif} />
                 </View>
             )}
-            {formattedDeliveryTime && (
-                <View style={styles.rightSection}>
-                    <Text style={styles.orderStatus}>{orderStatus}</Text>
-                    <Text style={styles.deliveryTime}>
-                        Estimated delivery by {formattedDeliveryTime}
-                    </Text>
+            {refreshing && (
+                <View style={styles.innerContainer}>
+                    <Text style={styles.orderStatus}>Loading...</Text>
                 </View>
             )}
-            <View style={styles.gif} />
         </View>
     );
 };
@@ -53,6 +65,14 @@ const styles = StyleSheet.create({
         borderTopRightRadius: dynamicSize(20),
         alignItems: 'center',
         paddingVertical: dynamicSize(10),
+    },
+    innerContainer: {
+        flexDirection: 'row',
+        backgroundColor: colors.ORANGE,
+        borderTopLeftRadius: dynamicSize(20),
+        borderTopRightRadius: dynamicSize(20),
+        alignItems: 'center',
+        // paddingVertical: dynamicSize(10),
     },
     leftSection: {
         flex: 1,

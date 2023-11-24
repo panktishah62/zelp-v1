@@ -75,11 +75,10 @@ const TrackOrderScreen = ({ route, navigation }) => {
         }
     }, [currentOrder]);
 
-    const onRefresh = async () => {
+    const onRefresh = () => {
         setRefreshing(true);
         // await here has no effect but lets refreshing state change hence causing a re-render, which is needed for timer reset
-        await dispatch(getCurrentOrder());
-        setRefreshing(false);
+        dispatch(getCurrentOrder(setRefreshing));
         setTapped(t => !t);
     };
 
@@ -98,7 +97,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
 
     useEffect(() => {
         const currentTime = new Date();
-        const orderTime = new Date(currentOrder?.currentOrder?.createdAt);
+        const orderTime = new Date(currentOrder?.currentOrder?.randomTime);
         const timeDiff = currentTime - orderTime;
         const diff = Math.floor(timeDiff / 1000);
 
@@ -139,7 +138,6 @@ const TrackOrderScreen = ({ route, navigation }) => {
     return (
         <View>
             {!isLoading &&
-                !refreshing &&
                 (currentOrder?.tracking_url != null ? (
                     <View style={styles.mapContainer}>
                         <LiveTrackingMap
@@ -169,7 +167,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
                         </View>
                     </View>
                 ))}
-            {!isLoading && !refreshing && (
+            {!isLoading && (
                 <View style={styles.container}>
                     <EstimatedDeliveryCard
                         timeToDeliver={timeToDeliver}
@@ -182,6 +180,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
                                 10,
                             ) * 60
                         }
+                        refreshing={refreshing}
                     />
                     <View style={styles.detailsContainer}>
                         <LocationCard
@@ -195,7 +194,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
                 </View>
             )}
 
-            {(isLoading || refreshing) && (
+            {isLoading && (
                 <View style={styles.loadingSpinner}>
                     <ActivityIndicator size={32} color={colors.ORANGE} />
                 </View>
