@@ -9,9 +9,9 @@ import { Text, View } from 'react-native';
 import { dynamicSize } from '../../../utils/responsive';
 import { colors } from '../../../styles/colors';
 import { Styles, dimensions, fonts } from '../../../styles';
-import CardIcon from '../../../assets/icons/CreditCardIcon.svg';
+import CardIcon from '../../../assets/icons/FrokerLogo.svg';
 import { useDispatch } from 'react-redux';
-import { redeemCoupon } from '../../../redux/actions/cartActions';
+import { redeemCoupon, redeemWallet } from '../../../redux/actions/cartActions';
 import { applySubscriptionCoupon } from '../../../redux/actions/subscriptionCoupon';
 
 const CouponCard = props => {
@@ -47,13 +47,24 @@ const CouponCard = props => {
         }
     };
 
+    const redeemWalletAmount = () => {
+        dispatch(redeemWallet(coupon));
+        navigation.goBack();
+    };
+
     return (
         <Touchable
             style={[
                 styles.container,
                 isActive ? styles.activeContainer : styles.inActiveContainer,
             ]}
-            onPress={() => applyCoupon()}>
+            onPress={() => {
+                if (coupon?.bagConstraints?.isApplicableOnWallet) {
+                    redeemWalletAmount();
+                } else {
+                    applyCoupon();
+                }
+            }}>
             <View
                 style={[
                     styles.leftContainer,
@@ -66,14 +77,29 @@ const CouponCard = props => {
             <View style={styles.rightContainer}>
                 <View style={styles.titleContainer}>
                     <View style={Styles.row_flex_start}>
-                        <CardIcon />
+                        <CardIcon
+                            height={dynamicSize(25)}
+                            width={dynamicSize(25)}
+                        />
                         <Text style={styles.titleText}>{code}</Text>
                     </View>
 
                     {isActive ? (
-                        <TouchableWithoutFeedback onPress={() => applyCoupon()}>
-                            <Text style={styles.activeText}>Avail Coupon</Text>
-                        </TouchableWithoutFeedback>
+                        coupon?.bagConstraints?.isApplicableOnWallet ? (
+                            <TouchableWithoutFeedback
+                                onPress={() => redeemWalletAmount()}>
+                                <Text style={styles.activeText}>
+                                    Redeem Furos
+                                </Text>
+                            </TouchableWithoutFeedback>
+                        ) : (
+                            <TouchableWithoutFeedback
+                                onPress={() => applyCoupon()}>
+                                <Text style={styles.activeText}>
+                                    Avail Coupon
+                                </Text>
+                            </TouchableWithoutFeedback>
+                        )
                     ) : (
                         <View>
                             <Text style={styles.inActiveText}>
@@ -113,7 +139,6 @@ const styles = StyleSheet.create({
         margin: dynamicSize(10),
         borderRadius: dynamicSize(5),
         borderWidth: dynamicSize(1),
-        height: dynamicSize(170),
         width: dimensions.fullWidth - dynamicSize(30),
         flexDirection: 'row',
         backgroundColor: colors.WHITE,
@@ -121,9 +146,9 @@ const styles = StyleSheet.create({
         ...Platform.select({
             ios: {
                 shadowColor: colors.BLACK,
-                shadowOffset: { width: 0, height: 6 },
+                shadowOffset: { width: 0, height: dynamicSize(6) },
                 shadowOpacity: 0.09,
-                shadowRadius: 10,
+                shadowRadius: dynamicSize(10),
                 height: dynamicSize(210),
             },
             android: {
@@ -132,8 +157,6 @@ const styles = StyleSheet.create({
         }),
     },
     leftContainer: {
-        // height: '100%',
-        height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         width: dynamicSize(35),
@@ -146,8 +169,7 @@ const styles = StyleSheet.create({
     },
     bottomContainer: {
         flex: 1,
-        marginVertical: 10,
-        // justifyContent: 'space-evenly',
+        marginTop: dynamicSize(10),
     },
     activeContainer: {
         borderColor: colors.ORANGE_GRADIENT_MEDIUM,
@@ -176,7 +198,7 @@ const styles = StyleSheet.create({
     },
     titleText: {
         ...fonts.NUNITO_700_14,
-        marginLeft: 10,
+        marginLeft: dynamicSize(10),
         color: colors.GREY_DARK,
     },
     titleContainer: {
@@ -187,13 +209,13 @@ const styles = StyleSheet.create({
     descriptionContainer: {},
     descriptionText: {
         ...fonts.NUNITO_500_12,
-        marginVertical: 3,
+        marginVertical: dynamicSize(3),
         color: colors.GREY_MEDIUM,
     },
     subTitleContainer: {},
     subtitleText: {
         ...fonts.INTER_600_12,
-        marginVertical: 5,
+        marginVertical: dynamicSize(5),
         color: colors.GREY_DARK,
     },
 });

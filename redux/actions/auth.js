@@ -241,9 +241,19 @@ export const verifyOTP = (
 };
 
 // Action creator to log in the user
-export const login = (number, setIsOTPSent, setIsLoading) => {
+export const login = (
+    number,
+    countryCode,
+    callingCode,
+    setIsOTPSent,
+    setIsLoading,
+) => {
     return async dispatch => {
-        await signInUser({ mobNo: number })
+        await signInUser({
+            mobNo: number,
+            countryCode: countryCode,
+            callingCode: callingCode,
+        })
             .then(response => response?.data)
             .then(data => {
                 if (data) {
@@ -263,6 +273,8 @@ export const login = (number, setIsOTPSent, setIsLoading) => {
 export const signup = (
     name,
     number,
+    countryCode,
+    callingCode,
     email,
     referralCode,
     setIsOTPSent,
@@ -274,6 +286,8 @@ export const signup = (
             mobNo: number,
             email: email,
             referralCode: referralCode,
+            countryCode,
+            callingCode,
         })
             .then(response => response?.data)
             .then(data => {

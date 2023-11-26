@@ -46,8 +46,9 @@ export default {
     getPaymentDetails: 'payments/getPaymentDetails',
 
     //Orders
-    createOrderAndInitiatePayment: 'orders/createOrderAndInitiatePayment',
-    createOrderAndInitiateCOD: 'orders/createOrderAndInitiateCOD',
+    createOrderAndInitiatePayment:
+        'orders/createOrderAndInitiatePaymentUpdated',
+    createOrderAndInitiateCOD: 'orders/createOrderAndInitiateCODUpdated',
     getAllOrder: 'orders/getUserOrders',
     getOrderDetails: 'orders/getOrderDetails',
     getCurrentUserOrder: 'orders/currentOrder',

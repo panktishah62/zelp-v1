@@ -250,7 +250,7 @@ const ProfileScreen = ({ navigation }) => {
                                         )}
                                         {user && (
                                             <Text style={styles.userNumberText}>
-                                                +91 {user.mobNo}
+                                                +{user.callingCode} {user.mobNo}
                                             </Text>
                                         )}
                                         {user && user?.email && (

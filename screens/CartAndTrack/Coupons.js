@@ -28,7 +28,7 @@ const CouponsScreen = props => {
     // const [validCoupons, setValidCoupons] = useState([]);
     const [coupons, setCoupons] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const placeholder = 'Enter Coupon Code';
+    const placeholder = 'Enter Code';
 
     const _renderCoupons = (item, index) => {
         const isActive = cart.coupon ? false : item.isApplicableCoupons;
@@ -128,10 +128,10 @@ const CouponsScreen = props => {
         <View
             style={[
                 styles.container,
-                {
-                    paddingBottom:
-                        insets.bottom + insets.top + dynamicSize(130),
-                },
+                // {
+                //     paddingBottom:
+                //         insets.bottom + insets.top + dynamicSize(130),
+                // },
             ]}>
             <SearchInput
                 text={text}
@@ -143,7 +143,7 @@ const CouponsScreen = props => {
                 onFocus={() => {}}
             />
             <View style={styles.titleTextContainer}>
-                <Text style={styles.titleText}>Available Coupons</Text>
+                <Text style={styles.titleText}>Available Furo Offers</Text>
             </View>
             {!isLoading ? (
                 <FlatList
@@ -163,6 +163,9 @@ const CouponsScreen = props => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
+        backgroundColor: colors.WHITE,
+        flex: 1,
+        paddingBottom: dynamicSize(20),
     },
     titleTextContainer: {
         width: dimensions.fullWidth,

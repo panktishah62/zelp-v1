@@ -6,7 +6,7 @@ export const GET_CONFIG_ERROR = 'GET_CONFIG_ERROR';
 export const UPDATE_MAX_WALLET_MONEY_TO_USE = 'UPDATE_MAX_WALLET_MONEY_TO_USE';
 export const GET_SHOTS_CONFIG_ERROR = 'GET_SHOTS_CONFIG_ERROR';
 export const GOOGLE_MAPS_APIKEY = 'AIzaSyBp4AkSHWTMsEq7WVmcIgNQELjBrWr9puQ';
-export const ORDER_BUFFER_TIME = 0;
+export const ORDER_BUFFER_TIME = 2; // Minumum no. of minutes the timer on tracking page is allowed to go to
 export const CART_LIMIT = 3;
 export const TAB_BAR_HEIGHT = 87; // Default tab bar height is 50
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -77,6 +77,8 @@ export const ADD_TO_CART_FOR_REORDER = 'ADD_TO_CART_FOR_REORDER';
 export const CART_ACTIONS_ERROR = 'CART_ACTIONS_ERROR';
 export const REDEEM_COUPON = 'REDEEM_COUPON';
 export const REMOVE_COUPON = 'REMOVE_COUPON';
+export const REDEEM_WALLET = 'REDEEM_WALLET';
+export const REMOVE_WALLET = 'REMOVE_WALLET';
 export const RESET_CART_ERROR = 'RESET_CART_ERROR';
 export const RESET_ADDRESS_ERROR = 'RESET_ADDRESS_ERROR';
 
@@ -148,3 +150,5 @@ export const UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE =
 
 export const WALLET_MULTIPLE = 'WALLET_MULTIPLE';
 export const REFERRAL_COIN_MULTIPLE = 'REFERRAL_COIN_MULTIPLE';
+
+export const IS_SWIPED = 'IS_SWIPED';

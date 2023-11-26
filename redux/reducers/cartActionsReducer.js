@@ -22,6 +22,8 @@ import {
     UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE,
     WALLET_MULTIPLE,
     REFERRAL_COIN_MULTIPLE,
+    REDEEM_WALLET,
+    REMOVE_WALLET,
 } from '../constants';
 import {
     addItemToRestaurants,
@@ -29,8 +31,10 @@ import {
     calculateTotal,
     canApplyReferralCodeMoney,
     canApplyWallet,
+    redeemWallet,
     removeCoupon,
     removeItemFromRestaurant,
+    removeWallet,
     reorder,
 } from '../services/cartService';
 
@@ -111,7 +115,8 @@ const cartActionsReducer = (state = initialState, action) => {
                 discountAmount:
                     addToCartRestaurants.billingDetails.discountAmount,
                 coupon:
-                    addToCartRestaurants.billingDetails.discountAmount != 0
+                    addToCartRestaurants.billingDetails.discountAmount != 0 ||
+                    addToCartRestaurants.billingDetails?.isApplicableOnWallet
                         ? state.coupon
                         : null,
             };
@@ -133,7 +138,9 @@ const cartActionsReducer = (state = initialState, action) => {
                     : 0,
                 coupon:
                     removeFromCartRestaurants?.billingDetails?.discountAmount !=
-                    0
+                        0 ||
+                    removeFromCartRestaurants?.billingDetails
+                        ?.isApplicableOnWallet
                         ? state.coupon
                         : null,
                 isReferralCoinsUsed:
@@ -184,7 +191,10 @@ const cartActionsReducer = (state = initialState, action) => {
                 billingDetails: billingDetails,
                 discountAmount: billingDetails?.discountAmount,
                 coupon:
-                    billingDetails?.discountAmount != 0 ? state?.coupon : null,
+                    billingDetails?.discountAmount != 0 ||
+                    billingDetails?.isApplicableOnWallet
+                        ? state?.coupon
+                        : null,
             };
         case RESET_CART_ACTIONS:
             return {
@@ -200,7 +210,8 @@ const cartActionsReducer = (state = initialState, action) => {
                 billingDetails: reorderedData.billingDetails,
                 discountAmount: reorderedData.billingDetails.discountAmount,
                 coupon:
-                    reorderedData.billingDetails.discountAmount != 0
+                    reorderedData.billingDetails.discountAmount != 0 ||
+                    reorderedData.billingDetails?.isApplicableOnWallet
                         ? state.coupon
                         : null,
             };
@@ -220,6 +231,21 @@ const cartActionsReducer = (state = initialState, action) => {
                 billingDetails: removeCouponData.billingDetails,
                 coupon: null,
             };
+        case REDEEM_WALLET:
+            const redeemWalletResult = redeemWallet(state, action.payload);
+            return {
+                ...state,
+                isWalletMoneyUsed: true,
+                discountAmount: redeemWalletResult?.discountAmount,
+                billingDetails: redeemWalletResult?.billingDetails,
+                coupon: action.payload,
+            };
+        case REMOVE_WALLET:
+            const removeWalletResult = removeWallet(state);
+            return {
+                ...state,
+                isWalletMoneyUsed: false,
+            };
         case CART_ACTIONS_ERROR:
             return {
                 ...initialState,
@@ -229,6 +255,7 @@ const cartActionsReducer = (state = initialState, action) => {
         case RESET_CART_ERROR:
             return {
                 ...state,
+                coupon: null,
                 error: null,
             };
         case GET_USER_REFERRAL_COIN_MONEY:

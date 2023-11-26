@@ -181,7 +181,7 @@ const OTPVerificationScreen = ({ route, navigation }) => {
                                         Styles.default_text_color,
                                     ]}>
                                     {' '}
-                                    +91-{mobNo}
+                                    {mobNo}
                                 </Text>
                             </View>
 

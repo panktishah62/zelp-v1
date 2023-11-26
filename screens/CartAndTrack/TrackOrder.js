@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useState, useRef } from 'react';
@@ -19,6 +20,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import LottieView from 'lottie-react-native';
 import CancelOrderButton from './CancelOrderButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ORDER_BUFFER_TIME } from '../../redux/constants';
 
 const TrackOrderScreen = ({ route, navigation }) => {
     const dispatch = useDispatch();
@@ -75,8 +77,8 @@ const TrackOrderScreen = ({ route, navigation }) => {
 
     const onRefresh = () => {
         setRefreshing(true);
-        dispatch(getCurrentOrder());
-        setRefreshing(false);
+        // await here has no effect but lets refreshing state change hence causing a re-render, which is needed for timer reset
+        dispatch(getCurrentOrder(setRefreshing));
         setTapped(t => !t);
     };
 
@@ -84,16 +86,26 @@ const TrackOrderScreen = ({ route, navigation }) => {
         onRefresh();
     }, []);
 
-    useEffect(() => {
-        const initialTimeToDeliver =
+    const parseTimeInSec = () => {
+        return (
             parseInt(
                 currentOrder?.currentOrder?.timeToDeliver?.match(/\d+/)[0],
                 10,
-            ) * 60;
-        const orderTime = new Date(currentOrder?.currentOrder?.createdAt);
+            ) * 60
+        );
+    };
+
+    useEffect(() => {
         const currentTime = new Date();
+        const orderTime = new Date(currentOrder?.currentOrder?.randomTime);
         const timeDiff = currentTime - orderTime;
         const diff = Math.floor(timeDiff / 1000);
+
+        const initialTimeToDeliver =
+            parseTimeInSec() - diff > ORDER_BUFFER_TIME * 60
+                ? parseTimeInSec()
+                : parseTimeInSec() + diff - 25 * 60;
+
         setTimeToDeliver(initialTimeToDeliver - diff);
     }, [currentOrder]);
 
@@ -126,7 +138,6 @@ const TrackOrderScreen = ({ route, navigation }) => {
     return (
         <View>
             {!isLoading &&
-                !refreshing &&
                 (currentOrder?.tracking_url != null ? (
                     <View style={styles.mapContainer}>
                         <LiveTrackingMap
@@ -156,7 +167,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
                         </View>
                     </View>
                 ))}
-            {!isLoading && !refreshing && (
+            {!isLoading && (
                 <View style={styles.container}>
                     <EstimatedDeliveryCard
                         timeToDeliver={timeToDeliver}
@@ -169,6 +180,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
                                 10,
                             ) * 60
                         }
+                        refreshing={refreshing}
                     />
                     <View style={styles.detailsContainer}>
                         <LocationCard
@@ -182,7 +194,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
                 </View>
             )}
 
-            {(isLoading || refreshing) && (
+            {isLoading && (
                 <View style={styles.loadingSpinner}>
                     <ActivityIndicator size={32} color={colors.ORANGE} />
                 </View>

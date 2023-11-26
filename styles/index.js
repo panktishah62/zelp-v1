@@ -189,6 +189,11 @@ export const fonts = StyleSheet.create({
         fontWeight: '500',
         fontSize: 16,
     },
+    INTER_500_14: {
+        fontFamily: 'Inter-Regular',
+        fontWeight: '500',
+        fontSize: 14,
+    },
     INTER_400_12: {
         fontFamily: 'Inter-Regular',
         fontWeight: '400',
