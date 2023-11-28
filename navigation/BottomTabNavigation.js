@@ -191,6 +191,31 @@ const BottomTabNavigation = ({ navigation }) => {
                         name="Home"
                         component={HomeScreen}
                     />
+                     <Tab.Screen
+                        options={{
+                            tabBarIcon: ({ focused, color }) =>
+                                focused ? (
+                                    <RestaurantsIconFocused
+                                        height={35}
+                                        focused={focused}
+                                        style={{ color: color }}
+                                    />
+                                ) : (
+                                    <RestaurantsIcon
+                                        height={35}
+                                        focused={focused}
+                                        style={{ color: color }}
+                                    />
+                                ),
+                            header: () => (
+                                <HeaderWithLocationAndSearch
+                                    navigation={navigation}
+                                />
+                            ),
+                        }}
+                        name="Restaurants"
+                        component={RestaurantsScreen}
+                    />
                     <Tab.Screen
                         options={{
                             tabBarIcon: ({ focused, color }) => (
@@ -233,31 +258,7 @@ const BottomTabNavigation = ({ navigation }) => {
                         component={ShotClassScreen}
                     />
 
-                    <Tab.Screen
-                        options={{
-                            tabBarIcon: ({ focused, color }) =>
-                                focused ? (
-                                    <RestaurantsIconFocused
-                                        height={35}
-                                        focused={focused}
-                                        style={{ color: color }}
-                                    />
-                                ) : (
-                                    <RestaurantsIcon
-                                        height={35}
-                                        focused={focused}
-                                        style={{ color: color }}
-                                    />
-                                ),
-                            header: () => (
-                                <HeaderWithLocationAndSearch
-                                    navigation={navigation}
-                                />
-                            ),
-                        }}
-                        name="Restaurants"
-                        component={RestaurantsScreen}
-                    />
+                   
                     {/* <Tab.Screen
                         options={{
                             tabBarIcon: ({ focused, color }) =>
