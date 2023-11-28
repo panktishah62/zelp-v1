@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SwitchBtn from '../../Buttons/Switch';
 import {
     applyReferralCoinMoney,
+    removeCoupon,
     removeRefferalCoinMoney,
     removeWalletMoney,
 } from '../../../redux/actions/cartActions';
@@ -50,18 +51,19 @@ const RefferalCoins = props => {
             dispatch(removeRefferalCoinMoney(setIsLoading));
             setIsActive(false);
         } else if (cart?.referralCoinsUsed > 0) {
-            if (cart?.coupon && cart?.coupon?._id) {
-                dispatch(
-                    showDialog({
-                        isVisible: true,
-                        titleText: 'Cannot apply Referral coins!',
-                        subTitleText:
-                            'Referral Coins Cannot be applied along with coupon. Remove coupon to apply Referral Coins',
-                        buttonText1: 'CLOSE',
-                        type: DialogTypes.WARNING,
-                    }),
-                );
-            } else if (
+            // if (cart?.coupon && cart?.coupon?._id) {
+            //     dispatch(
+            //         showDialog({
+            //             isVisible: true,
+            //             titleText: 'Cannot apply Referral coins!',
+            //             subTitleText:
+            //                 'Referral Coins Cannot be applied along with coupon. Remove coupon to apply Referral Coins',
+            //             buttonText1: 'CLOSE',
+            //             type: DialogTypes.WARNING,
+            //         }),
+            //     );
+            // } else
+            if (
                 Number(
                     cart?.billingDetails &&
                         cart?.billingDetails?.totalItemsPrice,
@@ -79,6 +81,9 @@ const RefferalCoins = props => {
             } else {
                 if (cart?.isWalletMoneyUsed) {
                     dispatch(removeWalletMoney(setIsLoading));
+                }
+                if (cart?.coupon && cart?.coupon?._id) {
+                    dispatch(removeCoupon());
                 }
                 dispatch(applyReferralCoinMoney(setIsLoading));
                 setIsActive(true);

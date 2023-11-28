@@ -1,30 +1,48 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View, Picker } from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
-import { dimensions, fonts } from '../../styles';
+import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
 import { dynamicSize } from '../../utils/responsive';
 
 const PhoneNumberInut = props => {
-    const [value, setValue] = useState('');
-    const [formattedValue, setFormattedValue] = useState('');
-    const [valid, setValid] = useState(false);
+    const {
+        label,
+        value,
+        setValue,
+        countryCode,
+        setCountryCode,
+        setCallingCode,
+        setIsNumberValid,
+    } = props;
     const phoneInput = useRef(null);
+
+    useEffect(() => {
+        const isValidNumber = phoneInput?.current?.isValidNumber(value);
+        setIsNumberValid(isValidNumber);
+    }, [value, countryCode]);
+
     return (
         <View>
+            {<Text style={styles.text}>{label}</Text>}
             <PhoneInput
                 ref={phoneInput}
                 defaultValue={value}
-                defaultCode="IN"
+                defaultCode={countryCode}
                 layout="first"
-                onChangeCountry={text => {}}
+                onChangeCountry={text => {
+                    setCountryCode(text?.cca2);
+                    setCallingCode(text?.callingCode[0]);
+                    setValue(value);
+                }}
                 onChangeText={text => {
+                    const countryCode = phoneInput?.current?.getCountryCode();
+                    const callingCode = phoneInput?.current?.getCallingCode();
+                    setCountryCode(countryCode);
+                    setCallingCode(callingCode);
                     setValue(text);
                 }}
-                onChangeFormattedText={text => {
-                    setFormattedValue(text);
-                }}
-                withShadow
+                withShado
                 containerStyle={styles.containerStyle}
                 textContainerStyle={styles.textContainerStyle}
                 textInputStyle={styles.textInputStyle}
@@ -47,18 +65,25 @@ const styles = StyleSheet.create({
         // height: dynamicSize(56),
         borderTopRightRadius: dynamicSize(8),
         borderBottomRightRadius: dynamicSize(8),
+        backgroundColor: colors.WHITE,
     },
     textInputStyle: {
         margin: 0,
         padding: 0,
         ...fonts.NUNITO_500_14,
-        color: fonts.GREY_MEDIUM,
+        color: colors.BLACK,
     },
     countryPickerButtonStyle: {
         margin: 0,
         padding: 0,
         ...fonts.NUNITO_500_14,
         width: '18%',
+    },
+    text: {
+        ...fonts.NUNITO_500_14,
+        width: dimensions.fullWidth * 0.9,
+        ...Styles.default_text_color,
+        marginBottom: 5,
     },
 });
 

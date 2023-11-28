@@ -22,6 +22,7 @@ import TextInput_ from './../../components/Inputs/TextInput';
 import { DialogTypes, phoneRegex } from '../../utils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { showDialog } from '../../redux/actions/dialog';
+import CustomPhoneNumberInput from '../../components/Inputs/CustomPhoneNumberInput';
 
 const LoginScreen = ({ navigation }) => {
     const insets = useSafeAreaInsets();
@@ -29,6 +30,9 @@ const LoginScreen = ({ navigation }) => {
     const [phonenumber, setPhonenumber] = useState('');
     const [isOTPSent, setIsOTPSent] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [countryCode, setCountryCode] = useState('IN');
+    const [callingCode, setCallingCode] = useState('91');
+    const [isNumberValid, setIsNumberValid] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -47,7 +51,15 @@ const LoginScreen = ({ navigation }) => {
     const handleLogin = () => {
         setIsLoading(true);
         setIsOTPSent(false);
-        dispatch(login(phonenumber, setIsOTPSent, setIsLoading));
+        dispatch(
+            login(
+                phonenumber,
+                countryCode,
+                callingCode,
+                setIsOTPSent,
+                setIsLoading,
+            ),
+        );
     };
 
     const onSubmit = () => {
@@ -72,7 +84,7 @@ const LoginScreen = ({ navigation }) => {
                     type: DialogTypes.WARNING,
                 }),
             );
-        } else if (!phoneRegex.test(phonenumber)) {
+        } else if (!isNumberValid) {
             dispatch(
                 showDialog({
                     isVisible: true,
@@ -200,13 +212,15 @@ const LoginScreen = ({ navigation }) => {
                                             },
                                         ]}></View>
                                 </View>
-                                <TextInput_
-                                    text={phonenumber}
-                                    setText={setPhonenumber}
-                                    maxLength={10}
+                                <CustomPhoneNumberInput
                                     label="Enter Your Mobile Number *"
-                                    keyboardType={'numeric'}
-                                    placeholder={'Phone Number'}
+                                    value={phonenumber}
+                                    setValue={setPhonenumber}
+                                    countryCode={countryCode}
+                                    setCountryCode={setCountryCode}
+                                    callingCode={callingCode}
+                                    setCallingCode={setCallingCode}
+                                    setIsNumberValid={setIsNumberValid}
                                     onSubmitEditing={onSubmit}
                                 />
                             </View>

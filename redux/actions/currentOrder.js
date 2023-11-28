@@ -16,7 +16,7 @@ import {
     getCurrentUserOrder,
 } from '../services/orderService';
 
-export const getCurrentOrder = () => {
+export const getCurrentOrder = setIsLoading => {
     return async dispatch => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -55,6 +55,9 @@ export const getCurrentOrder = () => {
                             dispatch({ type: GET_CURRENT_ORDER, payload: {} });
                         }
                     });
+            }
+            if (setIsLoading) {
+                setIsLoading(false);
             }
         } catch (error) {
             dispatch({

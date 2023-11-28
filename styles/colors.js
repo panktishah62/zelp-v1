@@ -39,6 +39,7 @@ export const colors = {
     DARK_GREEN: '#26A65B',
     WARNING_YELLOW: '#FFCC00',
     DARKER_GRAY: '#3D3D3D',
+    DARKER_GRAY_TRANSPARENT: 'rgba(61,61,61, 0.5)',
     BACKGROUND_LIGHT: '#F7F6F6',
     WHITE_DARK: 'rgba(255, 255, 255, 0.25)',
 };

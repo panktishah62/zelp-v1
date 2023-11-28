@@ -5,15 +5,10 @@ import { colors } from '../../styles/colors';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
 
 const TimerCircle = ({ minutes, initialTimeToDeliver }) => {
-    const [initialTime, setInitialTime] = useState(minutes);
-    const [remainingTime, setRemainingTime] = useState(initialTime);
+    const [remainingTime, setRemainingTime] = useState(minutes);
     const [circleRadius, setCircleRadius] = useState(dynamicSize(38));
     const [strokeWidth, setStrokeWidth] = useState(4);
     const [initialCircleLength, setInitialCircleLength] = useState(0);
-
-    useEffect(() => {
-        setInitialTime(minutes);
-    }, [minutes]);
 
     useEffect(() => {
         setInitialCircleLength(2 * Math.PI * (circleRadius - strokeWidth));

@@ -31,10 +31,11 @@ import {
 } from 'react-native-safe-area-context';
 import { debounce } from 'lodash'; // Using lodash for debouncing
 import { updateShotsView } from '../../redux/services/short';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import remoteConfig from '@react-native-firebase/remote-config';
 import axios from 'axios';
 import RemoteConfigService from '../../redux/services/remoteConfigService';
+import { getUserWallet } from '../../redux/actions/cartActions';
 
 // wrap the `Video` component with Mux functionality
 const MuxVideo = muxReactNativeVideo(Video);
@@ -54,6 +55,7 @@ export default function VideoItem({
         RemoteConfigService.getRemoteValue('MUX_PROD_ENV_KEY').asString();
     const windowDimensions = Dimensions.get('window');
     const windowHeight = windowDimensions.height;
+    const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
     const screenHeight = windowHeight - insets.bottom;
 
@@ -170,7 +172,13 @@ export default function VideoItem({
         if (data && userProfile && isActive) {
             await updateShotsView({
                 shotsId: data,
-            });
+            })
+                .then(response => response.data)
+                .then(data => {
+                    if (data?.userWallet) {
+                        dispatch(getUserWallet(data?.userWallet));
+                    }
+                });
         }
     };
 

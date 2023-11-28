@@ -18,6 +18,8 @@ import {
     REMOVE_REFERRAL_CODE_MONEY,
     GET_USER_REFERRAL_COIN_MONEY,
     UPDATE_MAX_REFERRAL_COIN_MONEY_TO_USE,
+    REDEEM_WALLET,
+    REMOVE_WALLET,
 } from '../constants';
 import { ADD_TO_CART_FOR_REORDER } from '../constants';
 import { DialogTypes } from '../../utils';
@@ -180,6 +182,23 @@ export const removeCoupon = () => {
     return async dispatch => {
         dispatch({
             type: REMOVE_COUPON,
+        });
+    };
+};
+
+export const redeemWallet = coupon => {
+    return async dispatch => {
+        dispatch({
+            type: REDEEM_WALLET,
+            payload: coupon,
+        });
+    };
+};
+
+export const removeWallet = () => {
+    return async dispatch => {
+        dispatch({
+            type: REMOVE_WALLET,
         });
     };
 };

@@ -71,14 +71,13 @@ const SubscriptionPageOld = props => {
                     <Image
                         source={require('../../assets/icons/party.png')}
                         style={styles.imageIcon}
+                        resizeMode="contain"
                     />
-                    <Text style={styles.titleText}>
-                        {' '}
-                        Coming Soon, Stay Tuned!{' '}
-                    </Text>
+                    <Text style={styles.titleText}> Coming Soon </Text>
                     <Image
                         source={require('../../assets/icons/party.png')}
                         style={styles.imageIcon}
+                        resizeMode="contain"
                     />
                     {/* <Text style={styles.headerText}>Get Started Now!</Text> */}
                 </View>
@@ -113,7 +112,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: dynamicSize(25),
-        paddingHorizontal: dynamicSize(5),
     },
     headerText: {
         ...fonts.NUNITO_500_16,
@@ -130,6 +128,8 @@ const styles = StyleSheet.create({
         // marginBottom: dynamicSize(10),
         ...fonts.NUNITO_500_24,
         color: colors.GREY_DARK,
+        maxWidth: dimensions.fullWidth - dynamicSize(100),
+        textAlign: 'center',
     },
     imageIcon: {
         height: dynamicSize(30),

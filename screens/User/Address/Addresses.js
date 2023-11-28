@@ -99,6 +99,8 @@ const Addresses = ({ navigation }) => {
                                         city={address.city}
                                         state={address.state}
                                         phoneNo={address.mobNo}
+                                        countryCode={address?.countryCode}
+                                        callingCode={address?.callingCode}
                                         geoLocation={
                                             address.geoLocation
                                                 ? address.geoLocation

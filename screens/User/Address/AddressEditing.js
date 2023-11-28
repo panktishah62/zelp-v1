@@ -22,6 +22,8 @@ import { addAddress, editAddress } from '../../../redux/actions/address';
 import { DialogTypes, phoneRegex } from '../../../utils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { showDialog } from '../../../redux/actions/dialog';
+import CustomPhoneNumberInput from '../../../components/Inputs/CustomPhoneNumberInput';
+import { dynamicSize } from '../../../utils/responsive';
 
 const AddressEditing = ({ navigation, route }) => {
     const dispatch = useDispatch();
@@ -63,11 +65,34 @@ const AddressEditing = ({ navigation, route }) => {
         phoneNumber: previousAddressData.phoneNo
             ? String(previousAddressData.phoneNo)
             : '',
+        countryCode: previousAddressData?.countryCode
+            ? previousAddressData?.countryCode
+            : 'IN',
+        callingCode: previousAddressData?.callingCode
+            ? previousAddressData?.callingCode
+            : '91',
     });
 
     const [selectedAddress, setSelected] = useState(
         addressDetails.type || 'Home',
     );
+
+    const [phoneNumber, setPhoneNumber] = useState(
+        previousAddressData?.phoneNo
+            ? String(previousAddressData?.phoneNo)
+            : '',
+    );
+    const [countryCode, setCountryCode] = useState(
+        previousAddressData?.countryCode
+            ? previousAddressData?.countryCode
+            : 'IN',
+    );
+    const [callingCode, setCallingCode] = useState(
+        previousAddressData?.callingCode
+            ? previousAddressData?.callingCode
+            : '91',
+    );
+    const [isNumberValid, setIsNumberValid] = useState(false);
 
     const setBlur = () => {
         setFocus(0);
@@ -80,12 +105,14 @@ const AddressEditing = ({ navigation, route }) => {
                 addressDetails.type != 'Others'
                     ? addressDetails.type
                     : otherName,
-            mobNo: addressDetails?.phoneNumber,
+            mobNo: phoneNumber,
             address: `${addressDetails.line1}, ${addressDetails.line2}`,
             pinCode: addressDetails.zipCode,
             typeOfAddress: addressDetails.type,
             geoLocation: addressUrl,
             geoLocationSearch: geoLocationSearch,
+            countryCode: countryCode,
+            callingCode: callingCode,
         };
 
         if (!addressDetails.line1) {
@@ -98,7 +125,7 @@ const AddressEditing = ({ navigation, route }) => {
                     type: DialogTypes.WARNING,
                 }),
             );
-        } else if (!addressDetails.phoneNumber) {
+        } else if (!phoneNumber) {
             dispatch(
                 showDialog({
                     isVisible: true,
@@ -138,7 +165,7 @@ const AddressEditing = ({ navigation, route }) => {
                     type: DialogTypes.WARNING,
                 }),
             );
-        } else if (addressDetails.phoneNumber.length !== 10) {
+        } else if (phoneNumber.length !== 10) {
             dispatch(
                 showDialog({
                     isVisible: true,
@@ -149,7 +176,7 @@ const AddressEditing = ({ navigation, route }) => {
                     type: DialogTypes.WARNING,
                 }),
             );
-        } else if (!phoneRegex.test(addressDetails.phoneNumber)) {
+        } else if (!isNumberValid) {
             dispatch(
                 showDialog({
                     isVisible: true,
@@ -321,23 +348,18 @@ const AddressEditing = ({ navigation, route }) => {
                             placeholder={'Zip/Postal Code*'}
                             maxLength={6}
                         />
-
-                        <TextInput_
-                            text={addressDetails.phoneNumber}
-                            setText={value =>
-                                setAddressDetails({
-                                    ...addressDetails,
-                                    phoneNumber: value,
-                                })
-                            }
-                            focused={focus === 4}
-                            setFocus={() => setFocus(4)}
-                            setBlur={() => setBlur()}
-                            keyboardType={'numeric'}
-                            placeholder={'Phone Number*'}
-                            maxLength={10}
-                        />
-
+                        <View style={{ marginVertical: dynamicSize(10) }}>
+                            <CustomPhoneNumberInput
+                                // label="Enter Your Mobile Number *"
+                                value={phoneNumber}
+                                setValue={setPhoneNumber}
+                                countryCode={countryCode}
+                                setCountryCode={setCountryCode}
+                                callingCode={callingCode}
+                                setCallingCode={setCallingCode}
+                                setIsNumberValid={setIsNumberValid}
+                            />
+                        </View>
                         {/* Address Type Container */}
                         <View style={styles.textAreaContainerStyle}>
                             <Text style={styles.textAreaLabelStyle}>

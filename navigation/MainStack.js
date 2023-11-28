@@ -269,7 +269,7 @@ const MainStack = () => {
                     header: () => (
                         <HeaderWithTitle
                             navigation={navigation}
-                            title={'Coupons'}
+                            title={'Furo Offers'}
                         />
                     ),
                 })}

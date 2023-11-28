@@ -205,6 +205,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.ORANGE_GRADIENT_LIGHT,
         borderBottomLeftRadius: 4,
         borderBottomRightRadius: 4,
+        bottom: 0,
     },
     distanceContainer: {
         alignItems: 'flex-end',
