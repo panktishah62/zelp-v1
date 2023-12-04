@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
         width: dynamicSize(25),
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 20,
     },
     count: {
         position: 'absolute',

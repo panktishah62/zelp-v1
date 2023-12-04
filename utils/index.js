@@ -125,6 +125,7 @@ export const GreyColorMatrix = [
 export const GRANTED = 'granted';
 export const NEVER_ASK_AGAIN = 'never_ask_again';
 export const DENIED = 'denied';
+export const SCREEN_PROGRESS_CONSTANT = 0.142;
 
 export async function checkLocationPermission(setIsPermissionGranted) {
     try {
@@ -226,6 +227,14 @@ export const DialogTypes = {
     DEFAULT: 'DEFAULT',
     SUCCESS: 'SUCCESS',
     WARNING: 'WARNING',
+    ERROR: 'ERROR',
+};
+
+
+export const AuctionStatus = {
+    NOT_STARTED: 'NOT_STARTED',
+    STARTED: 'STARTED',
+    COMPLETED: 'COMPLETED',
     ERROR: 'ERROR',
 };
 

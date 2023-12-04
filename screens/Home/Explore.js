@@ -16,6 +16,7 @@ import {
 import CategoryCard from '../../components/Cards/CategoryCard';
 import FrokerCard from '../../components/Cards/FrokerCard';
 import RestaurantCard from '../../components/Restaurant/RestaurantCardSmall';
+import RestaurantCardLarge from '../../components/Restaurant/RestaurantCardLarge';
 import FoodItemSlider from '../../components/Sliders/FoodItemSlider';
 import { TAB_BAR_HEIGHT } from '../../redux/constants';
 import { dimensions, fonts, Styles } from '../../styles';
@@ -31,6 +32,8 @@ import {
     getTopRated,
 } from '../../redux/services/restaurantService';
 import BannerOnHomeScreen from '../../components/Banners/BannerOnHomeScreen';
+import AuctionCard from '../../components/Auction/AuctionCard';
+import AuctionwithCategorySlider from '../../components/Sliders/AuctionwithCategorySlider';
 
 const Explore = props => {
     const { location, navigation } = props;
@@ -114,7 +117,7 @@ const Explore = props => {
 
     const Restaurants = ({ item }) => {
         return (
-            <RestaurantCard restaurantObject={item} navigation={navigation} />
+            <AuctionCard restaurantObject={item} navigation={navigation} />
         );
     };
 
@@ -164,7 +167,7 @@ const Explore = props => {
                 {!isLoading && isServableArea && restaurants?.length > 0 && (
                     <View>
                         {/* Choose from categories */}
-                        <View style={styles.container1}>
+                        {/* <View style={styles.container1}>
                             <Text style={styles.title}>
                                 Want To Try Any Of These?
                             </Text>
@@ -178,9 +181,9 @@ const Explore = props => {
                                     );
                                 })}
                             </View>
-                        </View>
+                        </View> */}
 
-                        <BannerOnHomeScreen navigation={navigation} />
+                        {/* <BannerOnHomeScreen navigation={navigation} /> */}
 
                         {offers.length > 0 && (
                             <View
@@ -248,19 +251,21 @@ const Explore = props => {
                                     );
                                 })}
                             </View>
-                        </LinearGradient> */}
+                        </LinearGradient>  */}
 
                         {/* Choose from Posts/reels */}
                         {/* <View style={styles.container3}>
-        <Text style={styles.title}>Here Is A Small Sneak Peek...</Text>
-        <FoodItemSlider />
-      </View> */}
+                            <Text style={styles.title}>
+                                Here Is A Small Sneak Peek...
+                            </Text>
+                            <FoodItemSlider />
+                        </View> */}
 
                         {/* Choose from Restaurants */}
                         <View style={styles.container4}>
-                            <Text style={styles.title}>
+                            {/* <Text style={styles.title}>
                                 Pick From Our Best Restaurants
-                            </Text>
+                            </Text> */}
                             <View style={styles.innerContainer}>
                                 {restaurants &&
                                     restaurants &&
@@ -313,6 +318,9 @@ const styles = StyleSheet.create({
     container: {},
     container1: {
         width: dimensions.fullWidth,
+        height: dimensions.fullHeight,
+        marginBottom: 40,
+        paddingBottom: 170,
         alignItems: 'center',
         backgroundColor: colors.ORANGE_GRADIENT_LIGHT,
     },
@@ -327,6 +335,7 @@ const styles = StyleSheet.create({
     },
     innerContainer: {
         width: dimensions.fullWidth,
+        height: dimensions.fullHeight,
         flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',

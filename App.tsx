@@ -34,6 +34,9 @@ import AppUpdateScreen from './screens/AppUpdateScreen';
 import { toastConfig } from './utils/config';
 import { queryClient } from './utils/queryClient';
 import RemoteConfigService from './redux/services/remoteConfigService';
+import {
+    ZegoUIKitPrebuiltLiveStreamingFloatingMinimizedView,
+  } from '@zegocloud/zego-uikit-prebuilt-live-streaming-rn';
 
 const useInitialURL = () => {
     const [url, setUrl] = useState(null);
@@ -151,6 +154,7 @@ function App(): JSX.Element {
                                             {isStableVersion ? (
                                                 <PaperProvider theme={theme}>
                                                     <RootStack />
+                                                    <ZegoUIKitPrebuiltLiveStreamingFloatingMinimizedView />
                                                 </PaperProvider>
                                             ) : (
                                                 <AppUpdateScreen />

@@ -119,6 +119,16 @@ export const fonts = StyleSheet.create({
         fontWeight: '500',
         fontSize: 24,
     },
+    NUNITO_800_28: {
+        fontFamily: 'Nunito-Medium',
+        fontWeight: '800',
+        fontSize: 28,
+    },
+    NUNITO_800_36: {
+        fontFamily: 'Nunito-Medium',
+        fontWeight: '800',
+        fontSize: 36,
+    },
     NUNITO_500_16: {
         fontFamily: 'Nunito-Medium',
         fontWeight: '500',
@@ -287,6 +297,8 @@ export const Styles = StyleSheet.create({
         height: TAB_BAR_HEIGHT,
         paddingTop: dynamicSize(15),
         borderTopWidth: 0,
+        // color: colors.BLUE_DARK,
+        // backgroundColor: colors.DARKER_GRAY
     },
     tabBarLabelStyle: {
         paddingVertical: dynamicSize(10),

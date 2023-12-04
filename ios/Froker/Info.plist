@@ -6,6 +6,12 @@
 	<array>
 		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>We need gallery permission</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need to use the camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need to use the microphone</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

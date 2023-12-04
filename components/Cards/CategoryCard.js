@@ -15,7 +15,7 @@ const CategoryCard = props => {
             }}
             style={styles.container}>
             <View style={styles.imageContainer}>
-                <Image source={image} style={styles.image} />
+                <Image source={IMAGE_URI} style={styles.image} />
             </View>
             <Text style={styles.text}>{category}</Text>
         </TouchableOpacity>

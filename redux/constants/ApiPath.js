@@ -13,6 +13,15 @@ export default {
     getDefaultAddress: 'address/defaultUserAddress',
     deleteUserAddress: 'address/userAddress',
 
+    //auction
+    addAuction: 'auction/sellerAuction',
+    editAuction: 'auction/sellerAuction',
+    getAllAuctions: 'auction/allSellerAuctions',
+    deleteAuction: 'auction/sellerAuction',
+    getAllCategorisedAuctions: 'auction/getAuctionByCategory',
+    searchAuctions: 'auction/searchAuction',
+    searchProductByAuction: 'auction/searchProductByAuction',
+
     //user
     editUserProfile: 'users/updateProfile',
     getUserProfile: 'users/userProfile',

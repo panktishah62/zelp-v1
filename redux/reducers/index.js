@@ -23,10 +23,13 @@ import subscriptionDetailsReducer from './subscriptionDetailsReducer';
 import subscriptionCouponReducer from './subscriptionCouponReducer';
 import subscriptionCart from './subscriptionCart';
 import shotsViewReducer from './shotsViewReducer';
+import drawerReducer from './drawerReducer';
+import auctionReducer from './auctionReducer';
 
 // Define the root reducer
 const rootReducer = combineReducers({
     auth: authReducer,
+    auction: auctionReducer,
     address: addressReducer,
     user: userReducer,
     currentOrder: currentOrderReducer,
@@ -37,6 +40,7 @@ const rootReducer = combineReducers({
     dynamicStyles: stylesReducer,
     network: networkReducer,
     dialog: dialogReducer,
+    drawer: drawerReducer,
     menuModal: menuModalReducer,
     subscriptionSelectMenu: selectSubscriptionMenuReducer,
     vegbutton: vegbuttonActiveReducer,

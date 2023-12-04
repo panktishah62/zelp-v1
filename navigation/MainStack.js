@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTabNavigation from './BottomTabNavigation';
-import HeaderWithLocation from '../components/Header/HeaderWithLocation';
-import AppTourScreen from '../screens/AppTour/AppTourScreen';
 import LoginScreen from '../screens/OnBoarding/Login';
 import SignUpScreen from '../screens/OnBoarding/Signup';
 import OTPVerificationScreen from '../screens/OnBoarding/OTPVerification';
@@ -11,7 +9,6 @@ import BottomTabNavigationFroker from './BottomTabNavigationFroker';
 import FrokerSplashScreen from '../screens/Froker/FrokerSplash';
 import FavouritesScreen from '../screens/User/Favourites';
 import HeaderWithTitle from '../components/Header/HeaderWithTitle';
-import ProfileScreen from '../screens/User/Profile';
 import FrokerProfileScreen from '../screens/Froker/FrokerProfile';
 import ProfileEditingScreen from '../screens/User/ProfileEditing';
 import { View } from 'react-native';
@@ -41,19 +38,29 @@ import { getConfig } from '../redux/actions/server';
 import PaymentsScreen from '../screens/Payments/Payment';
 import RefundOrder from '../screens/Orders/RefundOrders';
 import ReferralScreen from '../screens/User/Referral';
-import Home from '../screens/SubscriptionModel/Home';
 import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
 import PageDetails from '../screens/SubscriptionModel/PageDetails';
 import SubscriptionPayment from '../screens/SubscriptionModel/SubscriptionPayment';
 import PaymentSuccessfull from '../screens/SubscriptionModel/PaymentSuccessfull';
 import SubscriptionHomePage from '../screens/SubscriptionModel/SubscriptionHomePage';
-import HeaderWithCart from '../components/Header/HeaderWithCart';
 import RestaurantMenuPage from '../screens/SubscriptionModel/RestaurantMenuPage';
 import Cart from '../screens/SubscriptionModel/Cart';
 import HeaderWithCartForSubscription from '../components/Header/HeaderWithCartForSubscription';
 import HeaderWithHome from '../components/Header/HeaderWithHome';
 import NewOrderDetailsScreen from '../screens/CartAndTrack/OrderDetailsScreen';
 import SomethingWentWrong from '../screens/CartAndTrack/SomethingWentWrong';
+import HostPage from '../screens/Auction.js/HostPage';
+import AudiencePage from '../screens/Auction.js/AudiencePage';
+import StartAuctionScreen from '../screens/SellerOnBoarding/StartAuction';
+import GuidelinesScreen from '../screens/SellerOnBoarding/Guidelines';
+import SellerCategoryScreen from '../screens/SellerOnBoarding/SellerCategory';
+import ProductImageScreen from '../screens/SellerOnBoarding/ProductImageScreen';
+import AuctionDetailsScreen from '../screens/SellerOnBoarding/AuctionDetailsScreen';
+import SellerPaymentsScreen from '../screens/SellerOnBoarding/SellerPaymentsScreen';
+import SellerAddressScreen from '../screens/SellerOnBoarding/SellerAddressScreen';
+import CategoryAuctionScreen from '../screens/Home/CategoryAuction';
+import HeaderWithLocation from '../components/Header/HeaderWithLocation';
+import HeaderWithProgressBar from '../components/Header/HeaderWithProgressBar';
 
 const Stack = createNativeStackNavigator();
 
@@ -92,13 +99,13 @@ const MainStack = () => {
                     header: () => <HeaderWithButtons navigation={navigation} />,
                 })}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="Profile"
                 component={ProfileScreen}
                 options={({ navigation, route }) => ({
                     header: () => <HeaderWithTitle navigation={navigation} />,
                 })}
-            />
+            /> */}
             <Stack.Screen
                 name="ProfileEditing"
                 component={ProfileEditingScreen}
@@ -365,6 +372,88 @@ const MainStack = () => {
             <Stack.Screen
                 name="SomethingWentWrong"
                 component={SomethingWentWrong}
+            />
+            <Stack.Screen
+                options={{ headerShown: false }}
+                name="HostPage"
+                component={HostPage}
+            />
+            <Stack.Screen
+                options={{ headerShown: false }}
+                name="AudiencePage"
+                component={AudiencePage}
+            />
+            <Stack.Screen
+                name="Guidelines"
+                component={GuidelinesScreen}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithProgressBar navigation={navigation} />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="SellerCategory"
+                component={SellerCategoryScreen}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithProgressBar navigation={navigation} />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="ProductImageScreen"
+                component={ProductImageScreen}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithProgressBar navigation={navigation} />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="AuctionDetails"
+                component={AuctionDetailsScreen}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithProgressBar navigation={navigation} />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="SellerPayment"
+                component={SellerPaymentsScreen}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithProgressBar navigation={navigation} />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="SellerAddress"
+                component={SellerAddressScreen}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithProgressBar navigation={navigation} />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="StartAuction"
+                component={StartAuctionScreen}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithProgressBar navigation={navigation} />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="CategoryAuction"
+                component={CategoryAuctionScreen}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithProgressBar navigation={navigation} />
+                    ),
+                })}
             />
         </Stack.Navigator>
     );

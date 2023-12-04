@@ -4,11 +4,15 @@ import { Styles } from '../styles';
 import { colors } from '../styles/colors';
 import HomeIcon from '../assets/icons/home.svg';
 import FrokerIcon from '../assets/icons/Froker.svg';
+import UserIcon from '../assets/icons/UserIcon.svg';
+import Explore from '../assets/icons/Explore.svg';
 import FoodAffairIcon from '../assets/icons/FoodAffair.svg';
 import FoodAffairFocusedIcon from '../assets/icons/FoodAffairFocused.svg';
 import ShotsIcon from '../assets/icons/Explore.svg';
 import RestaurantsIcon from '../assets/icons/RestaurantsIcon.svg';
 import RestaurantsIconFocused from '../assets/icons/RestaurantsIconFocused.svg';
+import PlusOrange from '../assets/icons/PlusOrange.svg';
+import PlusCircle from '../assets/icons/plus-circle.svg';
 import HomeScreen from '../screens/Home/Home';
 import RestaurantsScreen from '../screens/Restaurants/Restaurants';
 import PostScreen from '../screens/Posts/Posts';
@@ -21,6 +25,9 @@ import { ErrorHandler } from '../components/ErrorHandler/ErrorHandler';
 import HeaderWithLocation from '../components/Header/HeaderWithLocation';
 import HeaderWithCart from '../components/Header/HeaderWithCart';
 import ShotClassScreen from '../screens/Shots/ShotsClass';
+import ExploreIconNav from '../assets/icons/ExploreIconNav.svg';
+import IconTry from '../assets/icons/IconTry.svg';
+import UpdatesIcon from '../assets/ZelpIcons/Updates.svg';
 
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {
@@ -34,13 +41,27 @@ import {
 import SubscriptionPage from '../screens/SubscriptionModel/SubscriptionPage';
 import { showDialog } from '../redux/actions/dialog';
 import Home from '../screens/SubscriptionModel/Home';
-import { Linking, View } from 'react-native';
+import { Linking, TouchableOpacity, View } from 'react-native';
 import branch from 'react-native-branch';
 import HeaderWithLocationAndSearch from '../components/Header/HeaderWithLocationAndSearch';
+import HeaderWithTitle from '../components/Header/HeaderWithTitle';
 import SubscriptionPageOld from '../screens/SubscriptionModel/SubscriptionPageOld';
 
 import LiveTrackingMap from '../screens/CartAndTrack/LiveTrackingMap';
 import TrackOrderScreen from '../screens/CartAndTrack/TrackOrder';
+import ProfileScreen from '../screens/User/Profile';
+import MarketplaceScreen from '../screens/Marketplace/Marketplace';
+import GuidelinesScreen from '../screens/SellerOnBoarding/Guidelines';
+import SellerCategoryScreen from '../screens/SellerOnBoarding/SellerCategory';
+import ProductImageScreen from '../screens/SellerOnBoarding/ProductImageScreen';
+import AuctionDetailsScreen from '../screens/SellerOnBoarding/AuctionDetailsScreen';
+import SellerDetailsScreen from '../screens/SellerOnBoarding/SellerPaymentsScreen';
+import SellerPaymentsScreen from '../screens/SellerOnBoarding/SellerPaymentsScreen';
+import SellerAddressScreen from '../screens/SellerOnBoarding/SellerAddressScreen';
+import StartAuctionScreen from '../screens/SellerOnBoarding/StartAuction';
+import { BottomDrawer } from '../components/Drawer/BottomDrawer';
+import UpdatesScreen from '../screens/Updates/Updates';
+import { showDrawer } from '../redux/actions/drawer';
 
 const Tab = createBottomTabNavigator();
 
@@ -71,6 +92,15 @@ const BottomTabNavigation = ({ navigation }) => {
         if (navigation && screenName) {
             navigation.navigate(screenName, data ? data : null);
         }
+    };
+
+    const handleTouch = () => {
+        dispatch(
+            showDrawer({
+                isVisible: true,
+                navigateTo: 'Guidelines',
+            }),
+        );
     };
 
     useEffect(() => {
@@ -191,32 +221,81 @@ const BottomTabNavigation = ({ navigation }) => {
                         name="Home"
                         component={HomeScreen}
                     />
-                     <Tab.Screen
-                        options={{
-                            tabBarIcon: ({ focused, color }) =>
-                                focused ? (
-                                    <RestaurantsIconFocused
-                                        height={35}
-                                        focused={focused}
-                                        style={{ color: color }}
-                                    />
-                                ) : (
-                                    <RestaurantsIcon
-                                        height={35}
-                                        focused={focused}
-                                        style={{ color: color }}
-                                    />
-                                ),
+                    <Tab.Screen
+                        options={({ route }) => ({
+                            tabBarIcon: ({ focused, color }) => (
+                                <ShotsIcon
+                                    height={45}
+                                    focused={focused}
+                                    style={{ color: color }}
+                                />
+                            ),
                             header: () => (
                                 <HeaderWithLocationAndSearch
                                     navigation={navigation}
                                 />
                             ),
-                        }}
-                        name="Restaurants"
-                        component={RestaurantsScreen}
+                            // tabBarStyle: {
+                            //     display: 'none',
+                            //     height: 0,
+                            //     paddingTop: 0,
+                            //     borderTopWidth: 0,
+                            // },
+                        })}
+                        name="Marketplace"
+                        component={MarketplaceScreen}
                     />
                     <Tab.Screen
+                        options={({ navigation, route }) => ({
+                            tabBarIcon: ({ focused, color }) => (
+                                <PlusCircle
+                                    height={35}
+                                    focused={focused}
+                                    style={{ color: color }}
+                                />
+                            ),
+                            header: () => (
+                                <HeaderWithTitle
+                                    navigation={navigation}
+                                    title="Guidelines"
+                                />
+                            ),
+                            tabBarStyle: {
+                                display: 'none',
+                                height: 0,
+                                paddingTop: 0,
+                                borderTopWidth: 0,
+                            },
+                        })}
+                        name="Create"
+                        listeners={{
+                            tabPress: e => {
+                                e.preventDefault();
+                                handleTouch();
+                            },
+                        }}
+                        component={GuidelinesScreen}
+                    />
+                    <Tab.Screen
+                        options={{
+                            tabBarIcon: ({ focused, color }) => (
+                                <UpdatesIcon
+                                    height={35}
+                                    focused={focused}
+                                    style={{ color: color }}
+                                />
+                            ),
+                            header: () => (
+                                <HeaderWithTitle
+                                    navigation={navigation}
+                                    title="Updates"
+                                />
+                            ),
+                        }}
+                        name="Updates"
+                        component={UpdatesScreen}
+                    />
+                    {/* <Tab.Screen
                         options={{
                             tabBarIcon: ({ focused, color }) => (
                                 <FrokerIcon
@@ -234,11 +313,12 @@ const BottomTabNavigation = ({ navigation }) => {
                         }}
                         name="Subscription"
                         component={SubscriptionPageOld}
-                    />
+                    /> */}
+
                     <Tab.Screen
                         options={({ route }) => ({
                             tabBarIcon: ({ focused, color }) => (
-                                <ShotsIcon
+                                <UserIcon
                                     height={45}
                                     focused={focused}
                                     style={{ color: color }}
@@ -247,18 +327,25 @@ const BottomTabNavigation = ({ navigation }) => {
                             header: () => (
                                 <HeaderWithCart navigation={navigation} />
                             ),
-                            tabBarStyle: {
-                                display: 'none',
-                                height: 0,
-                                paddingTop: 0,
-                                borderTopWidth: 0,
-                            },
+                            // tabBarStyle: {
+                            //     display: 'none',
+                            //     height: 0,
+                            //     paddingTop: 0,
+                            //     borderTopWidth: 0,
+                            // },
                         })}
-                        name="Shots"
-                        component={ShotClassScreen}
+                        name="Profile"
+                        component={ProfileScreen}
                     />
 
-                   
+                    {/* <TouchableOpacity
+                    style={styles.userButton}
+                    onPress={() => {
+                        navigation.navigate('Profile');
+                    }}>
+                    <UserIcon height="35" width="35" />
+                </TouchableOpacity> */}
+
                     {/* <Tab.Screen
                         options={{
                             tabBarIcon: ({ focused, color }) =>

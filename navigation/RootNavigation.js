@@ -18,6 +18,7 @@ import { getShotsViewRestSortingConfig } from '../redux/actions/server';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { getSubscriptionConfig } from '../redux/actions/subscriptionActions';
 import RemoteConfigService from '../redux/services/remoteConfigService';
+import { BottomDrawer } from '../components/Drawer/BottomDrawer';
 
 const Stack = createNativeStackNavigator();
 
@@ -157,6 +158,7 @@ const RootStack = () => {
     const addressFetchError = useSelector(state => state.address.error);
     const cartActionsError = useSelector(state => state.cartActions.error);
     const dialog = useSelector(state => state.dialog);
+    const drawer = useSelector(state => state.drawer);
 
     useEffect(() => {
         if (addressFetchError && isInternetOn) {
@@ -186,6 +188,7 @@ const RootStack = () => {
                     />
                 </Stack.Navigator>
                 {dialog && <DefaultDialog dialog={dialog} />}
+                {drawer && <BottomDrawer drawer={drawer} />}
             </>
         )
     );

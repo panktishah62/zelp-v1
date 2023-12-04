@@ -108,7 +108,7 @@ const HeaderWithLocationAndSearch = props => {
                 { paddingTop: insets.top },
             ]}
             onLayout={e => onLayout(e)}>
-            <View style={styles.container}>
+            {/* <View style={styles.container}>
                 <TouchableOpacity
                     style={styles.addressButton}
                     onPress={() => {
@@ -255,7 +255,7 @@ const HeaderWithLocationAndSearch = props => {
                     }}>
                     <UserIcon height="35" width="35" />
                 </TouchableOpacity>
-            </View>
+            </View> */}
             <View style={styles.searchBar}>
                 <TouchableWithoutFeedback
                     onPress={() => {
@@ -264,7 +264,7 @@ const HeaderWithLocationAndSearch = props => {
                     <SearchInput
                         text={text}
                         setText={setText}
-                        placeholder="Search Food, Restaurants, Frokers"
+                        placeholder="Search Zelp"
                         keyboardType={keyboardType}
                         width={dimensions.fullWidth * 0.8}
                         navigation={navigation}
@@ -316,6 +316,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
         width: dimensions.fullWidth,
+        marginTop: 10
     },
     locationPermission: {
         maxWidth: dimensions.fullWidth * 0.6,

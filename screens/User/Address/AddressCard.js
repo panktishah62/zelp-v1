@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     StyleSheet,
     Text,
@@ -52,17 +52,28 @@ const AddressCard = ({
     }
 
     const afterSelectDefault = () => {
-        setIsLoading(false);
-        navigation.goBack();
+        // setIsLoading(false);
+        // navigation.goBack();
     };
+    const [isSelectedAdd, setIsSelectedAdd] = useState(false);
 
     const iconName = iconNames[iconType];
 
     return (
         <TouchableOpacity
-            style={[styles.cardContainer, styles.boxShadow, styles.elevation]}
+            style={
+                isSelectedAdd
+                    ? [
+                          styles.cardContainer,
+                          styles.boxShadow,
+                          styles.elevation,
+                          styles.elevationSelected,
+                      ]
+                    : [styles.cardContainer, styles.boxShadow, styles.elevation]
+            }
             onPress={() => {
-                setIsLoading(true);
+                setIsSelectedAdd(!isSelectedAdd);
+                // setIsLoading(true);
                 dispatch(setDefaultAddressTo(id, afterSelectDefault));
             }}>
             <View style={[Styles.row_space_between, styles.savedAddressCard]}>
@@ -159,6 +170,10 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginVertical: 10,
         justifyContent: 'center',
+    },
+    elevationSelected: {
+        borderColor: colors.ORANGE,
+        borderWidth: 1,
     },
     elevation: {
         backgroundColor: colors.WHITE,

@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://ef0b-2401-4900-1cb8-f2dd-80dd-3f09-3f07-e016.ngrok-free.app/api/v1';
+export const BASE_URL = 'https://e855-2409-40f2-1008-104b-99c0-c4dc-c09b-f2c8.ngrok-free.app/api/v1';
 export const GET_CONFIG = 'GET_CONFIG';
 export const GET_SHOTS_VIEW_REST_SORTING_CONFIG =
     'GET_SHOTS_VIEW_REST_SORTING_CONFIG';
@@ -98,6 +98,8 @@ export const SET_HEADER_WITH_LOCATION_HEIGHT =
 export const SET_INTERNET_AVAILABILITY = 'SET_INTERNET_AVAILABILITY';
 export const SHOW_DIALOG = 'SHOW_DIALOG';
 export const HIDE_DIALOG = 'HIDE_DIALOG';
+export const SHOW_DRAWER = 'SHOW_DRAWER';
+export const HIDE_DRAWER = 'HIDE_DRAWER';
 export const MENU_MODAL = 'MENU_MODAL';
 
 //subscription page constants starts from here
@@ -152,3 +154,17 @@ export const WALLET_MULTIPLE = 'WALLET_MULTIPLE';
 export const REFERRAL_COIN_MULTIPLE = 'REFERRAL_COIN_MULTIPLE';
 
 export const IS_SWIPED = 'IS_SWIPED';
+
+//Auction Detail Constants
+export const ADD_CATEGORY_FOR_AUCTION = 'ADD_CATEGORY_FOR_AUCTION';
+export const ADD_PRODUCT_IMAGES = 'ADD_PRODUCT_IMAGES';
+export const ADD_AUCTION_DETAILS = 'ADD_AUCTION_DETAILS';
+export const ADD_PAYMENT_DETAILS_SELLER = 'ADD_PAYMENT_DETAILS_SELLER';
+export const ADD_SELLER_ADDRESS = 'ADD_SELLER_ADDRESS';
+export const ADD_LIVESTREAM_DETAILS_PRE_STREAM = 'ADD_LIVESTREAM_DETAILS_PRE_STREAM';
+export const ADD_LIVESTREAM_DETAILS_POST_STREAM = 'ADD_LIVESTREAM_DETAILS_POST_STREAM';
+export const GET_AUCTION = 'GET_AUCTION';
+export const RESET_AUCTION = 'RESET_AUCTION';
+export const RESET_AUCTION_ERROR = 'RESET_AUCTION_ERROR';
+export const SET_PROGRESS_BAR = 'SET_PROGRESS_BAR';
+
