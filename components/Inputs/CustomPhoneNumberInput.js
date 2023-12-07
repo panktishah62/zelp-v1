@@ -29,7 +29,7 @@ const CustomPhoneNumberInput = props => {
     } = props;
 
     const [showCountryPicker, setShowCountryPicker] = useState(false);
-    onPressDropDown = () => {
+    const onPressDropDown = () => {
         setShowCountryPicker(!showCountryPicker);
     };
     useEffect(() => {
@@ -76,20 +76,22 @@ const CustomPhoneNumberInput = props => {
                 />
             </View>
             <View style={styles.countryPickerContainer}>
-                <CountryPicker
-                    onSelect={value => {
-                        setCallingCode(value?.callingCode[0]);
-                        setCountryCode(value?.cca2);
-                    }}
-                    translation="eng"
-                    cca2={'IN'}
-                    countryCodes={['IN', 'NP']}
-                    withCallingCode={true}
-                    onClose={onPressDropDown}
-                    visible={showCountryPicker}
-                    withFlag>
-                    <View />
-                </CountryPicker>
+                {showCountryPicker && (
+                    <CountryPicker
+                        onSelect={value => {
+                            setCallingCode(value?.callingCode[0]);
+                            setCountryCode(value?.cca2);
+                        }}
+                        translation="eng"
+                        cca2={'IN'}
+                        countryCodes={['IN', 'NP']}
+                        withCallingCode={true}
+                        onClose={onPressDropDown}
+                        visible={showCountryPicker}
+                        withFlag>
+                        <View />
+                    </CountryPicker>
+                )}
             </View>
         </View>
     );

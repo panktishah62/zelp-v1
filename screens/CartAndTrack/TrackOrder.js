@@ -21,6 +21,7 @@ import LottieView from 'lottie-react-native';
 import CancelOrderButton from './CancelOrderButton';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ORDER_BUFFER_TIME } from '../../redux/constants';
+import TrackingNote from './TrackingNote';
 
 const TrackOrderScreen = ({ route, navigation }) => {
     const dispatch = useDispatch();
@@ -190,6 +191,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
                             number={serverData?.config?.contactNo}
                             order={currentOrder?.currentOrder}
                         />
+                        <TrackingNote />
                     </View>
                 </View>
             )}
