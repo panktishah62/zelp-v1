@@ -6,9 +6,7 @@ import {
     Text,
     TouchableWithoutFeedback,
     Linking,
-    AppState,
 } from 'react-native';
-import BackButton from '../../assets/icons/chevron-left.svg';
 import DropDownButton from '../../assets/icons/chevron-down.svg';
 import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
@@ -16,22 +14,12 @@ import Location from '../../assets/icons/map-pin.svg';
 import UserIcon from '../../assets/icons/UserIcon.svg';
 import SearchInput from '../Inputs/SearchInput';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    checkLocationPermission,
-    DENIED,
-    GRANTED,
-    NEVER_ASK_AGAIN,
-    requestLocationPermission,
-    sliceText,
-} from '../../utils';
+import { DENIED, GRANTED, NEVER_ASK_AGAIN, sliceText } from '../../utils';
 import {
     getAllAddress,
-    getDefaultAddress,
-    getUserLocation,
+    getUserCurrentOrSavedLocation,
 } from '../../redux/actions/address';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import CartButton from '../Buttons/CartButton';
-import { checkPermission } from '../../redux/actions/permissions';
 import { setHeaderWithLocationHeight } from '../../redux/actions/styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -46,23 +34,13 @@ const HeaderWithLocationAndSearch = props => {
         state => state.permissions.locationPermission,
     );
     const isLocationOn = useSelector(state => state.permissions.isLocationOn);
+    const isGPSOn = useSelector(state => state.permissions.isGPSOn);
     const [isLoading, setIsLoading] = useState(false);
     const [showRetry, setShowRetry] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
-        dispatch(checkPermission());
-        if (locationPermission === GRANTED) {
-            setIsLoading(true);
-            dispatch(getDefaultAddress(setIsLoading));
-        }
-    }, [navigation]);
-
-    useEffect(() => {
-        if (locationPermission === GRANTED) {
-            setIsLoading(true);
-            dispatch(getDefaultAddress(setIsLoading));
-        }
+        dispatch(getUserCurrentOrSavedLocation(setIsLoading));
     }, [navigation, locationPermission]);
 
     useEffect(() => {
@@ -81,16 +59,12 @@ const HeaderWithLocationAndSearch = props => {
     const retry = () => {
         setShowRetry(false);
         setIsLoading(true);
-        dispatch(checkPermission());
-        if (locationPermission === GRANTED && isLocationOn) {
-            setIsLoading(true);
-            dispatch(getDefaultAddress(setIsLoading));
-        }
+        dispatch(getUserCurrentOrSavedLocation(setIsLoading));
     };
 
     const requestPermission = () => {
-        // checkLocationPermission(setPermission);
-        dispatch(checkPermission());
+        setIsLoading(true);
+        dispatch(getUserCurrentOrSavedLocation(setIsLoading));
     };
 
     const onLayout = event => {
@@ -102,26 +76,6 @@ const HeaderWithLocationAndSearch = props => {
     };
 
     const insets = useSafeAreaInsets();
-
-    const handleAppStateChange = state => {
-        if (state === 'active' && locationPermission != GRANTED && !isLoading) {
-            setIsLoading(true);
-            dispatch(checkPermission());
-            dispatch(getDefaultAddress(setIsLoading));
-        } else if (state === 'active') {
-            dispatch(checkPermission());
-        }
-    };
-    useEffect(() => {
-        const subscription = AppState.addEventListener(
-            'change',
-            handleAppStateChange,
-        );
-
-        return () => {
-            subscription.remove();
-        };
-    }, [locationPermission]);
 
     return (
         <View
@@ -150,7 +104,8 @@ const HeaderWithLocationAndSearch = props => {
                     {locationPermission === GRANTED &&
                         defaultAddress &&
                         defaultAddress.name &&
-                        !isLoading && (
+                        !isLoading &&
+                        isGPSOn && (
                             <View>
                                 <View style={styles.address}>
                                     <Text
@@ -201,7 +156,7 @@ const HeaderWithLocationAndSearch = props => {
                         !defaultAddress.address &&
                         !area &&
                         isLoading) ||
-                        (isLoading && locationPermission != NEVER_ASK_AGAIN && (
+                        (isLoading && (
                             <View style={Styles.row_flex_start}>
                                 <View style={styles.address}>
                                     <Text
@@ -224,7 +179,7 @@ const HeaderWithLocationAndSearch = props => {
                                 )}
                             </View>
                         ))}
-                    {locationPermission === DENIED && (
+                    {!isLoading && locationPermission === DENIED && isGPSOn && (
                         <View>
                             <View style={styles.locationPermission}>
                                 <Text
@@ -244,7 +199,36 @@ const HeaderWithLocationAndSearch = props => {
                             </View>
                         </View>
                     )}
-                    {locationPermission === NEVER_ASK_AGAIN && (
+                    {!isLoading &&
+                        locationPermission === NEVER_ASK_AGAIN &&
+                        isGPSOn && (
+                            <View>
+                                <View style={styles.locationPermission}>
+                                    <Text
+                                        style={[
+                                            fonts.NUNITO_500_12,
+                                            Styles.default_text_color,
+                                        ]}>
+                                        Give Location Permission and
+                                    </Text>
+                                    <Text
+                                        style={[
+                                            fonts.NUNITO_500_12,
+                                            Styles.default_text_color,
+                                        ]}>
+                                        reopen the app
+                                    </Text>
+                                    <Text
+                                        style={[
+                                            fonts.NUNITO_500_12,
+                                            { color: colors.BLUE_DARK },
+                                        ]}>
+                                        Tap Here
+                                    </Text>
+                                </View>
+                            </View>
+                        )}
+                    {!isLoading && !isGPSOn && (
                         <View>
                             <View style={styles.locationPermission}>
                                 <Text
@@ -252,21 +236,14 @@ const HeaderWithLocationAndSearch = props => {
                                         fonts.NUNITO_500_12,
                                         Styles.default_text_color,
                                     ]}>
-                                    Give Location Permission and
+                                    Please turn on device
                                 </Text>
                                 <Text
                                     style={[
                                         fonts.NUNITO_500_12,
                                         Styles.default_text_color,
                                     ]}>
-                                    reopen the app
-                                </Text>
-                                <Text
-                                    style={[
-                                        fonts.NUNITO_500_12,
-                                        { color: colors.BLUE_DARK },
-                                    ]}>
-                                    Tap Here
+                                    GPS Location...
                                 </Text>
                             </View>
                         </View>

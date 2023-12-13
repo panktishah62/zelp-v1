@@ -54,6 +54,7 @@ export const RESET_SEARCH = 'RESET_SEARCH';
 export const RESET_USER = 'RESET_USER';
 export const CHECK_LOCATION_PERMISSION = 'CHECK_LOCATION_PERMISSION';
 export const IS_LOCATION_ON = 'IS_LOCATION_ON';
+export const IS_GPS_ON = 'IS_GPS_ON';
 export const NETWORK_ERROR = 'Network response was not ok';
 export const UNEXPECTED_ERROR = 'Unexpected Error Occured';
 export const FETCH_DATA_FAILURE_SEARCH = 'FETCH_DATA_FAILURE_SEARCH';

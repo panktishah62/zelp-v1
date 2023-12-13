@@ -24,10 +24,13 @@ import {
     RESET_ADDRESS_ERROR,
     CHECK_LOCATION_PERMISSION,
     IS_LOCATION_ON,
+    IS_GPS_ON,
 } from '../constants';
 import { Alert } from 'react-native';
 import {
+    DENIED,
     DialogTypes,
+    GRANTED,
     NEVER_ASK_AGAIN,
     getCoordinatesFromGoogleMapUrl,
 } from '../../utils';
@@ -52,7 +55,7 @@ export const addAddress = (address, navigation, fun) => {
                 if (data) {
                     dispatch({ type: ADD_ADDRESS, payload: data.addresses });
                     dispatch(getAllAddress(fun));
-                    dispatch(getDefaultAddress());
+                    dispatch(getUserCurrentOrSavedLocation(null));
                     navigation.goBack();
                 }
             })
@@ -70,7 +73,7 @@ export const editAddress = (address, addressId, navigation, fun) => {
                 if (data) {
                     dispatch({ type: EDIT_ADDRESS, payload: data.addresses });
                     dispatch(getAllAddress(fun));
-                    dispatch(getDefaultAddress());
+                    dispatch(getUserCurrentOrSavedLocation(null));
                     navigation.goBack();
                 }
             })
@@ -266,7 +269,7 @@ export const deleteAddress = addressId => {
             .then(data => {
                 if (data) {
                     dispatch({ type: EDIT_ADDRESS, payload: data.addresses });
-                    dispatch(getDefaultAddress());
+                    dispatch(getUserCurrentOrSavedLocation(null));
                 }
             })
             .catch(error => {
@@ -383,3 +386,260 @@ export const resetAddress = () => ({
 export const resetAddressError = () => ({
     type: RESET_ADDRESS_ERROR,
 });
+
+export const getUserCurrentOrSavedLocation = (setIsLoading, navigation) => {
+    return async dispatch => {
+        const getLocationCoords = async () => {
+            return new Promise(async resolve => {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    Geolocation.getCurrentPosition(
+                        async location => {
+                            const { latitude, longitude } = location?.coords;
+                            if (latitude && longitude) {
+                                const response = await fetch(
+                                    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_MAPS_APIKEY}`,
+                                );
+                                const data = await response.json();
+
+                                const area =
+                                    data.results[0].address_components.find(
+                                        component =>
+                                            component.types.includes(
+                                                'neighborhood',
+                                            ) ||
+                                            component.types.includes(
+                                                'sublocality',
+                                            ) ||
+                                            component.types.includes(
+                                                'locality',
+                                            ),
+                                    ).long_name;
+
+                                const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                                dispatch({
+                                    type: CHECK_LOCATION_PERMISSION,
+                                    payload: GRANTED,
+                                });
+                                dispatch({
+                                    type: IS_LOCATION_ON,
+                                    payload: true,
+                                });
+                                dispatch({
+                                    type: IS_GPS_ON,
+                                    payload: true,
+                                });
+                                resolve({
+                                    latitude,
+                                    longitude,
+                                    area,
+                                    googleMapsLink,
+                                });
+                            } else {
+                                dispatch({
+                                    type: FETCH_DATA_FAILURE_ADDRESS,
+                                    payload: 'Location not accessable',
+                                });
+                                resolve(null);
+                            }
+                        },
+                        error => {
+                            dispatch(
+                                showDialog({
+                                    isVisible: true,
+                                    titleText:
+                                        'Please Turn On device GPS Location!',
+                                    subTitleText:
+                                        'We will be able to give better experience by accessing your location',
+                                    buttonText1: 'CLOSE',
+                                    type: DialogTypes.WARNING,
+                                }),
+                            );
+                            dispatch({
+                                type: IS_GPS_ON,
+                                payload: false,
+                            });
+                            if (setIsLoading) setIsLoading(false);
+                            resolve(null);
+                        },
+                    );
+                } else if (
+                    granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN
+                ) {
+                    if (setIsLoading) setIsLoading(false);
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            titleText: 'Please Turn On Your Location!',
+                            subTitleText:
+                                'Open the app again after turning on location',
+                            buttonText1: 'CLOSE',
+                            type: DialogTypes.WARNING,
+                        }),
+                    );
+                    dispatch({
+                        type: IS_LOCATION_ON,
+                        payload: false,
+                    });
+                    dispatch({
+                        type: CHECK_LOCATION_PERMISSION,
+                        payload: NEVER_ASK_AGAIN,
+                    });
+                    resolve(null);
+                } else {
+                    if (setIsLoading) setIsLoading(false);
+                    dispatch(
+                        showDialog({
+                            isVisible: true,
+                            titleText: 'Please Turn On Your Location!',
+                            subTitleText:
+                                'Open the app again after turning on location',
+                            buttonText1: 'CLOSE',
+                            type: DialogTypes.WARNING,
+                        }),
+                    );
+                    dispatch({
+                        type: CHECK_LOCATION_PERMISSION,
+                        payload: DENIED,
+                    });
+                    dispatch({
+                        type: IS_LOCATION_ON,
+                        payload: false,
+                    });
+
+                    resolve(null);
+                }
+            });
+        };
+
+        const getSavedAddress = async () => {
+            return new Promise(async resolve => {
+                await getDefaultUserAddress()
+                    .then(response => response?.data)
+                    .then(data => {
+                        if (
+                            data &&
+                            data?.defaultAddress &&
+                            data?.defaultAddress?.geoLocation
+                        ) {
+                            resolve(data?.defaultAddress);
+                        } else {
+                            resolve(null);
+                        }
+                    })
+                    .catch(err => resolve(null));
+            });
+        };
+
+        try {
+            await AsyncStorage.getItem('token').then(async authToken => {
+                if (!authToken) {
+                    dispatch({
+                        type: GET_DEFAULT_ADDRESS,
+                        payload: {
+                            defaultAddress: '',
+                            location: null,
+                            googleMapsLink: null,
+                            area: null,
+                            loading: false,
+                            error: '',
+                        },
+                    });
+
+                    const geoObject = await getLocationCoords();
+                    if (
+                        geoObject &&
+                        geoObject.latitude &&
+                        geoObject.longitude &&
+                        geoObject.googleMapsLink &&
+                        geoObject.area
+                    ) {
+                        dispatch({
+                            type: GET_LOCATION_SUCCESS,
+                            payload: {
+                                location: {
+                                    latitude: geoObject.latitude,
+                                    longitude: geoObject.longitude,
+                                },
+                                googleMapsLink: geoObject.googleMapsLink,
+                                area: geoObject.area,
+                            },
+                        });
+                        if (setIsLoading) setIsLoading(false);
+                    } else {
+                        dispatch({
+                            type: GET_DEFAULT_ADDRESS,
+                            payload: {
+                                defaultAddress: '',
+                                location: null,
+                                googleMapsLink: null,
+                                area: null,
+                                loading: false,
+                                error: '',
+                            },
+                        });
+                        if (setIsLoading) setIsLoading(false);
+                    }
+
+                    if (setIsLoading) setIsLoading(false);
+                } else {
+                    const geoObject = await getLocationCoords();
+
+                    if (geoObject) {
+                        const savedAddress = await getSavedAddress();
+
+                        if (savedAddress) {
+                            const location = getCoordinatesFromGoogleMapUrl(
+                                savedAddress.geoLocation,
+                            );
+
+                            dispatch({
+                                type: GET_DEFAULT_ADDRESS,
+                                payload: {
+                                    defaultAddress: savedAddress,
+                                    location: location,
+                                    googleMapsLink: savedAddress.geoLocation,
+                                    area: savedAddress.address,
+                                },
+                            });
+                            dispatch(changeCartAddress(savedAddress));
+                            dispatch(selectAddressForCart(savedAddress));
+                        } else {
+                            dispatch(changeCartAddress(null));
+                            dispatch(selectAddressForCart(null));
+                            dispatch({
+                                type: GET_LOCATION_SUCCESS,
+                                payload: {
+                                    location: {
+                                        latitude: geoObject.latitude,
+                                        longitude: geoObject.longitude,
+                                    },
+                                    googleMapsLink: geoObject.googleMapsLink,
+                                    area: geoObject.area,
+                                },
+                            });
+                        }
+                    } else {
+                        dispatch(changeCartAddress(null));
+                        dispatch(selectAddressForCart(null));
+                        dispatch({
+                            type: GET_DEFAULT_ADDRESS,
+                            payload: {
+                                defaultAddress: '',
+                                location: null,
+                                googleMapsLink: null,
+                                area: null,
+                                loading: false,
+                                error: '',
+                            },
+                        });
+                    }
+
+                    if (setIsLoading) setIsLoading(false);
+                }
+            });
+        } catch (error) {}
+    };
+};

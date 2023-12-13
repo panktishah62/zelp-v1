@@ -25,7 +25,11 @@ import QUESTIONMARKCIRCLE from '../../assets/icons/help-circle-outline.svg';
 import LOGOUT from '../../assets/icons/logout.svg';
 import RUPEE from '../../assets/icons/rupee-sign.svg';
 import DELETEICON from '../../assets/icons/DeleteIcon.svg';
-import { getAllAddress, getDefaultAddress } from '../../redux/actions/address';
+import {
+    getAllAddress,
+    getDefaultAddress,
+    getUserCurrentOrSavedLocation,
+} from '../../redux/actions/address';
 import { getUserProfile } from '../../redux/actions/user';
 import { sliceText } from '../../utils';
 import BackRightIcon from '../../assets/icons/backRight.svg';
@@ -128,7 +132,7 @@ const ProfileMenuItem = ({
             onPress={() => {
                 if (name === 'Logout') {
                     handleLogout();
-                    dispatch(getDefaultAddress());
+                    dispatch(getUserCurrentOrSavedLocation(null));
                     navigation.popToTop();
                     return;
                 }

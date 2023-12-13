@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     deleteAddress,
     getDefaultAddress,
+    getUserCurrentOrSavedLocation,
     setDefaultAddressTo,
 } from '../../../redux/actions/address';
 import { sliceText } from '../../../utils';
@@ -135,7 +136,7 @@ const AddressCard = ({
                             setIsLoading(true);
                             dispatch(deleteAddress(id));
                             dispatch(
-                                getDefaultAddress(() => setIsLoading(false)),
+                                getUserCurrentOrSavedLocation(setIsLoading),
                             );
                         }}>
                         DELETE
