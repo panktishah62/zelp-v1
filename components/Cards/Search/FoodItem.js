@@ -18,6 +18,7 @@ import LocationIcon from '../../../assets/icons/Vector.svg';
 import { ColorMatrix } from 'react-native-color-matrix-image-filters';
 import { useSelector } from 'react-redux';
 import { dynamicSize } from '../../../utils/responsive';
+import Currency from '../../Currency';
 
 const isFoodItemActive = foodItem => {
     let isItemActive = true;
@@ -91,7 +92,8 @@ const FoodItems = props => {
                 )}
                 {foodItem?.item?.price && (
                     <Text style={[styles.priceText]}>
-                        ₹ {foodItem?.item?.price}
+                        <Currency currency={restaurant?.currency} />
+                        {foodItem?.item?.price}
                     </Text>
                 )}
             </View>

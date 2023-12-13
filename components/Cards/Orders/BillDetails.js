@@ -4,6 +4,7 @@ import { dimensions, fonts, Styles } from '../../../styles';
 import Rupee from '../../../assets/icons/rupee.svg';
 import OrangeRupee from '../../../assets/icons/orangeRupee.svg';
 import { colors } from '../../../styles/colors';
+import Currency from '../../Currency';
 
 const BillDetails = props => {
     const { cart, isOrderPaid, config } = props;
@@ -16,8 +17,10 @@ const BillDetails = props => {
                         <View style={styles.innerContainer}>
                             <Text style={styles.text}>Item Total</Text>
                             <View style={styles.amount}>
-                                <Rupee />
                                 <Text style={styles.priceText}>
+                                    <Currency
+                                        currency={cart?.address?.currency}
+                                    />{' '}
                                     {cart.totalItemsPrice}
                                 </Text>
                             </View>
@@ -27,8 +30,10 @@ const BillDetails = props => {
                         <View style={styles.innerContainer}>
                             <Text style={styles.text}>Delivery Fee</Text>
                             <View style={styles.amount}>
-                                <Rupee />
                                 <Text style={styles.priceText}>
+                                    <Currency
+                                        currency={cart?.address?.currency}
+                                    />{' '}
                                     {cart.deliveryPartnerFees}
                                 </Text>
                             </View>
@@ -41,8 +46,10 @@ const BillDetails = props => {
                             <Text style={styles.text}>Money From Furos</Text>
                             <View style={styles.amount}>
                                 <Text style={styles.priceText}> - </Text>
-                                <Rupee />
                                 <Text style={styles.priceText}>
+                                    <Currency
+                                        currency={cart?.address?.currency}
+                                    />{' '}
                                     {cart.walletMoney}
                                 </Text>
                             </View>
@@ -55,8 +62,10 @@ const BillDetails = props => {
                             </Text>
                             <View style={styles.amount}>
                                 <Text style={styles.priceText}> - </Text>
-                                <Rupee />
                                 <Text style={styles.priceText}>
+                                    <Currency
+                                        currency={cart?.address?.currency}
+                                    />{' '}
                                     {cart?.referralCoinsUsed}
                                 </Text>
                             </View>
@@ -67,8 +76,10 @@ const BillDetails = props => {
                             <Text style={styles.text}>Coupon Discount</Text>
                             <View style={styles.amount}>
                                 <Text style={styles.priceText}> - </Text>
-                                <Rupee />
                                 <Text style={styles.priceText}>
+                                    <Currency
+                                        currency={cart?.address?.currency}
+                                    />{' '}
                                     {cart.couponDiscount}
                                 </Text>
                             </View>
@@ -80,8 +91,10 @@ const BillDetails = props => {
                                 Govt Taxes & Other Charges ({config.GSTtaxes}%)
                             </Text>
                             <View style={styles.amount}>
-                                <Rupee />
                                 <Text style={styles.priceText}>
+                                    <Currency
+                                        currency={cart?.address?.currency}
+                                    />{' '}
                                     {cart?.taxes}
                                 </Text>
                             </View>
@@ -99,12 +112,14 @@ const BillDetails = props => {
                                 <Text style={styles.orangeText}>To Pay</Text>
                             )}
                             <View style={styles.amount}>
-                                <OrangeRupee />
                                 <Text
                                     style={[
                                         styles.priceText,
                                         styles.orangeText,
                                     ]}>
+                                    <Currency
+                                        currency={cart?.address?.currency}
+                                    />{' '}
                                     {cart.totalAmount}
                                 </Text>
                             </View>

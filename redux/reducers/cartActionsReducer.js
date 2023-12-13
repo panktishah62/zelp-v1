@@ -132,10 +132,12 @@ const cartActionsReducer = (state = initialState, action) => {
                 foodItemsCount: removeFromCartRestaurants.count,
                 billingDetails: removeFromCartRestaurants.billingDetails,
                 isWalletMoneyUsed: removeFromCartRestaurants.isWalletMoneyUsed,
-                discountAmount: removeFromCartRestaurants?.billingDetails
-                    ?.discountAmount
-                    ? removeFromCartRestaurants?.billingDetails?.discountAmount
-                    : 0,
+                discountAmount:
+                    removeFromCartRestaurants?.billingDetails?.discountAmount &&
+                    !removeFromCartRestaurants.isWalletMoneyUsed
+                        ? removeFromCartRestaurants?.billingDetails
+                              ?.discountAmount
+                        : 0,
                 coupon:
                     removeFromCartRestaurants?.billingDetails?.discountAmount !=
                         0 ||
@@ -178,8 +180,8 @@ const cartActionsReducer = (state = initialState, action) => {
                 restaurants: state?.restaurants,
                 config: state?.config,
                 isWalletMoneyUsed: state?.isWalletMoneyUsed,
-                discountAmount: state?.discountAmount,
-                coupon: state?.coupon,
+                discountAmount: 0,
+                coupon: state?.isWalletMoneyUsed ? state?.coupon : null,
                 count: state?.foodItemsCount,
                 walletMoney: state?.walletMoney,
                 isReferralCoinsUsed: state?.isReferralCoinsUsed,

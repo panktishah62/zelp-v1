@@ -5,7 +5,7 @@ import { colors } from '../../../styles/colors';
 import FoodItemField from './FoodItemField';
 
 const RestaurantField = props => {
-    const { restaurant, navigation } = props;
+    const { restaurant, navigation, currency } = props;
     const rest = restaurant.restaurant ? restaurant.restaurant : '';
     const foodItems = restaurant.foodItems ? restaurant.foodItems : {};
     const foodItemsCount = foodItems ? Object.keys(foodItems).length : 0;
@@ -43,6 +43,7 @@ const RestaurantField = props => {
                                 <View key={index}>
                                     <FoodItemField
                                         foodItem={foodItem}
+                                        currency={currency}
                                         restaurant={rest}
                                         navigation={navigation}
                                     />
@@ -55,6 +56,7 @@ const RestaurantField = props => {
                                     key={index}>
                                     <FoodItemField
                                         foodItem={foodItem}
+                                        currency={currency}
                                         restaurant={rest}
                                         navigation={navigation}
                                     />

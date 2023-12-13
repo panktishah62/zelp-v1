@@ -18,6 +18,7 @@ import { getShotsViewRestSortingConfig } from '../redux/actions/server';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { getSubscriptionConfig } from '../redux/actions/subscriptionActions';
 import RemoteConfigService from '../redux/services/remoteConfigService';
+import { IS_LOCATION_ON } from '../redux/constants';
 
 const Stack = createNativeStackNavigator();
 
@@ -106,29 +107,39 @@ const RootStack = () => {
         }
     }, [location]);
 
+    const handleAppStateChange = state => {
+        if (
+            state === 'active' &&
+            locationPermission === GRANTED &&
+            isLocationOn
+        ) {
+            dispatch(checkPermission());
+            dispatch(getDefaultAddress(null, navigation));
+        } else if (state === 'active' && !isLocationOn) {
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText: 'Please Turn On Your Location!',
+                    subTitleText:
+                        'Open the app again after turning on location',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
+        } else {
+            // Handle other states if needed
+            dispatch({
+                type: IS_LOCATION_ON,
+                payload: true,
+            });
+        }
+    };
+
     useEffect(() => {
         const appFocusSubscription = AppState.addEventListener(
             'change',
-            state => {
-                if (state === 'active') {
-                    if (locationPermission === GRANTED && isLocationOn) {
-                        dispatch(getDefaultAddress(null, navigation));
-                    } else if (!isLocationOn) {
-                        dispatch(
-                            showDialog({
-                                isVisible: true,
-                                titleText: 'Please Turn On Your Location!',
-                                subTitleText:
-                                    'Open the app again after turning on location',
-                                buttonText1: 'CLOSE',
-                                type: DialogTypes.WARNING,
-                            }),
-                        );
-                    }
-                }
-            },
+            handleAppStateChange,
         );
-
         return () => {
             appFocusSubscription.remove();
         };

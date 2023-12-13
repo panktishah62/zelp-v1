@@ -11,7 +11,10 @@ import {
 import MapView, { Marker } from 'react-native-maps';
 import { colors } from '../../../styles/colors';
 import { Styles, dimensions, fonts } from '../../../styles';
-import { DialogTypes } from '../../../utils';
+import {
+    DialogTypes,
+    getCountryCodeFromGeoLocationResult,
+} from '../../../utils';
 import LocateIcon from '../../../assets/icons/LocateIcon.svg';
 import MapPinIcon from '../../../assets/icons/MapPin.svg';
 import Geolocation from '@react-native-community/geolocation';
@@ -29,6 +32,7 @@ const MapScreen = ({ route, navigation }) => {
     const [currentLocation, setCurrentLocation] = useState(null);
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedCountryCode, setSelectedCountryCode] = useState(null);
     const [locations, setLocations] = useState([]);
     const mapRef = useRef(null);
     const [locationPermission, setLocationPermission] = useState(false);
@@ -99,6 +103,10 @@ const MapScreen = ({ route, navigation }) => {
                     `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${GOOGLE_MAPS_APIKEY}`,
                 );
                 const data = await response.json();
+                const countryCode = getCountryCodeFromGeoLocationResult(
+                    data.results[0],
+                );
+                setSelectedCountryCode(countryCode);
                 setSearchQuery(data.results[0].formatted_address);
             } catch (error) {
                 dispatch(
@@ -128,6 +136,10 @@ const MapScreen = ({ route, navigation }) => {
                 `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${GOOGLE_MAPS_APIKEY}`,
             );
             const data = await response.json();
+            const countryCode = getCountryCodeFromGeoLocationResult(
+                data.results[0],
+            );
+            setSelectedCountryCode(countryCode);
             setSearchQuery(data.results[0].formatted_address);
         } catch (error) {
             dispatch(
@@ -156,7 +168,7 @@ const MapScreen = ({ route, navigation }) => {
     const handleSaveLocation = () => {
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${selectedLocation.latitude},${selectedLocation.longitude}`;
         // Do something with the mapUrl, such as saving it to a database or displaying it to the user
-        setAddressUrl(mapUrl, searchQuery);
+        setAddressUrl(mapUrl, searchQuery, selectedCountryCode);
         navigation.goBack();
     };
 
@@ -204,6 +216,15 @@ const MapScreen = ({ route, navigation }) => {
             );
             const data = await response.json();
             const location = data.result.geometry.location;
+
+            const responseForCountryCode = await fetch(
+                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${GOOGLE_MAPS_APIKEY}`,
+            );
+            const dataForCountryCode = await responseForCountryCode.json();
+            const countryCode = getCountryCodeFromGeoLocationResult(
+                dataForCountryCode.results[0],
+            );
+            setSelectedCountryCode(countryCode);
             setSelectedLocation({
                 latitude: location.lat,
                 longitude: location.lng,

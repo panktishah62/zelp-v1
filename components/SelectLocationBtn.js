@@ -11,6 +11,7 @@ const SelectLocationBtn = props => {
         setAddressUrl,
         geoLocationSearch,
         setGeoLocationSearch,
+        setCountryCode,
         navigateTo,
         navigation,
     } = props;
@@ -23,6 +24,7 @@ const SelectLocationBtn = props => {
                     setAddressUrl: setAddressUrl,
                     geoLocationSearch: geoLocationSearch,
                     setGeoLocationSearch: setGeoLocationSearch,
+                    setCountryCode: setCountryCode,
                 });
             }}>
             <View style={[Styles.row_flex_start, styles.headerTextContainer]}>

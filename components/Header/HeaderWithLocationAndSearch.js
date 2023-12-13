@@ -6,6 +6,7 @@ import {
     Text,
     TouchableWithoutFeedback,
     Linking,
+    AppState,
 } from 'react-native';
 import BackButton from '../../assets/icons/chevron-left.svg';
 import DropDownButton from '../../assets/icons/chevron-down.svg';
@@ -38,11 +39,13 @@ const HeaderWithLocationAndSearch = props => {
     const { navigation, title, text, setText, placeholder, keyboardType } =
         props;
     const dispatch = useDispatch();
+
     const area = useSelector(state => state.address.area);
     const defaultAddress = useSelector(state => state.address.defaultAddress);
     const locationPermission = useSelector(
         state => state.permissions.locationPermission,
     );
+    const isLocationOn = useSelector(state => state.permissions.isLocationOn);
     const [isLoading, setIsLoading] = useState(false);
     const [showRetry, setShowRetry] = useState(false);
 
@@ -79,7 +82,7 @@ const HeaderWithLocationAndSearch = props => {
         setShowRetry(false);
         setIsLoading(true);
         dispatch(checkPermission());
-        if (locationPermission === GRANTED) {
+        if (locationPermission === GRANTED && isLocationOn) {
             setIsLoading(true);
             dispatch(getDefaultAddress(setIsLoading));
         }
@@ -99,6 +102,26 @@ const HeaderWithLocationAndSearch = props => {
     };
 
     const insets = useSafeAreaInsets();
+
+    const handleAppStateChange = state => {
+        if (state === 'active' && locationPermission != GRANTED && !isLoading) {
+            setIsLoading(true);
+            dispatch(checkPermission());
+            dispatch(getDefaultAddress(setIsLoading));
+        } else if (state === 'active') {
+            dispatch(checkPermission());
+        }
+    };
+    useEffect(() => {
+        const subscription = AppState.addEventListener(
+            'change',
+            handleAppStateChange,
+        );
+
+        return () => {
+            subscription.remove();
+        };
+    }, [locationPermission]);
 
     return (
         <View
@@ -174,10 +197,11 @@ const HeaderWithLocationAndSearch = props => {
                                 </Text>
                             </View>
                         )}
-                    {locationPermission === GRANTED &&
+                    {(locationPermission === GRANTED &&
                         !defaultAddress.address &&
                         !area &&
-                        isLoading && (
+                        isLoading) ||
+                        (isLoading && locationPermission != NEVER_ASK_AGAIN && (
                             <View style={Styles.row_flex_start}>
                                 <View style={styles.address}>
                                     <Text
@@ -199,7 +223,7 @@ const HeaderWithLocationAndSearch = props => {
                                     </TouchableOpacity>
                                 )}
                             </View>
-                        )}
+                        ))}
                     {locationPermission === DENIED && (
                         <View>
                             <View style={styles.locationPermission}>

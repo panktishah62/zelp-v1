@@ -66,7 +66,7 @@ const NewOrderDetailsScreen = ({ route, navigation }) => {
         <View style={styles.wrapper}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.container}>
-                    <LocationCard address={orderDetails.cart.address} />
+                    <LocationCard address={orderDetails.cart.addressObj} />
                     <Text
                         style={{
                             color: '#3D3D3D',
@@ -77,7 +77,10 @@ const NewOrderDetailsScreen = ({ route, navigation }) => {
                         }}>
                         Bill Details:
                     </Text>
-                    <OrderItemDetailsCard itemsDetails={order.cart.foodItems} />
+                    <OrderItemDetailsCard
+                        itemsDetails={order.cart.foodItems}
+                        currency={orderDetails?.cart?.addressObj?.currency}
+                    />
                     <PaymentSummary
                         referenceId={orderDetails?.referenceId}
                         orderValue={orderDetails?.cart?.totalItemsPrice}
@@ -93,6 +96,7 @@ const NewOrderDetailsScreen = ({ route, navigation }) => {
                             orderDetails?.cart?.referralCoinsUsed
                         }
                         couponDiscount={orderDetails?.cart?.couponDiscount}
+                        currency={orderDetails?.cart?.addressObj?.currency}
                     />
                     <RectangularFullscreenBtn
                         title="TRACK ORDER"

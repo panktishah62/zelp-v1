@@ -40,6 +40,17 @@ const CustomPhoneNumberInput = props => {
         }
     }, [value, countryCode]);
 
+    const handlePhoneInputChange = input => {
+        // Remove any spaces and extract only the last 10 digits
+        let phoneNumber = input.replace(/\s/g, '');
+        phoneNumber = phoneNumber.slice(-10);
+
+        // setValue(phoneNumber);
+        if (phoneNumber.length <= 10) {
+            setValue(phoneNumber);
+        }
+    };
+
     return (
         <View style={{ marginVertical: 5 }}>
             {label && <Text style={styles.text}>{label}</Text>}
@@ -59,12 +70,12 @@ const CustomPhoneNumberInput = props => {
                     <Text style={styles.callingCode}>+{callingCode}</Text>
                 </TouchableOpacity>
                 <TextInput
-                    maxLength={10}
+                    maxLength={15}
                     style={[styles.textContainerStyle]}
                     placeholder={'Enter Phone Number'}
                     value={value}
                     onChangeText={_text => {
-                        setValue(_text);
+                        handlePhoneInputChange(_text);
                     }}
                     placeholderTextColor={colors.GREY_MEDIUM}
                     keyboardType={'numeric'}

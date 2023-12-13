@@ -47,10 +47,7 @@ import RemoteConfigService from '../../redux/services/remoteConfigService';
 const PaymentsScreen = props => {
     const { navigation, route } = props;
     const dispatch = useDispatch();
-    const isCODAvailable =
-        RemoteConfigService.getRemoteValue('isCODAvailable').asBoolean();
     const [isLoading, setIsLoading] = useState(false);
-    const [paymentMethod, setPaymentMethod] = useState(paymentMethods.OTHERS);
     const [merchantTransactionId, setMerchantTransactionId] = useState(
         route.params && route.params.merchantTransactionId
             ? route.params.merchantTransactionId
@@ -61,6 +58,22 @@ const PaymentsScreen = props => {
     const [paymentInitiated, setPaymentInitiated] = useState(false);
 
     const cart = useSelector(state => state.cartActions);
+    const applicablePaymentMethods = JSON.parse(
+        RemoteConfigService.getRemoteValue(
+            'applicablePaymentMethods',
+        ).asString(),
+    );
+    const availablePaymentMethod = Object.keys(
+        applicablePaymentMethods,
+    ).includes(cart?.address?.countryCode)
+        ? applicablePaymentMethods[cart?.address?.countryCode]
+        : ['OTHERS', 'COD'];
+
+    const [paymentMethod, setPaymentMethod] = useState(
+        availablePaymentMethod?.length > 0
+            ? availablePaymentMethod[0]
+            : paymentMethods.OTHERS,
+    );
     const appState = useRef(AppState.currentState);
     const isFocused = useIsFocused();
     let intervalId;
@@ -407,43 +420,61 @@ const PaymentsScreen = props => {
                                     Preferred Payment Method
                                 </Text>
                                 <View style={styles.innerContainer}>
-                                    <TouchableWithoutFeedback
-                                        onPress={() => {
-                                            onChangePaymentMethod(
-                                                paymentMethods.OTHERS,
-                                            );
-                                        }}>
-                                        <View
-                                            style={[
-                                                styles.paymentMode,
-                                                {
-                                                    borderBottomWidth:
-                                                        isCODAvailable ? 1 : 0,
-                                                },
-                                            ]}>
-                                            <View style={styles.leftContainer}>
-                                                <Image
-                                                    source={require('../../assets/icons/onlinePay.png')}
-                                                    style={styles.iconImage}
-                                                />
-                                                <Text
-                                                    style={styles.subtitleText}>
-                                                    Pay using wallet / card
-                                                </Text>
-                                            </View>
-                                            <View style={styles.rightContainer}>
-                                                {paymentMethod && (
-                                                    <RadioButton
-                                                        isActive={
-                                                            paymentMethod ==
-                                                            paymentMethods.OTHERS
-                                                        }
+                                    {availablePaymentMethod?.includes(
+                                        'OTHERS',
+                                    ) && (
+                                        <TouchableWithoutFeedback
+                                            onPress={() => {
+                                                onChangePaymentMethod(
+                                                    paymentMethods.OTHERS,
+                                                );
+                                            }}>
+                                            <View
+                                                style={[
+                                                    styles.paymentMode,
+                                                    {
+                                                        borderBottomWidth:
+                                                            availablePaymentMethod?.includes(
+                                                                'COD',
+                                                            )
+                                                                ? 1
+                                                                : 0,
+                                                    },
+                                                ]}>
+                                                <View
+                                                    style={
+                                                        styles.leftContainer
+                                                    }>
+                                                    <Image
+                                                        source={require('../../assets/icons/onlinePay.png')}
+                                                        style={styles.iconImage}
                                                     />
-                                                )}
+                                                    <Text
+                                                        style={
+                                                            styles.subtitleText
+                                                        }>
+                                                        Pay using wallet / card
+                                                    </Text>
+                                                </View>
+                                                <View
+                                                    style={
+                                                        styles.rightContainer
+                                                    }>
+                                                    {paymentMethod && (
+                                                        <RadioButton
+                                                            isActive={
+                                                                paymentMethod ==
+                                                                paymentMethods.OTHERS
+                                                            }
+                                                        />
+                                                    )}
+                                                </View>
                                             </View>
-                                        </View>
-                                    </TouchableWithoutFeedback>
-                                    {isCODAvailable && (
+                                        </TouchableWithoutFeedback>
+                                    )}
+                                    {availablePaymentMethod?.includes(
+                                        'COD',
+                                    ) && (
                                         <TouchableWithoutFeedback
                                             onPress={() => {
                                                 onChangePaymentMethod(

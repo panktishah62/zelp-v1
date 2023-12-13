@@ -13,11 +13,17 @@ const SelectLocation = ({ route, navigation }) => {
         setAddressUrl,
         geoLocationSearch,
         setGeoLocationSearch,
+        setCountryCode,
     } = route.params;
 
-    const setAddressChange = (changedAddress, changedGeoLocationSearch) => {
+    const setAddressChange = (
+        changedAddress,
+        changedGeoLocationSearch,
+        selectedCountryCode,
+    ) => {
         setAddressUrl(changedAddress);
         setGeoLocationSearch(changedGeoLocationSearch);
+        setCountryCode(selectedCountryCode);
         navigation.goBack();
     };
 

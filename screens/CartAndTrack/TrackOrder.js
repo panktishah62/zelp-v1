@@ -185,7 +185,9 @@ const TrackOrderScreen = ({ route, navigation }) => {
                     />
                     <View style={styles.detailsContainer}>
                         <LocationCard
-                            address={currentOrder?.currentOrder?.cart?.address}
+                            address={
+                                currentOrder?.currentOrder?.cart?.addressObj
+                            }
                         />
                         <CustomerCareCard
                             number={serverData?.config?.contactNo}

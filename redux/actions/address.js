@@ -22,9 +22,15 @@ import {
     RESET_ADDRESS,
     FETCH_DATA_FAILURE_ADDRESS,
     RESET_ADDRESS_ERROR,
+    CHECK_LOCATION_PERMISSION,
+    IS_LOCATION_ON,
 } from '../constants';
 import { Alert } from 'react-native';
-import { DialogTypes, getCoordinatesFromGoogleMapUrl } from '../../utils';
+import {
+    DialogTypes,
+    NEVER_ASK_AGAIN,
+    getCoordinatesFromGoogleMapUrl,
+} from '../../utils';
 import { changeCartAddress } from './cartActions';
 import { hideDialog, showDialog } from './dialog';
 import {
@@ -130,37 +136,49 @@ export const setDefaultAddressTo = (addressId, fun) => {
 export const getDefaultAddress = (setIsLoading, navigation) => {
     return async dispatch => {
         const checkLocationMismatch = savedAddress => {
-            Geolocation.getCurrentPosition(async location => {
-                const { latitude, longitude } = location?.coords;
-                const distance = getDistance(
-                    { latitude, longitude },
-                    savedAddress,
-                );
-                if (
-                    distance >
-                    RemoteConfigService.getRemoteValue(
-                        'UserLocationRadius',
-                    )?.asNumber()
-                ) {
-                    if (navigation) {
-                        dispatch(
-                            showDialog({
-                                isVisible: true,
-                                titleText: `Ordering for someone else?`,
-                                subTitleText: `Your Current Location is different from your saved address. Add this address to see all Restaurants available in this location!`,
-                                buttonText1: 'CLOSE',
-                                buttonText2: 'ADD ADDRESS',
-                                buttonFunction2: () => {
-                                    dispatch(getAllAddress());
-                                    dispatch(hideDialog());
-                                    navigation.navigate('Address');
-                                },
-                                type: DialogTypes.DEFAULT,
-                            }),
-                        );
+            Geolocation.getCurrentPosition(
+                async location => {
+                    const { latitude, longitude } = location?.coords;
+                    const distance = getDistance(
+                        { latitude, longitude },
+                        savedAddress,
+                    );
+                    if (
+                        distance >
+                        RemoteConfigService.getRemoteValue(
+                            'UserLocationRadius',
+                        )?.asNumber()
+                    ) {
+                        if (navigation) {
+                            dispatch(
+                                showDialog({
+                                    isVisible: true,
+                                    titleText: `Ordering for someone else?`,
+                                    subTitleText: `Your Current Location is different from your saved address. Add this address to see all Restaurants available in this location!`,
+                                    buttonText1: 'CLOSE',
+                                    buttonText2: 'ADD ADDRESS',
+                                    buttonFunction2: () => {
+                                        dispatch(getAllAddress());
+                                        dispatch(hideDialog());
+                                        navigation.navigate('Address');
+                                    },
+                                    type: DialogTypes.DEFAULT,
+                                }),
+                            );
+                        }
                     }
-                }
-            });
+                },
+                error => {
+                    dispatch({
+                        type: CHECK_LOCATION_PERMISSION,
+                        payload: NEVER_ASK_AGAIN,
+                    });
+                    dispatch({
+                        type: IS_LOCATION_ON,
+                        payload: false,
+                    });
+                },
+            );
         };
 
         try {
@@ -283,56 +301,68 @@ export const getUserLocation = setIsLoading => {
                 }
             }
 
-            Geolocation.getCurrentPosition(async location => {
-                /*     using openstreetmap     */
-                // const response = await fetch(
-                //     `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${location.coords.latitude}&lon=${location.coords.longitude}&zoom=18&addressdetails=1`,
-                // );
-                // const data = await response.json();
-                // const area = data.display_name;
-                // dispatch({
-                //     type: GET_LOCATION_SUCCESS,
-                //     payload: {
-                //         location: {
-                //             latitude: data.lat,
-                //             longitude: data.lon,
-                //         },
-                //         googleMapsLink: googleMapsLink,
-                //         area: area,
-                //     },
-                // });
+            Geolocation.getCurrentPosition(
+                async location => {
+                    /*     using openstreetmap     */
+                    // const response = await fetch(
+                    //     `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${location.coords.latitude}&lon=${location.coords.longitude}&zoom=18&addressdetails=1`,
+                    // );
+                    // const data = await response.json();
+                    // const area = data.display_name;
+                    // dispatch({
+                    //     type: GET_LOCATION_SUCCESS,
+                    //     payload: {
+                    //         location: {
+                    //             latitude: data.lat,
+                    //             longitude: data.lon,
+                    //         },
+                    //         googleMapsLink: googleMapsLink,
+                    //         area: area,
+                    //     },
+                    // });
 
-                // Use Geocoding API to get location information
-                const response = await fetch(
-                    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.coords?.latitude},${location?.coords?.longitude}&key=${GOOGLE_MAPS_APIKEY}`,
-                );
-                const data = await response.json();
+                    // Use Geocoding API to get location information
+                    const response = await fetch(
+                        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.coords?.latitude},${location?.coords?.longitude}&key=${GOOGLE_MAPS_APIKEY}`,
+                    );
+                    const data = await response.json();
 
-                // Extract area from location information
-                const area = data.results[0].address_components.find(
-                    component =>
-                        component.types.includes('neighborhood') ||
-                        component.types.includes('sublocality') ||
-                        component.types.includes('locality'),
-                ).long_name;
+                    // Extract area from location information
+                    const area = data.results[0].address_components.find(
+                        component =>
+                            component.types.includes('neighborhood') ||
+                            component.types.includes('sublocality') ||
+                            component.types.includes('locality'),
+                    ).long_name;
 
-                const googleMapsLink = `https://www.google.com/maps?q=${data.lat},${data.lon}`;
+                    const googleMapsLink = `https://www.google.com/maps?q=${data.lat},${data.lon}`;
 
-                dispatch({
-                    type: GET_LOCATION_SUCCESS,
-                    payload: {
-                        location: {
-                            latitude: location.coords.latitude,
-                            longitude: location.coords.longitude,
+                    dispatch({
+                        type: GET_LOCATION_SUCCESS,
+                        payload: {
+                            location: {
+                                latitude: location.coords.latitude,
+                                longitude: location.coords.longitude,
+                            },
+                            googleMapsLink: googleMapsLink,
+                            area: area,
                         },
-                        googleMapsLink: googleMapsLink,
-                        area: area,
-                    },
-                });
-                if (setIsLoading) {
-                    setIsLoading(false);
-                }
-            });
+                    });
+                    if (setIsLoading) {
+                        setIsLoading(false);
+                    }
+                },
+                error => {
+                    dispatch({
+                        type: CHECK_LOCATION_PERMISSION,
+                        payload: NEVER_ASK_AGAIN,
+                    });
+                    dispatch({
+                        type: IS_LOCATION_ON,
+                        payload: false,
+                    });
+                },
+            );
         } catch (error) {
             Alert.alert(
                 'Error',
