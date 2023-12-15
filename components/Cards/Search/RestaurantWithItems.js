@@ -13,6 +13,7 @@ import Star from '../../../assets/icons/Star.svg';
 import ShowMore from '../../../assets/icons/backRight.svg';
 import FoodItems from './FoodItem';
 import { isTimeInIntervals } from '../../../utils';
+import Currency from '../../Currency';
 
 const RestaurantWithItems = props => {
     const { restaurant, items, navigation } = props;
@@ -94,6 +95,7 @@ const RestaurantWithItems = props => {
                             fonts.NUNITO_700_12,
                             { color: colors.GREY_MEDIUM },
                         ]}>
+                        <Currency currency={items[0]?.restaurant?.currency} />
                         {items[0]?.restaurant.costOfTwo} for one
                     </Text>
                 )}
