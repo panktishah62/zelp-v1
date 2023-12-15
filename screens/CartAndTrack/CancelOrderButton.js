@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { AppState, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { colors } from '../../styles/colors';
 import { dynamicSize } from '../../utils/responsive';
 import { cancelOrder } from '../../redux/actions/currentOrder';
@@ -20,8 +20,33 @@ const CancelOrderButton = ({ orderTime, orderId, timeToCancel }) => {
             }, 1000);
         }
 
+        const handleAppStateChange = nextAppState => {
+            if (nextAppState === 'active') {
+                // App has come to the foreground, restart the timer if it's still running
+                if (timeLeft > 0) {
+                    const remainingTime =
+                        timeToCancel -
+                        parseInt((new Date() - new Date(orderTime)) / 1000, 10);
+                    setTimeLeft(remainingTime);
+                    interval = setInterval(() => {
+                        setTimeLeft(remainingTime - 1);
+                    }, 1000);
+                    // interval = setInterval(handleInterval, 1000);
+                }
+            } else {
+                // App has gone to the background, clear the interval
+                clearInterval(interval);
+            }
+        };
+
+        const appFocusSubscription = AppState.addEventListener(
+            'change',
+            handleAppStateChange,
+        );
+
         return () => {
             clearInterval(interval);
+            appFocusSubscription.remove();
         };
     }, [timeLeft]);
 

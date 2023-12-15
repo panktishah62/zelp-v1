@@ -99,6 +99,8 @@ export const SET_HEADER_WITH_LOCATION_HEIGHT =
 export const SET_INTERNET_AVAILABILITY = 'SET_INTERNET_AVAILABILITY';
 export const SHOW_DIALOG = 'SHOW_DIALOG';
 export const HIDE_DIALOG = 'HIDE_DIALOG';
+export const IS_DIALOG_DISMISSABLE = 'IS_DIALOG_DISMISSABLE';
+export const VIBRATE_DIALOG = 'VIBRATE_DIALOG';
 export const MENU_MODAL = 'MENU_MODAL';
 
 //subscription page constants starts from here

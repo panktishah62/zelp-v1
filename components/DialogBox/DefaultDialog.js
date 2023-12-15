@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Animated, Image, StyleSheet, View } from 'react-native';
 import {
     Button,
     Dialog,
@@ -8,7 +8,7 @@ import {
     Text,
 } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { hideDialog } from '../../redux/actions/dialog';
+import { hideDialog, vibrateDialog } from '../../redux/actions/dialog';
 import { colors, theme } from '../../styles/colors';
 import { DialogTypes } from '../../utils';
 import { dimensions } from '../../styles';
@@ -34,6 +34,44 @@ const DefaultDialog = props => {
         dispatch(hideDialog());
     };
 
+    const shakeAnimation = React.useRef(new Animated.Value(0)).current;
+
+    const startVibrationAnimation = () => {
+        Animated.sequence([
+            Animated.timing(shakeAnimation, {
+                toValue: 10,
+                duration: 50,
+                useNativeDriver: true,
+            }),
+            Animated.timing(shakeAnimation, {
+                toValue: -10,
+                duration: 50,
+                useNativeDriver: true,
+            }),
+            Animated.timing(shakeAnimation, {
+                toValue: 10,
+                duration: 50,
+                useNativeDriver: true,
+            }),
+            Animated.timing(shakeAnimation, {
+                toValue: 0,
+                duration: 50,
+                useNativeDriver: true,
+            }),
+        ]).start();
+    };
+
+    React.useEffect(() => {
+        startVibrationAnimation();
+    }, []); // Run the animation once when the component mounts
+
+    React.useEffect(() => {
+        if (dialog?.vibrate) {
+            startVibrationAnimation();
+            dispatch(vibrateDialog(false));
+        }
+    }, [dialog?.vibrate]);
+
     React.useEffect(() => {
         setType(dialog?.type);
         if (dialog?.type === DialogTypes.SUCCESS) {
@@ -58,166 +96,179 @@ const DefaultDialog = props => {
             setButtonOpacity(1);
         }
     }, [dialog?.type]);
+
     return (
         dialog && (
             <Portal>
-                <Dialog
-                    visible={dialog?.isVisible}
-                    onDismiss={_hideDialog}
-                    style={styles.container}>
-                    {icon && (
-                        <Dialog.Content style={styles.iconContainer}>
-                            <Image source={icon} style={styles.icon} />
-                        </Dialog.Content>
-                    )}
-                    <View
-                        style={[
-                            type != DialogTypes.DEFAULT &&
-                                styles.titleContainerStyles,
-                            dialog?.titleContainerStyles &&
-                                dialog?.titleContainerStyles,
-                        ]}>
-                        {dialog?.titleText && (
-                            <Dialog.Title
+                {dialog?.isVisible && (
+                    <Animated.View
+                        style={{
+                            transform: [{ translateX: shakeAnimation }],
+                            flex: 1,
+                        }}>
+                        <Dialog
+                            visible={dialog?.isVisible}
+                            onDismiss={_hideDialog}
+                            dismissable={dialog?.dismissable}
+                            style={styles.container}>
+                            {icon && (
+                                <Dialog.Content style={styles.iconContainer}>
+                                    <Image source={icon} style={styles.icon} />
+                                </Dialog.Content>
+                            )}
+                            <View
                                 style={[
-                                    dialog?.type != DialogTypes.DEFAULT
-                                        ? styles.textAlignCenter
-                                        : styles.textAlignLeft,
-                                    dialog?.titleTextStyles,
+                                    type != DialogTypes.DEFAULT &&
+                                        styles.titleContainerStyles,
+                                    dialog?.titleContainerStyles &&
+                                        dialog?.titleContainerStyles,
                                 ]}>
-                                {dialog?.iconAroundTitle && (
-                                    <Image
-                                        source={{
-                                            uri: dialog?.iconAroundTitle,
-                                        }}
+                                {dialog?.titleText && (
+                                    <Dialog.Title
                                         style={[
-                                            styles.imageIcon,
-                                            dialog?.iconAroundTitleStyles,
-                                        ]}
-                                    />
+                                            dialog?.type != DialogTypes.DEFAULT
+                                                ? styles.textAlignCenter
+                                                : styles.textAlignLeft,
+                                            dialog?.titleTextStyles,
+                                        ]}>
+                                        {dialog?.iconAroundTitle && (
+                                            <Image
+                                                source={{
+                                                    uri: dialog?.iconAroundTitle,
+                                                }}
+                                                style={[
+                                                    styles.imageIcon,
+                                                    dialog?.iconAroundTitleStyles,
+                                                ]}
+                                            />
+                                        )}
+                                        <Text>{dialog.titleText}</Text>
+                                        {dialog?.iconAroundTitle && (
+                                            <Image
+                                                source={{
+                                                    uri: dialog?.iconAroundTitle,
+                                                }}
+                                                style={[
+                                                    styles.imageIcon,
+                                                    dialog?.iconAroundTitleStyles,
+                                                ]}
+                                            />
+                                        )}
+                                    </Dialog.Title>
                                 )}
-                                <Text>{dialog.titleText}</Text>
-                                {dialog?.iconAroundTitle && (
-                                    <Image
-                                        source={{
-                                            uri: dialog?.iconAroundTitle,
-                                        }}
-                                        style={[
-                                            styles.imageIcon,
-                                            dialog?.iconAroundTitleStyles,
-                                        ]}
-                                    />
-                                )}
-                            </Dialog.Title>
-                        )}
-                    </View>
+                            </View>
 
-                    {(dialog?.subTitleText || dialog?.subTitleTextLine2) && (
-                        <Dialog.Content>
-                            {dialog?.subTitleText && (
-                                <Text
-                                    variant="bodyMedium"
-                                    style={[
-                                        type != DialogTypes.DEFAULT
-                                            ? styles.textAlignCenter
-                                            : styles.textAlignLeft,
-                                        dialog?.subTitleTextStyles,
-                                    ]}>
-                                    {dialog.subTitleText}
-                                </Text>
+                            {(dialog?.subTitleText ||
+                                dialog?.subTitleTextLine2) && (
+                                <Dialog.Content>
+                                    {dialog?.subTitleText && (
+                                        <Text
+                                            variant="bodyMedium"
+                                            style={[
+                                                type != DialogTypes.DEFAULT
+                                                    ? styles.textAlignCenter
+                                                    : styles.textAlignLeft,
+                                                dialog?.subTitleTextStyles,
+                                            ]}>
+                                            {dialog.subTitleText}
+                                        </Text>
+                                    )}
+                                    {dialog?.subTitleTextLine2 && (
+                                        <Text
+                                            variant="bodyMedium"
+                                            style={[
+                                                type != DialogTypes.DEFAULT
+                                                    ? styles.textAlignCenter
+                                                    : styles.textAlignLeft,
+                                                dialog?.subTitleTextLine2Styles,
+                                            ]}>
+                                            {dialog.subTitleTextLine2}
+                                        </Text>
+                                    )}
+                                </Dialog.Content>
                             )}
-                            {dialog?.subTitleTextLine2 && (
-                                <Text
-                                    variant="bodyMedium"
-                                    style={[
-                                        type != DialogTypes.DEFAULT
-                                            ? styles.textAlignCenter
-                                            : styles.textAlignLeft,
-                                        dialog?.subTitleTextLine2Styles,
-                                    ]}>
-                                    {dialog.subTitleTextLine2}
-                                </Text>
-                            )}
-                        </Dialog.Content>
-                    )}
-                    {(dialog?.buttonText1 || dialog?.buttonText2) && (
-                        <Dialog.Actions
-                            style={
-                                type != DialogTypes.DEFAULT
-                                    ? styles.buttonCenter
-                                    : styles.buttonRight
-                            }>
-                            {dialog?.buttonText1 && (
-                                <Button
-                                    onPress={
-                                        dialog?.buttonFunction1
-                                            ? dialog?.buttonFunction1
-                                            : _hideDialog
-                                    }
+                            {(dialog?.buttonText1 || dialog?.buttonText2) && (
+                                <Dialog.Actions
                                     style={
                                         type != DialogTypes.DEFAULT
-                                            ? [
-                                                  styles.buttonPrimary,
-                                                  {
-                                                      backgroundColor:
-                                                          primaryColor,
-                                                      opacity: buttonOpacity,
-                                                  },
-                                              ]
-                                            : styles.buttonSecondary
+                                            ? styles.buttonCenter
+                                            : styles.buttonRight
                                     }>
-                                    <Text
-                                        style={
-                                            type != DialogTypes.DEFAULT
-                                                ? [
-                                                      styles.buttonTextPrimary,
-                                                      {
-                                                          color: primaryColorText,
-                                                      },
-                                                  ]
-                                                : styles.buttonTextSecondary
-                                        }>
-                                        {dialog.buttonText1}
-                                    </Text>
-                                </Button>
+                                    {dialog?.buttonText1 && (
+                                        <Button
+                                            onPress={
+                                                dialog?.buttonFunction1
+                                                    ? dialog?.buttonFunction1
+                                                    : _hideDialog
+                                            }
+                                            style={
+                                                type != DialogTypes.DEFAULT
+                                                    ? [
+                                                          styles.buttonPrimary,
+                                                          {
+                                                              backgroundColor:
+                                                                  primaryColor,
+                                                              opacity:
+                                                                  buttonOpacity,
+                                                          },
+                                                      ]
+                                                    : styles.buttonSecondary
+                                            }>
+                                            <Text
+                                                style={
+                                                    type != DialogTypes.DEFAULT
+                                                        ? [
+                                                              styles.buttonTextPrimary,
+                                                              {
+                                                                  color: primaryColorText,
+                                                              },
+                                                          ]
+                                                        : styles.buttonTextSecondary
+                                                }>
+                                                {dialog.buttonText1}
+                                            </Text>
+                                        </Button>
+                                    )}
+                                    {dialog?.buttonText2 && (
+                                        <Button
+                                            onPress={
+                                                dialog?.buttonFunction2
+                                                    ? dialog?.buttonFunction2
+                                                    : _hideDialog
+                                            }
+                                            style={
+                                                type != DialogTypes.DEFAULT
+                                                    ? [
+                                                          styles.buttonPrimary,
+                                                          {
+                                                              backgroundColor:
+                                                                  primaryColor,
+                                                              opacity:
+                                                                  buttonOpacity,
+                                                          },
+                                                      ]
+                                                    : styles.buttonSecondary
+                                            }>
+                                            <Text
+                                                style={
+                                                    type != DialogTypes.DEFAULT
+                                                        ? [
+                                                              styles.buttonTextPrimary,
+                                                              {
+                                                                  color: primaryColorText,
+                                                              },
+                                                          ]
+                                                        : styles.buttonTextSecondary
+                                                }>
+                                                {dialog.buttonText2}
+                                            </Text>
+                                        </Button>
+                                    )}
+                                </Dialog.Actions>
                             )}
-                            {dialog?.buttonText2 && (
-                                <Button
-                                    onPress={
-                                        dialog?.buttonFunction2
-                                            ? dialog?.buttonFunction2
-                                            : _hideDialog
-                                    }
-                                    style={
-                                        type != DialogTypes.DEFAULT
-                                            ? [
-                                                  styles.buttonPrimary,
-                                                  {
-                                                      backgroundColor:
-                                                          primaryColor,
-                                                      opacity: buttonOpacity,
-                                                  },
-                                              ]
-                                            : styles.buttonSecondary
-                                    }>
-                                    <Text
-                                        style={
-                                            type != DialogTypes.DEFAULT
-                                                ? [
-                                                      styles.buttonTextPrimary,
-                                                      {
-                                                          color: primaryColorText,
-                                                      },
-                                                  ]
-                                                : styles.buttonTextSecondary
-                                        }>
-                                        {dialog.buttonText2}
-                                    </Text>
-                                </Button>
-                            )}
-                        </Dialog.Actions>
-                    )}
-                </Dialog>
+                        </Dialog>
+                    </Animated.View>
+                )}
             </Portal>
         )
     );

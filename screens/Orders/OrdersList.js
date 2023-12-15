@@ -10,8 +10,8 @@ import {
     SafeAreaView,
 } from 'react-native';
 import { colors } from '../../styles/colors';
-import OrderCard from '../../components/Cards/Orders/OrderCard';
 import { getAllOrders } from '../../redux/services/orderService';
+import OrderCardComponent from '../../components/Cards/Orders/OrderCardComponent';
 
 const OrdersList = ({ navigation }) => {
     const LIMIT = 10;
@@ -23,15 +23,14 @@ const OrdersList = ({ navigation }) => {
 
     useEffect(() => {
         setIsLoading(true);
-        setOrders([]);
-        fetchData();
+        fetchData(1);
     }, []);
 
-    const fetchData = async () => {
-        const response = await getAllOrders(page, LIMIT);
+    const fetchData = async currentPage => {
+        const response = await getAllOrders(currentPage, LIMIT);
         if (response?.data?.orders) {
             // setOrders(response?.data?.orders);
-            if (page == 1) {
+            if (currentPage == 1) {
                 setOrders(response?.data?.orders);
             } else {
                 setOrders([...orders, ...response?.data?.orders]);
@@ -49,8 +48,8 @@ const OrdersList = ({ navigation }) => {
     const handleEndReached = () => {
         if (hasNextPage && !nextPageLoading) {
             setNextPageLoading(true);
+            fetchData(page + 1);
             setPage(page + 1);
-            fetchData();
         }
     };
 
@@ -61,7 +60,10 @@ const OrdersList = ({ navigation }) => {
                     <FlatList
                         data={orders}
                         renderItem={({ item }) => (
-                            <OrderCard order={item} navigation={navigation} />
+                            <OrderCardComponent
+                                order={item}
+                                navigation={navigation}
+                            />
                         )}
                         keyExtractor={(item, index) => index.toString()}
                         showsVerticalScrollIndicator={false}

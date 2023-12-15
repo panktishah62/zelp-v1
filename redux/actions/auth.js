@@ -122,12 +122,14 @@ export const logout = () => {
 export const verifyOTP = (
     mobNo,
     otp,
+    countryCode,
+    callingCode,
     navigation,
     setIsLoading,
     onPressShare,
 ) => {
     return async dispatch => {
-        await verifyOtp({ mobNo, otp })
+        await verifyOtp({ mobNo, otp, countryCode, callingCode })
             .then(response => response?.data)
             .then(async data => {
                 if (data?.status === 'success' && data?.token) {

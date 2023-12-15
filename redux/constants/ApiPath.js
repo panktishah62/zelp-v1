@@ -2,7 +2,7 @@ export default {
     //SignUp
     signUpUser: 'users/signup',
     signInUser: 'users/signin',
-    verifyOTP: 'users/verify',
+    verifyOTP: 'users/verifyUpdated',
     resendOTP: 'users/verify',
 
     //address

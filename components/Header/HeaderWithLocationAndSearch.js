@@ -40,7 +40,7 @@ const HeaderWithLocationAndSearch = props => {
 
     useEffect(() => {
         setIsLoading(true);
-        dispatch(getUserCurrentOrSavedLocation(setIsLoading));
+        dispatch(getUserCurrentOrSavedLocation(setIsLoading, navigation));
     }, [navigation, locationPermission]);
 
     useEffect(() => {
@@ -59,12 +59,12 @@ const HeaderWithLocationAndSearch = props => {
     const retry = () => {
         setShowRetry(false);
         setIsLoading(true);
-        dispatch(getUserCurrentOrSavedLocation(setIsLoading));
+        dispatch(getUserCurrentOrSavedLocation(setIsLoading, navigation));
     };
 
     const requestPermission = () => {
         setIsLoading(true);
-        dispatch(getUserCurrentOrSavedLocation(setIsLoading));
+        dispatch(getUserCurrentOrSavedLocation(setIsLoading, navigation));
     };
 
     const onLayout = event => {
@@ -152,33 +152,29 @@ const HeaderWithLocationAndSearch = props => {
                                 </Text>
                             </View>
                         )}
-                    {(locationPermission === GRANTED &&
-                        !defaultAddress.address &&
-                        !area &&
-                        isLoading) ||
-                        (isLoading && (
-                            <View style={Styles.row_flex_start}>
-                                <View style={styles.address}>
-                                    <Text
-                                        style={[
-                                            fonts.NUNITO_700_14,
-                                            Styles.default_text_color,
-                                        ]}>
-                                        Searching For You...
-                                    </Text>
-                                </View>
-                                {showRetry && (
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            retry();
-                                        }}>
-                                        <Text style={styles.retryButton}>
-                                            Retry
-                                        </Text>
-                                    </TouchableOpacity>
-                                )}
+                    {isLoading && (
+                        <View style={Styles.row_flex_start}>
+                            <View style={styles.address}>
+                                <Text
+                                    style={[
+                                        fonts.NUNITO_700_14,
+                                        Styles.default_text_color,
+                                    ]}>
+                                    Searching For You...
+                                </Text>
                             </View>
-                        ))}
+                            {showRetry && (
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        retry();
+                                    }}>
+                                    <Text style={styles.retryButton}>
+                                        Retry
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
+                        </View>
+                    )}
                     {!isLoading && locationPermission === DENIED && isGPSOn && (
                         <View>
                             <View style={styles.locationPermission}>
@@ -243,7 +239,7 @@ const HeaderWithLocationAndSearch = props => {
                                         fonts.NUNITO_500_12,
                                         Styles.default_text_color,
                                     ]}>
-                                    GPS Location...
+                                    GPS Location and retry...
                                 </Text>
                             </View>
                         </View>

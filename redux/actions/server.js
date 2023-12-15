@@ -59,6 +59,11 @@ export const getConfig = () => {
                     RemoteConfigService.getRemoteValue(
                         'minOrderValueForReferralCoins',
                     ).asNumber(),
+                countryCodeConfig: JSON.parse(
+                    RemoteConfigService.getRemoteValue(
+                        'CountryCodeConfig',
+                    ).asString(),
+                ),
             };
             dispatch({
                 type: GET_CONFIG,

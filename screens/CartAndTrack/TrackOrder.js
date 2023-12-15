@@ -193,7 +193,7 @@ const TrackOrderScreen = ({ route, navigation }) => {
                             number={serverData?.config?.contactNo}
                             order={currentOrder?.currentOrder}
                         />
-                        <TrackingNote />
+                        {currentOrder?.tracking_url != null && <TrackingNote />}
                     </View>
                 </View>
             )}

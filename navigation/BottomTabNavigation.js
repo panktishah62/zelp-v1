@@ -49,7 +49,21 @@ const BottomTabNavigation = ({ navigation }) => {
     const [initialRouteName, setInitialRouteName] = useState('Home');
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
     const userId = useSelector(state => state.auth.userId);
+    const address = useSelector(state => state.address);
+    const [showSubscriptionTab, setShowSubscriptionTab] = useState(true);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (address?.defaultAddress) {
+            if (address?.defaultAddress?.countryCode == 'IN') {
+                setShowSubscriptionTab(true);
+            } else {
+                setShowSubscriptionTab(false);
+            }
+        } else {
+            setShowSubscriptionTab(true);
+        }
+    }, [address]);
 
     // Listener
     branch.subscribe({
@@ -191,25 +205,27 @@ const BottomTabNavigation = ({ navigation }) => {
                         name="Home"
                         component={HomeScreen}
                     />
-                    <Tab.Screen
-                        options={{
-                            tabBarIcon: ({ focused, color }) => (
-                                <FrokerIcon
-                                    height={35}
-                                    focused={focused}
-                                    style={{ color: color }}
-                                />
-                            ),
-                            header: () => (
-                                // <View />
-                                <HeaderWithLocationAndSearch
-                                    navigation={navigation}
-                                />
-                            ),
-                        }}
-                        name="Subscription"
-                        component={SubscriptionPageOld}
-                    />
+                    {showSubscriptionTab && (
+                        <Tab.Screen
+                            options={{
+                                tabBarIcon: ({ focused, color }) => (
+                                    <FrokerIcon
+                                        height={35}
+                                        focused={focused}
+                                        style={{ color: color }}
+                                    />
+                                ),
+                                header: () => (
+                                    // <View />
+                                    <HeaderWithLocationAndSearch
+                                        navigation={navigation}
+                                    />
+                                ),
+                            }}
+                            name="Subscription"
+                            component={SubscriptionPageOld}
+                        />
+                    )}
                     <Tab.Screen
                         options={({ route }) => ({
                             tabBarIcon: ({ focused, color }) => (

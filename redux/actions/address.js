@@ -35,7 +35,7 @@ import {
     getCoordinatesFromGoogleMapUrl,
 } from '../../utils';
 import { changeCartAddress } from './cartActions';
-import { hideDialog, showDialog } from './dialog';
+import { hideDialog, isDialogDismissable, showDialog } from './dialog';
 import {
     addUserAddress,
     deleteUserAddress,
@@ -55,7 +55,7 @@ export const addAddress = (address, navigation, fun) => {
                 if (data) {
                     dispatch({ type: ADD_ADDRESS, payload: data.addresses });
                     dispatch(getAllAddress(fun));
-                    dispatch(getUserCurrentOrSavedLocation(null));
+                    dispatch(getUserCurrentOrSavedLocation(null, navigation));
                     navigation.goBack();
                 }
             })
@@ -73,7 +73,7 @@ export const editAddress = (address, addressId, navigation, fun) => {
                 if (data) {
                     dispatch({ type: EDIT_ADDRESS, payload: data.addresses });
                     dispatch(getAllAddress(fun));
-                    dispatch(getUserCurrentOrSavedLocation(null));
+                    dispatch(getUserCurrentOrSavedLocation(null, navigation));
                     navigation.goBack();
                 }
             })
@@ -262,14 +262,14 @@ export const getDefaultAddress = (setIsLoading, navigation) => {
     };
 };
 
-export const deleteAddress = addressId => {
+export const deleteAddress = (addressId, navigation) => {
     return async dispatch => {
         await deleteUserAddress(addressId)
             .then(response => response?.data)
             .then(data => {
                 if (data) {
                     dispatch({ type: EDIT_ADDRESS, payload: data.addresses });
-                    dispatch(getUserCurrentOrSavedLocation(null));
+                    dispatch(getUserCurrentOrSavedLocation(null, navigation));
                 }
             })
             .catch(error => {
@@ -389,6 +389,28 @@ export const resetAddressError = () => ({
 
 export const getUserCurrentOrSavedLocation = (setIsLoading, navigation) => {
     return async dispatch => {
+        const getGeolocationData = async (latitude, longitude) => {
+            return new Promise(async resolve => {
+                const response = await fetch(
+                    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_MAPS_APIKEY}`,
+                );
+                const data = await response.json();
+
+                const area = data.results[0].address_components.find(
+                    component =>
+                        component.types.includes('neighborhood') ||
+                        component.types.includes('sublocality') ||
+                        component.types.includes('locality'),
+                ).long_name;
+
+                const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                resolve({
+                    area,
+                    googleMapsLink,
+                });
+            });
+        };
+
         const getLocationCoords = async () => {
             return new Promise(async resolve => {
                 const granted = await PermissionsAndroid.request(
@@ -399,26 +421,7 @@ export const getUserCurrentOrSavedLocation = (setIsLoading, navigation) => {
                         async location => {
                             const { latitude, longitude } = location?.coords;
                             if (latitude && longitude) {
-                                const response = await fetch(
-                                    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_MAPS_APIKEY}`,
-                                );
-                                const data = await response.json();
-
-                                const area =
-                                    data.results[0].address_components.find(
-                                        component =>
-                                            component.types.includes(
-                                                'neighborhood',
-                                            ) ||
-                                            component.types.includes(
-                                                'sublocality',
-                                            ) ||
-                                            component.types.includes(
-                                                'locality',
-                                            ),
-                                    ).long_name;
-
-                                const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                                dispatch(isDialogDismissable(true));
                                 dispatch({
                                     type: CHECK_LOCATION_PERMISSION,
                                     payload: GRANTED,
@@ -431,13 +434,8 @@ export const getUserCurrentOrSavedLocation = (setIsLoading, navigation) => {
                                     type: IS_GPS_ON,
                                     payload: true,
                                 });
-                                resolve({
-                                    latitude,
-                                    longitude,
-                                    area,
-                                    googleMapsLink,
-                                });
-                            } else {
+                                resolve({ latitude, longitude });
+                            } else if (!latitude || !longitude) {
                                 dispatch({
                                     type: FETCH_DATA_FAILURE_ADDRESS,
                                     payload: 'Location not accessable',
@@ -446,22 +444,34 @@ export const getUserCurrentOrSavedLocation = (setIsLoading, navigation) => {
                             }
                         },
                         error => {
-                            dispatch(
-                                showDialog({
-                                    isVisible: true,
-                                    titleText:
-                                        'Please Turn On device GPS Location!',
-                                    subTitleText:
-                                        'We will be able to give better experience by accessing your location',
-                                    buttonText1: 'CLOSE',
-                                    type: DialogTypes.WARNING,
-                                }),
-                            );
                             dispatch({
                                 type: IS_GPS_ON,
                                 payload: false,
                             });
-                            if (setIsLoading) setIsLoading(false);
+                            if (setIsLoading) {
+                                setIsLoading(false);
+                            }
+                            dispatch(
+                                showDialog({
+                                    isVisible: true,
+                                    titleText:
+                                        'Please Turn On device GPS Location and Retry!',
+                                    subTitleText:
+                                        'We will be able to give better experience by accessing your location',
+                                    buttonText1: 'Retry',
+                                    buttonFunction1: () => {
+                                        dispatch(
+                                            getUserCurrentOrSavedLocation(
+                                                setIsLoading,
+                                                navigation,
+                                            ),
+                                        );
+                                    },
+                                    dismissable: false,
+                                    vibrate: true,
+                                    type: DialogTypes.WARNING,
+                                }),
+                            );
                             resolve(null);
                         },
                     );
@@ -475,8 +485,12 @@ export const getUserCurrentOrSavedLocation = (setIsLoading, navigation) => {
                             titleText: 'Please Turn On Your Location!',
                             subTitleText:
                                 'Open the app again after turning on location',
-                            buttonText1: 'CLOSE',
+                            buttonText1: 'Open Settings',
                             type: DialogTypes.WARNING,
+                            buttonFunction1: () => {
+                                Linking.openSettings();
+                                dispatch(hideDialog());
+                            },
                         }),
                     );
                     dispatch({
@@ -496,8 +510,18 @@ export const getUserCurrentOrSavedLocation = (setIsLoading, navigation) => {
                             titleText: 'Please Turn On Your Location!',
                             subTitleText:
                                 'Open the app again after turning on location',
-                            buttonText1: 'CLOSE',
+                            buttonText1: 'Tap Here To Allow',
                             type: DialogTypes.WARNING,
+                            buttonFunction1: () => {
+                                dispatch(
+                                    getUserCurrentOrSavedLocation(
+                                        setIsLoading,
+                                        navigation,
+                                        true,
+                                    ),
+                                );
+                                dispatch(hideDialog());
+                            },
                         }),
                     );
                     dispatch({
@@ -549,12 +573,19 @@ export const getUserCurrentOrSavedLocation = (setIsLoading, navigation) => {
                     });
 
                     const geoObject = await getLocationCoords();
+                    const geolocationData =
+                        geoObject &&
+                        (await getGeolocationData(
+                            geoObject.latitude,
+                            geoObject.longitude,
+                        ));
                     if (
                         geoObject &&
+                        geolocationData &&
                         geoObject.latitude &&
                         geoObject.longitude &&
-                        geoObject.googleMapsLink &&
-                        geoObject.area
+                        geolocationData.googleMapsLink &&
+                        geolocationData.area
                     ) {
                         dispatch({
                             type: GET_LOCATION_SUCCESS,
@@ -563,8 +594,8 @@ export const getUserCurrentOrSavedLocation = (setIsLoading, navigation) => {
                                     latitude: geoObject.latitude,
                                     longitude: geoObject.longitude,
                                 },
-                                googleMapsLink: geoObject.googleMapsLink,
-                                area: geoObject.area,
+                                googleMapsLink: geolocationData.googleMapsLink,
+                                area: geolocationData.area,
                             },
                         });
                         if (setIsLoading) setIsLoading(false);
@@ -585,28 +616,72 @@ export const getUserCurrentOrSavedLocation = (setIsLoading, navigation) => {
 
                     if (setIsLoading) setIsLoading(false);
                 } else {
+                    const savedAddress = await getSavedAddress();
+
                     const geoObject = await getLocationCoords();
+                    if (
+                        savedAddress &&
+                        geoObject?.latitude &&
+                        geoObject?.longitude
+                    ) {
+                        const location = getCoordinatesFromGoogleMapUrl(
+                            savedAddress.geoLocation,
+                        );
 
-                    if (geoObject) {
-                        const savedAddress = await getSavedAddress();
+                        const distance = getDistance(
+                            {
+                                latitude: geoObject?.latitude,
+                                longitude: geoObject?.longitude,
+                            },
+                            location,
+                        );
+                        if (
+                            distance >
+                            RemoteConfigService.getRemoteValue(
+                                'UserLocationRadius',
+                            )?.asNumber()
+                        ) {
+                            if (navigation) {
+                                dispatch(
+                                    showDialog({
+                                        isVisible: true,
+                                        titleText: `Ordering for someone else?`,
+                                        subTitleText: `Your Current Location is different from your saved address. Add this address to see all Restaurants available in this location!`,
+                                        buttonText1: 'CLOSE',
+                                        buttonText2: 'ADD ADDRESS',
+                                        buttonFunction2: () => {
+                                            dispatch(getAllAddress());
+                                            dispatch(hideDialog());
+                                            navigation.navigate('Address');
+                                        },
+                                        type: DialogTypes.DEFAULT,
+                                    }),
+                                );
+                            }
+                        }
 
-                        if (savedAddress) {
-                            const location = getCoordinatesFromGoogleMapUrl(
-                                savedAddress.geoLocation,
-                            );
-
-                            dispatch({
-                                type: GET_DEFAULT_ADDRESS,
-                                payload: {
-                                    defaultAddress: savedAddress,
-                                    location: location,
-                                    googleMapsLink: savedAddress.geoLocation,
-                                    area: savedAddress.address,
-                                },
-                            });
-                            dispatch(changeCartAddress(savedAddress));
-                            dispatch(selectAddressForCart(savedAddress));
-                        } else {
+                        dispatch({
+                            type: GET_DEFAULT_ADDRESS,
+                            payload: {
+                                defaultAddress: savedAddress,
+                                location: location,
+                                googleMapsLink: savedAddress.geoLocation,
+                                area: savedAddress.address,
+                            },
+                        });
+                        dispatch(changeCartAddress(savedAddress));
+                        dispatch(selectAddressForCart(savedAddress));
+                        if (setIsLoading) {
+                            setIsLoading(false);
+                        }
+                    } else {
+                        const geolocationData =
+                            geoObject &&
+                            (await getGeolocationData(
+                                geoObject?.latitude,
+                                geoObject?.longitude,
+                            ));
+                        if (geoObject && geolocationData) {
                             dispatch(changeCartAddress(null));
                             dispatch(selectAddressForCart(null));
                             dispatch({
@@ -616,25 +691,26 @@ export const getUserCurrentOrSavedLocation = (setIsLoading, navigation) => {
                                         latitude: geoObject.latitude,
                                         longitude: geoObject.longitude,
                                     },
-                                    googleMapsLink: geoObject.googleMapsLink,
-                                    area: geoObject.area,
+                                    googleMapsLink:
+                                        geolocationData.googleMapsLink,
+                                    area: geolocationData.area,
+                                },
+                            });
+                        } else {
+                            dispatch(changeCartAddress(null));
+                            dispatch(selectAddressForCart(null));
+                            dispatch({
+                                type: GET_DEFAULT_ADDRESS,
+                                payload: {
+                                    defaultAddress: '',
+                                    location: null,
+                                    googleMapsLink: null,
+                                    area: null,
+                                    loading: false,
+                                    error: '',
                                 },
                             });
                         }
-                    } else {
-                        dispatch(changeCartAddress(null));
-                        dispatch(selectAddressForCart(null));
-                        dispatch({
-                            type: GET_DEFAULT_ADDRESS,
-                            payload: {
-                                defaultAddress: '',
-                                location: null,
-                                googleMapsLink: null,
-                                area: null,
-                                loading: false,
-                                error: '',
-                            },
-                        });
                     }
 
                     if (setIsLoading) setIsLoading(false);

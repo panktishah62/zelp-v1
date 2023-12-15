@@ -58,15 +58,15 @@ const PaymentsScreen = props => {
     const [paymentInitiated, setPaymentInitiated] = useState(false);
 
     const cart = useSelector(state => state.cartActions);
-    const applicablePaymentMethods = JSON.parse(
-        RemoteConfigService.getRemoteValue(
-            'applicablePaymentMethods',
-        ).asString(),
+
+    const countryCodeConfig = JSON.parse(
+        RemoteConfigService.getRemoteValue('CountryCodeConfig').asString(),
     );
-    const availablePaymentMethod = Object.keys(
-        applicablePaymentMethods,
-    ).includes(cart?.address?.countryCode)
-        ? applicablePaymentMethods[cart?.address?.countryCode]
+
+    const availablePaymentMethod = Object.keys(countryCodeConfig).includes(
+        cart?.address?.countryCode,
+    )
+        ? countryCodeConfig[cart?.address?.countryCode].applicablePaymentMethods
         : ['OTHERS', 'COD'];
 
     const [paymentMethod, setPaymentMethod] = useState(
@@ -201,7 +201,7 @@ const PaymentsScreen = props => {
             dispatch(resetCartActions());
             dispatch(getUserProfile());
             setIsLoading(false);
-            navigation.navigate('OrderPlaced', {
+            navigation.replace('OrderPlaced', {
                 timeToDeliver: `${getRandomInt(30, 60)} mins`,
             });
         } else {
@@ -383,7 +383,7 @@ const PaymentsScreen = props => {
         if (transactionStatus === PAYMENT_CODES.PAYMENT_SUCCESS) {
             const timer = setTimeout(() => {
                 dispatch(resetCartActions());
-                navigation.navigate('OrderPlaced', {
+                navigation.replace('OrderPlaced', {
                     timeToDeliver: `${getRandomInt(30, 60)} mins`,
                 });
             }, 2000);

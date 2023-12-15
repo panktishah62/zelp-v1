@@ -127,13 +127,10 @@ const FeaturedItem = props => {
                             ({item?.foodItem?.rating?.count}+)
                         </Text>
                     </View>
-
                     <Text style={styles.subtitleText}>
-                        {
-                            <Currency
-                                currency={item?.foodItem?.restaurant?.currency}
-                            />
-                        }
+                        <Currency
+                            currency={item?.foodItem?.restaurant?.currency}
+                        />
                         {item?.price}
                     </Text>
                     <Text

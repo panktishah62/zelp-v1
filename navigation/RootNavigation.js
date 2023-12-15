@@ -100,6 +100,7 @@ const RootStack = () => {
                 getUserCurrentOrSavedLocation(
                     val => (isPermissionFetching.current = val),
                 ),
+                navigation,
             );
         }
     };

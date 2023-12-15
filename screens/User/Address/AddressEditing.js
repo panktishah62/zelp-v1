@@ -108,6 +108,16 @@ const AddressEditing = ({ navigation, route }) => {
         setFocus(0);
     };
 
+    useEffect(() => {
+        if (
+            locationCountryCode &&
+            Object.keys(countryCodeConfig).includes(locationCountryCode)
+        ) {
+            setCountryCode(locationCountryCode);
+            setCallingCode(countryCodeConfig[locationCountryCode].callingCode);
+        }
+    }, [locationCountryCode]);
+
     const handleSubmit = () => {
         // navigation.navigate('AddressEditing');
         const dataToPost = {
@@ -402,6 +412,11 @@ const AddressEditing = ({ navigation, route }) => {
                                 callingCode={callingCode}
                                 setCallingCode={setCallingCode}
                                 setIsNumberValid={setIsNumberValid}
+                                isDropDownEnabled={
+                                    !Object.keys(countryCodeConfig).includes(
+                                        locationCountryCode,
+                                    )
+                                }
                             />
                         </View>
                         {/* Address Type Container */}

@@ -26,6 +26,7 @@ const CustomPhoneNumberInput = props => {
         setCallingCode,
         setIsNumberValid,
         onSubmitEditing,
+        isDropDownEnabled = true,
     } = props;
 
     const [showCountryPicker, setShowCountryPicker] = useState(false);
@@ -63,10 +64,10 @@ const CustomPhoneNumberInput = props => {
                         right: dynamicSize(20),
                     }}
                     onPress={() => {
-                        onPressDropDown();
+                        isDropDownEnabled && onPressDropDown();
                     }}
                     style={styles.searchIcon}>
-                    <DropDownButton />
+                    {isDropDownEnabled && <DropDownButton />}
                     <Text style={styles.callingCode}>+{callingCode}</Text>
                 </TouchableOpacity>
                 <TextInput
@@ -86,24 +87,26 @@ const CustomPhoneNumberInput = props => {
                     }}
                 />
             </View>
-            <View style={styles.countryPickerContainer}>
-                {showCountryPicker && (
-                    <CountryPicker
-                        onSelect={value => {
-                            setCallingCode(value?.callingCode[0]);
-                            setCountryCode(value?.cca2);
-                        }}
-                        translation="eng"
-                        cca2={'IN'}
-                        countryCodes={['IN', 'NP']}
-                        withCallingCode={true}
-                        onClose={onPressDropDown}
-                        visible={showCountryPicker}
-                        withFlag>
-                        <View />
-                    </CountryPicker>
-                )}
-            </View>
+            {isDropDownEnabled && (
+                <View style={styles.countryPickerContainer}>
+                    {showCountryPicker && (
+                        <CountryPicker
+                            onSelect={value => {
+                                setCallingCode(value?.callingCode[0]);
+                                setCountryCode(value?.cca2);
+                            }}
+                            translation="eng"
+                            cca2={countryCode}
+                            countryCodes={['IN', 'NP']}
+                            withCallingCode={true}
+                            onClose={onPressDropDown}
+                            visible={showCountryPicker}
+                            withFlag>
+                            <View />
+                        </CountryPicker>
+                    )}
+                </View>
+            )}
         </View>
     );
 };

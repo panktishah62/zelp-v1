@@ -134,9 +134,12 @@ const AddressCard = ({
                         style={styles.buttonStyle}
                         onPress={() => {
                             setIsLoading(true);
-                            dispatch(deleteAddress(id));
+                            dispatch(deleteAddress(id, navigation));
                             dispatch(
-                                getUserCurrentOrSavedLocation(setIsLoading),
+                                getUserCurrentOrSavedLocation(
+                                    setIsLoading,
+                                    navigation,
+                                ),
                             );
                         }}>
                         DELETE

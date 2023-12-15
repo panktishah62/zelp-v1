@@ -25,6 +25,7 @@ import QUESTIONMARKCIRCLE from '../../assets/icons/help-circle-outline.svg';
 import LOGOUT from '../../assets/icons/logout.svg';
 import RUPEE from '../../assets/icons/rupee-sign.svg';
 import DELETEICON from '../../assets/icons/DeleteIcon.svg';
+import PAYMENTANDREFUNDICON from '../../assets/icons/moneyRefund.svg';
 import {
     getAllAddress,
     getDefaultAddress,
@@ -34,6 +35,7 @@ import { getUserProfile } from '../../redux/actions/user';
 import { sliceText } from '../../utils';
 import BackRightIcon from '../../assets/icons/backRight.svg';
 import { Popup } from 'react-native-popup-confirm-toast';
+import { dynamicSize } from '../../utils/responsive';
 
 const USER = './../../assets/icons/profileEdit.png';
 
@@ -55,7 +57,12 @@ const profileMenuData = [
     {
         name: 'Payments and Refunds',
         desc: 'Payment Modes and Refund Status',
-        image: <RUPEE />,
+        image: (
+            <PAYMENTANDREFUNDICON
+                height={dynamicSize(22)}
+                width={dynamicSize(22)}
+            />
+        ),
         navigateTo: 'Refunds',
         isLoggedIn: true,
     },

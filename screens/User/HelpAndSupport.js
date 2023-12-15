@@ -9,19 +9,27 @@ import { useSelector } from 'react-redux';
 
 const HelpAndSupportScreen = ({ navigation }) => {
     const serverData = useSelector(state => state.serverReducer);
+    const userProfile = useSelector(state => state?.user?.userProfile);
+    const countryCodeConfig = serverData?.config?.countryCodeConfig;
+    const contactNo =
+        countryCodeConfig &&
+        Object.keys(countryCodeConfig).includes(userProfile?.countryCode)
+            ? countryCodeConfig[userProfile?.countryCode].supportContactNo
+            : serverData?.config?.contactNo;
+    const emailId =
+        countryCodeConfig &&
+        Object.keys(countryCodeConfig).includes(userProfile?.countryCode)
+            ? countryCodeConfig[userProfile?.countryCode].supportEmailId
+            : serverData?.config?.emailId;
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.cardContainer}>
                 <InfoCard
-                    text={serverData?.config?.contactNo}
+                    text={contactNo}
                     image={<Phone />}
                     type={'CONTACT_NUM'}
                 />
-                <InfoCard
-                    text={serverData?.config?.emailId}
-                    image={<Mail />}
-                    type={'EMAILID'}
-                />
+                <InfoCard text={emailId} image={<Mail />} type={'EMAILID'} />
             </View>
         </SafeAreaView>
     );
