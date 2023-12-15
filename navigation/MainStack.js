@@ -54,6 +54,7 @@ import HeaderWithCartForSubscription from '../components/Header/HeaderWithCartFo
 import HeaderWithHome from '../components/Header/HeaderWithHome';
 import NewOrderDetailsScreen from '../screens/CartAndTrack/OrderDetailsScreen';
 import SomethingWentWrong from '../screens/CartAndTrack/SomethingWentWrong';
+import RestaurantWithMenuUpdated from '../screens/Restaurants/RestaurantWithMenuUpdated';
 
 const Stack = createNativeStackNavigator();
 
@@ -241,6 +242,19 @@ const MainStack = () => {
             <Stack.Screen
                 name="RestaurantWithMenu"
                 component={RestaurantWithMenu}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithSearch
+                            navigation={navigation}
+                            placeholder={'Search Restaurant, FoodItems'}
+                            keyboardType={'default'}
+                        />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="RestaurantWithMenuUpdated"
+                component={RestaurantWithMenuUpdated}
                 options={({ navigation, route }) => ({
                     header: () => (
                         <HeaderWithSearch

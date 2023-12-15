@@ -83,7 +83,6 @@ const DishListItem = ({ dishDetails, restaurant }) => {
                         source={{
                             uri: dishDetails.image,
                         }}
-                        resizeMode="contain"
                     />
                     <View style={styles.buttonStyle}>
                         {foodItem && isInCart && (

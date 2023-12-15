@@ -60,7 +60,7 @@ const RestaurantCardLarge = ({ restaurantObject, navigation }) => {
         <TouchableWithoutFeedback
             onPress={() => {
                 if (isRestaurantOpen) {
-                    navigation.navigate('RestaurantWithMenu', {
+                    navigation.navigate('RestaurantWithMenuUpdated', {
                         restaurant: restaurant,
                     });
                 } else {
