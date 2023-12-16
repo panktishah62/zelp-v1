@@ -413,9 +413,13 @@ export const getUserCurrentOrSavedLocation = (setIsLoading, navigation) => {
 
         const getLocationCoords = async () => {
             return new Promise(async resolve => {
-                const granted = await PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                );
+                const granted =
+                    Platform.OS === 'android'
+                        ? await PermissionsAndroid.request(
+                              PermissionsAndroid.PERMISSIONS
+                                  .ACCESS_FINE_LOCATION,
+                          )
+                        : GRANTED;
                 if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                     Geolocation.getCurrentPosition(
                         async location => {
