@@ -190,6 +190,7 @@ const CartScreen = ({ navigation }) => {
                                         <FoodItemsCard
                                             restaurants={myCart.restaurants}
                                             navigation={navigation}
+                                            currency={myCart?.address?.currency}
                                         />
                                     )}
                                 </View>
@@ -203,6 +204,9 @@ const CartScreen = ({ navigation }) => {
                                                 setIsLoading={setCartLoading}
                                                 moneyInWallet={
                                                     myCart.walletMoney
+                                                }
+                                                currency={
+                                                    myCart?.address?.currency
                                                 }
                                                 config={myCart.config}
                                                 navigation={navigation}
@@ -230,6 +234,9 @@ const CartScreen = ({ navigation }) => {
                                                     myCart.referralCoinsUsed
                                                 }
                                                 config={myCart.config}
+                                                currency={
+                                                    myCart?.address?.currency
+                                                }
                                             />
                                         </View>
                                     )}
@@ -245,6 +252,7 @@ const CartScreen = ({ navigation }) => {
                                                 myCart.billingDetails
                                             }
                                             config={myCart.config}
+                                            currency={myCart?.address?.currency}
                                         />
                                     </View>
                                 )}

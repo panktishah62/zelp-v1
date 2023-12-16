@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Image, StyleSheet, View } from 'react-native';
 import PolygonButton from '../../components/Buttons/PolygonButton';
 import RestaurantsIcon from '../../assets/icons/RestaurantsHome.svg';
+import { useSelector } from 'react-redux';
 
 const Landing = ({ navigation }) => {
+    const address = useSelector(state => state.address);
+    const [showSubscriptionIcon, setShowSubscriptionIcon] = useState(true);
+    useEffect(() => {
+        if (address?.defaultAddress) {
+            if (address?.defaultAddress?.countryCode == 'IN') {
+                setShowSubscriptionIcon(true);
+            } else {
+                setShowSubscriptionIcon(false);
+            }
+        } else {
+            setShowSubscriptionIcon(true);
+        }
+    }, [address]);
     return (
         <View style={styles.container}>
             <View style={styles.polygonContainer}>
@@ -26,9 +40,11 @@ const Landing = ({ navigation }) => {
                                 />
                             );
                         }}
-                        title="Subscription"
+                        title={showSubscriptionIcon ? 'Subscription' : 'Shots'}
                         onClick={() => {
-                            navigation.navigate('Subscription');
+                            showSubscriptionIcon
+                                ? navigation.navigate('Subscription')
+                                : navigation.navigate('Shots');
                         }}
                     />
                 </View>

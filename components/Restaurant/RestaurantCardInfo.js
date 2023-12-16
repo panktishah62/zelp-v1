@@ -13,7 +13,12 @@ import { colors } from '../../styles/colors';
 import Heart from '../../assets/icons/BigHeart.svg';
 import Star from '../../assets/icons/Star.svg';
 import LocationIcon from '../../assets/icons/Vector.svg';
-import { GreyColorMatrix, isTimeInIntervals, sliceText } from '../../utils';
+import {
+    Currency,
+    GreyColorMatrix,
+    isTimeInIntervals,
+    sliceText,
+} from '../../utils';
 import { ColorMatrix } from 'react-native-color-matrix-image-filters';
 
 const Cuisines = ({ cuisines }) => {
@@ -124,6 +129,7 @@ const RestaurantCardInfo = ({ restaurant, distance, time, navigation }) => {
                                     fonts.NUNITO_700_12,
                                     { color: colors.GREY_MEDIUM },
                                 ]}>
+                                <Currency currency={restaurant?.currency} />
                                 {restaurant.priceForOne} for one
                             </Text>
                         )}

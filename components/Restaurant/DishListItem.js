@@ -7,6 +7,7 @@ import AddButton from '../Buttons/AddButton';
 import VegIcon from '../../assets/icons/VegIcon.svg';
 import NonVegIcon from '../../assets/icons/nonveg.svg';
 import StarIcon from '../../assets/icons/Star.svg';
+import Currency from '../Currency';
 
 const { height, width } = Dimensions.get('window');
 
@@ -70,7 +71,8 @@ const DishListItem = ({ dishDetails, restaurant }) => {
                             </Text>
                         </View>
                         <Text style={[fonts.NUNITO_800_14, styles.pt8]}>
-                            ₹ {dishDetails.price}
+                            <Currency currency={restaurant?.currency} />{' '}
+                            {dishDetails.price}
                         </Text>
                     </View>
                 </View>

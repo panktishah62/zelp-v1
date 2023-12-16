@@ -13,16 +13,33 @@ import FastImage from 'react-native-fast-image';
 import { dynamicSize } from '../../utils/responsive';
 import { colors } from '../../styles/colors';
 import RemoteConfigService from '../../redux/services/remoteConfigService';
+import { useSelector } from 'react-redux';
 
 const BannerOnHomeScreen = props => {
     const { navigation } = props;
-    const bannerOnHomeScreen = JSON.parse(
-        RemoteConfigService.getRemoteValue('bannerOnHomeScreen').asString(),
+    const [bannerOnHomeScreen, setBanner] = useState({});
+    const bannerOnHomeScreenCountryWise = JSON.parse(
+        RemoteConfigService.getRemoteValue(
+            'bannerOnHomeScreenCountryWise',
+        ).asString(),
     );
     const containerHeight = bannerOnHomeScreen?.containerMaxHeight;
+    const defaultAddress = useSelector(state => state.address.defaultAddress);
     const [index, setIndex] = useState(0);
     const ref = useRef(null);
-    useEffect(() => {}, []);
+    useEffect(() => {
+        if (
+            defaultAddress?.countryCode &&
+            bannerOnHomeScreenCountryWise &&
+            Object.keys(bannerOnHomeScreenCountryWise).includes(
+                defaultAddress.countryCode,
+            )
+        ) {
+            setBanner(
+                bannerOnHomeScreenCountryWise[defaultAddress.countryCode],
+            );
+        }
+    }, [defaultAddress]);
 
     const renderItems = (item, index) => {
         const navigateTo = item?.navigationTo;

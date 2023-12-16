@@ -24,6 +24,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { showDialog } from '../../../redux/actions/dialog';
 import CustomPhoneNumberInput from '../../../components/Inputs/CustomPhoneNumberInput';
 import { dynamicSize } from '../../../utils/responsive';
+import RemoteConfigService from '../../../redux/services/remoteConfigService';
 
 const AddressEditing = ({ navigation, route }) => {
     const dispatch = useDispatch();
@@ -32,6 +33,10 @@ const AddressEditing = ({ navigation, route }) => {
     const [keyboardHeight, setKeyboardHeight] = useState(0);
     const previousAddressData = route.params;
     const action = previousAddressData.action;
+    const countryCodeConfig = JSON.parse(
+        RemoteConfigService.getRemoteValue('CountryCodeConfig')?.asString(),
+    );
+
     const [addressType, setAddressType] = useState([
         { name: 'Home', selected: true },
         { name: 'Work', selected: false },
@@ -82,21 +87,36 @@ const AddressEditing = ({ navigation, route }) => {
             ? String(previousAddressData?.phoneNo)
             : '',
     );
+    const [locationCountryCode, setLocationCountryCode] = useState(
+        previousAddressData?.countryCode
+            ? previousAddressData?.countryCode
+            : Object.keys(countryCodeConfig)[0],
+    );
     const [countryCode, setCountryCode] = useState(
         previousAddressData?.countryCode
             ? previousAddressData?.countryCode
-            : 'IN',
+            : Object.keys(countryCodeConfig)[0],
     );
     const [callingCode, setCallingCode] = useState(
         previousAddressData?.callingCode
             ? previousAddressData?.callingCode
-            : '91',
+            : Object.values(countryCodeConfig)[0].callingCode,
     );
     const [isNumberValid, setIsNumberValid] = useState(false);
 
     const setBlur = () => {
         setFocus(0);
     };
+
+    useEffect(() => {
+        if (
+            locationCountryCode &&
+            Object.keys(countryCodeConfig).includes(locationCountryCode)
+        ) {
+            setCountryCode(locationCountryCode);
+            setCallingCode(countryCodeConfig[locationCountryCode].callingCode);
+        }
+    }, [locationCountryCode]);
 
     const handleSubmit = () => {
         // navigation.navigate('AddressEditing');
@@ -114,8 +134,31 @@ const AddressEditing = ({ navigation, route }) => {
             countryCode: countryCode,
             callingCode: callingCode,
         };
-
-        if (!addressDetails.line1) {
+        if (!Object.keys(countryCodeConfig).includes(locationCountryCode)) {
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText:
+                        'We are currently not servable in the selected location!',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
+        } else if (
+            countryCodeConfig[locationCountryCode].callingCode != callingCode
+        ) {
+            dispatch(
+                showDialog({
+                    isVisible: true,
+                    titleText:
+                        'Please select a country code valid to the selected location!',
+                    subTitleText: '',
+                    buttonText1: 'CLOSE',
+                    type: DialogTypes.WARNING,
+                }),
+            );
+        } else if (!addressDetails.line1) {
             dispatch(
                 showDialog({
                     isVisible: true,
@@ -155,11 +198,14 @@ const AddressEditing = ({ navigation, route }) => {
                     type: DialogTypes.WARNING,
                 }),
             );
-        } else if (addressDetails.zipCode.length !== 6) {
+        } else if (
+            addressDetails.zipCode.length !=
+            countryCodeConfig[locationCountryCode].pinCodeLength
+        ) {
             dispatch(
                 showDialog({
                     isVisible: true,
-                    titleText: 'Zip Code not equal to 6 digits',
+                    titleText: 'Please enter valid Zipcode',
                     subTitleText: '',
                     buttonText1: 'CLOSE',
                     type: DialogTypes.WARNING,
@@ -305,6 +351,7 @@ const AddressEditing = ({ navigation, route }) => {
                             setAddressUrl={url => setAddressUrl(url)}
                             geoLocationSearch={geoLocationSearch}
                             setGeoLocationSearch={setGeoLocationSearch}
+                            setCountryCode={setLocationCountryCode}
                             navigateTo={'SelectLocation'}
                         />
                         <TextInput_
@@ -346,7 +393,14 @@ const AddressEditing = ({ navigation, route }) => {
                             setBlur={() => setBlur()}
                             keyboardType={'numeric'}
                             placeholder={'Zip/Postal Code*'}
-                            maxLength={6}
+                            maxLength={
+                                Object.keys(countryCodeConfig).includes(
+                                    locationCountryCode,
+                                )
+                                    ? countryCodeConfig[locationCountryCode]
+                                          .pinCodeLength
+                                    : 10
+                            }
                         />
                         <View style={{ marginVertical: dynamicSize(10) }}>
                             <CustomPhoneNumberInput
@@ -358,6 +412,11 @@ const AddressEditing = ({ navigation, route }) => {
                                 callingCode={callingCode}
                                 setCallingCode={setCallingCode}
                                 setIsNumberValid={setIsNumberValid}
+                                isDropDownEnabled={
+                                    !Object.keys(countryCodeConfig).includes(
+                                        locationCountryCode,
+                                    )
+                                }
                             />
                         </View>
                         {/* Address Type Container */}

@@ -7,13 +7,7 @@ const DishComponent = ({ dishData, restaurant }) => {
 
     return (
         <View style={{}}>
-            {dishData.map((dish, index) => (
-                <DishListItem
-                    key={index}
-                    dishDetails={dish}
-                    restaurant={restaurant}
-                />
-            ))}
+            <DishListItem dishDetails={dishData} restaurant={restaurant} />
         </View>
     );
 };

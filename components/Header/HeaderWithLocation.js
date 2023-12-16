@@ -26,6 +26,7 @@ import {
 import {
     getAllAddress,
     getDefaultAddress,
+    getUserCurrentOrSavedLocation,
     getUserLocation,
 } from '../../redux/actions/address';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -48,18 +49,7 @@ const HeaderWithLocation = props => {
 
     useEffect(() => {
         setIsLoading(true);
-        dispatch(checkPermission());
-        if (locationPermission === GRANTED) {
-            setIsLoading(true);
-            dispatch(getDefaultAddress(setIsLoading));
-        }
-    }, [navigation]);
-
-    useEffect(() => {
-        if (locationPermission === GRANTED) {
-            setIsLoading(true);
-            dispatch(getDefaultAddress(setIsLoading));
-        }
+        dispatch(getUserCurrentOrSavedLocation(setIsLoading));
     }, [navigation, locationPermission]);
 
     useEffect(() => {
@@ -78,16 +68,12 @@ const HeaderWithLocation = props => {
     const retry = () => {
         setShowRetry(false);
         setIsLoading(true);
-        dispatch(checkPermission());
-        if (locationPermission === GRANTED) {
-            setIsLoading(true);
-            dispatch(getDefaultAddress(setIsLoading));
-        }
+        dispatch(getUserCurrentOrSavedLocation(setIsLoading));
     };
 
     const requestPermission = () => {
-        // checkLocationPermission(setPermission);
-        dispatch(checkPermission());
+        setIsLoading(true);
+        dispatch(getUserCurrentOrSavedLocation(setIsLoading));
     };
 
     const onLayout = event => {

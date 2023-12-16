@@ -1,11 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AppState, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { DialogTypes, GRANTED } from '../utils';
 import { getUserProfile } from '../redux/actions/user';
-import { getDefaultAddress } from '../redux/actions/address';
+import {
+    getDefaultAddress,
+    getUserCurrentOrSavedLocation,
+} from '../redux/actions/address';
 import { checkPermission } from '../redux/actions/permissions';
 import NetInfo from '@react-native-community/netinfo';
 import { isInternetAvailable } from '../redux/actions/network';
@@ -18,6 +21,7 @@ import { getShotsViewRestSortingConfig } from '../redux/actions/server';
 import remoteConfig from '@react-native-firebase/remote-config';
 import { getSubscriptionConfig } from '../redux/actions/subscriptionActions';
 import RemoteConfigService from '../redux/services/remoteConfigService';
+import { IS_LOCATION_ON } from '../redux/constants';
 
 const Stack = createNativeStackNavigator();
 
@@ -63,25 +67,6 @@ const RootStack = () => {
     }, []);
 
     useEffect(() => {
-        if (locationPermission === GRANTED && isLocationOn) {
-            dispatch(getDefaultAddress(null, navigation));
-        } else {
-            if (!isLocationOn) {
-                dispatch(
-                    showDialog({
-                        isVisible: true,
-                        titleText: 'Please Turn On Your Location!',
-                        subTitleText:
-                            'Open the app again after turning on location',
-                        buttonText1: 'CLOSE',
-                        type: DialogTypes.WARNING,
-                    }),
-                );
-            }
-        }
-    }, [locationPermission, isLocationOn]);
-
-    useEffect(() => {
         if (initialRouteName === 'AppTour') {
             if (initialPopup) {
                 dispatch(
@@ -106,33 +91,29 @@ const RootStack = () => {
         }
     }, [location]);
 
+    const isPermissionFetching = useRef(false);
+
+    const handleAppStateChange = state => {
+        if (state === 'active' && !isPermissionFetching.current) {
+            isPermissionFetching.current = true;
+            dispatch(
+                getUserCurrentOrSavedLocation(
+                    val => (isPermissionFetching.current = val),
+                ),
+                navigation,
+            );
+        }
+    };
+
     useEffect(() => {
         const appFocusSubscription = AppState.addEventListener(
             'change',
-            state => {
-                if (state === 'active') {
-                    if (locationPermission === GRANTED && isLocationOn) {
-                        dispatch(getDefaultAddress(null, navigation));
-                    } else if (!isLocationOn) {
-                        dispatch(
-                            showDialog({
-                                isVisible: true,
-                                titleText: 'Please Turn On Your Location!',
-                                subTitleText:
-                                    'Open the app again after turning on location',
-                                buttonText1: 'CLOSE',
-                                type: DialogTypes.WARNING,
-                            }),
-                        );
-                    }
-                }
-            },
+            handleAppStateChange,
         );
-
         return () => {
             appFocusSubscription.remove();
         };
-    }, [locationPermission]);
+    }, []);
 
     useEffect(() => {
         const removeNetInfoSubscription = NetInfo.addEventListener(state => {

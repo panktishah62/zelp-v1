@@ -27,15 +27,18 @@ import { DialogTypes, getUpto2Decimal } from '../../../utils';
 import { showDialog } from '../../../redux/actions/dialog';
 import remoteConfig from '@react-native-firebase/remote-config';
 import RemoteConfigService from '../../../redux/services/remoteConfigService';
+import Currency from '../../Currency';
 
 const RefferalCoins = props => {
-    const { setIsLoading, moneyInReferral, config } = props;
+    const { setIsLoading, moneyInReferral, config, currency } = props;
     const cart = useSelector(state => state.cartActions);
     const userProfile = useSelector(state => state.user.userProfile);
     const [rupeesPerReferralCoin, setRupeesPerReferralCoin] = useState(
         userProfile?.referralCoinsMultiple > 0
             ? Number(userProfile.referralCoinsMultiple)
-            : remoteConfig?.getValue('RupeesPerReferralCoin').asNumber(),
+            : RemoteConfigService?.getRemoteValue(
+                  'RupeesPerReferralCoin',
+              ).asNumber(),
     );
     const [isActive, setIsActive] = useState(props.isActive);
     const [remainingMoneyInReferral, setRemainingMoneyInReferral] =
@@ -119,7 +122,9 @@ const RefferalCoins = props => {
         setRupeesPerReferralCoin(
             userProfile?.referralCoinsMultiple > 0
                 ? Number(userProfile.referralCoinsMultiple)
-                : remoteConfig?.getValue('RupeesPerReferralCoin').asNumber(),
+                : RemoteConfigService?.getRemoteValue(
+                      'RupeesPerReferralCoin',
+                  ).asNumber(),
         );
     }, [userProfile]);
 
@@ -129,7 +134,8 @@ const RefferalCoins = props => {
                 <Text style={styles.titleText}>Use Referral Coins</Text>
 
                 <Text style={styles.subtitleText}>
-                    {1 / rupeesPerReferralCoin} Referral Coins = 1 Rs
+                    {1 / rupeesPerReferralCoin} Referral Coins = 1{' '}
+                    <Currency currency={currency} />
                 </Text>
 
                 {!canFullReferralCoinsBeUsed && (
@@ -141,7 +147,6 @@ const RefferalCoins = props => {
             <View style={[Styles.row, styles.rightContainer]}>
                 <View style={styles.money}>
                     <View style={Styles.row_flex_end}>
-                        {/* <Rupee /> */}
                         <Text style={styles.titleText}>
                             {' '}
                             {cart?.isReferralCoinsUsed

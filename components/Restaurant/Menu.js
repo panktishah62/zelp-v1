@@ -34,7 +34,7 @@ const Menu = props => {
                                     <TouchableOpacity
                                         key={index}
                                         onPress={() => {
-                                            handleButtonPress(item.y);
+                                            handleButtonPress(item.index);
                                             setShowMenu(!showMenu);
                                         }}>
                                         {item.count > 0 && (

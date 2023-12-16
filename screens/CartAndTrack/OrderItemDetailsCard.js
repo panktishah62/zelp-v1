@@ -9,7 +9,7 @@ import LocationPinWhite from '../../assets/icons/location-pin-white.svg';
 import SingleItemDetails from './SingleItemDetails';
 import { truncateString } from '../../utils';
 
-const OrderItemDetailsCard = ({ itemsDetails }) => {
+const OrderItemDetailsCard = ({ itemsDetails, currency }) => {
     const [restaurants, setRestaurants] = useState({});
     useEffect(() => {
         let restList = {};
@@ -75,6 +75,7 @@ const OrderItemDetailsCard = ({ itemsDetails }) => {
                                             isVeg={item.id.isVeg}
                                             quantity={item.count}
                                             price={item.id.price}
+                                            currency={currency}
                                         />
                                     ))}
                                 </View>

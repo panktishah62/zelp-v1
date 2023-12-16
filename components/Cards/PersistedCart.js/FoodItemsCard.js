@@ -5,7 +5,7 @@ import { colors } from '../../../styles/colors';
 import RestaurantField from './RestaurantField';
 
 const FoodItemsCard = props => {
-    const { restaurants, navigation } = props;
+    const { restaurants, navigation, currency } = props;
     const [restaurantsList, setRestaurantsList] = useState([]);
     useEffect(() => {
         Object.keys(restaurants).forEach(function (key, index) {
@@ -19,6 +19,7 @@ const FoodItemsCard = props => {
                     return (
                         <RestaurantField
                             restaurant={restaurant}
+                            currency={currency}
                             navigation={navigation}
                             key={index}
                         />

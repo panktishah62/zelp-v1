@@ -22,6 +22,7 @@ import { dynamicSize } from '../../utils/responsive';
 import FeaturedItemAddButton from './FeaturedItemAddButton';
 import { useSelector } from 'react-redux';
 import { ColorMatrix } from 'react-native-color-matrix-image-filters';
+import Currency from '../Currency';
 
 const FeaturedItem = props => {
     const { item, shotId, navigation } = props;
@@ -126,8 +127,12 @@ const FeaturedItem = props => {
                             ({item?.foodItem?.rating?.count}+)
                         </Text>
                     </View>
-
-                    <Text style={styles.subtitleText}>₹ {item?.price}</Text>
+                    <Text style={styles.subtitleText}>
+                        <Currency
+                            currency={item?.foodItem?.restaurant?.currency}
+                        />
+                        {item?.price}
+                    </Text>
                     <Text
                         style={styles.titleTextBold}
                         numberOfLines={1}

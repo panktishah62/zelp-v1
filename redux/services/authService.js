@@ -46,7 +46,9 @@ export const signInUser = data => {
 };
 
 export const verifyOtp = data => {
-    return axiosRequest.get(`${ApiPath.verifyOTP}/${data.mobNo}/${data.otp}`);
+    return axiosRequest.get(
+        `${ApiPath.verifyOTP}/${data.mobNo}/${data.otp}/${data.countryCode}/${data.callingCode}`,
+    );
 };
 
 export const resendOTP = data => {

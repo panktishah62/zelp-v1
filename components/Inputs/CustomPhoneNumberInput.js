@@ -26,6 +26,7 @@ const CustomPhoneNumberInput = props => {
         setCallingCode,
         setIsNumberValid,
         onSubmitEditing,
+        isDropDownEnabled = true,
     } = props;
 
     const [showCountryPicker, setShowCountryPicker] = useState(false);
@@ -40,6 +41,17 @@ const CustomPhoneNumberInput = props => {
         }
     }, [value, countryCode]);
 
+    const handlePhoneInputChange = input => {
+        // Remove any spaces and extract only the last 10 digits
+        let phoneNumber = input.replace(/\s/g, '');
+        phoneNumber = phoneNumber.slice(-10);
+
+        // setValue(phoneNumber);
+        if (phoneNumber.length <= 10) {
+            setValue(phoneNumber);
+        }
+    };
+
     return (
         <View style={{ marginVertical: 5 }}>
             {label && <Text style={styles.text}>{label}</Text>}
@@ -52,19 +64,19 @@ const CustomPhoneNumberInput = props => {
                         right: dynamicSize(20),
                     }}
                     onPress={() => {
-                        onPressDropDown();
+                        isDropDownEnabled && onPressDropDown();
                     }}
                     style={styles.searchIcon}>
-                    <DropDownButton />
+                    {isDropDownEnabled && <DropDownButton />}
                     <Text style={styles.callingCode}>+{callingCode}</Text>
                 </TouchableOpacity>
                 <TextInput
-                    maxLength={10}
+                    maxLength={15}
                     style={[styles.textContainerStyle]}
                     placeholder={'Enter Phone Number'}
                     value={value}
                     onChangeText={_text => {
-                        setValue(_text);
+                        handlePhoneInputChange(_text);
                     }}
                     placeholderTextColor={colors.GREY_MEDIUM}
                     keyboardType={'numeric'}
@@ -75,24 +87,26 @@ const CustomPhoneNumberInput = props => {
                     }}
                 />
             </View>
-            <View style={styles.countryPickerContainer}>
-                {showCountryPicker && (
-                    <CountryPicker
-                        onSelect={value => {
-                            setCallingCode(value?.callingCode[0]);
-                            setCountryCode(value?.cca2);
-                        }}
-                        translation="eng"
-                        cca2={'IN'}
-                        countryCodes={['IN', 'NP']}
-                        withCallingCode={true}
-                        onClose={onPressDropDown}
-                        visible={showCountryPicker}
-                        withFlag>
-                        <View />
-                    </CountryPicker>
-                )}
-            </View>
+            {isDropDownEnabled && (
+                <View style={styles.countryPickerContainer}>
+                    {showCountryPicker && (
+                        <CountryPicker
+                            onSelect={value => {
+                                setCallingCode(value?.callingCode[0]);
+                                setCountryCode(value?.cca2);
+                            }}
+                            translation="eng"
+                            cca2={countryCode}
+                            countryCodes={['IN', 'NP']}
+                            withCallingCode={true}
+                            onClose={onPressDropDown}
+                            visible={showCountryPicker}
+                            withFlag>
+                            <View />
+                        </CountryPicker>
+                    )}
+                </View>
+            )}
         </View>
     );
 };

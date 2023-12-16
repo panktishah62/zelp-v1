@@ -270,3 +270,37 @@ export const calculateAsciiTotal = str => {
 
     return total;
 };
+
+export const Currency = curr => {
+    const typeOfValue = curr?.typeOfValue;
+    const value = curr?.value;
+    switch (typeOfValue) {
+        case 'hex': {
+            // Convert hexadecimal to decimal
+            const decimalCurrency = parseInt(value, 16);
+
+            // Convert decimal to Unicode character
+            const currencySymbol = String.fromCharCode(decimalCurrency);
+            return currencySymbol;
+        }
+        case 'String': {
+            return value;
+        }
+        default: {
+            // return '₹';
+            return null;
+        }
+    }
+};
+
+export const getCountryCodeFromGeoLocationResult = result => {
+    const address_components = result?.address_components;
+    let countryCode = null;
+    address_components.map(component => {
+        if (component?.types?.includes('country')) {
+            countryCode = component?.short_name;
+        }
+    });
+    // console.log('countryCode', countryCode);
+    return countryCode;
+};

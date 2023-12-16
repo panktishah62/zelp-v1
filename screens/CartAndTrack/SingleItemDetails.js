@@ -6,8 +6,9 @@ import NonVegIcon from '../../assets/icons/nonveg.svg';
 import { colors } from '../../styles/colors';
 import { fonts } from '../../styles';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
+import Currency from '../../components/Currency';
 
-const SingleItemDetails = ({ name, isVeg, price, quantity }) => {
+const SingleItemDetails = ({ name, isVeg, price, quantity, currency }) => {
     return (
         <View style={styles.container}>
             {isVeg ? (
@@ -22,7 +23,7 @@ const SingleItemDetails = ({ name, isVeg, price, quantity }) => {
                 x{quantity}
             </Text>
             <Text style={[styles.price, { position: 'absolute', left: '85%' }]}>
-                ₹{price}
+                <Currency currency={currency} /> {price}
             </Text>
         </View>
     );

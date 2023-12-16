@@ -8,9 +8,10 @@ import { Text } from 'react-native';
 import AddButton from '../../Buttons/AddButton';
 import Rupee from '../../../assets/icons/rupee.svg';
 import { sliceText } from '../../../utils';
+import Currency from '../../Currency';
 
 const FoodItemField = props => {
-    let { foodItem, navigation, restaurant } = props;
+    let { foodItem, navigation, restaurant, currency } = props;
     return (
         <View style={styles.container}>
             {foodItem && foodItem.foodItem && foodItem.foodItem.name && (
@@ -41,9 +42,9 @@ const FoodItemField = props => {
                             mode={'dark'}
                         />
                         <View style={styles.amount}>
-                            <Rupee />
                             {foodItem.foodItem.price && (
                                 <Text style={styles.priceText}>
+                                    <Currency currency={currency} />{' '}
                                     {foodItem.foodItem.price}
                                 </Text>
                             )}

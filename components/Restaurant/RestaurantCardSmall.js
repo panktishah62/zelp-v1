@@ -20,6 +20,7 @@ import {
 import { ColorMatrix } from 'react-native-color-matrix-image-filters';
 import { showDialog } from '../../redux/actions/dialog';
 import { useDispatch } from 'react-redux';
+import Currency from '../Currency';
 
 const IMAGE_URI = '../../assets/images/restaurant.png';
 
@@ -107,7 +108,14 @@ const RestaurantCard = props => {
                                 fonts.NUNITO_700_8,
                                 { color: colors.GREY_MEDIUM },
                             ]}>
-                            ₹ {costOfTwo} for one
+                            {
+                                <Currency
+                                    currency={
+                                        restaurantObject?.restaurant?.currency
+                                    }
+                                />
+                            }{' '}
+                            {costOfTwo} for one
                         </Text>
                     </View>
                     {isRestaurantOpen && (

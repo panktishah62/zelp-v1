@@ -21,6 +21,8 @@ import {
     resetCartActions,
 } from '../../../redux/actions/cartActions';
 import { hideDialog, showDialog } from '../../../redux/actions/dialog';
+import Currency from '../../Currency';
+import { dynamicSize } from '../../../utils/responsive';
 
 const FoodItemField = props => {
     let { foodItem, navigation } = props;
@@ -58,8 +60,8 @@ const OrderCardComponent = props => {
     const dispatch = useDispatch();
     const myCart = useSelector(state => state.cartActions);
     const currentOrder = useSelector(state => state.currentOrder.currentOrder);
-    const [isLoading, setIsLoading] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(true);
+    const [restToItems, setRestToItems] = useState({});
     const [statusColor, setStatusColor] = useState(
         order.orderStatus
             ? order.orderStatus == 'Canceled'
@@ -67,6 +69,22 @@ const OrderCardComponent = props => {
                 : colors.GREEN
             : colors.GREEN,
     );
+
+    useEffect(() => {
+        if (order?.cart?.foodItems?.length) {
+            let rest = restToItems;
+            order.cart.foodItems.map(item => {
+                if (!rest[item?.id?.restaurant?._id]) {
+                    rest[item?.id?.restaurant?._id] = [];
+                }
+                if (rest[item?.id?.restaurant?._id]) {
+                    rest[item?.id?.restaurant?._id].push(item);
+                }
+            });
+            setRestToItems(rest);
+            setIsLoading(false);
+        }
+    }, [order]);
 
     const reorderCart = () => {
         if (myCart && myCart.restaurants) {
@@ -116,15 +134,31 @@ const OrderCardComponent = props => {
             {!isLoading && (
                 <View style={styles.mainContainer}>
                     <View style={styles.foodItemContainer}>
-                        {order.cart &&
-                            order.cart.foodItems &&
-                            order.cart.foodItems.map((foodItem, index) => {
+                        {restToItems &&
+                            Object.keys(restToItems)?.length > 0 &&
+                            Object.keys(restToItems).map((rest, index) => {
                                 return (
                                     <View key={index}>
-                                        <FoodItemField
-                                            foodItem={foodItem}
-                                            navigation={navigation}
-                                        />
+                                        <Text style={styles.titleTextRest}>
+                                            {
+                                                restToItems[rest][0]?.id
+                                                    .restaurant?.name
+                                            }
+                                        </Text>
+                                        {restToItems[rest].map(
+                                            (foodItem, index2) => {
+                                                return (
+                                                    <View key={index2}>
+                                                        <FoodItemField
+                                                            foodItem={foodItem}
+                                                            navigation={
+                                                                navigation
+                                                            }
+                                                        />
+                                                    </View>
+                                                );
+                                            },
+                                        )}
                                     </View>
                                 );
                             })}
@@ -137,9 +171,12 @@ const OrderCardComponent = props => {
                         )}
                         {order.cart && order.cart._id && (
                             <View style={Styles.row_flex_start}>
-                                <Rupee />
                                 <Text style={Styles.default_text_color}>
-                                    {' '}
+                                    <Currency
+                                        currency={
+                                            order?.cart?.address?.currency
+                                        }
+                                    />{' '}
                                     {order.cart.totalAmount}
                                 </Text>
                             </View>
@@ -245,6 +282,11 @@ const styles = StyleSheet.create({
     titleText: {
         ...fonts.NUNITO_700_14,
         ...Styles.default_text_color,
+    },
+    titleTextRest: {
+        ...fonts.NUNITO_800_18,
+        color: colors.GREY_MEDIUM,
+        margin: dynamicSize(10),
     },
     foodItemContainer: {
         borderBottomWidth: 1,

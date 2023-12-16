@@ -23,6 +23,7 @@ import { ColorMatrix } from 'react-native-color-matrix-image-filters';
 import FastImage from 'react-native-fast-image';
 import { showDialog } from '../../redux/actions/dialog';
 import { useDispatch } from 'react-redux';
+import Currency from '../Currency';
 
 const Cuisines = ({ cuisines }) => {
     return (
@@ -59,7 +60,7 @@ const RestaurantCardLarge = ({ restaurantObject, navigation }) => {
         <TouchableWithoutFeedback
             onPress={() => {
                 if (isRestaurantOpen) {
-                    navigation.navigate('RestaurantWithMenu', {
+                    navigation.navigate('RestaurantWithMenuUpdated', {
                         restaurant: restaurant,
                     });
                 } else {
@@ -145,7 +146,8 @@ const RestaurantCardLarge = ({ restaurantObject, navigation }) => {
                                     fonts.NUNITO_700_12,
                                     { color: colors.GREY_MEDIUM },
                                 ]}>
-                                ₹ {restaurant.costOfTwo} for one
+                                {<Currency currency={restaurant?.currency} />}{' '}
+                                {restaurant.costOfTwo} for one
                             </Text>
                         )}
                         {/* {restaurant && restaurant.timings && (

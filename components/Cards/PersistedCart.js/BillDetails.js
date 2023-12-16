@@ -4,9 +4,10 @@ import { dimensions, fonts, Styles } from '../../../styles';
 import Rupee from '../../../assets/icons/rupee.svg';
 import OrangeRupee from '../../../assets/icons/orangeRupee.svg';
 import { colors } from '../../../styles/colors';
+import Currency from '../../Currency';
 
 const BillDetails = props => {
-    const { billingDetails, config } = props;
+    const { billingDetails, config, currency } = props;
     return (
         <View>
             <Text style={styles.titleText}>Bill Details</Text>
@@ -16,8 +17,8 @@ const BillDetails = props => {
                         <View style={styles.innerContainer}>
                             <Text style={styles.text}>Item Total</Text>
                             <View style={styles.amount}>
-                                <Rupee />
                                 <Text style={styles.priceText}>
+                                    <Currency currency={currency} />{' '}
                                     {billingDetails.totalItemsPrice}
                                 </Text>
                             </View>
@@ -28,8 +29,8 @@ const BillDetails = props => {
                             <View style={styles.innerContainer}>
                                 <Text style={styles.text}>Delivery Fee</Text>
                                 <View style={styles.amount}>
-                                    <Rupee />
                                     <Text style={styles.priceText}>
+                                        <Currency currency={currency} />{' '}
                                         {billingDetails.deliveryPartnerFees}
                                     </Text>
                                 </View>
@@ -42,8 +43,8 @@ const BillDetails = props => {
                             <Text style={styles.text}>Money From Furos</Text>
                             <View style={styles.amount}>
                                 <Text style={styles.priceText}> - </Text>
-                                <Rupee />
                                 <Text style={styles.priceText}>
+                                    <Currency currency={currency} />{' '}
                                     {billingDetails.walletMoney}
                                 </Text>
                             </View>
@@ -57,8 +58,8 @@ const BillDetails = props => {
                                 </Text>
                                 <View style={styles.amount}>
                                     <Text style={styles.priceText}> - </Text>
-                                    <Rupee />
                                     <Text style={styles.priceText}>
+                                        <Currency currency={currency} />{' '}
                                         {billingDetails.referralCoinsUsed}
                                     </Text>
                                 </View>
@@ -69,8 +70,8 @@ const BillDetails = props => {
                             <Text style={styles.text}>Coupon Discount</Text>
                             <View style={styles.amount}>
                                 <Text style={styles.priceText}> - </Text>
-                                <Rupee />
                                 <Text style={styles.priceText}>
+                                    <Currency currency={currency} />{' '}
                                     {billingDetails.discountAmount}
                                 </Text>
                             </View>
@@ -82,8 +83,8 @@ const BillDetails = props => {
                                 Govt Taxes & Other Charges ({config.GSTtaxes}%)
                             </Text>
                             <View style={styles.amount}>
-                                <Rupee />
                                 <Text style={styles.priceText}>
+                                    <Currency currency={currency} />{' '}
                                     {billingDetails?.taxes}
                                 </Text>
                             </View>
@@ -95,12 +96,12 @@ const BillDetails = props => {
                         <View style={styles.innerContainer}>
                             <Text style={styles.orangeText}>To Pay</Text>
                             <View style={styles.amount}>
-                                <OrangeRupee />
                                 <Text
                                     style={[
                                         styles.priceText,
                                         styles.orangeText,
                                     ]}>
+                                    <Currency currency={currency} />{' '}
                                     {billingDetails.totalAmount}
                                 </Text>
                             </View>

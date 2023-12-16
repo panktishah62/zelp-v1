@@ -24,9 +24,10 @@ import { DialogTypes, getUpto2Decimal } from '../../../utils';
 import { showDialog } from '../../../redux/actions/dialog';
 import remoteConfig from '@react-native-firebase/remote-config';
 import RemoteConfigService from '../../../redux/services/remoteConfigService';
+import Currency from '../../Currency';
 
 const RedeemFuro = props => {
-    const { setIsLoading, moneyInWallet, config, navigation } = props;
+    const { setIsLoading, moneyInWallet, config, navigation, currency } = props;
     const cart = useSelector(state => state.cartActions);
     const userProfile = useSelector(state => state.user.userProfile);
     const [rupeesPerFuro, setRupeePerFuro] = useState(
@@ -128,7 +129,8 @@ const RedeemFuro = props => {
                     </Text>
                 )}
                 <Text style={styles.subtitleText}>
-                    {1 / rupeesPerFuro} Furo = 1 Rs
+                    {1 / rupeesPerFuro} Furo = 1{' '}
+                    <Currency currency={currency} />
                 </Text>
                 {walletInstructions && (
                     <Text style={styles.subtitleText}>

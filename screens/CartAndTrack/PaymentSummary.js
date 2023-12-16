@@ -3,12 +3,16 @@ import { StyleSheet, View, Text, Platform } from 'react-native';
 import { dynamicSize, normalizeFont } from '../../utils/responsive';
 import { dimensions, fonts } from '../../styles';
 import { colors } from '../../styles/colors';
+import Currency from '../../components/Currency';
 
-const SinglePaymentDetails = ({ amountType, amount }) => {
+const SinglePaymentDetails = ({ amountType, amount, currency }) => {
     return (
         <View style={styles.singlePaymentContainer}>
             <Text style={styles.amountType}>{amountType}</Text>
-            <Text style={styles.amount}>{`₹${amount}`}</Text>
+            <Text style={styles.amount}>
+                <Currency currency={currency} />
+                {` ${amount}`}
+            </Text>
         </View>
     );
 };
@@ -24,6 +28,7 @@ const PaymentSummary = ({
     moneyFromFuro,
     moneyFromReferralCoins,
     couponDiscount,
+    currency,
 }) => {
     return (
         <View style={styles.container}>
@@ -52,36 +57,47 @@ const PaymentSummary = ({
                 <SinglePaymentDetails
                     amountType={'Order Value'}
                     amount={orderValue}
+                    currency={currency}
                 />
                 <SinglePaymentDetails
                     amountType={'Packing Charges'}
                     amount={packagingCharges}
+                    currency={currency}
                 />
                 <SinglePaymentDetails
                     amountType={'Delivery Charges'}
                     amount={deliveryCharges}
+                    currency={currency}
                 />
                 <SinglePaymentDetails
                     amountType={'Money From Furos'}
                     amount={moneyFromFuro}
+                    currency={currency}
                 />
                 <SinglePaymentDetails
                     amountType={'Money From Referral Coins'}
                     amount={moneyFromReferralCoins}
+                    currency={currency}
                 />
                 {couponDiscount > 0 && (
                     <SinglePaymentDetails
                         amountType={'Coupon Discount'}
                         amount={couponDiscount}
+                        currency={currency}
                     />
                 )}
-                <SinglePaymentDetails amountType={'Taxes'} amount={taxes} />
+                <SinglePaymentDetails
+                    amountType={'Taxes'}
+                    amount={taxes}
+                    currency={currency}
+                />
             </View>
             <SinglePaymentDetails
                 amountType={
                     paymentMode === 'COD' ? 'Cash On Delivery' : 'Paid Online'
                 }
                 amount={totalAmount}
+                currency={currency}
             />
         </View>
     );

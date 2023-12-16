@@ -48,6 +48,8 @@ const SignUpScreen = ({ navigation }) => {
         if (isOTPSent) {
             navigation.navigate('OTPVerification', {
                 mobNo: phonenumber,
+                callingCode,
+                countryCode,
             });
         }
     }, [isOTPSent]);

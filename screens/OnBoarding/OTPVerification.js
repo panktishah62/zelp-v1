@@ -21,7 +21,7 @@ import Share from 'react-native-share';
 import { showDialog } from '../../redux/actions/dialog';
 import { resendOTP } from '../../redux/services/authService';
 
-const ReverseTimer = ({ number, startTime = 60 }) => {
+const ReverseTimer = ({ number, countryCode, callingCode, startTime = 60 }) => {
     const dispatch = useDispatch();
     const [seconds, setSeconds] = useState(startTime);
     const [minutes, setMinutes] = useState(0);
@@ -46,7 +46,7 @@ const ReverseTimer = ({ number, startTime = 60 }) => {
     }, [seconds, minutes]);
 
     const restartTimer = async () => {
-        await resendOTP({ mobNo: number });
+        await resendOTP({ mobNo: number, countryCode, callingCode });
         setSeconds(60);
         setMinutes(0);
         setTimerEnded(false);
@@ -79,7 +79,7 @@ const ReverseTimer = ({ number, startTime = 60 }) => {
 const OTPVerificationScreen = ({ route, navigation }) => {
     const insets = useSafeAreaInsets();
     const [keyboardHeight, setKeyboardHeight] = useState(0);
-    const { mobNo } = route.params;
+    const { mobNo, callingCode, countryCode } = route.params;
     const [number, setNumber] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -106,7 +106,15 @@ const OTPVerificationScreen = ({ route, navigation }) => {
     const handleLogin = () => {
         setIsLoading(true);
         dispatch(
-            verifyOTP(mobNo, number, navigation, setIsLoading, onPressShare),
+            verifyOTP(
+                mobNo,
+                number,
+                countryCode,
+                callingCode,
+                navigation,
+                setIsLoading,
+                onPressShare,
+            ),
         );
     };
 
@@ -181,7 +189,7 @@ const OTPVerificationScreen = ({ route, navigation }) => {
                                         Styles.default_text_color,
                                     ]}>
                                     {' '}
-                                    {mobNo}
+                                    +{callingCode} {mobNo}
                                 </Text>
                             </View>
 
@@ -191,7 +199,11 @@ const OTPVerificationScreen = ({ route, navigation }) => {
                                     setNumber={setNumber}
                                 />
                                 <View style={Styles.center}>
-                                    <ReverseTimer number={mobNo} />
+                                    <ReverseTimer
+                                        number={mobNo}
+                                        countryCode={countryCode}
+                                        callingCode={callingCode}
+                                    />
                                 </View>
                             </View>
                         </View>

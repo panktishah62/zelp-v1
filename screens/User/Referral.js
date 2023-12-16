@@ -20,6 +20,7 @@ import { dimensions, fonts } from '../../styles';
 import { getUserReferralCodeDetails } from '../../redux/services/referralService';
 import { dynamicSize } from '../../utils/responsive';
 import ReferralProgressCard from '../../components/Cards/ReferralProgressCard';
+import Currency from '../../components/Currency';
 
 const ReferralScreen = ({ navigation }) => {
     const [referralDetails, setReferralDetails] = useState();
@@ -100,7 +101,8 @@ const ReferralScreen = ({ navigation }) => {
                                     color: colors.GREY_DARK,
                                 }}>
                                 {1 / userProfile?.referralCoinsMultiple}{' '}
-                                Referral Coins = 1 Rs
+                                Referral Coins = 1{' '}
+                                <Currency currency={userProfile?.currency} />
                             </Text>
                         </View>
                     </View>

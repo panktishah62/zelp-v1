@@ -2,7 +2,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DialogTypes } from '../../utils';
 import * as types from '../constants/index';
 import { persistor } from '../store/index';
-import { getDefaultAddress, resetAddress } from './address';
+import {
+    getDefaultAddress,
+    getUserCurrentOrSavedLocation,
+    resetAddress,
+} from './address';
 import { resetCurrentOrder } from './currentOrder';
 import { resetUser } from './user';
 import {
@@ -65,7 +69,7 @@ export const deleteAccount = () => {
                     dispatch(resetCartActions());
                     dispatch(logout());
                     dispatch(resetFollowedFroker());
-                    dispatch(getDefaultAddress());
+                    dispatch(getUserCurrentOrSavedLocation(null));
                 } else {
                     throw Error();
                 }
@@ -118,19 +122,21 @@ export const logout = () => {
 export const verifyOTP = (
     mobNo,
     otp,
+    countryCode,
+    callingCode,
     navigation,
     setIsLoading,
     onPressShare,
 ) => {
     return async dispatch => {
-        await verifyOtp({ mobNo, otp })
+        await verifyOtp({ mobNo, otp, countryCode, callingCode })
             .then(response => response?.data)
             .then(async data => {
                 if (data?.status === 'success' && data?.token) {
                     await AsyncStorage.setItem('token', data.token);
                     dispatch(loginSuccess(data));
                     requestUserPermission();
-                    dispatch(getDefaultAddress());
+                    dispatch(getUserCurrentOrSavedLocation(null));
                     dispatch({
                         type: types.GET_USER_PROFILE,
                         payload: data.userProfile,

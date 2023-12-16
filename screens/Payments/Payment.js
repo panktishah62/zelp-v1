@@ -47,10 +47,7 @@ import RemoteConfigService from '../../redux/services/remoteConfigService';
 const PaymentsScreen = props => {
     const { navigation, route } = props;
     const dispatch = useDispatch();
-    const isCODAvailable =
-        RemoteConfigService.getRemoteValue('isCODAvailable').asBoolean();
     const [isLoading, setIsLoading] = useState(false);
-    const [paymentMethod, setPaymentMethod] = useState(paymentMethods.OTHERS);
     const [merchantTransactionId, setMerchantTransactionId] = useState(
         route.params && route.params.merchantTransactionId
             ? route.params.merchantTransactionId
@@ -61,6 +58,22 @@ const PaymentsScreen = props => {
     const [paymentInitiated, setPaymentInitiated] = useState(false);
 
     const cart = useSelector(state => state.cartActions);
+
+    const countryCodeConfig = JSON.parse(
+        RemoteConfigService.getRemoteValue('CountryCodeConfig').asString(),
+    );
+
+    const availablePaymentMethod = Object.keys(countryCodeConfig).includes(
+        cart?.address?.countryCode,
+    )
+        ? countryCodeConfig[cart?.address?.countryCode].applicablePaymentMethods
+        : ['OTHERS', 'COD'];
+
+    const [paymentMethod, setPaymentMethod] = useState(
+        availablePaymentMethod?.length > 0
+            ? availablePaymentMethod[0]
+            : paymentMethods.OTHERS,
+    );
     const appState = useRef(AppState.currentState);
     const isFocused = useIsFocused();
     let intervalId;
@@ -188,7 +201,7 @@ const PaymentsScreen = props => {
             dispatch(resetCartActions());
             dispatch(getUserProfile());
             setIsLoading(false);
-            navigation.navigate('OrderPlaced', {
+            navigation.replace('OrderPlaced', {
                 timeToDeliver: `${getRandomInt(30, 60)} mins`,
             });
         } else {
@@ -370,7 +383,7 @@ const PaymentsScreen = props => {
         if (transactionStatus === PAYMENT_CODES.PAYMENT_SUCCESS) {
             const timer = setTimeout(() => {
                 dispatch(resetCartActions());
-                navigation.navigate('OrderPlaced', {
+                navigation.replace('OrderPlaced', {
                     timeToDeliver: `${getRandomInt(30, 60)} mins`,
                 });
             }, 2000);
@@ -407,43 +420,61 @@ const PaymentsScreen = props => {
                                     Preferred Payment Method
                                 </Text>
                                 <View style={styles.innerContainer}>
-                                    <TouchableWithoutFeedback
-                                        onPress={() => {
-                                            onChangePaymentMethod(
-                                                paymentMethods.OTHERS,
-                                            );
-                                        }}>
-                                        <View
-                                            style={[
-                                                styles.paymentMode,
-                                                {
-                                                    borderBottomWidth:
-                                                        isCODAvailable ? 1 : 0,
-                                                },
-                                            ]}>
-                                            <View style={styles.leftContainer}>
-                                                <Image
-                                                    source={require('../../assets/icons/onlinePay.png')}
-                                                    style={styles.iconImage}
-                                                />
-                                                <Text
-                                                    style={styles.subtitleText}>
-                                                    Pay using wallet / card
-                                                </Text>
-                                            </View>
-                                            <View style={styles.rightContainer}>
-                                                {paymentMethod && (
-                                                    <RadioButton
-                                                        isActive={
-                                                            paymentMethod ==
-                                                            paymentMethods.OTHERS
-                                                        }
+                                    {availablePaymentMethod?.includes(
+                                        'OTHERS',
+                                    ) && (
+                                        <TouchableWithoutFeedback
+                                            onPress={() => {
+                                                onChangePaymentMethod(
+                                                    paymentMethods.OTHERS,
+                                                );
+                                            }}>
+                                            <View
+                                                style={[
+                                                    styles.paymentMode,
+                                                    {
+                                                        borderBottomWidth:
+                                                            availablePaymentMethod?.includes(
+                                                                'COD',
+                                                            )
+                                                                ? 1
+                                                                : 0,
+                                                    },
+                                                ]}>
+                                                <View
+                                                    style={
+                                                        styles.leftContainer
+                                                    }>
+                                                    <Image
+                                                        source={require('../../assets/icons/onlinePay.png')}
+                                                        style={styles.iconImage}
                                                     />
-                                                )}
+                                                    <Text
+                                                        style={
+                                                            styles.subtitleText
+                                                        }>
+                                                        Pay using wallet / card
+                                                    </Text>
+                                                </View>
+                                                <View
+                                                    style={
+                                                        styles.rightContainer
+                                                    }>
+                                                    {paymentMethod && (
+                                                        <RadioButton
+                                                            isActive={
+                                                                paymentMethod ==
+                                                                paymentMethods.OTHERS
+                                                            }
+                                                        />
+                                                    )}
+                                                </View>
                                             </View>
-                                        </View>
-                                    </TouchableWithoutFeedback>
-                                    {isCODAvailable && (
+                                        </TouchableWithoutFeedback>
+                                    )}
+                                    {availablePaymentMethod?.includes(
+                                        'COD',
+                                    ) && (
                                         <TouchableWithoutFeedback
                                             onPress={() => {
                                                 onChangePaymentMethod(
