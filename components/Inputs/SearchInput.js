@@ -92,9 +92,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         width: dimensions.fullWidth * 0.8,
-        backgroundColor: colors.GREY_LIGHT,
+        // backgroundColor: colors.GREY_LIGHT,
         height: 46,
         borderRadius: 8,
+        borderWidth: 1,
+        borderColor: colors.GREY_BORDER,
     },
     textContainerStyle: {
         flex: 1,
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         margin: 5,
         color: colors.GREY_MEDIUM,
-        backgroundColor: colors.GREY_LIGHT,
+        // backgroundColor: colors.GREY_LIGHT,
     },
     searchIcon: {
         marginHorizontal: 15,

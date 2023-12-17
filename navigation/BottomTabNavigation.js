@@ -41,6 +41,7 @@ import SubscriptionPageOld from '../screens/SubscriptionModel/SubscriptionPageOl
 
 import LiveTrackingMap from '../screens/CartAndTrack/LiveTrackingMap';
 import TrackOrderScreen from '../screens/CartAndTrack/TrackOrder';
+import HeaderWithActionButtons from '../components/Header/HeaderWithActionButtons';
 
 const Tab = createBottomTabNavigator();
 
@@ -182,7 +183,7 @@ const BottomTabNavigation = ({ navigation }) => {
                                 />
                             ),
                             header: () => (
-                                <HeaderWithLocationAndSearch
+                                <HeaderWithActionButtons
                                     navigation={navigation}
                                 />
                             ),
@@ -191,7 +192,8 @@ const BottomTabNavigation = ({ navigation }) => {
                         name="Home"
                         component={HomeScreen}
                     />
-                     <Tab.Screen
+
+                    <Tab.Screen
                         options={{
                             tabBarIcon: ({ focused, color }) =>
                                 focused ? (
@@ -217,25 +219,6 @@ const BottomTabNavigation = ({ navigation }) => {
                         component={RestaurantsScreen}
                     />
                     <Tab.Screen
-                        options={{
-                            tabBarIcon: ({ focused, color }) => (
-                                <FrokerIcon
-                                    height={35}
-                                    focused={focused}
-                                    style={{ color: color }}
-                                />
-                            ),
-                            header: () => (
-                                // <View />
-                                <HeaderWithLocationAndSearch
-                                    navigation={navigation}
-                                />
-                            ),
-                        }}
-                        name="Subscription"
-                        component={SubscriptionPageOld}
-                    />
-                    <Tab.Screen
                         options={({ route }) => ({
                             tabBarIcon: ({ focused, color }) => (
                                 <ShotsIcon
@@ -257,8 +240,26 @@ const BottomTabNavigation = ({ navigation }) => {
                         name="Shots"
                         component={ShotClassScreen}
                     />
+                    <Tab.Screen
+                        options={{
+                            tabBarIcon: ({ focused, color }) => (
+                                <FrokerIcon
+                                    height={35}
+                                    focused={focused}
+                                    style={{ color: color }}
+                                />
+                            ),
+                            header: () => (
+                                // <View />
+                                <HeaderWithLocationAndSearch
+                                    navigation={navigation}
+                                />
+                            ),
+                        }}
+                        name="Subscription"
+                        component={SubscriptionPageOld}
+                    />
 
-                   
                     {/* <Tab.Screen
                         options={{
                             tabBarIcon: ({ focused, color }) =>

@@ -229,7 +229,7 @@ const Explore = props => {
                         )}
 
                         {/* Choose from frokers */}
-                        {/* <LinearGradient
+                        <LinearGradient
                             style={styles.container2}
                             colors={[
                                 colors.ORANGE_GRADIENT_LIGHT,
@@ -248,13 +248,15 @@ const Explore = props => {
                                     );
                                 })}
                             </View>
-                        </LinearGradient> */}
+                        </LinearGradient>
 
                         {/* Choose from Posts/reels */}
-                        {/* <View style={styles.container3}>
-        <Text style={styles.title}>Here Is A Small Sneak Peek...</Text>
-        <FoodItemSlider />
-      </View> */}
+                        <View style={styles.container3}>
+                            <Text style={styles.title}>
+                                Here Is A Small Sneak Peek...
+                            </Text>
+                            <FoodItemSlider />
+                        </View>
 
                         {/* Choose from Restaurants */}
                         <View style={styles.container4}>

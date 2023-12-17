@@ -1,7 +1,6 @@
 import LinearGradient from 'react-native-linear-gradient';
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import Landing from '../../screens/Home/Landing';
 import { dimensions } from '../../styles';
 import { getRandom, getRandomInt } from '../../utils';
 import FloatingEllipseLarge from './FloatingEllipseLarge';
