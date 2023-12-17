@@ -98,7 +98,7 @@ const BottomTabNavigation = ({ navigation }) => {
         dispatch(
             showDrawer({
                 isVisible: true,
-                navigateTo: 'Guidelines',
+                navigateTo: 'StartAuction',
             }),
         );
     };
@@ -230,20 +230,20 @@ const BottomTabNavigation = ({ navigation }) => {
                                     style={{ color: color }}
                                 />
                             ),
-                            header: () => (
-                                <HeaderWithLocationAndSearch
-                                    navigation={navigation}
-                                />
-                            ),
-                            // tabBarStyle: {
-                            //     display: 'none',
-                            //     height: 0,
-                            //     paddingTop: 0,
-                            //     borderTopWidth: 0,
-                            // },
+                            // header: () => (
+                            //     <HeaderWithLocationAndSearch
+                            //         navigation={navigation}
+                            //     />
+                            // ),
+                            tabBarStyle: {
+                                display: 'none',
+                                height: 0,
+                                paddingTop: 0,
+                                borderTopWidth: 0,
+                            },
                         })}
                         name="Marketplace"
-                        component={MarketplaceScreen}
+                        component={ShotClassScreen}
                     />
                     <Tab.Screen
                         options={({ navigation, route }) => ({

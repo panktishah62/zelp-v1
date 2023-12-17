@@ -8,7 +8,7 @@ import {
     StyleSheet,
     TextInput,
     Button,
-    TouchableOpacity,
+    TouchableOpacity, PermissionsAndroid
 } from 'react-native';
 import { colors } from '../../styles/colors';
 import { dimensions, fonts } from '../../styles';
@@ -22,6 +22,16 @@ import {
     resetAuction,
 } from '../../redux/actions/auction';
 import moment from 'moment';
+import KeyCenter from '../Auction.js/KeyCenter';
+import ZegoExpressEngine, {ZegoTextureView, ZegoMixerTask, ZegoAudioConfig, ZegoAudioConfigPreset, ZegoMixerInputContentType, ZegoScenario, ZegoRoomConfig} from 'zego-express-engine-reactnative';
+
+const granted =
+  Platform.OS == 'android'
+    ? PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        PermissionsAndroid.RECORD_AUDIO,
+      )
+    : undefined;
 
 const StartAuctionScreen = props => {
     const { navigation, route } = props;
@@ -32,6 +42,40 @@ const StartAuctionScreen = props => {
         setUserID(String(Math.floor(Math.random() * 100000)));
         setLiveID(String(Math.floor(Math.random() * 10000)));
     }, []);
+
+    useEffect(() => {
+        console.log('componentDidMount');
+        let profile = {
+          appID: KeyCenter.appID,
+          appSign: KeyCenter.appSign,
+          scenario: ZegoScenario.General,
+        };
+    
+        ZegoExpressEngine.createEngineWithProfile(profile).then(engine => {
+          // 动态获取设备权限（android）
+          if (Platform.OS == 'android') {
+            granted
+              .then(data => {
+                console.log('是否已有相机、麦克风权限: ' + data);
+                if (!data) {
+                  const permissions = [
+                    PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+                    PermissionsAndroid.PERMISSIONS.CAMERA,
+                  ];
+                  //返回得是对象类型
+                  PermissionsAndroid.requestMultiple(permissions);
+                }
+              })
+              .catch(err => {
+                console.log('check err: ' + err.toString());
+              });
+          }
+    
+          engine.getVersion().then(ver => {
+            console.log('Express SDK Version: ' + ver);
+          });
+        });
+      }, []);
 
     const deleteAuctionHandle = () => {
         dispatch(
@@ -67,11 +111,11 @@ const StartAuctionScreen = props => {
         if (isHost) {
             dispatch(addLiveStreamDetailsPreStream(dataToPost));
         }
-        navigation.navigate(isHost ? 'HostPage' : 'AudiencePage', {
-            userID: userID,
-            userName: userID,
-            liveID: liveID,
-        });
+        if (isHost) {
+            navigation.navigate('HostPage', {userID: '123', userName: '123'});
+          } else {
+            navigation.navigate('AudiencePage', {userID: '456', userName: '456'});
+          }
     };
 
     return (

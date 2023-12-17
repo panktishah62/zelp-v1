@@ -23,6 +23,7 @@ export const colors = {
     GREY_MEDIUM: '#827C75',
     GREY_DARK: '#666666',
     GREY_BORDER: '#D0D5DD',
+    GREY_AUCTION_DISABLED: 'rgba(229, 221, 221, 0.52)',
     BLUE_DARK: '#407AD1',
     BLUE_LIGHT: '#00BAF2',
     YELLOW: '#FCEA2B',
