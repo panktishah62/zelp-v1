@@ -3,6 +3,8 @@ import { Image, StyleSheet, Text } from 'react-native';
 import { TouchableOpacity, View } from 'react-native';
 import { dimensions, fonts } from '../../styles';
 import { colors } from '../../styles/colors';
+import CategoryPurse from '../../assets/ZelpIcons/CategoryPurse.svg';
+import { dynamicSize } from '../../utils/responsive';
 
 const IMAGE_URI = '../../assets/images/category.png';
 
@@ -14,9 +16,7 @@ const CategoryCard = props => {
                 onClick();
             }}
             style={styles.container}>
-            <View style={styles.imageContainer}>
-                <Image source={image} style={styles.image} />
-            </View>
+            <CategoryPurse height={'60'} width={'60'} />
             <Text style={styles.text}>{category}</Text>
         </TouchableOpacity>
     );
@@ -26,24 +26,16 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: dimensions.fullWidth / 3,
-        marginTop: 10,
-        marginBottom: 10,
+        width: dimensions.fullWidth / 4,
+        padding: dynamicSize(10),
+        // borderColor: colors.BLUE_DARK,
+        // borderWidth: 1,
     },
-    imageContainer: {
-        width: 80,
-        height: 80,
-        borderRadius: 40,
-    },
-    image: {
-        width: 80,
-        height: 80,
-        borderRadius: 40,
-    },
+
     text: {
-        ...fonts.NUNITO_500_10,
+        ...fonts.NUNITO_500_14,
         color: colors.BLACK,
-        margin: 10,
+        margin: dynamicSize(5),
     },
 });
 

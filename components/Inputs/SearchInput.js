@@ -97,7 +97,14 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderColor: colors.GREY_BORDER,
+        shadowColor: colors.BLACK,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5,
+        backgroundColor: colors.WHITE,
     },
+
     textContainerStyle: {
         flex: 1,
         paddingVertical: 10,

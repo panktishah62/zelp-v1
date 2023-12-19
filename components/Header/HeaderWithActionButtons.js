@@ -20,6 +20,7 @@ import { setHeaderWithLocationHeight } from '../../redux/actions/styles';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { dynamicSize } from '../../utils/responsive';
 import ShoppingBagButton from '../Buttons/ShoppingBagButton';
+import UserIcon from '../../assets/icons/UserIcon.svg';
 
 const HeaderWithActionButtons = props => {
     const { navigation, title, text, setText, placeholder, keyboardType } =

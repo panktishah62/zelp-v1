@@ -285,6 +285,7 @@ export const Styles = StyleSheet.create({
     },
     tabBarStyle: {
         height: TAB_BAR_HEIGHT,
+        // height: dynamicSize(65),
         paddingTop: dynamicSize(15),
         borderTopWidth: 0,
     },

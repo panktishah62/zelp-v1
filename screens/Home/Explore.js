@@ -22,6 +22,7 @@ import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
 import { isTimeInIntervals } from '../../utils';
 import ComingSoon from '../../assets/images/soon.svg';
+import VideoCam from '../../assets/ZelpIcons/VideoCam.svg';
 import Carousel, { Pagination } from 'react-native-new-snap-carousel';
 import OfferCard from '../../components/Cards/Offers/OfferCard';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -31,6 +32,7 @@ import {
     getTopRated,
 } from '../../redux/services/restaurantService';
 import BannerOnHomeScreen from '../../components/Banners/BannerOnHomeScreen';
+import { dynamicSize } from '../../utils/responsive';
 
 const Explore = props => {
     const { location, navigation } = props;
@@ -164,21 +166,23 @@ const Explore = props => {
                 {!isLoading && isServableArea && restaurants?.length > 0 && (
                     <View>
                         {/* Choose from categories */}
-                        <View style={styles.container1}>
+                        {/* <View style={styles.container1} horizontal={true}>
                             <Text style={styles.title}>
                                 Want To Try Any Of These?
-                            </Text>
-                            <View style={styles.innerContainer}>
-                                {categories.map((category, index) => {
-                                    return (
-                                        <Categories
-                                            item={category}
-                                            key={category._id}
-                                        />
-                                    );
-                                })}
-                            </View>
-                        </View>
+                            </Text> */}
+                        <ScrollView
+                            style={styles.innerContainer}
+                            horizontal={true}>
+                            {categories.map((category, index) => {
+                                return (
+                                    <Categories
+                                        item={category}
+                                        key={category._id}
+                                    />
+                                );
+                            })}
+                        </ScrollView>
+                        {/* </View> */}
 
                         <BannerOnHomeScreen navigation={navigation} />
 
@@ -192,6 +196,7 @@ const Explore = props => {
                                 <Text style={styles.title}>
                                     Get the best Offers
                                 </Text>
+                                {/* <View style={styles.liveShopContainer}></View> */}
                                 <View style={styles.carousel}>
                                     <Carousel
                                         ref={ref}
@@ -232,21 +237,61 @@ const Explore = props => {
                         <LinearGradient
                             style={styles.container2}
                             colors={[
-                                colors.ORANGE_GRADIENT_LIGHT,
                                 colors.ORANGE_GRADIENT_MEDIUM,
+                                colors.ORANGE_GRADIENT_LIGHT,
                             ]}>
-                            <Text style={styles.titleWithoutPadding}>
-                                Try From Our Top Frokers
-                            </Text>
-                            <View style={styles.innerContainer}>
-                                {frokers.slice(0, 5).map((froker, index) => {
+                            <View style={styles.leftContainer}>
+                                <Text style={styles.titleWithoutPadding}>
+                                    Try From Our Top Frokers
+                                </Text>
+                            </View>
+                            <View style={styles.rightContainer}>
+                                <Text style={styles.lowestPriceText}>
+                                    Lowest Prices
+                                </Text>
+                                <View style={styles.videoCamContainer}>
+                                    <View style={styles.discountTextContainer}>
+                                        <Text style={styles.discountText1}>
+                                            UPTO
+                                        </Text>
+                                        <Text style={styles.discountText2}>
+                                            25%
+                                        </Text>
+                                        <Text style={styles.discountText3}>
+                                            OFF
+                                        </Text>
+                                    </View>
+                                    <View style={styles.hooferView}>
+                                        <Text style={styles.hooferText1}>
+                                            only on
+                                        </Text>
+                                        <Text style={styles.hooferText2}>
+                                            LIVE
+                                        </Text>
+                                    </View>
+                                    <View style={styles.liveVideoTimer}>
+                                        <Text>8m: 76s</Text>
+                                        <Text>left</Text>
+                                    </View>
+                                    <View style={styles.watchBuyButton}>
+                                        <Text>Watch and Buy</Text>
+                                    </View>
+                                    <View style={styles.liveCamPosition}>
+                                        <VideoCam
+                                            height={'180'}
+                                            width={'180'}
+                                        />
+                                    </View>
+                                </View>
+
+                                {/* {frokers.map((froker, index) => {
                                     return (
                                         <FrokerCard
                                             froker={froker}
                                             key={froker._id}
                                         />
                                     );
-                                })}
+                                })} */}
                             </View>
                         </LinearGradient>
 
@@ -315,25 +360,81 @@ const styles = StyleSheet.create({
     container: {},
     container1: {
         width: dimensions.fullWidth,
-        alignItems: 'center',
+        // alignItems: 'center',
         backgroundColor: colors.ORANGE_GRADIENT_LIGHT,
     },
     container2: {
         width: dimensions.fullWidth,
+        flexDirection: 'row',
+        height: dynamicSize(250),
+        marginVertical: 20,
+    },
+    leftContainer: {
+        width: dimensions.fullWidth * 0.5,
+        height: dynamicSize(180),
+        backgroundColor: colors.BLUE_DARK,
+    },
+    rightContainer: {
+        width: dimensions.fullWidth * 0.5,
+        height: dynamicSize(180),
+        // backgroundColor: colors.RED,
+    },
+    lowestPriceText: {
+        ...fonts.NUNITO_700_14,
+        color: colors.PINK_GRADIENT_DARK,
+        alignSelf: 'center',
+    },
+    videoCamContainer: {
+        width: dimensions.fullWidth * 0.5,
         alignItems: 'center',
         justifyContent: 'center',
-        height: 166,
-        paddingTop: 20,
-        paddingBottom: 20,
-        marginVertical: 20,
+    },
+    liveCamPosition: {
+        position: 'absolute',
+        right: dynamicSize(-12),
+        // marginHorizontal: 10,
+        // marginVertical: 10,
+        // backgroundColor: colors.RED,
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        // alignSelf: 'center',
+    },
+    discountTextContainer:{
+        position: 'absolute',
+        left: dynamicSize(12),
+    },
+    discountText1: {
+        ...fonts.NUNITO_500_14,
+        color: colors.WHITE,
+    },
+    discountText2: {
+        ...fonts.NUNITO_700_18,
+        color: colors.WHITE,
+    },
+    discountText3: {
+        ...fonts.NUNITO_500_14,
+        color: colors.WHITE,
+    },
+    hooferView: {
+        position: 'absolute',
+        right: dynamicSize(18),
+        zIndex: 10,
+    },
+    hooferText1: {
+        ...fonts.NUNITO_500_10,
+        color: colors.WHITE,
+    },
+    hooferText2: {
+        ...fonts.NUNITO_700_14,
+        color: colors.PINK_GRADIENT_DARK,
     },
     innerContainer: {
         width: dimensions.fullWidth,
         flex: 1,
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        alignItems: 'center',
+        // flexWrap: 'wrap',
+        // justifyContent: 'center',
+        // alignItems: 'center',
     },
     container3: {
         alignItems: 'center',
@@ -343,6 +444,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 30,
+    },
+    liveShopContainer: {
+        width: dimensions.fullWidth,
+        height: 200,
+        backgroundColor: colors.BLUE_DARK,
     },
     titleWithoutPadding: {
         ...fonts.NUNITO_700_14,

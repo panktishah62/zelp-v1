@@ -30,6 +30,7 @@ import { getUserProfile } from '../../redux/actions/user';
 import { sliceText } from '../../utils';
 import BackRightIcon from '../../assets/icons/backRight.svg';
 import { Popup } from 'react-native-popup-confirm-toast';
+import { dynamicSize } from '../../utils/responsive';
 
 const USER = './../../assets/icons/profileEdit.png';
 
@@ -123,7 +124,7 @@ const ProfileMenuItem = ({
                 styles.profileItemContainer,
                 styles.boxShadow,
                 styles.elevation,
-                { marginVertical: 3, marginHorizontal: 8 },
+                // { marginVertical: 3, marginHorizontal: 8 },
             ]}
             onPress={() => {
                 if (name === 'Logout') {
@@ -188,7 +189,9 @@ const ProfileMenuItem = ({
                     </Text>
                 </View>
             </View>
-            <BackRightIcon />
+            <View style={styles.rightIconStyles}>
+                <BackRightIcon height={'12'} width={'12'} />
+            </View>
         </TouchableOpacity>
     );
 };
@@ -225,7 +228,8 @@ const ProfileScreen = ({ navigation }) => {
                 <View
                     style={[
                         styles.elevation,
-                        { marginVertical: 10, marginHorizontal: 8 },
+                        styles.userCardOuterContainer,
+                        { marginVertical: 2, marginHorizontal: 0 },
                     ]}>
                     {user && !isLoading && (
                         <View>
@@ -380,7 +384,7 @@ const styles = StyleSheet.create({
     elevation: {
         backgroundColor: colors.WHITE,
         padding: 20,
-        borderRadius: 8,
+        // borderRadius: 8,
 
         ...Platform.select({
             ios: {
@@ -395,21 +399,26 @@ const styles = StyleSheet.create({
         }),
     },
     boxShadow: {
-        shadowColor: colors.BLACK,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        elevation: 5,
-        backgroundColor: colors.WHITE,
-        padding: 25,
-        borderRadius: 8,
-        marginVertical: 5,
+        // shadowColor: colors.BLACK,
+        // shadowOffset: { width: 0, height: 4 },
+        // shadowOpacity: 0.8,
+        // shadowRadius: 2,
+        // elevation: 5,
+        // backgroundColor: colors.WHITE,
+        // padding: 25,
+        // borderRadius: 8,
+        borderWidth: 1,
+        borderColor: colors.GREY_LIGHT,
+        // marginVertical: 1,
+    },
+    rightIconStyles: {
+        paddingRight: dynamicSize(15),
     },
     profileItemContainer: {
         backgroundColor: colors.WHITE,
-        borderRadius: 8,
+        // borderRadius: 8,
         paddingHorizontal: 5,
-        paddingVertical: 10,
+        paddingVertical: dynamicSize(15),
     },
     imageStyle: {
         width: 25,
@@ -434,6 +443,9 @@ const styles = StyleSheet.create({
     userCardContainer: {
         flex: 1,
         ...Styles,
+    },
+    userCardOuterContainer: {
+        backgroundColor: colors.GREY_BORDER,
     },
     userTextContainer: {
         flexDirection: 'column',
