@@ -46,7 +46,6 @@ import LiveTrackingMap from '../screens/CartAndTrack/LiveTrackingMap';
 import TrackOrderScreen from '../screens/CartAndTrack/TrackOrder';
 import HeaderWithActionButtons from '../components/Header/HeaderWithActionButtons';
 import CategoriesScreen from '../screens/Category/CategoriesScreen';
-import HostPage from '../screens/Auction.js/HostPage';
 
 const Tab = createBottomTabNavigator();
 
@@ -268,7 +267,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             },
                         })}
                         name="Shots"
-                        component={HostPage}
+                        component={ShotClassScreen}
                     />
                     <Tab.Screen
                         options={{
