@@ -32,6 +32,7 @@ import { DialogTypes } from '../../utils';
 import { queryClient } from '../../utils/queryClient';
 import RemoteConfigService from '../../redux/services/remoteConfigService';
 import { isSwiped } from '../../redux/actions/shotsView';
+import VideoItem2 from './VideoItem';
 
 const ShotClassScreen = props => {
     const { route, navigation } = props;
@@ -256,7 +257,7 @@ const ShotClassScreen = props => {
                     renderItem={({ item, index }) => {
                         return (
                             item?.shot?.fileLocation && (
-                                <VideoItem
+                                <VideoItem2
                                     data={item}
                                     isActive={activeVideoIndex === index}
                                     navigation={navigation}
