@@ -21,6 +21,8 @@ import { ErrorHandler } from '../components/ErrorHandler/ErrorHandler';
 import HeaderWithLocation from '../components/Header/HeaderWithLocation';
 import HeaderWithCart from '../components/Header/HeaderWithCart';
 import ShotClassScreen from '../screens/Shots/ShotsClass';
+import ProfileScreen from '../screens/User/Profile';
+import CategoryScreen from '../screens/Category/CategoryScreen';
 
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {
@@ -38,9 +40,12 @@ import { Linking, View } from 'react-native';
 import branch from 'react-native-branch';
 import HeaderWithLocationAndSearch from '../components/Header/HeaderWithLocationAndSearch';
 import SubscriptionPageOld from '../screens/SubscriptionModel/SubscriptionPageOld';
+import UserIcon from '../assets/icons/UserIcon.svg';
 
 import LiveTrackingMap from '../screens/CartAndTrack/LiveTrackingMap';
 import TrackOrderScreen from '../screens/CartAndTrack/TrackOrder';
+import HeaderWithActionButtons from '../components/Header/HeaderWithActionButtons';
+import CategoriesScreen from '../screens/Category/CategoriesScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -182,7 +187,7 @@ const BottomTabNavigation = ({ navigation }) => {
                                 />
                             ),
                             header: () => (
-                                <HeaderWithLocationAndSearch
+                                <HeaderWithActionButtons
                                     navigation={navigation}
                                 />
                             ),
@@ -191,7 +196,8 @@ const BottomTabNavigation = ({ navigation }) => {
                         name="Home"
                         component={HomeScreen}
                     />
-                     <Tab.Screen
+
+                    <Tab.Screen
                         options={{
                             tabBarIcon: ({ focused, color }) =>
                                 focused ? (
@@ -218,22 +224,28 @@ const BottomTabNavigation = ({ navigation }) => {
                     />
                     <Tab.Screen
                         options={{
-                            tabBarIcon: ({ focused, color }) => (
-                                <FrokerIcon
-                                    height={35}
-                                    focused={focused}
-                                    style={{ color: color }}
-                                />
-                            ),
+                            tabBarIcon: ({ focused, color }) =>
+                                focused ? (
+                                    <RestaurantsIconFocused
+                                        height={35}
+                                        focused={focused}
+                                        style={{ color: color }}
+                                    />
+                                ) : (
+                                    <RestaurantsIcon
+                                        height={35}
+                                        focused={focused}
+                                        style={{ color: color }}
+                                    />
+                                ),
                             header: () => (
-                                // <View />
-                                <HeaderWithLocationAndSearch
+                                <HeaderWithActionButtons
                                     navigation={navigation}
                                 />
                             ),
                         }}
-                        name="Subscription"
-                        component={SubscriptionPageOld}
+                        name="Categories"
+                        component={CategoriesScreen}
                     />
                     <Tab.Screen
                         options={({ route }) => ({
@@ -257,8 +269,45 @@ const BottomTabNavigation = ({ navigation }) => {
                         name="Shots"
                         component={ShotClassScreen}
                     />
+                    <Tab.Screen
+                        options={{
+                            tabBarIcon: ({ focused, color }) => (
+                                <FrokerIcon
+                                    height={35}
+                                    focused={focused}
+                                    style={{ color: color }}
+                                />
+                            ),
+                            header: () => (
+                                // <View />
+                                <HeaderWithLocationAndSearch
+                                    navigation={navigation}
+                                />
+                            ),
+                        }}
+                        name="Subscription"
+                        component={SubscriptionPageOld}
+                    />
 
-                   
+                    <Tab.Screen
+                        options={{
+                            tabBarIcon: ({ focused, color }) => (
+                                <UserIcon
+                                    height={35}
+                                    focused={focused}
+                                    style={{ color: color }}
+                                />
+                            ),
+                            // header: () => (
+                            //     // <View />
+                            //     <HeaderWithLocationAndSearch
+                            //         navigation={navigation}
+                            //     />
+                            // ),
+                        }}
+                        name="Profile"
+                        component={ProfileScreen}
+                    />
                     {/* <Tab.Screen
                         options={{
                             tabBarIcon: ({ focused, color }) =>

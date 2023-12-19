@@ -54,6 +54,8 @@ import HeaderWithCartForSubscription from '../components/Header/HeaderWithCartFo
 import HeaderWithHome from '../components/Header/HeaderWithHome';
 import NewOrderDetailsScreen from '../screens/CartAndTrack/OrderDetailsScreen';
 import SomethingWentWrong from '../screens/CartAndTrack/SomethingWentWrong';
+import ProductAllScreen from '../screens/Category/ProductAllScreen';
+import SingleProductScreen from '../screens/Category/SingleProductScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -359,6 +361,30 @@ const MainStack = () => {
                 options={({ navigation, route }) => ({
                     header: () => (
                         <HeaderWithTitle navigation={navigation} title="Cart" />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="ProductAllScreen"
+                component={ProductAllScreen}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitle
+                            navigation={navigation}
+                            title="Category"
+                        />
+                    ),
+                })}
+            />
+            <Stack.Screen
+                name="SingleProductScreen"
+                component={SingleProductScreen}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitle
+                            navigation={navigation}
+                            title="Product Name"
+                        />
                     ),
                 })}
             />
