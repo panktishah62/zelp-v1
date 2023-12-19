@@ -10,15 +10,15 @@ import {
     KeyboardAvoidingView,
 } from 'react-native';
 
-import ZegoExpressEngine, {
-    ZegoTextureView,
-    ZegoMixerTask,
-    ZegoAudioConfig,
-    ZegoAudioConfigPreset,
-    ZegoMixerInputContentType,
-    ZegoScenario,
-    ZegoRoomConfig,
-} from 'zego-express-engine-reactnative';
+// import ZegoExpressEngine, {
+//     ZegoTextureView,
+//     ZegoMixerTask,
+//     ZegoAudioConfig,
+//     ZegoAudioConfigPreset,
+//     ZegoMixerInputContentType,
+//     ZegoScenario,
+//     ZegoRoomConfig,
+// } from 'zego-express-engine-reactnative';
 import { fonts, dimensions } from '../../styles';
 import { colors } from '../../styles/colors';
 import StickyBottomButton from '../../components/Buttons/StickyBottomButton';
@@ -50,96 +50,96 @@ export default function HostPage(props) {
     //     );
     // });
 
-    const onClickA = () => {
-        let roomConfig = new ZegoRoomConfig();
-        roomConfig.isUserStatusNotify = true;
+    // const onClickA = () => {
+    //     let roomConfig = new ZegoRoomConfig();
+    //     roomConfig.isUserStatusNotify = true;
 
-        ZegoExpressEngine.instance().loginRoom(
-            '9999',
-            { userID: userID, userName: 'zego' },
-            roomConfig,
-        );
-        ZegoExpressEngine.instance().startPreview({
-            reactTag: findNodeHandle(zego_preview_view?.current),
-            viewMode: 1,
-            backgroundColor: 0,
-        });
-        ZegoExpressEngine.instance().startPublishingStream('333');
+    //     ZegoExpressEngine.instance().loginRoom(
+    //         '9999',
+    //         { userID: userID, userName: 'zego' },
+    //         roomConfig,
+    //     );
+    //     ZegoExpressEngine.instance().startPreview({
+    //         reactTag: findNodeHandle(zego_preview_view?.current),
+    //         viewMode: 1,
+    //         backgroundColor: 0,
+    //     });
+    //     ZegoExpressEngine.instance().startPublishingStream('333');
 
-        ZegoExpressEngine.instance().on(
-            'roomStateUpdate',
-            (roomID, state, errorCode, extendedData) => {
-                console.log(
-                    'JS onRoomStateUpdate: ' +
-                        state +
-                        ' roomID: ' +
-                        roomID +
-                        ' err: ' +
-                        errorCode +
-                        ' extendData: ' +
-                        extendedData,
-                );
-            },
-        );
-        ZegoExpressEngine.instance().on(
-            'roomUserUpdate',
-            (roomID, updateType, userList) => {
-                console.log(
-                    'JS onRoomUserUpdate: ' +
-                        state +
-                        ' roomID: ' +
-                        roomID +
-                        ' err: ' +
-                        errorCode +
-                        ' extendData: ' +
-                        extendedData,
-                );
-            },
-        );
+    //     ZegoExpressEngine.instance().on(
+    //         'roomStateUpdate',
+    //         (roomID, state, errorCode, extendedData) => {
+    //             console.log(
+    //                 'JS onRoomStateUpdate: ' +
+    //                     state +
+    //                     ' roomID: ' +
+    //                     roomID +
+    //                     ' err: ' +
+    //                     errorCode +
+    //                     ' extendData: ' +
+    //                     extendedData,
+    //             );
+    //         },
+    //     );
+    //     ZegoExpressEngine.instance().on(
+    //         'roomUserUpdate',
+    //         (roomID, updateType, userList) => {
+    //             console.log(
+    //                 'JS onRoomUserUpdate: ' +
+    //                     state +
+    //                     ' roomID: ' +
+    //                     roomID +
+    //                     ' err: ' +
+    //                     errorCode +
+    //                     ' extendData: ' +
+    //                     extendedData,
+    //             );
+    //         },
+    //     );
 
-        ZegoExpressEngine.instance().on(
-            'IMRecvBroadcastMessage',
-            (roomID, messageList) => {
-                console.log(
-                    'JS onIMRecvBroadcastMessage: ' +
-                        ' roomID: ' +
-                        roomID +
-                        ' messageList: ' +
-                        messageList,
-                );
-                for (let msg of messageList) {
-                    console.log(
-                        'current broadcast msg: message: ' +
-                            msg.message +
-                            ' messageID' +
-                            msg.messageID +
-                            ' sendTime: ' +
-                            msg.sendTime +
-                            ' from user :' +
-                            msg.fromUser.userID +
-                            ' x ' +
-                            msg.fromUser.userName,
-                    ); // "0", "1", "2",
-                }
-            },
-        );
+    //     ZegoExpressEngine.instance().on(
+    //         'IMRecvBroadcastMessage',
+    //         (roomID, messageList) => {
+    //             console.log(
+    //                 'JS onIMRecvBroadcastMessage: ' +
+    //                     ' roomID: ' +
+    //                     roomID +
+    //                     ' messageList: ' +
+    //                     messageList,
+    //             );
+    //             for (let msg of messageList) {
+    //                 console.log(
+    //                     'current broadcast msg: message: ' +
+    //                         msg.message +
+    //                         ' messageID' +
+    //                         msg.messageID +
+    //                         ' sendTime: ' +
+    //                         msg.sendTime +
+    //                         ' from user :' +
+    //                         msg.fromUser.userID +
+    //                         ' x ' +
+    //                         msg.fromUser.userName,
+    //                 ); // "0", "1", "2",
+    //             }
+    //         },
+    //     );
 
-        ZegoExpressEngine.instance().on(
-            'publisherStateUpdate',
-            (streamID, state, errorCode, extendedData) => {
-                console.log(
-                    'JS onPublisherStateUpdate: ' +
-                        state +
-                        ' streamID: ' +
-                        streamID +
-                        ' err: ' +
-                        errorCode +
-                        ' extendData: ' +
-                        extendedData,
-                );
-            },
-        );
-    };
+    //     ZegoExpressEngine.instance().on(
+    //         'publisherStateUpdate',
+    //         (streamID, state, errorCode, extendedData) => {
+    //             console.log(
+    //                 'JS onPublisherStateUpdate: ' +
+    //                     state +
+    //                     ' streamID: ' +
+    //                     streamID +
+    //                     ' err: ' +
+    //                     errorCode +
+    //                     ' extendData: ' +
+    //                     extendedData,
+    //             );
+    //         },
+    //     );
+    // };
 
     const onClickC = () => {
         ZegoExpressEngine.instance().sendBroadcastMessage(
@@ -218,14 +218,15 @@ export default function HostPage(props) {
 
                         <TouchableOpacity
                             style={styles.trying}
-                            onPress={onClickA}>
+                            // onPress={onClickA}
+                            >
                             <Text>Start Live</Text>
                         </TouchableOpacity>
 
-                        <ZegoTextureView
+                        {/* <ZegoTextureView
                             ref={zego_preview_view}
                             style={{ height: dimensions.fullHeight }}
-                        />
+                        /> */}
                         {/* <TouchableOpacity
                             style={styles.trying2}
                             onPress={() => {
