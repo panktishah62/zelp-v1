@@ -46,6 +46,7 @@ import LiveTrackingMap from '../screens/CartAndTrack/LiveTrackingMap';
 import TrackOrderScreen from '../screens/CartAndTrack/TrackOrder';
 import HeaderWithActionButtons from '../components/Header/HeaderWithActionButtons';
 import CategoriesScreen from '../screens/Category/CategoriesScreen';
+import AllLiveShops from '../screens/Shots/AllLiveShops';
 
 const Tab = createBottomTabNavigator();
 
@@ -267,7 +268,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             },
                         })}
                         name="Shots"
-                        component={ShotClassScreen}
+                        component={AllLiveShops}
                     />
                     <Tab.Screen
                         options={{
