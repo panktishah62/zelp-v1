@@ -56,6 +56,7 @@ import NewOrderDetailsScreen from '../screens/CartAndTrack/OrderDetailsScreen';
 import SomethingWentWrong from '../screens/CartAndTrack/SomethingWentWrong';
 import ProductAllScreen from '../screens/Category/ProductAllScreen';
 import SingleProductScreen from '../screens/Category/SingleProductScreen';
+import ShotClassScreen from '../screens/Shots/ShotsClass';
 
 const Stack = createNativeStackNavigator();
 
@@ -391,6 +392,10 @@ const MainStack = () => {
             <Stack.Screen
                 name="SomethingWentWrong"
                 component={SomethingWentWrong}
+            />
+            <Stack.Screen
+                name="ShotClassScreen"
+                component={ShotClassScreen}
             />
         </Stack.Navigator>
     );
