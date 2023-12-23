@@ -47,6 +47,12 @@ import TrackOrderScreen from '../screens/CartAndTrack/TrackOrder';
 import HeaderWithActionButtons from '../components/Header/HeaderWithActionButtons';
 import CategoriesScreen from '../screens/Category/CategoriesScreen';
 import AllLiveShops from '../screens/Shots/AllLiveShops';
+import HomeNew from '../NewScreens/Home/HomeNew';
+import ProductNew from '../NewScreens/Product';
+import ShopNew from '../NewScreens/Shop/ShopNew';
+import LoginNew from '../NewScreens/Login';
+import Catalogo from '../NewScreens/Catalogo/Catalogue';
+import Cadastro from '../NewScreens/Cadastro';
 
 const Tab = createBottomTabNavigator();
 
@@ -195,7 +201,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             // unmountOnBlur: true,
                         }}
                         name="Home"
-                        component={HomeScreen}
+                        component={HomeNew}
                     />
 
                     <Tab.Screen
@@ -221,7 +227,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             ),
                         }}
                         name="Restaurants"
-                        component={RestaurantsScreen}
+                        component={ProductNew}
                     />
                     <Tab.Screen
                         options={{
@@ -246,7 +252,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             ),
                         }}
                         name="Categories"
-                        component={CategoriesScreen}
+                        component={ShopNew}
                     />
                     <Tab.Screen
                         options={({ route }) => ({
@@ -287,7 +293,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             ),
                         }}
                         name="Subscription"
-                        component={SubscriptionPageOld}
+                        component={Catalogo}
                     />
 
                     <Tab.Screen
@@ -307,7 +313,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             // ),
                         }}
                         name="Profile"
-                        component={ProfileScreen}
+                        component={Cadastro}
                     />
                     {/* <Tab.Screen
                         options={{

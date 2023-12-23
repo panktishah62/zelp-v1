@@ -44,6 +44,16 @@ export const fonts = StyleSheet.create({
         fontWeight: '700',
         fontSize: 24,
     },
+    NUNITO_700_32: {
+        fontFamily: 'Nunito-Bold',
+        fontWeight: '700',
+        fontSize: 32,
+    },
+    NUNITO_700_48: {
+        fontFamily: 'Nunito-Bold',
+        fontWeight: '700',
+        fontSize: 48,
+    },
     NUNITO_700_16: {
         fontFamily: 'Nunito-Bold',
         fontWeight: '700',
