@@ -47,7 +47,7 @@ const CartScreen = ({ navigation }) => {
             header: () => (
                 <HeaderWithTitle
                     navigation={navigation}
-                    title={'Place Order'}
+                    title={'Cart'}
                 />
             ),
         });

@@ -58,7 +58,7 @@ const FeaturedItemAddButton = props => {
             dispatch(
                 showDialog({
                     isVisible: true,
-                    titleText: 'Order in Progres',
+                    titleText: 'Order in Progress',
                     subTitleText:
                         'Your Current Order is in Progress, cannot add item to cart',
                     buttonText1: 'CLOSE',
