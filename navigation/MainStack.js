@@ -57,8 +57,10 @@ import SomethingWentWrong from '../screens/CartAndTrack/SomethingWentWrong';
 import ProductAllScreen from '../screens/Category/ProductAllScreen';
 import SingleProductScreen from '../screens/Category/SingleProductScreen';
 import ShotClassScreen from '../screens/Shots/ShotsClass';
-import ProductNew from '../NewScreens/Product';
+import ProductNew from '../NewScreens/ProductScreen/ProductNew';
 import LoginNew from '../NewScreens/Login';
+import HeaderWithTitleAndSearch from '../components/Header/HeaderWithTitleAndSearch';
+import Catalogue from '../NewScreens/CatalogoueScreen/Catalogue';
 
 const Stack = createNativeStackNavigator();
 
@@ -396,7 +398,25 @@ const MainStack = () => {
                 component={SomethingWentWrong}
             />
             <Stack.Screen name="ShotClassScreen" component={ShotClassScreen} />
-            <Stack.Screen name="ProductNew" component={ProductNew} />
+            <Stack.Screen
+                name="ProductNew"
+                component={ProductNew}
+                options={({ navigation, route }) => ({
+                    header: () => <View />,
+                })}
+            />
+            <Stack.Screen
+                name="Catalogue"
+                component={Catalogue}
+                options={({ navigation, route }) => ({
+                    header: () => (
+                        <HeaderWithTitleAndSearch
+                            title={'Tops'}
+                            navigation={navigation}
+                        />
+                    ),
+                })}
+            />
             <Stack.Screen
                 name="LoginNew"
                 component={LoginNew}

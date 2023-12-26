@@ -30,11 +30,10 @@ const HeaderWithSearch = props => {
                     setText={setText}
                     placeholder={placeholder}
                     keyboardType={keyboardType}
-                    width={dimensions.fullWidth * 0.75}
+                    width={dimensions.fullWidth *0.8}
                     navigation={navigation}
                     enableInput={false}
                 />
-                <CartButton navigation={navigation} />
             </View>
         </View>
     );
@@ -52,6 +51,8 @@ const styles = StyleSheet.create({
         width: dimensions.fullWidth,
     },
     button: {
+        // backgroundColor: colors.GREEN,
+        // width: 20,
         // padding: 10,
     },
 });

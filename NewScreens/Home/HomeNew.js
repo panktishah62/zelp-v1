@@ -1,6 +1,6 @@
 import React from 'react';
 // import { StatusBar } from 'expo-status-bar';
-import Section from '../components/CardSection/CardSection';
+import CardSection from '../components/CardSection/CardSection';
 import bg from '../assets/main.png';
 import bg2 from '../assets/main2.png';
 import img01 from '../assets/produtos/01.png';
@@ -111,7 +111,7 @@ const HomeNew = ({ navigation }) => {
                     </TouchableOpacity>
                 </ImageBackground>
             </View>
-            <Section
+            <CardSection
                 title="New"
                 subtitle="You've never seen before !"
                 data={news_data}
@@ -122,9 +122,9 @@ const HomeNew = ({ navigation }) => {
                     <Text style={styles.Title}>Street Clothes</Text>
                 </ImageBackground>
             </View>
-            <Section
-                title="Promoções"
-                subtitle="Veja as Promoções aqui!"
+            <CardSection
+                title="Sale"
+                subtitle="Grab at slashing prices !"
                 data={sale_data}
                 navigation={navigation}
             />

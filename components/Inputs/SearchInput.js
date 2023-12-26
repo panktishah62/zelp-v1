@@ -35,7 +35,6 @@ const SearchInput = props => {
             }}>
             <View style={[styles.container, { width: width }]}>
                 <View style={[styles.innerContainer, { width: width }]}>
-                    {/* <SearchIcon style={styles.searchIcon} /> */}
                     <TextInput
                         style={styles.textContainerStyle}
                         placeholder={placeholder}
@@ -87,6 +86,7 @@ const styles = StyleSheet.create({
         height: 70,
         justifyContent: 'center',
         alignItems: 'center',
+        // backgroundColor: colors.GREEN
     },
     innerContainer: {
         flexDirection: 'row',

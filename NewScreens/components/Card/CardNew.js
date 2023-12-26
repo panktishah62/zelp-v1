@@ -1,5 +1,6 @@
 import React from 'react';
-// import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+// import { MaterialIcons, AntDesign } from 'react-native-vector-icons';
+
 import { navigateToScreen } from '../../../utils';
 import {
     ImageBackground,
@@ -13,11 +14,11 @@ import { dimensions, fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
 import Heart from '../../../assets/icons/Heart.svg';
 
-const Card = ({ image, marca, produto, preco, navigation }) => {
+const Card = ({ image, brandName, produtDescription, price, navigation }) => {
     return (
         <TouchableOpacity
             style={styles.Container}
-            onPress={() => navigateToScreen('ProductNew')}>
+            onPress={() => navigation.navigate("ProductNew")}>
             <ImageBackground
                 style={styles.ImageNew}
                 source={image}
@@ -42,8 +43,13 @@ const Card = ({ image, marca, produto, preco, navigation }) => {
                         },
                         styles.FavoriteButton,
                     ]}>
-                    <Heart height={'20'} color={colors.BLACK} />
-                    {/* <MaterialIcons name="favorite-border" size={20} color="#9B9B9B" /> */}
+                    {/* <Icon name="rowing" /> */}
+                    {/* <Heart height={'20'} color={colors.BLACK} /> */}
+                    {/* <MaterialIcons
+                        name="favorite-border"
+                        size={20}
+                        color="#9B9B9B"
+                    /> */}
                 </TouchableOpacity>
             </View>
             <View style={styles.Rate}>
@@ -57,9 +63,9 @@ const Card = ({ image, marca, produto, preco, navigation }) => {
                 <Text style={styles.RateCount}> (0)</Text>
             </View>
             <View style={styles.ProductDescription}>
-                <Text style={styles.Marca}>{marca}</Text>
-                <Text style={styles.Description}>{produto}</Text>
-                <Text style={styles.Price}>R$ {preco}</Text>
+                <Text style={styles.Marca}>{brandName}</Text>
+                <Text style={styles.Description}>{produtDescription}</Text>
+                <Text style={styles.Price}>R$ {price}</Text>
             </View>
         </TouchableOpacity>
     );

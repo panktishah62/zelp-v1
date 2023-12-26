@@ -20,9 +20,10 @@ import {
     FlatList,
     ScrollView,
     StyleSheet,
+    StatusBar,
 } from 'react-native';
 
-const Catalogo = ({ navigation }) => {
+const Catalogue = ({ navigation }) => {
     const products = [
         {
             key: String(Math.random()),
@@ -73,9 +74,9 @@ const Catalogo = ({ navigation }) => {
     const renderItem = ({ item }) => (
         <Card
             image={item.image}
-            marca={item.marca}
-            produto={item.produto}
-            preco={item.preco}
+            brandName={item.marca}
+            produtDescription={item.produto}
+            price={item.preco}
             navigation={navigation}
         />
     );
@@ -207,7 +208,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     CategoryContainer: {
-        height: dynamicSize(60),
+        height: dynamicSize(80),
+        paddingHorizontal: 10,
+        paddingVertical: 10,
     },
     CategoryScrollView: {
         horizontal: true,
@@ -232,11 +235,12 @@ const styles = StyleSheet.create({
         ...fonts.NUNITO_500_14,
     },
     ConfigContainer: {
-        height: dynamicSize(40),
+        // height: dynamicSize(40),
         display: 'flex',
         flexDirection: 'row',
-        marginLeft: dynamicSize(16),
-        marginRight: dynamicSize(16),
+        paddingHorizontal: 10,
+        // marginLeft: dynamicSize(16),
+        // marginRight: dynamicSize(16),
     },
     Filter: {
         flex: 1,
@@ -300,4 +304,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Catalogo;
+export default Catalogue;

@@ -6,7 +6,7 @@ import facebookIcon from '../assets/facebook.png';
 import { dynamicSize } from '../../utils/responsive';
 import { fonts } from '../../styles';
 import { colors } from '../../styles/colors';
-import { Image, Text, TextInput, TouchableOpacity } from 'react-native';
+import { Image, Text, TextInput, TouchableOpacity, StyleSheet, View } from 'react-native';
 
 const LoginNew = ({ navigation }) => {
     const handleCadastro = () => {
@@ -105,12 +105,12 @@ const styles = StyleSheet.create({
     },
     Email: {
         flexDirection: 'column',
-        margin: margin(10, 20, 10, 20),
+        margin: (10, 20, 10, 20),
         backgroundColor: colors.WHITE,
     },
     Password: {
         flexDirection: 'column',
-        margin: margin(10, 20, 10, 20),
+        margin: (10, 20, 10, 20),
         backgroundColor: colors.WHITE,
     },
     InputView: {

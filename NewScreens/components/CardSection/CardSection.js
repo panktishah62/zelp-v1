@@ -1,6 +1,12 @@
 import React from 'react';
 import Card from '../Card/CardNew';
-import { View, StyleSheet, Text, ScrollView } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    Text,
+    ScrollView,
+    TouchableOpacity,
+} from 'react-native';
 import { dynamicSize } from '../../../utils/responsive';
 import { dimensions, fonts } from '../../../styles';
 import { colors } from '../../../styles/colors';
@@ -13,9 +19,11 @@ const CardSection = ({ title, subtitle, data, navigation }) => {
                     <Text style={styles.Title}>{title}</Text>
                     <Text style={styles.SubTitle}>{subtitle}</Text>
                 </View>
-                <View style={styles.ViewContainer}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('Catalogue')}
+                    style={styles.ViewContainer}>
                     <Text style={styles.ViewAll}>View All</Text>
-                </View>
+                </TouchableOpacity>
             </View>
             <ScrollView
                 horizontal={true}
@@ -25,9 +33,9 @@ const CardSection = ({ title, subtitle, data, navigation }) => {
                     <Card
                         key={item.key}
                         image={item.image}
-                        marca={item.marca}
-                        produto={item.produto}
-                        preco={item.preco}
+                        brandName={item.marca}
+                        produtDescription={item.produto}
+                        price={item.preco}
                         navigation={navigation}
                     />
                 ))}

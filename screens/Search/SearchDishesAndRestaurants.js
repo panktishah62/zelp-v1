@@ -17,6 +17,7 @@ import LocationPermission from '../../components/Buttons/LocationPermission';
 import { colors } from '../../styles/colors';
 import { dimensions, fonts, Styles } from '../../styles';
 import { searchbyAlgolia } from '../../redux/services/searchService';
+import HeaderWithSearch from '../../components/Header/HeaderWithSearch';
 
 const SearchDishesAndRestaurants = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -91,15 +92,15 @@ const SearchDishesAndRestaurants = ({ navigation }) => {
     useEffect(() => {
         navigation.setOptions({
             header: () => (
-                <HeaderWithTitleAndSearch
-                    title={'Search for dishes and restaurants'}
+                <HeaderWithSearch
+                    // title={'Search for dishes and restaurants'}
                     navigation={navigation}
-                    placeholder={'Search Menu'}
+                    placeholder={'Search for ID, category and more'}
                     text={text}
                     setText={setText}
                     keyboardType={'default'}
                     onBack={onBack}
-                    search={search}
+                    // search={search}
                 />
             ),
         });

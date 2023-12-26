@@ -11,12 +11,26 @@ import {
     Text,
     TouchableOpacity,
     View,
+    StatusBar,
 } from 'react-native';
 import { dynamicSize } from '../../utils/responsive';
 import { fonts } from '../../styles';
 import { colors } from '../../styles/colors';
+import { useEffect } from 'react';
+import HeaderWithTitle from '../../components/Header/HeaderWithTitle';
+import HeaderWithProductDetails from '../../components/Header/HeaderWithProductDetails';
 
-const ProductNew = () => {
+const ProductNew = ({ navigation }) => {
+    useEffect(() => {
+        navigation.setOptions({
+            header: () => (
+                <HeaderWithProductDetails
+                    navigation={navigation}
+                    title="ProfileTrial"
+                />
+            ),
+        });
+    }, [navigation]);
     const sheetRef = React.createRef();
     const renderHeader = () => (
         <View style={styles.HeaderSize}>
@@ -39,6 +53,7 @@ const ProductNew = () => {
 
     return (
         <ScrollView style={styles.Container}>
+            <StatusBar visible={true} color={colors.WHITE} />
             <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}

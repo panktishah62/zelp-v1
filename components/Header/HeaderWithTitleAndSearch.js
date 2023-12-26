@@ -5,7 +5,9 @@ import BackButton from '../../assets/icons/chevron-left.svg';
 import { dimensions, fonts, Styles } from '../../styles';
 import { colors } from '../../styles/colors';
 import SearchInput from '../Inputs/SearchInput';
+import SearchIcon from '../../assets/icons/Search.svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { dynamicSize } from '../../utils/responsive';
 
 const HeaderWithTitleAndSearch = props => {
     const {
@@ -41,20 +43,25 @@ const HeaderWithTitleAndSearch = props => {
                 styles.mainContainer,
                 { paddingTop: insets.top },
             ]}>
-            <View style={styles.container}>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {
-                        if (onBack) {
-                            onBack();
-                        }
-                        navigation.goBack();
-                    }}>
-                    <BackButton />
-                </TouchableOpacity>
-                <Text style={styles.title}>{title}</Text>
-            </View>
-            <View style={styles.searchBar}>
+            <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => {
+                    if (onBack) {
+                        onBack();
+                    }
+                    navigation.goBack();
+                }}>
+                <BackButton />
+            </TouchableOpacity>
+            <Text style={styles.title}>{title}</Text>
+
+            <TouchableOpacity
+                style={styles.searchButton}
+                onPress={() => navigation.navigate('SearchStack')}>
+                <SearchIcon />
+            </TouchableOpacity>
+
+            {/* <View style={styles.searchBar}>
                 <SearchInput
                     text={text}
                     setText={setText}
@@ -70,7 +77,7 @@ const HeaderWithTitleAndSearch = props => {
                     search={search}
                     onFocus={onFocus}
                 />
-            </View>
+            </View> */}
         </View>
     );
 };
@@ -78,29 +85,29 @@ const HeaderWithTitleAndSearch = props => {
 const styles = StyleSheet.create({
     mainContainer: {
         backgroundColor: colors.WHITE,
-    },
-    container: {
-        margin: 2,
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
+        alignContent: 'center',
         alignItems: 'center',
         width: dimensions.fullWidth,
-        backgroundColor: colors.WHITE,
+        paddingHorizontal: 15,
+        height: dynamicSize(50),
     },
-    button: {
-        padding: 10,
+    backButton: {
+        // padding: 10,
     },
     title: {
         color: colors.BLACK,
         ...fonts.NUNITO_700_14,
-    },
-    searchBar: {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
+        // alignSelf: 'center',
     },
     searchButton: {
-        marginLeft: 10,
+        // backgroundColor: colors.BLUE_DARK,
+        height: dynamicSize(40),
+        width: dynamicSize(40),
+        alignItems: 'center',
+        justifyContent: 'center',
+        // marginRight: 10,
     },
 });
 

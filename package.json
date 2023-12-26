@@ -73,6 +73,7 @@
         "react-native-tab-view": "^3.5.2",
         "react-native-toast-message": "^2.1.6",
         "react-native-uuid": "^2.0.1",
+        "react-native-vector-icons": "^10.0.3",
         "react-native-video": "^5.2.1",
         "react-native-webview": "^13.6.2",
         "react-query": "^3.39.3",

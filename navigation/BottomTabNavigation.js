@@ -48,11 +48,12 @@ import HeaderWithActionButtons from '../components/Header/HeaderWithActionButton
 import CategoriesScreen from '../screens/Category/CategoriesScreen';
 import AllLiveShops from '../screens/Shots/AllLiveShops';
 import HomeNew from '../NewScreens/Home/HomeNew';
-import ProductNew from '../NewScreens/Product';
-import ShopNew from '../NewScreens/Shop/ShopNew';
+import ProductNew from '../NewScreens/ProductScreen/ProductNew';
+import CategoriesNew from '../NewScreens/CategoriesScreen/Categories';
 import LoginNew from '../NewScreens/Login';
-import Catalogo from '../NewScreens/Catalogo/Catalogue';
-import Cadastro from '../NewScreens/Cadastro';
+import Catalogue from '../NewScreens/CatalogoueScreen/Catalogue';
+import SignUp from '../NewScreens/SignUp/SignUp';
+import HeaderWithTitleAndSearch from '../components/Header/HeaderWithTitleAndSearch';
 
 const Tab = createBottomTabNavigator();
 
@@ -227,7 +228,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             ),
                         }}
                         name="Restaurants"
-                        component={ProductNew}
+                        component={RestaurantsScreen}
                     />
                     <Tab.Screen
                         options={{
@@ -246,13 +247,14 @@ const BottomTabNavigation = ({ navigation }) => {
                                     />
                                 ),
                             header: () => (
-                                <HeaderWithActionButtons
+                                <HeaderWithTitleAndSearch
+                                    title={'Categories'}
                                     navigation={navigation}
                                 />
                             ),
                         }}
                         name="Categories"
-                        component={ShopNew}
+                        component={CategoriesNew}
                     />
                     <Tab.Screen
                         options={({ route }) => ({
@@ -276,7 +278,7 @@ const BottomTabNavigation = ({ navigation }) => {
                         name="Shots"
                         component={AllLiveShops}
                     />
-                    <Tab.Screen
+                    {/* <Tab.Screen
                         options={{
                             tabBarIcon: ({ focused, color }) => (
                                 <FrokerIcon
@@ -293,8 +295,8 @@ const BottomTabNavigation = ({ navigation }) => {
                             ),
                         }}
                         name="Subscription"
-                        component={Catalogo}
-                    />
+                        component={SubscriptionPageOld}
+                    /> */}
 
                     <Tab.Screen
                         options={{
@@ -313,7 +315,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             // ),
                         }}
                         name="Profile"
-                        component={Cadastro}
+                        component={SignUp}
                     />
                     {/* <Tab.Screen
                         options={{

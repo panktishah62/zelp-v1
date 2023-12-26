@@ -10,7 +10,7 @@ import { dynamicSize } from '../../utils/responsive';
 import { colors } from '../../styles/colors';
 import { fonts } from '../../styles';
 
-const ShopNew = ({ navigation }) => {
+const CategoriesNew = ({ navigation }) => {
     const list_items = [
         {
             key: String(Math.random()),
@@ -62,12 +62,18 @@ const ShopNew = ({ navigation }) => {
         },
     ];
     const handleItem = () => {
-        navigation.navigate('Catalogo');
+        navigation.navigate('Catalogue');
+    };
+
+    const navigateCategory = () => {
+        navigation.navigate('Catalogue');
     };
     return (
         <View style={styles.Container}>
             <View style={styles.ButtonContainer}>
-                <TouchableOpacity style={styles.ViewAllButton}>
+                <TouchableOpacity
+                    onPress={navigateCategory}
+                    style={styles.ViewAllButton}>
                     <Text style={styles.ViewAllText}>View All</Text>
                 </TouchableOpacity>
             </View>
@@ -97,7 +103,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 5,
+        marginTop: 10,
+        padding: 8,
     },
     ViewAllButton: {
         height: '100%',
@@ -130,4 +137,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ShopNew;
+export default CategoriesNew;
