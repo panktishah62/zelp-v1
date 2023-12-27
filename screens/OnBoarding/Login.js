@@ -154,21 +154,22 @@ const LoginScreen = ({ navigation }) => {
                                                 fonts.NUNITO_700_24,
                                                 Styles.default_text_color,
                                             ]}>
-                                            Welcome To Froker
+                                            Welcome To Zelp
                                         </Text>
                                         <Text
                                             style={[
                                                 fonts.NUNITO_500_16,
                                                 Styles.default_text_color,
                                             ]}>
-                                            Order quality food and leave your{' '}
+                                            Find the most awaited Street styles,{' '}
                                         </Text>
                                         <Text
                                             style={[
                                                 fonts.NUNITO_500_14,
                                                 Styles.default_text_color,
                                             ]}>
-                                            taste behind
+                                            and bid on the best products with
+                                            our Auctions
                                         </Text>
                                     </View>
                                 </View>
@@ -263,7 +264,7 @@ const LoginScreen = ({ navigation }) => {
                                     <Text
                                         style={[
                                             fonts.NUNITO_400_14,
-                                            { color: colors.ORANGE },
+                                            { color: colors.RED_PRIMARY },
                                         ]}>
                                         Make sure to fill up your Profile to
                                         have a
@@ -271,7 +272,7 @@ const LoginScreen = ({ navigation }) => {
                                     <Text
                                         style={[
                                             fonts.NUNITO_400_14,
-                                            { color: colors.ORANGE },
+                                            { color: colors.RED_PRIMARY },
                                         ]}>
                                         personalised experience
                                     </Text>
@@ -285,7 +286,7 @@ const LoginScreen = ({ navigation }) => {
                 <View styles={styles.activityIndicator}>
                     <ActivityIndicator
                         size="large"
-                        color={colors.ORANGE}
+                        color={colors.RED_PRIMARY}
                         style={styles.indicator}
                     />
                 </View>

@@ -107,7 +107,7 @@ const ReferralScreen = ({ navigation }) => {
                 </>
             ) : (
                 <View>
-                    <ActivityIndicator color={colors.ORANGE} size={32} />
+                    <ActivityIndicator color={colors.RED_PRIMARY} size={32} />
                 </View>
             )}
         </ScrollView>
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
         borderRadius: 10,
-        borderColor: colors.ORANGE,
+        borderColor: colors.RED_PRIMARY,
         borderWidth: 2,
         backgroundColor: 'transparent',
         marginRight: 10,

@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import { dimensions, fonts } from '../../styles';
 import { colors } from '../../styles/colors';
 import { useNavigation } from '@react-navigation/native';
+import { dynamicSize } from '../../utils/responsive';
 
 export const YellowButton = props => {
     const navigation = useNavigation();
@@ -24,11 +25,11 @@ export const YellowButton = props => {
 
 const styles = StyleSheet.create({
     button: {
-        height: 26,
+        height: dynamicSize(30),
         width: dimensions.fullWidth * 0.4,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: colors.YELLOW_MUSTARD,
+        backgroundColor: colors.RED_PRIMARY,
         borderRadius: 8,
         margin: 10,
     },

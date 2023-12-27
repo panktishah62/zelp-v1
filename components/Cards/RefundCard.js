@@ -52,7 +52,8 @@ const RefundCard = props => {
                                     orderId: orderId,
                                 });
                             }}
-                            color={colors.ORANGE_GRADIENT_DARK}
+                            color={colors.RED_PRIMARY
+                            }
                             style={styles.buttonStyle}
                         />
                     </View>
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     },
     refundText: {
         ...fonts.NUNITO_700_14,
-        color: colors.ORANGE_GRADIENT_DARK,
+        color: colors.RED_PRIMARY,
     },
     statusText: {
         ...fonts.NUNITO_700_14,
@@ -115,14 +116,14 @@ const styles = StyleSheet.create({
         height: dimensions.fullHeight * 0.05,
         width: dimensions.fullWidth * 0.25,
         borderWidth: 1,
-        borderColor: colors.ORANGE_GRADIENT_DARK,
+        borderColor: colors.RED_PRIMARY,
         borderRadius: 6,
         marginRight: 10,
         justifyContent: 'center',
     },
     buttonText: {
         ...fonts.INTER_600_12,
-        color: colors.ORANGE_GRADIENT_DARK,
+        color: colors.RED_PRIMARY,
         alignSelf: 'center',
     },
     headerContainer: {

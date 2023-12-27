@@ -72,7 +72,7 @@ const RefundsScreen = ({ navigation }) => {
                     />
                 )}
                 {isLoading && (
-                    <ActivityIndicator color={colors.ORANGE} size={32} />
+                    <ActivityIndicator color={colors.RED_PRIMARY} size={32} />
                 )}
             </View>
         </View>
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     infoTextContainer: {
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: colors.ORANGE_GRADIENT_DARK,
+        borderColor: colors.RED_PRIMARY,
         borderRadius: 6,
         width: dimensions.fullWidth * 0.9,
         margin: 20,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     },
     infoTextStyle: {
         ...fonts.NUNITO_700_12,
-        color: colors.ORANGE_GRADIENT_DARK,
+        color: colors.RED_PRIMARY,
     },
 });
 

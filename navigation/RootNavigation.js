@@ -59,27 +59,27 @@ const RootStack = () => {
     useEffect(() => {
         isFirstLaunch();
         dispatch(getUserProfile());
-        dispatch(getSubscriptionConfig());
+        // dispatch(getSubscriptionConfig());
     }, []);
 
-    useEffect(() => {
-        if (locationPermission === GRANTED && isLocationOn) {
-            dispatch(getDefaultAddress(null, navigation));
-        } else {
-            if (!isLocationOn) {
-                dispatch(
-                    showDialog({
-                        isVisible: true,
-                        titleText: 'Please Turn On Your Location!',
-                        subTitleText:
-                            'Open the app again after turning on location',
-                        buttonText1: 'CLOSE',
-                        type: DialogTypes.WARNING,
-                    }),
-                );
-            }
-        }
-    }, [locationPermission, isLocationOn]);
+    // useEffect(() => {
+    //     if (locationPermission === GRANTED && isLocationOn) {
+    //         dispatch(getDefaultAddress(null, navigation));
+    //     } else {
+    //         if (!isLocationOn) {
+    //             dispatch(
+    //                 showDialog({
+    //                     isVisible: true,
+    //                     titleText: 'Please Turn On Your Location!',
+    //                     subTitleText:
+    //                         'Open the app again after turning on location',
+    //                     buttonText1: 'CLOSE',
+    //                     type: DialogTypes.WARNING,
+    //                 }),
+    //             );
+    //         }
+    //     }
+    // }, [locationPermission, isLocationOn]);
 
     useEffect(() => {
         if (initialRouteName === 'AppTour') {

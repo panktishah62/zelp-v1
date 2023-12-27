@@ -386,7 +386,7 @@ const AddressEditing = ({ navigation, route }) => {
                                                         {
                                                             borderColor:
                                                                 focus === 6
-                                                                    ? colors.ORANGE
+                                                                    ? colors.RED_PRIMARY
                                                                     : colors.GREY_BORDER,
                                                         },
                                                         styles.addressNameStyle,
@@ -438,7 +438,7 @@ const AddressEditing = ({ navigation, route }) => {
             )}
             {isLoading && (
                 <View style={[Styles.center, { flex: 1 }]}>
-                    <ActivityIndicator size={32} color={colors.ORANGE} />
+                    <ActivityIndicator size={32} color={colors.RED_PRIMARY} />
                 </View>
             )}
         </View>
@@ -460,7 +460,7 @@ const styles = StyleSheet.create({
     },
     infoTextContainer: {
         borderWidth: 1,
-        borderColor: colors.ORANGE,
+        borderColor: colors.RED_PRIMARY,
         borderRadius: 6,
         width: dimensions.fullWidth * 0.9,
         marginBottom: 20,
@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
     },
     infoTextStyle: {
         ...fonts.NUNITO_700_12,
-        color: colors.ORANGE,
+        color: colors.RED_PRIMARY,
     },
     headerTextContainer: {
         borderWidth: 1,
@@ -522,7 +522,7 @@ const styles = StyleSheet.create({
         height: 50,
         width: 0.9 * dimensions.fullWidth,
         borderRadius: 8,
-        backgroundColor: colors.ORANGE,
+        backgroundColor: colors.RED_PRIMARY,
     },
 });
 

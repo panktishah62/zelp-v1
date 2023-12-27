@@ -54,6 +54,9 @@ import LoginNew from '../NewScreens/Login';
 import Catalogue from '../NewScreens/CatalogoueScreen/Catalogue';
 import SignUp from '../NewScreens/SignUp/SignUp';
 import HeaderWithTitleAndSearch from '../components/Header/HeaderWithTitleAndSearch';
+import BottomSheetScreen from '../NewScreens/BottomSheetScreen';
+import VirtualCartScreen from '../screens/CartAndTrack/VirtualCart';
+import NewOrderDetailsScreen from '../screens/CartAndTrack/OrderDetailsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -315,7 +318,7 @@ const BottomTabNavigation = ({ navigation }) => {
                             // ),
                         }}
                         name="Profile"
-                        component={SignUp}
+                        component={ProfileScreen}
                     />
                     {/* <Tab.Screen
                         options={{

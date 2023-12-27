@@ -17,13 +17,13 @@ const AddressChip = ({ addressType, selected, setSelected }) => {
                 marginTop: 8,
                 borderRadius: 5,
                 borderWidth: 1,
-                borderColor: selected ? colors.ORANGE : '#00000060',
+                borderColor: selected ? colors.RED_PRIMARY : '#00000060',
                 backgroundColor: colors.WHITE,
             }}>
             <Text
                 style={{
                     ...fonts.NUNITO_700_14,
-                    color: selected ? colors.ORANGE : colors.GREY_DARK,
+                    color: selected ? colors.RED_PRIMARY : colors.GREY_DARK,
                     ...fonts.NUNITO_700_14,
                 }}>
                 {addressType}

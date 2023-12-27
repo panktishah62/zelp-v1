@@ -67,7 +67,7 @@ const ReverseTimer = ({ number, startTime = 60 }) => {
                         restartTimer();
                     }}>
                     <Text
-                        style={[fonts.NUNITO_600_14, { color: colors.ORANGE }]}>
+                        style={[fonts.NUNITO_600_14, { color: colors.RED_PRIMARY }]}>
                         Resend OTP
                     </Text>
                 </TouchableWithoutFeedback>
@@ -202,7 +202,7 @@ const OTPVerificationScreen = ({ route, navigation }) => {
                 <View styles={styles.activityIndicator}>
                     <ActivityIndicator
                         size="large"
-                        color={colors.ORANGE}
+                        color={colors.RED_PRIMARY}
                         style={styles.indicator}
                     />
                 </View>

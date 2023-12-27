@@ -133,7 +133,7 @@ const Addresses = ({ navigation }) => {
             )}
             {isLoading && (
                 <View style={[Styles.center, { flex: 1 }]}>
-                    <ActivityIndicator size="large" color={colors.ORANGE} />
+                    <ActivityIndicator size="large" color={colors.RED_PRIMARY} />
                 </View>
             )}
 
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
         height: 50,
         width: 0.9 * dimensions.fullWidth,
         borderRadius: 8,
-        backgroundColor: colors.ORANGE,
+        backgroundColor: colors.RED_PRIMARY,
     },
     AddressCard: {
         alignItems: 'center',

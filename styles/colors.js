@@ -18,7 +18,6 @@ export const colors = {
     ORANGE_GRADIENT_DARK: '#FD7A33',
     ORANGE_WHITE: '#E1740F',
     ORANGE_GRADIENT_LIGHT: '#F6FAFB',
-
     ORANGE_GRADIENT_MEDIUM: 'rgba(253, 122, 51, 0.4)',
     GREY_MEDIUM: '#827C75',
     GREY_DARK: '#666666',
@@ -42,6 +41,7 @@ export const colors = {
     DARKER_GRAY_TRANSPARENT: 'rgba(61,61,61, 0.5)',
     BACKGROUND_LIGHT: '#F7F6F6',
     WHITE_DARK: 'rgba(255, 255, 255, 0.25)',
+    RED_PRIMARY: '#db3022',
 };
 
 export const theme = {
@@ -49,7 +49,7 @@ export const theme = {
     ...DefaultTheme.colors,
     colors: {
         ...DefaultTheme.colors,
-        primary: colors.ORANGE,
+        primary: colors.RED_PRIMARY,
         secondary: colors.WHITE,
     },
 };

@@ -137,7 +137,10 @@ function App(): JSX.Element {
                 <QueryClientProvider client={queryClient}>
                     <PersistGate loading={null} persistor={persistor}>
                         <GestureHandlerRootView style={{ flex: 1 }}>
-                            <StatusBar hidden />
+                            <StatusBar
+                                backgroundColor={colors.WHITE}
+                                barStyle={'dark-content'}
+                            />
                             <NavigationContainer linking={linking}>
                                 <ErrorHandler>
                                     <SafeAreaProvider>
@@ -148,13 +151,13 @@ function App(): JSX.Element {
                                             }}
                                             edges={['bottom']}>
                                             <ForegroundHandler />
-                                            {isStableVersion ? (
-                                                <PaperProvider theme={theme}>
-                                                    <RootStack />
-                                                </PaperProvider>
-                                            ) : (
+                                            {/* {isStableVersion ? ( */}
+                                            <PaperProvider theme={theme}>
+                                                <RootStack />
+                                            </PaperProvider>
+                                            {/* ) : (
                                                 <AppUpdateScreen />
-                                            )}
+                                            )} */}
                                             <Toast config={toastConfig} />
                                         </SafeAreaView>
                                     </SafeAreaProvider>

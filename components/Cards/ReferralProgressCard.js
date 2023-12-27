@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     },
     subTitleText: {
         ...fonts.NUNITO_700_24,
-        color: colors.ORANGE,
+        color: colors.RED_PRIMARY,
     },
     smallIcons: {
         alignItems: 'center',

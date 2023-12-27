@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 //   MaterialCommunityIcons,
 //   FontAwesome,
 // } from "@expo/vector-icons";
-// import Animated from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import BottomSheet from 'reanimated-bottom-sheet';
 import img01 from '../assets/produtos/01.png';
 import img02 from '../assets/produtos/02.png';
@@ -191,14 +191,14 @@ const Catalogue = ({ navigation }) => {
                 }}
             />
             {/* <BottomSheet
-        ref={sheetRef}
-        snapPoints={[210, 0]}
-        enabledContentTapInteraction={false}
-        initialSnap={1}
-        borderRadius={0}
-        renderContent={renderContent}
-        renderHeader={renderHeader}
-      /> */}
+                ref={sheetRef}
+                snapPoints={[210, 0]}
+                enabledContentTapInteraction={false}
+                initialSnap={1}
+                borderRadius={0}
+                renderContent={renderContent}
+                renderHeader={renderHeader}
+            /> */}
         </View>
     );
 };

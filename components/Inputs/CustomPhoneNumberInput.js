@@ -28,10 +28,10 @@ const CustomPhoneNumberInput = props => {
         onSubmitEditing,
     } = props;
 
-    const [showCountryPicker, setShowCountryPicker] = useState(false);
-    onPressDropDown = () => {
-        setShowCountryPicker(!showCountryPicker);
-    };
+    // const [showCountryPicker, setShowCountryPicker] = useState(false);
+    // onPressDropDown = () => {
+    //     setShowCountryPicker(!showCountryPicker);
+    // };
     useEffect(() => {
         if (!phoneRegex.test(value)) {
             setIsNumberValid(false);
@@ -44,7 +44,7 @@ const CustomPhoneNumberInput = props => {
         <View style={{ marginVertical: 5 }}>
             {label && <Text style={styles.text}>{label}</Text>}
             <View style={styles.innerContainer}>
-                <TouchableOpacity
+                <View
                     hitSlop={{
                         top: dynamicSize(20),
                         bottom: dynamicSize(20),
@@ -55,9 +55,8 @@ const CustomPhoneNumberInput = props => {
                         onPressDropDown();
                     }}
                     style={styles.searchIcon}>
-                    <DropDownButton />
                     <Text style={styles.callingCode}>+{callingCode}</Text>
-                </TouchableOpacity>
+                </View>
                 <TextInput
                     maxLength={10}
                     style={[styles.textContainerStyle]}
@@ -75,7 +74,7 @@ const CustomPhoneNumberInput = props => {
                     }}
                 />
             </View>
-            <View style={styles.countryPickerContainer}>
+            {/* <View style={styles.countryPickerContainer}>
                 <CountryPicker
                     onSelect={value => {
                         setCallingCode(value?.callingCode[0]);
@@ -83,14 +82,14 @@ const CustomPhoneNumberInput = props => {
                     }}
                     translation="eng"
                     cca2={'IN'}
-                    countryCodes={['IN', 'NP']}
+                    countryCodes={['IN']}
                     withCallingCode={true}
                     onClose={onPressDropDown}
                     visible={showCountryPicker}
                     withFlag>
                     <View />
                 </CountryPicker>
-            </View>
+            </View> */}
         </View>
     );
 };

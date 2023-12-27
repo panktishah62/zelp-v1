@@ -8,7 +8,7 @@ const OTPInput = props => {
     return (
         <View style={styles.container}>
             <OTPTextView
-                tintColor={colors.ORANGE}
+                tintColor={colors.RED_PRIMARY}
                 offTintColor={colors.GREY_BORDER}
                 textInputStyle={styles.textInputStyle}
                 handleTextChange={text => {
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         height: 64,
         width: 64,
-        color: colors.ORANGE,
+        color: colors.RED_PRIMARY,
     },
     textInputContainer: {
         // marginBottom: 20,

@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://6f19-122-171-23-200.ngrok-free.app/api/v1';
+export const BASE_URL = 'https://a552-2409-40f2-3c-bce6-58a0-7692-2b8-c0b2.ngrok-free.app/api/v1';
 export const GET_CONFIG = 'GET_CONFIG';
 export const GET_SHOTS_VIEW_REST_SORTING_CONFIG =
     'GET_SHOTS_VIEW_REST_SORTING_CONFIG';

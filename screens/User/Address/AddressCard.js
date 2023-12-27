@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     buttonStyle: {
         marginRight: 20,
         ...fonts.NUNITO_700_14,
-        color: colors.ORANGE,
+        color: colors.RED_PRIMARY,
     },
 });
 

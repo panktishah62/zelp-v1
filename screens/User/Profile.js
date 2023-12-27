@@ -178,7 +178,7 @@ const ProfileMenuItem = ({
                 <View>
                     <Text
                         style={[
-                            fonts.NUNITO_500_16,
+                            fonts.NUNITO_600_16,
                             Styles.default_text_color,
                         ]}>
                         {name}
@@ -311,15 +311,15 @@ const ProfileScreen = ({ navigation }) => {
                             <View style={Styles.center}>
                                 <EmptyProfileIcon />
                                 <YellowButton
-                                    text="Sign Up To Order"
+                                    text="Sign Up"
                                     onClick={() => {
                                         navigation.navigate('SignUp');
                                     }}
                                 />
                                 <YellowButton
-                                    text="Sign In To Order"
+                                    text="Login"
                                     onClick={() => {
-                                        navigation.navigate('LoginNew');
+                                        navigation.navigate('LogIn');
                                     }}
                                 />
                             </View>

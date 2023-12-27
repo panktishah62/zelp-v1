@@ -172,8 +172,8 @@ const SignUpScreen = ({ navigation }) => {
                                 }}>
                                 <Text
                                     style={[
-                                        fonts.NUNITO_500_16,
-                                        { color: colors.BLUE_DARK },
+                                        fonts.NUNITO_600_16,
+                                        { color: colors.GREY_DARK },
                                     ]}>
                                     Skip
                                 </Text>
@@ -194,7 +194,7 @@ const SignUpScreen = ({ navigation }) => {
                                                 Styles.default_text_color,
                                                 Styles.textAlignCenter,
                                             ]}>
-                                            Welcome To Froker
+                                            Welcome To Zelp
                                         </Text>
                                         <Text
                                             style={[
@@ -202,8 +202,7 @@ const SignUpScreen = ({ navigation }) => {
                                                 Styles.default_text_color,
                                                 Styles.textAlignCenter,
                                             ]}>
-                                            Match Your Taste Buds: Swipe,
-                                            Connect
+                                           Find the most awaited Street styles, 
                                         </Text>
                                         <Text
                                             style={[
@@ -211,7 +210,7 @@ const SignUpScreen = ({ navigation }) => {
                                                 Styles.default_text_color,
                                                 Styles.textAlignCenter,
                                             ]}>
-                                            and Savor with our Foodie Community!
+                                            and bid on the best products with our Auctions
                                         </Text>
                                     </View>
                                 </View>
@@ -283,7 +282,6 @@ const SignUpScreen = ({ navigation }) => {
                                         keyboardType="email-address"
                                         onSubmitEditing={onSubmit}
                                     />
-                                    {/* {showReferralInput && ( */}
                                     <TextInput_
                                         text={referralCode}
                                         setText={setReferralCode}
@@ -292,7 +290,6 @@ const SignUpScreen = ({ navigation }) => {
                                         maxLength={5}
                                         onSubmitEditing={onSubmit}
                                     />
-                                    {/* )} */}
                                 </View>
                             </View>
 
@@ -361,7 +358,7 @@ const SignUpScreen = ({ navigation }) => {
                                     <Text
                                         style={[
                                             fonts.NUNITO_400_14,
-                                            { color: colors.ORANGE },
+                                            { color: colors.RED_PRIMARY },
                                         ]}>
                                         Make sure to fill up your Profile to
                                         have a
@@ -369,7 +366,7 @@ const SignUpScreen = ({ navigation }) => {
                                     <Text
                                         style={[
                                             fonts.NUNITO_400_14,
-                                            { color: colors.ORANGE },
+                                            { color: colors.RED_PRIMARY },
                                         ]}>
                                         personalised experience
                                     </Text>
@@ -383,7 +380,7 @@ const SignUpScreen = ({ navigation }) => {
                 <View styles={styles.activityIndicator}>
                     <ActivityIndicator
                         size="large"
-                        color={colors.ORANGE}
+                        color={colors.RED_PRIMARY}
                         style={styles.indicator}
                     />
                 </View>
@@ -423,6 +420,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'center',
         padding: 10,
+        paddingHorizontal: 20,
     },
     button: {
         justifyContent: 'center',
